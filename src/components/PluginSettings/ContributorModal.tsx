@@ -51,7 +51,15 @@ export function openEagleModal() {
 function EagleModal() {
     return (
         <div className={cl("eagle-modal")}>
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem", padding: "1.5rem" }}>
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "0.75rem",
+                    padding: "1.5rem",
+                }}
+            >
                 <img
                     src="https://kappa.lol/WTiY5"
                     alt="prodbyeagle badge"
@@ -64,7 +72,17 @@ function EagleModal() {
                 </Forms.FormTitle>
 
                 <Forms.FormText>
-                    i thought to myself, my injecting this into the vencord app. and i answered with, ( why not? )
+                    One day I looked at Vencord and thought: "What if I just... put myself in here?"
+                    And then I did. You're welcome.
+                </Forms.FormText>
+
+                <Forms.FormText>
+                    This isn't a feature.
+                    It's a **lore drop**.
+                </Forms.FormText>
+
+                <Forms.FormText>
+                    Pro tip: If you're reading this, you're probably using my modded Version of Vencord. Congrats on finding this EasterEgg.
                 </Forms.FormText>
             </div>
         </div>
