@@ -14,7 +14,7 @@ import { DevsById } from "@utils/constants";
 import { fetchUserProfile } from "@utils/discord";
 import { classes, pluralise } from "@utils/misc";
 import { ModalContent, ModalRoot, openModal } from "@utils/modal";
-import { Forms, showToast, useEffect, useMemo, UserProfileStore, useStateFromStores } from "@webpack/common";
+import { Avatar, Forms, showToast, useEffect, useMemo, UserProfileStore, useStateFromStores } from "@webpack/common";
 import { User } from "discord-types/general";
 
 import Plugins from "~plugins";
@@ -60,25 +60,18 @@ function EagleModal() {
                     padding: "1.5rem",
                 }}
             >
-                <img
-                    src="https://kappa.lol/WTiY5"
-                    alt="prodbyeagle badge"
-                    width={256}
-                    height={256}
+                <Avatar
+                    src="https://cdn.discordapp.com/avatars/893759402832699392/31f821743ad2b667b0853208e38607dc.webp?size=2048&format=webp"
+                    size={"SIZE_120"}
                 />
 
-                <Forms.FormTitle tag="h3" style={{ marginBottom: 0 }}>
-                    injected by <strong>@prodbyeagle</strong>
+                <Forms.FormTitle tag="h1">
+                    made by <strong>@prodbyeagle</strong>
                 </Forms.FormTitle>
 
                 <Forms.FormText>
-                    One day I looked at Vencord and thought: "What if I just... put myself in here?"
-                    And then I did. You're welcome.
-                </Forms.FormText>
-
-                <Forms.FormText>
-                    This isn't a feature.
-                    It's a **lore drop**.
+                    one day i looked at vencord and thought: "what if i just... put myself in here?"
+                    and then i did.
                 </Forms.FormText>
 
                 <Forms.FormText>
