@@ -134,6 +134,7 @@ for (const p of pluginsValues) if (isPluginEnabled(p.name)) {
     if (p.userProfileBadge) neededApiPlugins.add("BadgeAPI");
     if (p.andiBadge) neededApiPlugins.add("BadgeAPI");
     if (p.eagleBadge) neededApiPlugins.add("BadgeAPI");
+    if (p.emoBadge) neededApiPlugins.add("BadgeAPI");
 
     for (const key of pluginKeysToBind) {
         p[key] &&= p[key].bind(p) as any;
@@ -260,7 +261,7 @@ export function subscribeAllPluginsFluxEvents(fluxDispatcher: typeof FluxDispatc
 
 export const startPlugin = traceFunction("startPlugin", function startPlugin(p: Plugin) {
     const {
-        name, commands, contextMenus, managedStyle, userProfileBadge,
+        name, commands, contextMenus, managedStyle, userProfileBadge, emoBadge,
         andiBadge, eagleBadge,
         onBeforeMessageEdit, onBeforeMessageSend, onMessageClick,
         renderChatBarButton, renderMemberListDecorator, renderMessageAccessory, renderMessageDecoration, renderMessagePopoverButton
@@ -310,6 +311,7 @@ export const startPlugin = traceFunction("startPlugin", function startPlugin(p: 
     if (userProfileBadge) addProfileBadge(userProfileBadge);
     if (eagleBadge) addProfileBadge(eagleBadge);
     if (andiBadge) addProfileBadge(andiBadge);
+    if (emoBadge) addProfileBadge(emoBadge);
 
     if (onBeforeMessageEdit) addMessagePreEditListener(onBeforeMessageEdit);
     if (onBeforeMessageSend) addMessagePreSendListener(onBeforeMessageSend);

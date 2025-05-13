@@ -35,6 +35,7 @@ import { User } from "discord-types/general";
 
 const CONTRIBUTOR_BADGE = "https://vencord.dev/assets/favicon.png";
 const EAGLE_BADGE = "https://kappa.lol/WTiY5";
+const EMO_BADGE = "https://kappa.lol/WFE5-N";
 const DWH_BADGE = "https://kappa.lol/L3tbR";
 
 const ContributorBadge: ProfileBadge = {
@@ -48,9 +49,19 @@ const ContributorBadge: ProfileBadge = {
 const EagleBadge: ProfileBadge = {
     description: "buh...",
     image: EAGLE_BADGE,
+    position: BadgePosition.END,
+    shouldShow: ({ userId }) => ["893759402832699392", "1093444260491165777"].includes(userId),
+    onClick: () => openEagleModal()
+};
+
+const EmoBadge: ProfileBadge = {
+    description: "aufpassen. ich bin ein emo",
+    image: EMO_BADGE,
     position: BadgePosition.START,
-    shouldShow: ({ userId }) => userId === "893759402832699392",
-    onClick: (() => openEagleModal())
+    shouldShow: ({ userId }) => userId === "1065030118491308082",
+    props: {
+        style: { scale: "0.9" }
+    }
 };
 
 const DWHBadge: ProfileBadge = {
@@ -79,8 +90,8 @@ async function loadBadges(noCache = false) {
 
 export default definePlugin({
     name: "BadgeAPI",
-    description: "API to add badges to users.",
-    authors: [Devs.Megu, Devs.Ven, Devs.TheSun],
+    description: "API to add badges to users. (modded by prodbyeagle)",
+    authors: [Devs.Megu, Devs.Ven, Devs.TheSun, Devs.prodbyeagle],
     required: true,
     patches: [
         {
@@ -123,6 +134,7 @@ export default definePlugin({
 
     userProfileBadge: ContributorBadge,
     eagleBadge: EagleBadge,
+    emoBadge: EmoBadge,
     andiBadge: DWHBadge,
 
     async start() {
@@ -143,6 +155,18 @@ export default definePlugin({
                         description: "EagleCord Staff",
                         icon: "5e74e9b61934fc1f67c65515d1f7e60d",
                         link: "https://prodbyeagle.vercel.app/",
+                    },
+                    {
+                        id: "active_developer",
+                        description: "Active Developer",
+                        icon: "6bdc42827a38498929a4920da12695d9",
+                        link: "https://support-dev.discord.com/hc/en-us/articles/10113997751447",
+                    },
+                    {
+                        id: "hypesquad",
+                        description: "HypeSquad Events",
+                        icon: "bf01d1073931f921909045f3a39fd264",
+                        link: "https://discord.com/hypesquad",
                     },
                 ];
             }

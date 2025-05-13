@@ -174,6 +174,7 @@ export interface PluginDef {
     userProfileBadge?: ProfileBadge;
     eagleBadge?: ProfileBadge;
     andiBadge?: ProfileBadge;
+    emoBadge?: ProfileBadge;
 
     onMessageClick?: MessageClickListener;
     onBeforeMessageSend?: MessageSendListener;
