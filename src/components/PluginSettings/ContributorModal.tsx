@@ -36,6 +36,41 @@ export function openContributorModal(user: User) {
     );
 }
 
+export function openEagleModal() {
+    openModal(modalProps =>
+        <ModalRoot {...modalProps}>
+            <ErrorBoundary>
+                <ModalContent className={cl("root")}>
+                    <EagleModal />
+                </ModalContent>
+            </ErrorBoundary>
+        </ModalRoot>
+    );
+}
+
+function EagleModal() {
+    return (
+        <div className={cl("eagle-modal")}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.75rem", padding: "1.5rem" }}>
+                <img
+                    src="https://kappa.lol/WTiY5"
+                    alt="prodbyeagle badge"
+                    width={256}
+                    height={256}
+                />
+
+                <Forms.FormTitle tag="h3" style={{ marginBottom: 0 }}>
+                    injected by <strong>@prodbyeagle</strong>
+                </Forms.FormTitle>
+
+                <Forms.FormText>
+                    i thought to myself, my injecting this into the vencord app. and i answered with, ( why not? )
+                </Forms.FormText>
+            </div>
+        </div>
+    );
+}
+
 function ContributorModal({ user }: { user: User; }) {
     useSettings();
 
