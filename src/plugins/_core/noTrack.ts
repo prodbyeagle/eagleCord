@@ -117,7 +117,7 @@ export default definePlugin({
                 Reflect.deleteProperty(Function.prototype, "g");
                 Reflect.deleteProperty(window, "DiscordSentry");
 
-                throw new Error("Sentry successfully disabled");
+                new Logger("NoTrack", "#e78284").info("Sentry successfully disabled");
             }
         });
 
