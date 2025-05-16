@@ -23,7 +23,7 @@ import DonateButton from "@components/DonateButton";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
 import { Heart } from "@components/Heart";
-import { openContributorModal, openEagleModal } from "@components/PluginSettings/ContributorModal";
+import { openContributorModal, openEagleCordModal, openEagleModal } from "@components/PluginSettings/ContributorModal";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
@@ -46,8 +46,16 @@ const ContributorBadge: ProfileBadge = {
     onClick: (_, { userId }) => openContributorModal(UserStore.getUser(userId))
 };
 
+const EagleCordBadge: ProfileBadge = {
+    description: "EagleCord User",
+    image: EAGLE_BADGE,
+    position: BadgePosition.END,
+    shouldShow: () => true,
+    onClick: (_, { userId }) => openEagleCordModal(UserStore.getUser(userId))
+};
+
 const EagleBadge: ProfileBadge = {
-    description: "buh...",
+    description: "✌️🙄",
     image: EAGLE_BADGE,
     position: BadgePosition.END,
     shouldShow: ({ userId }) => ["893759402832699392", "1093444260491165777"].includes(userId),
@@ -55,7 +63,7 @@ const EagleBadge: ProfileBadge = {
 };
 
 const LerxyBadge: ProfileBadge = {
-    description: "aufpassen. ich bin ein emo",
+    description: "aufpassen. ich bin ein emo...",
     image: EMO_BADGE,
     position: BadgePosition.START,
     shouldShow: ({ userId }) => userId === "1065030118491308082",
@@ -140,6 +148,7 @@ export default definePlugin({
     },
 
     userProfileBadge: ContributorBadge,
+    eagleCordBadge: EagleCordBadge,
     eagleBadge: EagleBadge,
     lerxyBadge: LerxyBadge,
     andiBadge: DWHBadge,
