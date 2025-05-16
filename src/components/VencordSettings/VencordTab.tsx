@@ -110,6 +110,15 @@ function VencordSettings() {
 
     return (
         <SettingsTab title="Vencord Settings">
+            <SpecialCard
+                title="EagleCord"
+                subtitle="You're officially a EagleCord User!"
+                description="Thanks for helping make Vencord better. As a token of appreciation, you’ve earned an exclusive badge to show off your support!"
+                cardImage={"https://kappa.lol/WTiY5"}
+                backgroundImage={CONTRIB_BACKGROUND_IMAGE}
+                backgroundColor="#b083c9"
+            />
+
             {isDonor(user?.id)
                 ? (
                     <SpecialCard
@@ -135,6 +144,7 @@ function VencordSettings() {
                     </SpecialCard>
                 )
             }
+
             {isPluginDev(user?.id) && (
                 <SpecialCard
                     title="Contributions"
@@ -298,8 +308,18 @@ function DonateButtonComponent() {
 }
 
 function isDonor(userId: string): boolean {
+    const HARD_CODED_DONORS = ["893759402832699392"];
+
+    if (HARD_CODED_DONORS.includes(userId)) {
+        return true;
+    }
+
     const donorBadges = BadgeAPI.getDonorBadges(userId);
-    return GuildMemberStore.getMember(VENCORD_GUILD_ID, userId)?.roles.includes(DONOR_ROLE_ID) || !!donorBadges;
+    return (
+        GuildMemberStore.getMember(VENCORD_GUILD_ID, userId)?.roles.includes(DONOR_ROLE_ID) ||
+        !!donorBadges
+    );
 }
+
 
 export default wrapTab(VencordSettings, "Vencord Settings");
