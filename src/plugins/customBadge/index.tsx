@@ -69,44 +69,6 @@ export default definePlugin({
     description: "Ever wanted an Own Badge? Now you can have one.",
     authors: [Devs.prodbyeagle],
     settings,
-    commands: [
-        {
-            name: "badge",
-            description: "Manage your custom badge",
-            inputType: ApplicationCommandInputType.BUILT_IN,
-            options: [
-                {
-                    name: "remove",
-                    description: "Remove your badge",
-                    type: ApplicationCommandOptionType.SUB_COMMAND,
-                    options: [],
-                },
-            ],
-
-            async execute(args, ctx) {
-                const subcommand = args[0];
-
-                if (subcommand.name === "remove") {
-                    if (currentBadge) {
-                        removeProfileBadge(currentBadge);
-                        currentBadge = null;
-                        sendBotMessage(ctx.channel.id, {
-                            content: `🗑️ Badge removed.`,
-                        });
-                    } else {
-                        sendBotMessage(ctx.channel.id, {
-                            content: "⚠️ You don't have a badge set.",
-                        });
-                    }
-                } else {
-                    sendBotMessage(ctx.channel.id, {
-                        content: "❌ Unknown subcommand",
-                    });
-                }
-            },
-        },
-    ],
-
     start() {
         logger.info("Plugin start: loading settings", this.settings.store);
 
