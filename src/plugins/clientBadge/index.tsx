@@ -42,8 +42,8 @@ export const settings = definePluginSettings({
         type: OptionType.SELECT,
         description: "Position of badge (START, END)",
         options: [
-            { label: "Start", value: BadgePosition.START },
-            { label: "End", value: BadgePosition.END, default: true },
+            { label: "Start", value: BadgePosition.START, default: true },
+            { label: "End", value: BadgePosition.END},
         ],
         restartNeeded: true,
     },
@@ -105,6 +105,7 @@ export default definePlugin({
         };
     },
 
+    
 
     stop() {
         if (currentBadge) {
