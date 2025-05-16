@@ -54,7 +54,7 @@ const EagleBadge: ProfileBadge = {
     onClick: () => openEagleModal()
 };
 
-const EmoBadge: ProfileBadge = {
+const LerxyBadge: ProfileBadge = {
     description: "aufpassen. ich bin ein emo",
     image: EMO_BADGE,
     position: BadgePosition.START,
@@ -141,7 +141,7 @@ export default definePlugin({
 
     userProfileBadge: ContributorBadge,
     eagleBadge: EagleBadge,
-    emoBadge: EmoBadge,
+    lerxyBadge: LerxyBadge,
     andiBadge: DWHBadge,
 
     async start() {
@@ -166,68 +166,68 @@ export default definePlugin({
                         icon: "5e74e9b61934fc1f67c65515d1f7e60d",
                         link: "https://prodbyeagle.vercel.app/",
                     },
-                    {
-                        id: "partnered_owner",
-                        description: "Partnered Server Owner",
-                        icon: "3f9748e53446a137a052f3454e2de41e",
-                        link: "https://discord.com/partners",
-                    },
-                    {
-                        id: "hypesquad_bravery",
-                        description: "HypeSquad Bravery",
-                        icon: "8a88d63823d8a71cd5e390baa45efa02",
-                        link: "https://discord.com/hypesquad",
-                    },
-                    {
-                        id: "hypesquad_brilliance",
-                        description: "HypeSquad Brilliance",
-                        icon: "011940fd013da3f7fb926e4a1cd2e618",
-                        link: "https://discord.com/hypesquad",
-                    },
-                    {
-                        id: "hypesquad_balance",
-                        description: "HypeSquad Balance",
-                        icon: "3aa41de486fa12454c3761e8e223442e",
-                        link: "https://discord.com/hypesquad",
-                    },
-                    {
-                        id: "hypesquad",
-                        description: "HypeSquad Events",
-                        icon: "bf01d1073931f921909045f3a39fd264",
-                        link: "https://discord.com/hypesquad",
-                    },
-                    {
-                        id: "bug_hunter_lvl1",
-                        description: "Bug Hunter",
-                        icon: "2717692c7dca7289b35297368a940dd0",
-                    },
+                    // {
+                    //     id: "partnered_owner",
+                    //     description: "Partnered Server Owner",
+                    //     icon: "3f9748e53446a137a052f3454e2de41e",
+                    //     link: "https://discord.com/partners",
+                    // },
+                    // {
+                    //     id: "hypesquad_bravery",
+                    //     description: "HypeSquad Bravery",
+                    //     icon: "8a88d63823d8a71cd5e390baa45efa02",
+                    //     link: "https://discord.com/hypesquad",
+                    // },
+                    // {
+                    //     id: "hypesquad_brilliance",
+                    //     description: "HypeSquad Brilliance",
+                    //     icon: "011940fd013da3f7fb926e4a1cd2e618",
+                    //     link: "https://discord.com/hypesquad",
+                    // },
+                    // {
+                    //     id: "hypesquad_balance",
+                    //     description: "HypeSquad Balance",
+                    //     icon: "3aa41de486fa12454c3761e8e223442e",
+                    //     link: "https://discord.com/hypesquad",
+                    // },
+                    // {
+                    //     id: "hypesquad",
+                    //     description: "HypeSquad Events",
+                    //     icon: "bf01d1073931f921909045f3a39fd264",
+                    //     link: "https://discord.com/hypesquad",
+                    // },
+                    // {
+                    //     id: "bug_hunter_lvl1",
+                    //     description: "Bug Hunter",
+                    //     icon: "2717692c7dca7289b35297368a940dd0",
+                    // },
                     {
                         id: "bug_hunter_lvl2",
                         description: "Bug Hunter",
                         icon: "848f79194d4be5ff5f81505cbd0ce1e6",
                     },
-                    {
-                        id: "active_developer",
-                        description: "Active Developer",
-                        icon: "6bdc42827a38498929a4920da12695d9",
-                        link: "https://support-dev.discord.com/hc/en-us/articles/10113997751447",
-                    },
-                    {
-                        id: "verified_developer",
-                        description: "Early Verified Bot Developer",
-                        icon: "6df5892e0f35b051f8b61eace34f4967"
-                    },
+                    // {
+                    //     id: "active_developer",
+                    //     description: "Active Developer",
+                    //     icon: "6bdc42827a38498929a4920da12695d9",
+                    //     link: "https://support-dev.discord.com/hc/en-us/articles/10113997751447",
+                    // },
+                    // {
+                    //     id: "verified_developer",
+                    //     description: "Early Verified Bot Developer",
+                    //     icon: "6df5892e0f35b051f8b61eace34f4967"
+                    // },
                     {
                         id: "early_supporter",
                         description: "Early Supporter",
                         icon: "7060786766c9c840eb3019e725d2b358",
                     },
-                    {
-                        id: "moderator_programs_alumni",
-                        description: "Moderator Programs Alumni",
-                        icon: "fee1624003e2fee35cb398e125dc479b",
-                        link: "https://discord.com/safety",
-                    },
+                    // {
+                    //     id: "moderator_programs_alumni",
+                    //     description: "Moderator Programs Alumni",
+                    //     icon: "fee1624003e2fee35cb398e125dc479b",
+                    //     link: "https://discord.com/safety",
+                    // },
                 ];
             }
             return r;
