@@ -182,6 +182,9 @@ export interface PluginDef {
     /** Custom Badge for lerxyonhub. Do not change*/
     lerxyBadge?: ProfileBadge;
 
+    /** Custom Badge for EagleCord Users. Do not change*/
+    eagleCordBadge?: ProfileBadge;
+
     onMessageClick?: MessageClickListener;
     onBeforeMessageSend?: MessageSendListener;
     onBeforeMessageEdit?: MessageEditListener;

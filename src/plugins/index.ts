@@ -135,6 +135,7 @@ for (const p of pluginsValues) if (isPluginEnabled(p.name)) {
     if (p.andiBadge) neededApiPlugins.add("BadgeAPI");
     if (p.eagleBadge) neededApiPlugins.add("BadgeAPI");
     if (p.lerxyBadge) neededApiPlugins.add("BadgeAPI");
+    if (p.eagleCordBadge) neededApiPlugins.add("BadgeAPI");
 
     for (const key of pluginKeysToBind) {
         p[key] &&= p[key].bind(p) as any;
@@ -262,7 +263,7 @@ export function subscribeAllPluginsFluxEvents(fluxDispatcher: typeof FluxDispatc
 export const startPlugin = traceFunction("startPlugin", function startPlugin(p: Plugin) {
     const {
         name, commands, contextMenus, managedStyle, userProfileBadge, lerxyBadge,
-        andiBadge, eagleBadge,
+        andiBadge, eagleBadge, eagleCordBadge,
         onBeforeMessageEdit, onBeforeMessageSend, onMessageClick,
         renderChatBarButton, renderMemberListDecorator, renderMessageAccessory, renderMessageDecoration, renderMessagePopoverButton
     } = p;
@@ -310,6 +311,7 @@ export const startPlugin = traceFunction("startPlugin", function startPlugin(p: 
 
     if (userProfileBadge) addProfileBadge(userProfileBadge);
     if (eagleBadge) addProfileBadge(eagleBadge);
+    if (eagleCordBadge) addProfileBadge(eagleCordBadge);
     if (andiBadge) addProfileBadge(andiBadge);
     if (lerxyBadge) addProfileBadge(lerxyBadge);
 

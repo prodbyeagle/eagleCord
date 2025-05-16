@@ -36,6 +36,18 @@ export function openContributorModal(user: User) {
     );
 }
 
+export function openEagleCordModal(user: User) {
+    openModal(modalProps =>
+        <ModalRoot {...modalProps}>
+            <ErrorBoundary>
+                <ModalContent className={cl("root")}>
+                    <EagleCordModal user={user} />
+                </ModalContent>
+            </ErrorBoundary>
+        </ModalRoot>
+    );
+}
+
 export function openEagleModal() {
     openModal(modalProps =>
         <ModalRoot {...modalProps}>
@@ -48,9 +60,57 @@ export function openEagleModal() {
     );
 }
 
+function EagleCordModal({ user }: { user: User; }) {
+    return (
+        <div>
+            <div
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "0.75rem",
+                    padding: "1.5rem",
+                }}
+            >
+                <Avatar
+                    src={user.getAvatarURL(void 0, 128, true)}
+                    size={"SIZE_120"}
+                />
+
+                <Forms.FormTitle tag="h1">
+                    Welcome to <strong>EagleCord</strong>
+                </Forms.FormTitle>
+
+                <Forms.FormText>
+                    You're running a custom build of Vencord, modified by <strong>@prodbyeagle</strong>.
+                </Forms.FormText>
+
+                <Forms.FormText>
+                    This version adds some easter eggs, UI tweaks, and custom enhancements.
+                </Forms.FormText>
+
+                <Forms.FormText>
+                    The EagleCord badge is shown to every user as a subtle signature of this modded experience.
+                </Forms.FormText>
+
+                <div className={cl("modal-links")}>
+                    <WebsiteButton
+                        text="prodbyeagle's Website"
+                        href="https://prodbyeagle.vercel.app/"
+                    />
+                    <GithubButton
+                        text="GitHub"
+                        href="https://github.com/prodbyeagle"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function EagleModal() {
     return (
-        <div className={cl("eagle-modal")}>
+        <div>
             <div
                 style={{
                     display: "flex",
