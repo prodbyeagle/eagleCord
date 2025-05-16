@@ -119,7 +119,7 @@ function VencordSettings() {
                 backgroundColor="#b083c9"
             />
 
-            {/* {isDonor(user?.id)
+            {isDonor(user?.id)
                 ? (
                     <SpecialCard
                         title="Donations"
@@ -127,9 +127,7 @@ function VencordSettings() {
                         description="You can manage your perks at any time by messaging @vending.machine."
                         cardImage={VENNIE_DONATOR_IMAGE}
                         backgroundImage={DONOR_BACKGROUND_IMAGE}
-                        backgroundColor="#ED87A9"
-                    >
-                        <DonateButtonComponent />
+                        backgroundColor="#ED87A9">
                     </SpecialCard>
                 )
                 : (
@@ -138,12 +136,11 @@ function VencordSettings() {
                         description="Please consider supporting the development of Vencord by donating!"
                         cardImage={donateImage}
                         backgroundImage={DONOR_BACKGROUND_IMAGE}
-                        backgroundColor="#c3a3ce"
-                    >
+                        backgroundColor="#c3a3ce">
                         <DonateButtonComponent />
                     </SpecialCard>
                 )
-            } */}
+            }
 
             {isPluginDev(user?.id) && (
                 <SpecialCard
