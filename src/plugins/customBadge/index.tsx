@@ -10,11 +10,6 @@ import {
 import { Devs } from "@utils/constants";
 import { makeRange } from "@components/PluginSettings/components";
 import { Logger } from "@utils/Logger";
-import {
-    ApplicationCommandInputType,
-    ApplicationCommandOptionType,
-    sendBotMessage,
-} from "@api/Commands";
 
 type UserBadge = {
     userId: string;
@@ -25,7 +20,7 @@ type UserBadge = {
     borderRadius?: number;
 };
 
-const logger = new Logger("ClientBadges", "#d56771");
+const logger = new Logger("ClientBadge", "#d56771");
 
 export const settings = definePluginSettings({
     image: {
@@ -47,8 +42,8 @@ export const settings = definePluginSettings({
         type: OptionType.SELECT,
         description: "Position of badge (START, END)",
         options: [
-            { label: "Start", value: "START" },
-            { label: "End", value: "END", default: true },
+            { label: "Start", value: BadgePosition.START },
+            { label: "End", value: BadgePosition.END, default: true },
         ],
         restartNeeded: true,
     },
@@ -70,8 +65,6 @@ export default definePlugin({
     authors: [Devs.prodbyeagle],
     settings,
     start() {
-        logger.info("Plugin start: loading settings", this.settings.store);
-
         const user = UserStore.getCurrentUser()?.id;
         if (!user) {
             logger.error("No current user found; badge will not be registered");
@@ -86,7 +79,6 @@ export default definePlugin({
 
         const badge = this.getBadgeFromSettings(user);
         if (badge) {
-            logger.info("Valid badge found, registering:", badge);
             this.registerUserBadge(badge);
         } else {
             logger.warn("No valid badge could be constructed from settings");
@@ -99,7 +91,7 @@ export default definePlugin({
 
         const { image, description, position, borderRadius, toastMessage } = this.settings.store;
         if (!image || !description) {
-            logger.warn("Missing required badge fields (image, description)");
+            logger.warn("Missing required badge fields (image or description)");
             return null;
         }
 
@@ -108,7 +100,7 @@ export default definePlugin({
             image,
             tooltip: description,
             toastMessage,
-            position: position as unknown as BadgePosition,
+            position: position as BadgePosition,
             borderRadius,
         };
     },
@@ -116,7 +108,6 @@ export default definePlugin({
 
     stop() {
         if (currentBadge) {
-            logger.info("Removing current badge", currentBadge);
             removeProfileBadge(currentBadge);
             currentBadge = null;
         } else {
@@ -125,7 +116,6 @@ export default definePlugin({
     },
 
     registerUserBadge(badge: UserBadge) {
-        logger.info("Registering user badge:", badge);
         const profileBadge: ProfileBadge = {
             description: badge.tooltip,
             image: badge.image,
@@ -149,6 +139,6 @@ export default definePlugin({
 
         currentBadge = profileBadge;
         addProfileBadge(profileBadge);
-        logger.info("Badge registered successfully");
+        logger.info("Badge registered successfully:", profileBadge);
     },
 });
