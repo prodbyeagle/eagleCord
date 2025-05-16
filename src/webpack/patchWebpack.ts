@@ -60,7 +60,7 @@ export function getFactoryPatchedBy(moduleId: PropertyKey, webpackRequire = wreq
     return webpackRequire.m[moduleId]?.[SYM_PATCHED_BY];
 }
 
-const logger = new Logger("WebpackInterceptor", "#8caaee");
+const logger = new Logger("WebpackPatcher", "#8caaee");
 
 /** Whether we tried to fallback to the WebpackRequire of the factory, or disabled patches */
 let wreqFallbackApplied = false;
@@ -105,6 +105,9 @@ define(Function.prototype, "m", {
         }
 
         const fileName = stack.match(/\/assets\/(.+?\.js)/)?.[1];
+        if (fileName?.includes("libdiscore")) {
+            return;
+        }
 
         // Define a setter for the bundlePath property of WebpackRequire. Only Webpack instances which include chunk loading functionality,
         // like the main Discord Webpack, have this property.
@@ -412,12 +415,9 @@ function runFactoryWithWrap(patchedFactory: PatchedModuleFactory, thisArg: unkno
     exports = module.exports;
 
     if (typeof require === "function" && require.c) {
-        // module might not have been fully initialised yet
-        try {
-            if (_blacklistBadModules(require.c, exports, module.id)) {
-                return factoryReturn;
-            }
-        } catch { }
+        if (_blacklistBadModules(require.c, exports, module.id)) {
+            return factoryReturn;
+        }
     }
 
     if (exports == null) {
@@ -439,24 +439,41 @@ function runFactoryWithWrap(patchedFactory: PatchedModuleFactory, thisArg: unkno
                 callback(exports, module.id);
                 continue;
             }
-
-            if (typeof exports !== "object") {
-                continue;
-            }
-
-            for (const exportKey in exports) {
-                try {
-                    const exportValue = exports[exportKey];
-
-                    if (exportValue != null && filter(exportValue)) {
-                        waitForSubscriptions.delete(filter);
-                        callback(exportValue, module.id);
-                        break;
-                    }
-                } catch { }
-            }
         } catch (err) {
-            logger.error("Error while firing callback for Webpack waitFor subscription:\n", err, filter, callback);
+            logger.error(
+                "Error while filtering or firing callback for Webpack waitFor subscription:\n", err,
+                "\n\nModule exports:", exports,
+                "\n\nFilter:", filter,
+                "\n\nCallback:", callback
+            );
+        }
+
+        if (typeof exports !== "object") {
+            continue;
+        }
+
+        for (const exportKey in exports) {
+            try {
+                // Some exports might have not been initialized yet due to circular imports, so try catch it.
+                try {
+                    var exportValue = exports[exportKey];
+                } catch {
+                    continue;
+                }
+
+                if (exportValue != null && filter(exportValue)) {
+                    waitForSubscriptions.delete(filter);
+                    callback(exportValue, module.id);
+                    break;
+                }
+            } catch (err) {
+                logger.error(
+                    "Error while filtering or firing callback for Webpack waitFor subscription:\n", err,
+                    "\n\nExport value:", exports,
+                    "\n\nFilter:", filter,
+                    "\n\nCallback:", callback
+                );
+            }
         }
     }
 
@@ -567,7 +584,7 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
                 }
 
                 code = newCode;
-                patchedSource = `// Webpack Module ${String(moduleId)} - Patched by ${pluginsList.join(", ")}\n${newCode}\n//# sourceURL=WebpackModule${String(moduleId)}`;
+                patchedSource = `// Webpack Module ${String(moduleId)} - Patched by ${pluginsList.join(", ")}\n${newCode}\n//# sourceURL=file:///WebpackModule${String(moduleId)}`;
                 patchedFactory = (0, eval)(patchedSource);
 
                 if (!patchedBy.has(patch.plugin)) {
