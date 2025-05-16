@@ -25,7 +25,7 @@ const nameMap = {
 export default definePlugin({
     name: "MenuItemDemanglerAPI",
     description: "Demangles Discord's Menu Item module",
-    authors: [Devs.Ven],
+    authors: [Devs.prodbyeagle, Devs.Ven],
     required: true,
     patches: [
         {

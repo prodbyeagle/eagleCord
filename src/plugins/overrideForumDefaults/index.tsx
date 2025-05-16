@@ -30,7 +30,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "OverrideForumDefaults",
     description: "Allows you to override default forum layout/sort order. you can still change it on a per-channel basis",
-    authors: [Devs.Inbestigator],
+    authors: [Devs.prodbyeagle, Devs.Inbestigator],
     patches: [
         {
             find: "getDefaultLayout(){",

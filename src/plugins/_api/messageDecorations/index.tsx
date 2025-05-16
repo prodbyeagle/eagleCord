@@ -24,7 +24,7 @@ import managedStyle from "./style.css?managed";
 export default definePlugin({
     name: "MessageDecorationsAPI",
     description: "API to add decorations to messages",
-    authors: [Devs.TheSun],
+    authors: [Devs.prodbyeagle, Devs.TheSun],
 
     managedStyle,
 

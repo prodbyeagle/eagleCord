@@ -37,7 +37,7 @@ export const settings = definePluginSettings({
 export default definePlugin({
     name: "SuperReactionTweaks",
     description: "Customize the limit of Super Reactions playing at once, and super react by default",
-    authors: [Devs.FieryFlames, Devs.ant0n],
+    authors: [Devs.prodbyeagle, Devs.FieryFlames, Devs.ant0n],
     patches: [
         {
             find: ",BURST_REACTION_EFFECT_PLAY",

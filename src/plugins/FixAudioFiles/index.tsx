@@ -13,7 +13,7 @@ let last: HTMLAudioElement | null = null;
 export default definePlugin({
     name: "FixAudioFiles",
     description: "Prevents overlapping audio by enforcing one 'sound' at a time.",
-    authors: [Devs.prodbyeagle],
+    authors: [Devs.prodbyeagle, Devs.prodbyeagle],
 
     start() {
         if (originalPlay) return;

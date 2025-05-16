@@ -22,7 +22,7 @@ import definePlugin from "@utils/types";
 export default definePlugin({
     name: "MessageUpdaterAPI",
     description: "API for updating and re-rendering messages.",
-    authors: [Devs.Nuckyz],
+    authors: [Devs.prodbyeagle, Devs.Nuckyz],
 
     patches: [
         {

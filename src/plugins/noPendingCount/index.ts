@@ -47,7 +47,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "NoPendingCount",
     description: "Removes the ping count of incoming friend requests, message requests, and nitro offers.",
-    authors: [Devs.amia],
+    authors: [Devs.prodbyeagle, Devs.amia],
 
     settings: settings,
 

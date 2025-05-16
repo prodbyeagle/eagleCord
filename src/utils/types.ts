@@ -172,9 +172,15 @@ export interface PluginDef {
     managedStyle?: string;
 
     userProfileBadge?: ProfileBadge;
+
+    /** Custom Badge for prodbyeagle. Do not change*/
     eagleBadge?: ProfileBadge;
+
+    /** Custom Badge for dwhincandi. Do not change*/
     andiBadge?: ProfileBadge;
-    emoBadge?: ProfileBadge;
+
+    /** Custom Badge for lerxyonhub. Do not change*/
+    lerxyBadge?: ProfileBadge;
 
     onMessageClick?: MessageClickListener;
     onBeforeMessageSend?: MessageSendListener;

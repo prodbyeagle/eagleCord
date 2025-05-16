@@ -42,8 +42,8 @@ export const settings = definePluginSettings({
         type: OptionType.SELECT,
         description: "Position of badge (START, END)",
         options: [
-            { label: "Start", value: BadgePosition.START },
-            { label: "End", value: BadgePosition.END, default: true },
+            { label: "Start", value: BadgePosition.START, default: true },
+            { label: "End", value: BadgePosition.END },
         ],
         restartNeeded: true,
     },
@@ -62,7 +62,7 @@ let currentBadge: ProfileBadge | null = null;
 export default definePlugin({
     name: "ClientBadge",
     description: "Ever wanted an Own Badge? Now you can have one.",
-    authors: [Devs.prodbyeagle],
+    authors: [Devs.prodbyeagle, Devs.prodbyeagle],
     settings,
     start() {
         const user = UserStore.getCurrentUser()?.id;
@@ -104,6 +104,7 @@ export default definePlugin({
             borderRadius,
         };
     },
+
 
 
     stop() {

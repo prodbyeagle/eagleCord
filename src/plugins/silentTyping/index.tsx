@@ -94,7 +94,7 @@ const ChatBarContextCheckbox: NavContextMenuPatchCallback = children => {
 
 export default definePlugin({
     name: "SilentTyping",
-    authors: [Devs.Ven, Devs.Rini, Devs.ImBanana],
+    authors: [Devs.prodbyeagle, Devs.Ven, Devs.Rini, Devs.ImBanana],
     description: "Hide that you are typing",
     settings,
 

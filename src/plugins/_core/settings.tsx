@@ -37,7 +37,7 @@ type SectionTypes = Record<SectionType, SectionType>;
 export default definePlugin({
     name: "Settings",
     description: "Adds Settings UI and debug info",
-    authors: [Devs.Ven, Devs.Megu],
+    authors: [Devs.prodbyeagle, Devs.Ven, Devs.Megu],
     required: true,
 
     patches: [

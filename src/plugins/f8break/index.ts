@@ -22,7 +22,7 @@ import definePlugin from "@utils/types";
 export default definePlugin({
     name: "F8Break",
     description: "Pause the client when you press F8 with DevTools (+ breakpoints) open.",
-    authors: [Devs.lewisakura],
+    authors: [Devs.prodbyeagle, Devs.lewisakura],
 
     start() {
         window.addEventListener("keydown", this.event);
