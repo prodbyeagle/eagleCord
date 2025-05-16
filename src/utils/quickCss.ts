@@ -59,11 +59,10 @@ async function initThemes() {
 
     const { themeLinks, enabledThemes } = Settings;
 
-    // "darker" and "midnight" both count as dark
-    // This function is first called on DOMContentLoaded, so ThemeStore may not have been loaded yet
-    const activeTheme = ThemeStore == null
-        ? undefined
-        : ThemeStore.theme === "light" ? "light" : "dark";
+    // Wait for ThemeStore to be defined
+    const activeTheme = typeof ThemeStore?.theme === "string"
+        ? ThemeStore.theme === "light" ? "light" : "dark"
+        : undefined;
 
     const links = themeLinks
         .map(rawLink => {
@@ -73,7 +72,7 @@ async function initThemes() {
             const [, mode, link] = match;
             return mode === activeTheme ? link : null;
         })
-        .filter(link => link !== null);
+        .filter((link): link is string => link !== null);
 
     if (IS_WEB) {
         for (const theme of enabledThemes) {
@@ -106,13 +105,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 export function initQuickCssThemeStore() {
+    if (typeof ThemeStore?.theme !== "string") return;
+
     initThemes();
 
     let currentTheme = ThemeStore.theme;
     ThemeStore.addChangeListener(() => {
-        if (currentTheme === ThemeStore.theme) return;
-
-        currentTheme = ThemeStore.theme;
-        initThemes();
+        if (ThemeStore?.theme && currentTheme !== ThemeStore.theme) {
+            currentTheme = ThemeStore.theme;
+            initThemes();
+        }
     });
 }
