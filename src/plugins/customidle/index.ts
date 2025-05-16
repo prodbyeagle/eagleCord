@@ -30,7 +30,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "CustomIdle",
     description: "Allows you to set the time before Discord goes idle (or disable auto-idle)",
-    authors: [Devs.newwares],
+    authors: [Devs.prodbyeagle, Devs.newwares],
     settings,
     patches: [
         {

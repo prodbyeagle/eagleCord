@@ -24,7 +24,7 @@ import managedStyle from "./style.css?managed";
 export default definePlugin({
     name: "MemberListDecoratorsAPI",
     description: "API to add decorators to member list (both in servers and DMs)",
-    authors: [Devs.TheSun, Devs.Ven],
+    authors: [Devs.prodbyeagle, Devs.TheSun, Devs.Ven],
 
     managedStyle,
 

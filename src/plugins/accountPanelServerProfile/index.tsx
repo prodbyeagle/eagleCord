@@ -63,7 +63,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "AccountPanelServerProfile",
     description: "Right click your account panel in the bottom left to view your profile in the current server",
-    authors: [Devs.Nuckyz, Devs.relitrix],
+    authors: [Devs.prodbyeagle, Devs.Nuckyz, Devs.relitrix],
     settings,
 
     patches: [

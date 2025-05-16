@@ -157,7 +157,7 @@ const imageContextMenuPatch: NavContextMenuPatchCallback = (children, props) => 
 export default definePlugin({
     name: "ImageZoom",
     description: "Lets you zoom in to images and gifs. Use scroll wheel to zoom in and shift + scroll wheel to increase lens radius / size",
-    authors: [Devs.Aria],
+    authors: [Devs.prodbyeagle, Devs.Aria],
     tags: ["ImageUtilities"],
 
     managedStyle,

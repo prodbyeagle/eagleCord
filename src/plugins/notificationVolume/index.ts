@@ -21,7 +21,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "NotificationVolume",
     description: "Save your ears and set a separate volume for notifications and in-app sounds",
-    authors: [Devs.philipbry],
+    authors: [Devs.prodbyeagle, Devs.philipbry],
     settings,
     patches: [
         {

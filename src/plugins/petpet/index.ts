@@ -87,7 +87,7 @@ async function resolveImage(options: Argument[], ctx: CommandContext, noServerPf
 export default definePlugin({
     name: "petpet",
     description: "Adds a /petpet slash command to create headpet gifs from any image",
-    authors: [Devs.Ven],
+    authors: [Devs.prodbyeagle, Devs.Ven],
     commands: [
         {
             inputType: ApplicationCommandInputType.BUILT_IN,

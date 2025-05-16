@@ -55,7 +55,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "MessageClickActions",
     description: "Hold Backspace and click to delete, double click to edit/reply",
-    authors: [Devs.Ven],
+    authors: [Devs.prodbyeagle, Devs.Ven],
 
     settings,
 

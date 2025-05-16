@@ -13,7 +13,7 @@ import { Message } from "discord-types/general";
 export default definePlugin({
     name: "ThemeAttributes",
     description: "Adds data attributes to various elements for theming purposes",
-    authors: [Devs.Ven, Devs.Board],
+    authors: [Devs.prodbyeagle, Devs.Ven, Devs.Board],
 
     patches: [
         // Add data-tab-id to all tab bar items

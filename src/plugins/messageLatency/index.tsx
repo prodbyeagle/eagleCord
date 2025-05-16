@@ -31,7 +31,7 @@ const HiddenVisually = findComponentByCodeLazy(".hiddenVisually]:");
 export default definePlugin({
     name: "MessageLatency",
     description: "Displays an indicator for messages that took ≥n seconds to send",
-    authors: [Devs.arHSM],
+    authors: [Devs.prodbyeagle, Devs.arHSM],
 
     settings: definePluginSettings({
         latency: {

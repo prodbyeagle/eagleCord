@@ -93,7 +93,7 @@ let intervalId: any;
 export default definePlugin({
     name: "BadgeAPI",
     description: "API to add badges to users. (modded by prodbyeagle)",
-    authors: [Devs.Megu, Devs.Ven, Devs.TheSun, Devs.prodbyeagle],
+    authors: [Devs.prodbyeagle, Devs.Megu, Devs.Ven, Devs.TheSun, Devs.prodbyeagle],
     required: true,
     patches: [
         {

@@ -24,7 +24,7 @@ import { Channel, User } from "discord-types/general";
 export default definePlugin({
     name: "ForceOwnerCrown",
     description: "Force the owner crown next to usernames even if the server is large.",
-    authors: [Devs.D3SOX, Devs.Nickyux],
+    authors: [Devs.prodbyeagle, Devs.D3SOX, Devs.Nickyux],
     patches: [
         {
             find: "#{intl::GUILD_OWNER}),children:",
