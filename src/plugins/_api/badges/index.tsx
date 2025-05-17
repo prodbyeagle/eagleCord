@@ -18,12 +18,12 @@
 
 import "./fixDiscordBadgePadding.css";
 
-import { _getBadges, BadgePosition, BadgeUserArgs, ProfileBadge } from "@api/Badges";
+import { _getBadges, addProfileBadge, BadgePosition, BadgeUserArgs, ProfileBadge } from "@api/Badges";
 import DonateButton from "@components/DonateButton";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
 import { Heart } from "@components/Heart";
-import { openContributorModal, openEagleCordModal, openEagleModal } from "@components/PluginSettings/ContributorModal";
+import { openContributorModal, openEagleCordModal } from "@components/PluginSettings/ContributorModal";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
@@ -32,7 +32,7 @@ import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModa
 import definePlugin from "@utils/types";
 import { Forms, Toasts, UserStore } from "@webpack/common";
 import { User } from "discord-types/general";
-import { eaglecordUsers } from "./users";
+import { vipUsers } from "./users";
 
 const CONTRIBUTOR_BADGE = "https://vencord.dev/assets/favicon.png";
 const EAGLE_BADGE = "https://kappa.lol/WTiY5";
@@ -47,24 +47,14 @@ const ContributorBadge: ProfileBadge = {
     onClick: (_, { userId }) => openContributorModal(UserStore.getUser(userId))
 };
 
-const EagleCordBadge: ProfileBadge = {
-    description: "EagleCord User",
+const VIPBadge: ProfileBadge = {
+    description: "bros...",
     image: EAGLE_BADGE,
     position: BadgePosition.END,
-    shouldShow: ({ userId }) => eaglecordUsers.has(userId),
+    shouldShow: ({ userId }) => vipUsers.has(userId),
     onClick: (_, { userId }) => openEagleCordModal(UserStore.getUser(userId))
 };
 
-const EagleBadge: ProfileBadge = {
-    description: "✌️🙄",
-    image: EAGLE_BADGE,
-    position: BadgePosition.END,
-    shouldShow: ({ userId }) => ["893759402832699392", "1093444260491165777"].includes(userId),
-    onClick: () => openEagleModal(),
-    props: {
-        style: { scale: "0.9" }
-    }
-};
 
 const LerxyBadge: ProfileBadge = {
     description: "aufpassen. ich bin ein emo...",
@@ -86,7 +76,6 @@ const DWHBadge: ProfileBadge = {
     }
 };
 
-
 let DonorBadges = {} as Record<string, Array<Record<"tooltip" | "badge", string>>>;
 
 async function loadBadges(noCache = false) {
@@ -98,6 +87,10 @@ async function loadBadges(noCache = false) {
 
     DonorBadges = await fetch("https://badges.vencord.dev/badges.json", init)
         .then(r => r.json());
+
+    addProfileBadge(DWHBadge);
+    addProfileBadge(LerxyBadge);
+    addProfileBadge(VIPBadge);
 }
 
 let intervalId: any;
@@ -152,10 +145,9 @@ export default definePlugin({
     },
 
     userProfileBadge: ContributorBadge,
-    eagleCordBadge: EagleCordBadge,
-    eagleBadge: EagleBadge,
-    lerxyBadge: LerxyBadge,
-    andiBadge: DWHBadge,
+    // vipBadge: VIPBadge,
+    // lerxyBadge: LerxyBadge,
+    // andiBadge: DWHBadge,
 
     async start() {
         await loadBadges();

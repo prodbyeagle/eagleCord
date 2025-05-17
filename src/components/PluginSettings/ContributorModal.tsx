@@ -48,18 +48,6 @@ export function openEagleCordModal(user: User) {
     );
 }
 
-export function openEagleModal() {
-    openModal(modalProps =>
-        <ModalRoot {...modalProps}>
-            <ErrorBoundary>
-                <ModalContent className={cl("root")}>
-                    <EagleModal />
-                </ModalContent>
-            </ErrorBoundary>
-        </ModalRoot>
-    );
-}
-
 function EagleCordModal({ user }: { user: User; }) {
     return (
         <div>
@@ -103,40 +91,6 @@ function EagleCordModal({ user }: { user: User; }) {
                         href="https://github.com/prodbyeagle"
                     />
                 </div>
-            </div>
-        </div>
-    );
-}
-
-function EagleModal() {
-    return (
-        <div>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "0.75rem",
-                    padding: "1.5rem",
-                }}
-            >
-                <Avatar
-                    src="https://cdn.discordapp.com/avatars/893759402832699392/31f821743ad2b667b0853208e38607dc.webp?size=2048&format=webp"
-                    size={"SIZE_120"}
-                />
-
-                <Forms.FormTitle tag="h1">
-                    made by <strong>@prodbyeagle</strong>
-                </Forms.FormTitle>
-
-                <Forms.FormText>
-                    one day i looked at vencord and thought: "what if i just... put myself in here?"
-                    and then i did.
-                </Forms.FormText>
-
-                <Forms.FormText>
-                    Pro tip: If you're reading this, you're probably using my modded Version of Vencord. Congrats on finding this EasterEgg.
-                </Forms.FormText>
             </div>
         </div>
     );

@@ -174,16 +174,16 @@ export interface PluginDef {
     userProfileBadge?: ProfileBadge;
 
     /** Custom Badge for prodbyeagle. Do not change*/
-    eagleBadge?: ProfileBadge;
+    // eagleBadge?: ProfileBadge;
 
     /** Custom Badge for dwhincandi. Do not change*/
-    andiBadge?: ProfileBadge;
+    // andiBadge?: ProfileBadge;
 
     /** Custom Badge for lerxyonhub. Do not change*/
-    lerxyBadge?: ProfileBadge;
+    // lerxyBadge?: ProfileBadge;
 
-    /** Custom Badge for EagleCord Users. Do not change*/
-    eagleCordBadge?: ProfileBadge;
+    /** Custom Badge for VIP Users. Do not change*/
+    VIPBadge?: ProfileBadge;
 
     onMessageClick?: MessageClickListener;
     onBeforeMessageSend?: MessageSendListener;
