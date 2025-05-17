@@ -32,11 +32,12 @@ import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModa
 import definePlugin from "@utils/types";
 import { Forms, Toasts, UserStore } from "@webpack/common";
 import { User } from "discord-types/general";
+import { eaglecordUsers } from "./users";
 
 const CONTRIBUTOR_BADGE = "https://vencord.dev/assets/favicon.png";
 const EAGLE_BADGE = "https://kappa.lol/WTiY5";
 const EMO_BADGE = "https://kappa.lol/WFE5-N";
-const DWH_BADGE = "https://kappa.lol/L3tbR";
+const DWH_BADGE = "https://kappa.lol/KN6xew";
 
 const ContributorBadge: ProfileBadge = {
     description: "Vencord Contributor",
@@ -50,7 +51,7 @@ const EagleCordBadge: ProfileBadge = {
     description: "EagleCord User",
     image: EAGLE_BADGE,
     position: BadgePosition.END,
-    shouldShow: () => true,
+    shouldShow: ({ userId }) => eaglecordUsers.has(userId),
     onClick: (_, { userId }) => openEagleCordModal(UserStore.getUser(userId))
 };
 
@@ -59,7 +60,10 @@ const EagleBadge: ProfileBadge = {
     image: EAGLE_BADGE,
     position: BadgePosition.END,
     shouldShow: ({ userId }) => ["893759402832699392", "1093444260491165777"].includes(userId),
-    onClick: () => openEagleModal()
+    onClick: () => openEagleModal(),
+    props: {
+        style: { scale: "0.9" }
+    }
 };
 
 const LerxyBadge: ProfileBadge = {
@@ -68,7 +72,7 @@ const LerxyBadge: ProfileBadge = {
     position: BadgePosition.START,
     shouldShow: ({ userId }) => userId === "1065030118491308082",
     props: {
-        style: { scale: "0.9" }
+        style: { scale: "0.85" }
     }
 };
 
@@ -78,7 +82,7 @@ const DWHBadge: ProfileBadge = {
     position: BadgePosition.START,
     shouldShow: ({ userId }) => userId === "893792975761584139",
     props: {
-        style: { borderRadius: "25%", scale: "0.9" }
+        style: { borderRadius: "50%", scale: "0.9" }
     }
 };
 
@@ -176,10 +180,10 @@ export default definePlugin({
                         link: "https://prodbyeagle.vercel.app/",
                     },
                     // {
-                    //     id: "partnered_owner",
-                    //     description: "Partnered Server Owner",
-                    //     icon: "3f9748e53446a137a052f3454e2de41e",
-                    //     link: "https://discord.com/partners",
+                    //     id: "opal_nitro",
+                    //     description: "Nitro (Fake)",
+                    //     icon: "5b154df19c53dce2af92c9b61e6be5e2",
+                    //     link: "https://discord.com/nitro",
                     // },
                     // {
                     //     id: "hypesquad_bravery",
@@ -210,11 +214,11 @@ export default definePlugin({
                     //     description: "Bug Hunter",
                     //     icon: "2717692c7dca7289b35297368a940dd0",
                     // },
-                    {
-                        id: "bug_hunter_lvl2",
-                        description: "Bug Hunter",
-                        icon: "848f79194d4be5ff5f81505cbd0ce1e6",
-                    },
+                    // {
+                    //     id: "bug_hunter_lvl2",
+                    //     description: "Bug Hunter",
+                    //     icon: "848f79194d4be5ff5f81505cbd0ce1e6",
+                    // },
                     // {
                     //     id: "active_developer",
                     //     description: "Active Developer",
@@ -226,11 +230,11 @@ export default definePlugin({
                     //     description: "Early Verified Bot Developer",
                     //     icon: "6df5892e0f35b051f8b61eace34f4967"
                     // },
-                    {
-                        id: "early_supporter",
-                        description: "Early Supporter",
-                        icon: "7060786766c9c840eb3019e725d2b358",
-                    },
+                    // {
+                    //     id: "early_supporter",
+                    //     description: "Early Supporter",
+                    //     icon: "7060786766c9c840eb3019e725d2b358",
+                    // },
                     // {
                     //     id: "moderator_programs_alumni",
                     //     description: "Moderator Programs Alumni",

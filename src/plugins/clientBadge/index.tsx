@@ -105,8 +105,6 @@ export default definePlugin({
         };
     },
 
-
-
     stop() {
         if (currentBadge) {
             removeProfileBadge(currentBadge);
