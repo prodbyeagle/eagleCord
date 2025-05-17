@@ -102,7 +102,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "InvisibleChat",
     description: "Encrypt your Messages in a non-suspicious way!",
-    authors: [Devs.prodbyeagle, Devs.SammCheese],
+    authors: [Devs.SammCheese],
     dependencies: ["MessageUpdaterAPI"],
     reporterTestable: ReporterTestable.Patches,
     settings,

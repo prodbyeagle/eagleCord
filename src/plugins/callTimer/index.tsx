@@ -49,7 +49,7 @@ function formatDuration(ms: number) {
 export default definePlugin({
     name: "CallTimer",
     description: "Adds a timer to vcs",
-    authors: [Devs.prodbyeagle, Devs.Ven],
+    authors: [Devs.Ven],
 
     startTime: 0,
     interval: void 0 as NodeJS.Timeout | undefined,

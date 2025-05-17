@@ -23,7 +23,7 @@ import definePlugin from "@utils/types";
 export default definePlugin({
     name: "Unindent",
     description: "Trims leading indentation from codeblocks",
-    authors: [Devs.prodbyeagle, Devs.Ven],
+    authors: [Devs.Ven],
 
     patches: [
         {

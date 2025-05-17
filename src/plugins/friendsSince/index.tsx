@@ -20,7 +20,7 @@ const Section = findComponentByCodeLazy('"auto":"smooth"', ".section");
 export default definePlugin({
     name: "FriendsSince",
     description: "Shows when you became friends with someone in the user popout",
-    authors: [Devs.prodbyeagle, Devs.Elvyra, Devs.Antti],
+    authors: [Devs.Elvyra, Devs.Antti],
     patches: [
         // DM User Sidebar
         {

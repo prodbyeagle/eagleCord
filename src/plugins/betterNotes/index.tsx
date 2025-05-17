@@ -39,7 +39,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "BetterNotesBox",
     description: "Hide notes or disable spellcheck (Configure in settings!!)",
-    authors: [Devs.prodbyeagle, Devs.Ven],
+    authors: [Devs.Ven],
     settings,
 
     patches: [

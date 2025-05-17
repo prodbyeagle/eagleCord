@@ -86,7 +86,7 @@ export const settings = definePluginSettings({
 
 export default definePlugin({
     name: "FavoriteGifSearch",
-    authors: [Devs.prodbyeagle, Devs.Aria],
+    authors: [Devs.Aria],
     description: "Adds a search bar to favorite gifs.",
 
     patches: [

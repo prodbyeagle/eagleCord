@@ -120,7 +120,7 @@ const PreviewButton: ChatBarButtonFactory = ({ isMainChat, isEmpty, type: { atta
 export default definePlugin({
     name: "PreviewMessage",
     description: "Lets you preview your message before sending it.",
-    authors: [Devs.prodbyeagle, Devs.Aria],
+    authors: [Devs.Aria],
     // start early to ensure we're the first plugin to add our button
     // This makes the popping in less awkward
     startAt: StartAt.Init,

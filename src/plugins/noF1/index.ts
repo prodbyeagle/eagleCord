@@ -22,7 +22,7 @@ import definePlugin from "@utils/types";
 export default definePlugin({
     name: "NoF1",
     description: "Disables F1 help bind.",
-    authors: [Devs.prodbyeagle, Devs.Cyn],
+    authors: [Devs.Cyn],
     patches: [
         {
             find: ',"f1"],comboKeysBindGlobal:',

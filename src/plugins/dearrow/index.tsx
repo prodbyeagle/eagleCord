@@ -171,7 +171,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "Dearrow",
     description: "Makes YouTube embed titles and thumbnails less sensationalist, powered by Dearrow",
-    authors: [Devs.prodbyeagle, Devs.Ven],
+    authors: [Devs.Ven],
     settings,
 
     embedDidMount,

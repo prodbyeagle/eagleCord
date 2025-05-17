@@ -24,7 +24,7 @@ import definePlugin from "@utils/types";
 export default definePlugin({
     name: "PlainFolderIcon",
     description: "Dont show the small guild icons in folders",
-    authors: [Devs.prodbyeagle, Devs.botato],
+    authors: [Devs.botato],
 
     patches: [
         {

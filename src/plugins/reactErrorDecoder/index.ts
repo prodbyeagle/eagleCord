@@ -25,7 +25,7 @@ let ERROR_CODES: Record<string, string> | undefined;
 export default definePlugin({
     name: "ReactErrorDecoder",
     description: 'Replaces "Minifed React Error" with the actual error.',
-    authors: [Devs.prodbyeagle, Devs.Cyn, Devs.maisymoe],
+    authors: [Devs.Cyn, Devs.maisymoe],
     patches: [
         {
             find: "React has blocked a javascript: URL as a security precaution.",

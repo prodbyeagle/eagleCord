@@ -44,7 +44,7 @@ migratePluginSettings("HideMedia", "HideAttachments");
 export default definePlugin({
     name: "HideMedia",
     description: "Hide attachments and embeds for individual messages via hover button",
-    authors: [Devs.prodbyeagle, Devs.Ven],
+    authors: [Devs.Ven],
     dependencies: ["MessageUpdaterAPI"],
 
     patches: [{

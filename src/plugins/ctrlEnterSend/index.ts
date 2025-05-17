@@ -10,7 +10,7 @@ import definePlugin, { OptionType } from "@utils/types";
 
 export default definePlugin({
     name: "CtrlEnterSend",
-    authors: [Devs.prodbyeagle, Devs.UlyssesZhan],
+    authors: [Devs.UlyssesZhan],
     description: "Use Ctrl+Enter to send messages (customizable)",
     settings: definePluginSettings({
         submitRule: {

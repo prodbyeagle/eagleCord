@@ -37,7 +37,7 @@ export default definePlugin({
     name: "ShowHiddenThings",
     tags: ["ShowTimeouts", "ShowInvitesPaused", "ShowModView", "DisableDiscoveryFilters"],
     description: "Displays various hidden & moderator-only things regardless of permissions.",
-    authors: [Devs.prodbyeagle, Devs.Dolfies],
+    authors: [Devs.Dolfies],
     settings,
 
     patches: [

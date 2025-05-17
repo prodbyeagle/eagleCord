@@ -86,7 +86,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "GameActivityToggle",
     description: "Adds a button next to the mic and deafen button to toggle game activity.",
-    authors: [Devs.prodbyeagle, Devs.Nuckyz, Devs.RuukuLada],
+    authors: [Devs.Nuckyz, Devs.RuukuLada],
     dependencies: ["UserSettingsAPI"],
     settings,
 

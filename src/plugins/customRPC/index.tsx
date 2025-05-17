@@ -393,7 +393,7 @@ async function setRpc(disable?: boolean) {
 export default definePlugin({
     name: "CustomRPC",
     description: "Add a fully customisable Rich Presence (Game status) to your Discord profile",
-    authors: [Devs.prodbyeagle, Devs.captain, Devs.AutumnVN, Devs.nin0dev],
+    authors: [Devs.captain, Devs.AutumnVN, Devs.nin0dev],
     dependencies: ["UserSettingsAPI"],
     start: setRpc,
     stop: () => setRpc(true),

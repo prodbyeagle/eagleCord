@@ -164,7 +164,7 @@ function CompactConnectionComponent({ connection, theme }: { connection: Connect
 export default definePlugin({
     name: "ShowConnections",
     description: "Show connected accounts in user popouts",
-    authors: [Devs.prodbyeagle, Devs.TheKodeToad],
+    authors: [Devs.TheKodeToad],
     settings,
 
     patches: [

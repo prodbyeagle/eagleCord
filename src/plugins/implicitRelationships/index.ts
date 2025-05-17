@@ -28,7 +28,7 @@ const UserAffinitiesStore = findStoreLazy("UserAffinitiesStore");
 export default definePlugin({
     name: "ImplicitRelationships",
     description: "Shows your implicit relationships in the Friends tab.",
-    authors: [Devs.prodbyeagle, Devs.Dolfies],
+    authors: [Devs.Dolfies],
     patches: [
         // Counts header
         {

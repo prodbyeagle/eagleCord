@@ -81,7 +81,7 @@ migratePluginSettings("FullSearchContext", "SearchReply");
 export default definePlugin({
     name: "FullSearchContext",
     description: "Makes the message context menu in message search results have all options you'd expect",
-    authors: [Devs.prodbyeagle, Devs.Ven, Devs.Aria],
+    authors: [Devs.Ven, Devs.Aria],
 
     patches: [{
         find: "onClick:this.handleMessageClick,",

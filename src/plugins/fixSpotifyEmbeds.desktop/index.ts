@@ -13,7 +13,7 @@ import definePlugin, { OptionType } from "@utils/types";
 export default definePlugin({
     name: "FixSpotifyEmbeds",
     description: "Fixes spotify embeds being incredibly loud by letting you customise the volume",
-    authors: [Devs.prodbyeagle, Devs.Ven],
+    authors: [Devs.Ven],
     settings: definePluginSettings({
         volume: {
             type: OptionType.SLIDER,

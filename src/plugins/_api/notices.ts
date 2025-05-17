@@ -22,7 +22,7 @@ import definePlugin from "@utils/types";
 export default definePlugin({
     name: "NoticesAPI",
     description: "Fixes notices being automatically dismissed",
-    authors: [Devs.prodbyeagle, Devs.Ven],
+    authors: [Devs.Ven],
     required: true,
     patches: [
         {

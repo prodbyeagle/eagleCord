@@ -22,7 +22,7 @@ import definePlugin from "@utils/types";
 export default definePlugin({
     name: "NoUnblockToJump",
     description: "Allows you to jump to messages of blocked users without unblocking them",
-    authors: [Devs.prodbyeagle, Devs.dzshn],
+    authors: [Devs.dzshn],
     patches: [
         {
             find: "#{intl::UNIGNORE_TO_JUMP_BODY}",

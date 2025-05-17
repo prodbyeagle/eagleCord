@@ -85,7 +85,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "MessageTags",
     description: "Allows you to save messages and to use them with a simple command.",
-    authors: [Devs.prodbyeagle, Devs.Luna],
+    authors: [Devs.Luna],
     settings,
 
     async start() {

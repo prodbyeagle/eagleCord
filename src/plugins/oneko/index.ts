@@ -23,7 +23,7 @@ export default definePlugin({
     name: "oneko",
     description: "cat follow mouse (real)",
     // Listing adryd here because this literally just evals her script
-    authors: [Devs.prodbyeagle, Devs.Ven, Devs.adryd],
+    authors: [Devs.Ven, Devs.adryd],
 
     start() {
         fetch("https://raw.githubusercontent.com/adryd325/oneko.js/c4ee66353b11a44e4a5b7e914a81f8d33111555e/oneko.js")

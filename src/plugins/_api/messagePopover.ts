@@ -22,7 +22,7 @@ import definePlugin from "@utils/types";
 export default definePlugin({
     name: "MessagePopoverAPI",
     description: "API to add buttons to message popovers.",
-    authors: [Devs.prodbyeagle, Devs.KingFish, Devs.Ven, Devs.Nuckyz],
+    authors: [Devs.KingFish, Devs.Ven, Devs.Nuckyz],
     patches: [
         {
             find: "#{intl::MESSAGE_UTILITIES_A11Y_LABEL}",

@@ -88,7 +88,7 @@ const TypingUser = ErrorBoundary.wrap(function ({ user, guildId }: Props) {
 export default definePlugin({
     name: "TypingTweaks",
     description: "Show avatars and role colours in the typing indicator",
-    authors: [Devs.prodbyeagle, Devs.zt],
+    authors: [Devs.zt],
     settings,
 
     managedStyle,

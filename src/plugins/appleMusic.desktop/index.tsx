@@ -172,7 +172,7 @@ function getImageAsset(type: AssetImageType, data: TrackData) {
 export default definePlugin({
     name: "AppleMusicRichPresence",
     description: "Discord rich presence for your Apple Music!",
-    authors: [Devs.prodbyeagle, Devs.RyanCaoDev],
+    authors: [Devs.RyanCaoDev],
     hidden: !navigator.platform.startsWith("Mac"),
     reporterTestable: ReporterTestable.None,
 

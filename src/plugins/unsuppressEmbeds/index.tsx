@@ -60,7 +60,7 @@ const messageContextMenuPatch: NavContextMenuPatchCallback = (children, { channe
 
 export default definePlugin({
     name: "UnsuppressEmbeds",
-    authors: [Devs.prodbyeagle, Devs.rad, Devs.HypedDomi],
+    authors: [Devs.rad, Devs.HypedDomi],
     description: "Allows you to unsuppress embeds in messages",
     contextMenus: {
         "message": messageContextMenuPatch

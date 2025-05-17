@@ -12,7 +12,7 @@ import definePlugin from "@utils/types";
 export default definePlugin({
     name: "VoiceDownload",
     description: "Adds a download to voice messages. (Opens a new browser tab)",
-    authors: [Devs.prodbyeagle, Devs.puv],
+    authors: [Devs.puv],
     patches: [
         {
             find: "rippleContainer,children",

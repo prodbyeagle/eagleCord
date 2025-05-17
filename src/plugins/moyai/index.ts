@@ -92,7 +92,7 @@ const settings = definePluginSettings({
 
 export default definePlugin({
     name: "Moyai",
-    authors: [Devs.prodbyeagle, Devs.Megu, Devs.Nuckyz],
+    authors: [Devs.Megu, Devs.Nuckyz],
     description: "🗿🗿🗿🗿🗿🗿🗿🗿",
     settings,
 

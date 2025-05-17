@@ -40,7 +40,7 @@ let ws: WebSocket;
 export default definePlugin({
     name: "WebRichPresence (arRPC)",
     description: "Client plugin for arRPC to enable RPC on Discord Web (experimental)",
-    authors: [Devs.prodbyeagle, Devs.Ducko],
+    authors: [Devs.Ducko],
     reporterTestable: ReporterTestable.None,
 
     settingsAboutComponent: () => (

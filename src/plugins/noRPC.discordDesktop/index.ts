@@ -22,7 +22,7 @@ import definePlugin from "@utils/types";
 export default definePlugin({
     name: "NoRPC",
     description: "Disables Discord's RPC server.",
-    authors: [Devs.prodbyeagle, Devs.Cyn],
+    authors: [Devs.Cyn],
     patches: [
         {
             find: '.ensureModule("discord_rpc")',

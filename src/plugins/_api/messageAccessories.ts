@@ -22,7 +22,7 @@ import definePlugin from "@utils/types";
 export default definePlugin({
     name: "MessageAccessoriesAPI",
     description: "API to add message accessories.",
-    authors: [Devs.prodbyeagle, Devs.Cyn],
+    authors: [Devs.Cyn],
     patches: [
         {
             find: "#{intl::REMOVE_ATTACHMENT_BODY}",

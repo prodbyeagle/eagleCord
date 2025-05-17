@@ -23,7 +23,7 @@ import { UserStore } from "@webpack/common";
 export default definePlugin({
     name: "NoProfileThemes",
     description: "Completely removes Nitro profile themes from everyone but yourself",
-    authors: [Devs.prodbyeagle, Devs.TheKodeToad],
+    authors: [Devs.TheKodeToad],
     patches: [
         {
             find: "hasThemeColors(){",

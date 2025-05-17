@@ -139,7 +139,7 @@ export default definePlugin({
     name: "SupportHelper",
     required: true,
     description: "Helps us provide support to you",
-    authors: [Devs.prodbyeagle, Devs.Ven],
+    authors: [Devs.Ven],
     dependencies: ["UserSettingsAPI"],
 
     settings,

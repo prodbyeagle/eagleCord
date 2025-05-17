@@ -59,7 +59,7 @@ export const cl = classNameFactory("vc-membercount-");
 export default definePlugin({
     name: "MemberCount",
     description: "Shows the amount of online & total members in the server member list and tooltip",
-    authors: [Devs.prodbyeagle, Devs.Ven, Devs.Commandtechno],
+    authors: [Devs.Ven, Devs.Commandtechno],
     settings,
 
     patches: [
