@@ -7,7 +7,7 @@ import {
 } from "@api/Badges";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
-import { BADGES } from "./badges";
+import { BADGES, ProfileBadgeWithName } from "./badges";
 import { definePluginSettings, SettingsStore } from "@api/Settings";
 import { UserStore } from "@webpack/common";
 
@@ -16,18 +16,71 @@ const registeredBadges: ProfileBadge[] = [];
 
 const settings = definePluginSettings(
     Object.fromEntries(
-        BADGES.map((badge) => [
+        (BADGES as ProfileBadgeWithName[]).map((badge) => [
             badge.name,
             {
                 type: OptionType.BOOLEAN,
-                description: badge.description,
-                default: true,
-                restartNeeded: true,
+                description: badge.description ?? "",
+                default: false,
+                onChange: () => reloadBadges(),
             },
         ])
     )
 );
+
 settings.pluginName = "FakeBadges";
+
+function createProfileBadge(
+    badge: ProfileBadgeWithName,
+    userId: string,
+    props: Partial<ProfileBadge["props"]> = {}
+): ProfileBadge {
+    return {
+        ...badge,
+        position: BadgePosition.END,
+        shouldShow: badge.shouldShow ?? (({ userId: id }) => id === userId),
+        props: {
+            ...(badge.props ?? {}),
+            ...props,
+        },
+    };
+}
+
+function reloadBadges() {
+    const userId = UserStore.getCurrentUser()?.id;
+    if (!userId) {
+        logger.warn("No current user found; cannot reload badges.");
+        return;
+    }
+
+    for (const badge of registeredBadges) {
+        try {
+            removeProfileBadge(badge);
+            logger.debug(`Removed badge: ${badge.description}`);
+        } catch (err) {
+            logger.error(`Failed to remove badge: ${badge.description}`, err);
+        }
+    }
+    registeredBadges.length = 0;
+
+    const pluginSettings = SettingsStore.store.plugins.FakeBadges;
+    if (!pluginSettings) {
+        logger.warn("Plugin settings for FakeBadges missing or invalid.");
+        return;
+    }
+
+    for (const badge of BADGES as ProfileBadgeWithName[]) {
+        if (!pluginSettings[badge.name]) continue;
+        try {
+            const profileBadge = createProfileBadge(badge, userId, badge.props ?? {});
+            addProfileBadge(profileBadge);
+            registeredBadges.push(profileBadge);
+            logger.debug(`Added badge: ${badge.name}`);
+        } catch (err) {
+            logger.error(`Failed to add badge "${badge.name}":`, err);
+        }
+    }
+}
 
 export default definePlugin({
     name: "FakeBadges",
@@ -36,68 +89,20 @@ export default definePlugin({
     settings,
 
     start() {
-        const currentUserId = UserStore.getCurrentUser()?.id;
-
-        if (!currentUserId) {
-            logger.warn("No current user found. Aborting badge registration.");
-            return;
-        }
-
-        logger.info(`Starting badge registration for user ID: ${currentUserId}`);
-
-        for (const badge of registeredBadges) {
-            removeProfileBadge(badge);
-            logger.debug(`Removed badge: ${badge.description}`);
-        }
-        registeredBadges.length = 0;
-
-        let registeredCount = 0;
-
-        const pluginSettings = SettingsStore.store.plugins.FakeBadges;
-
-        for (const badge of BADGES) {
-            const isEnabled = pluginSettings?.[badge.name] ?? true;
-            logger.debug(isEnabled);
-
-            logger.debug(`Badge "${badge.name}" setting: ${isEnabled}`);
-
-            if (!isEnabled) {
-                continue;
-            }
-
-            const profileBadge: ProfileBadge = {
-                description: badge.tooltip,
-                image: badge.image,
-                position: BadgePosition.END,
-                shouldShow: ({ userId }) => userId === currentUserId,
-            };
-
-            try {
-                addProfileBadge(profileBadge);
-                registeredBadges.push(profileBadge);
-                registeredCount++;
-                logger.info(`Added badge: "${badge.name}"`);
-            } catch (err) {
-                logger.error(`Failed to add badge "${badge.name}":`, err);
-            }
-        }
-
-        logger.info(`Badge registration complete. Total badges registered: ${registeredCount}`);
+        reloadBadges();
     },
 
     stop() {
-        logger.info(`Stopping plugin. Removing ${registeredBadges.length} badges.`);
-
+        logger.info(`Stopping FakeBadges plugin. Removing ${registeredBadges.length} badges.`);
         for (const badge of registeredBadges) {
             try {
                 removeProfileBadge(badge);
                 logger.debug(`Removed badge: ${badge.description}`);
             } catch (err) {
-                logger.error(`Failed to remove badge "${badge.description}":`, err);
+                logger.error(`Failed to remove badge: ${badge.description}`, err);
             }
         }
-
         registeredBadges.length = 0;
-        logger.info("Unregistered all fake badges.");
+        logger.info("All fake badges unregistered.");
     },
 });
