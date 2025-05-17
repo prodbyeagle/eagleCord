@@ -26,6 +26,9 @@ export const SUPPORT_CHANNEL_ID = "1026515880080842772";
 export const SUPPORT_CATEGORY_ID = "1108135649699180705";
 export const KNOWN_ISSUES_CHANNEL_ID = "1222936386626129920";
 
+export const EAGLE_USER_ROLE_ID = "915234197080268880";
+export const MEOW_LOUNGE_GUILD_ID = "893762438007246868";
+
 export interface Dev {
     name: string;
     id: bigint;

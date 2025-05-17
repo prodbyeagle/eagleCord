@@ -23,7 +23,7 @@ import DonateButton from "@components/DonateButton";
 import { openContributorModal } from "@components/PluginSettings/ContributorModal";
 import { openPluginModal } from "@components/PluginSettings/PluginModal";
 import { gitRemote } from "@shared/vencordUserAgent";
-import { DONOR_ROLE_ID, VENCORD_GUILD_ID } from "@utils/constants";
+import { DONOR_ROLE_ID, EAGLE_USER_ROLE_ID, MEOW_LOUNGE_GUILD_ID, VENCORD_GUILD_ID } from "@utils/constants";
 import { Margins } from "@utils/margins";
 import { identity, isPluginDev } from "@utils/misc";
 import { relaunch, showItemInFolder } from "@utils/native";
@@ -110,14 +110,16 @@ function VencordSettings() {
 
     return (
         <SettingsTab title="Vencord Settings">
-            <SpecialCard
-                title="EagleCord"
-                subtitle="Thanks for using EagleCord!"
-                description="Thanks for downloading EagleCord! Enjoy this exclusive badge as a thank-you for your support."
-                cardImage={"https://kappa.lol/WTiY5"}
-                backgroundImage={CONTRIB_BACKGROUND_IMAGE}
-                backgroundColor="#b083c9"
-            />
+            {isEagleUser(user?.id) && (
+                <SpecialCard
+                    title="EagleCord"
+                    subtitle="Thanks for using EagleCord!"
+                    description="Thanks for downloading EagleCord! Enjoy this exclusive badge as a thank-you for your support."
+                    cardImage="https://kappa.lol/WTiY5"
+                    backgroundImage={CONTRIB_BACKGROUND_IMAGE}
+                    backgroundColor="#b083c9"
+                />
+            )}
 
             {isDonor(user?.id)
                 ? (
@@ -318,5 +320,12 @@ function isDonor(userId: string): boolean {
     );
 }
 
+function isEagleUser(userId: string): boolean {
+    const EagleBadges = BadgeAPI.getEagleCordBadges(userId);
+    return (
+        GuildMemberStore.getMember(MEOW_LOUNGE_GUILD_ID, userId)?.roles.includes(EAGLE_USER_ROLE_ID) ||
+        !!EagleBadges
+    );
+}
 
 export default wrapTab(VencordSettings, "Vencord Settings");

@@ -18,12 +18,12 @@
 
 import "./fixDiscordBadgePadding.css";
 
-import { _getBadges, addProfileBadge, BadgePosition, BadgeUserArgs, ProfileBadge } from "@api/Badges";
+import { _getBadges, BadgePosition, BadgeUserArgs, ProfileBadge } from "@api/Badges";
 import DonateButton from "@components/DonateButton";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
 import { Heart } from "@components/Heart";
-import { openContributorModal, openEagleCordModal } from "@components/PluginSettings/ContributorModal";
+import { openContributorModal } from "@components/PluginSettings/ContributorModal";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
@@ -32,12 +32,8 @@ import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModa
 import definePlugin from "@utils/types";
 import { Forms, Toasts, UserStore } from "@webpack/common";
 import { User } from "discord-types/general";
-import { vipUsers } from "./users";
 
 const CONTRIBUTOR_BADGE = "https://vencord.dev/assets/favicon.png";
-const EAGLE_BADGE = "https://kappa.lol/WTiY5";
-const EMO_BADGE = "https://kappa.lol/WFE5-N";
-const DWH_BADGE = "https://kappa.lol/KN6xew";
 
 const ContributorBadge: ProfileBadge = {
     description: "Vencord Contributor",
@@ -47,39 +43,12 @@ const ContributorBadge: ProfileBadge = {
     onClick: (_, { userId }) => openContributorModal(UserStore.getUser(userId))
 };
 
-const VIPBadge: ProfileBadge = {
-    description: "bros...",
-    image: EAGLE_BADGE,
-    position: BadgePosition.END,
-    shouldShow: ({ userId }) => vipUsers.has(userId),
-    onClick: (_, { userId }) => openEagleCordModal(UserStore.getUser(userId))
-};
-
-
-const LerxyBadge: ProfileBadge = {
-    description: "aufpassen. ich bin ein emo...",
-    image: EMO_BADGE,
-    position: BadgePosition.START,
-    shouldShow: ({ userId }) => userId === "1065030118491308082",
-    props: {
-        style: { scale: "0.85" }
-    }
-};
-
-const DWHBadge: ProfileBadge = {
-    description: "dwhincandi was here.",
-    image: DWH_BADGE,
-    position: BadgePosition.START,
-    shouldShow: ({ userId }) => userId === "893792975761584139",
-    props: {
-        style: { borderRadius: "50%", scale: "0.9" }
-    }
-};
-
 let DonorBadges = {} as Record<string, Array<Record<"tooltip" | "badge", string>>>;
+let EagleBadges = {} as Record<string, Array<Record<"tooltip" | "badge", string>>>;
 
 async function loadBadges(noCache = false) {
     DonorBadges = {};
+    EagleBadges = {};
 
     const init = {} as RequestInit;
     if (noCache)
@@ -88,9 +57,8 @@ async function loadBadges(noCache = false) {
     DonorBadges = await fetch("https://badges.vencord.dev/badges.json", init)
         .then(r => r.json());
 
-    addProfileBadge(DWHBadge);
-    addProfileBadge(LerxyBadge);
-    addProfileBadge(VIPBadge);
+    EagleBadges = await fetch("https://raw.githubusercontent.com/prodbyeagle/dotfiles/refs/heads/main/Vencord/badges.json", init)
+        .then(r => r.json());
 }
 
 let intervalId: any;
@@ -98,7 +66,7 @@ let intervalId: any;
 export default definePlugin({
     name: "BadgeAPI",
     description: "API to add badges to users. (modded by prodbyeagle)",
-    authors: [Devs.prodbyeagle, Devs.Megu, Devs.Ven, Devs.TheSun, Devs.prodbyeagle],
+    authors: [Devs.prodbyeagle, Devs.Megu, Devs.Ven, Devs.TheSun],
     required: true,
     patches: [
         {
@@ -133,6 +101,10 @@ export default definePlugin({
         return DonorBadges;
     },
 
+    get EagleBadges() {
+        return EagleBadges;
+    },
+
     toolboxActions: {
         async "Refetch Badges"() {
             await loadBadges(true);
@@ -145,9 +117,6 @@ export default definePlugin({
     },
 
     userProfileBadge: ContributorBadge,
-    // vipBadge: VIPBadge,
-    // lerxyBadge: LerxyBadge,
-    // andiBadge: DWHBadge,
 
     async start() {
         await loadBadges();
@@ -169,6 +138,7 @@ export default definePlugin({
                         id: "staff",
                         description: "Owner",
                         icon: "5e74e9b61934fc1f67c65515d1f7e60d",
+                        position: BadgePosition.END,
                         link: "https://prodbyeagle.vercel.app/",
                     },
                 ];
@@ -264,6 +234,20 @@ export default definePlugin({
                         </ModalRoot>
                     </ErrorBoundary>
                 ));
+            },
+        }));
+    },
+
+    getEagleCordBadges(userId: string) {
+        return EagleBadges[userId]?.map(badge => ({
+            image: badge.badge,
+            description: badge.tooltip,
+            position: BadgePosition.START,
+            props: {
+                style: {
+                    borderRadius: "50%",
+                    transform: "scale(0.9)" // The image is a bit too big compared to default badges
+                }
             },
         }));
     }
