@@ -43,7 +43,8 @@ const DEFAULT_DONATE_IMAGE = "https://cdn.discordapp.com/emojis/1026533090627174
 const SHIGGY_DONATE_IMAGE = "https://media.discordapp.net/stickers/1039992459209490513.png";
 
 const VENNIE_DONATOR_IMAGE = "https://cdn.discordapp.com/emojis/1238120638020063377.png";
-const COZY_CONTRIB_IMAGE = "https://cdn.discordapp.com/emojis/1026533070955872337.png";
+// const COZY_CONTRIB_IMAGE = "https://cdn.discordapp.com/emojis/1026533070955872337.png";
+const VENCORD_ICON_IMAGE = "https://kappa.lol/S_YwRI";
 
 const DONOR_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070116305436712.png?size=2048";
 const CONTRIB_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070166481895484.png?size=2048";
@@ -149,7 +150,7 @@ function VencordSettings() {
                     title="Contributions"
                     subtitle="Thank you for contributing!"
                     description="Since you've contributed to Vencord you now have a cool new badge!"
-                    cardImage={COZY_CONTRIB_IMAGE}
+                    cardImage={VENCORD_ICON_IMAGE}
                     backgroundImage={CONTRIB_BACKGROUND_IMAGE}
                     backgroundColor="#EDCC87"
                     buttonTitle="See what you've contributed to"
