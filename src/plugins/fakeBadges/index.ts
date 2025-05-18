@@ -9,7 +9,7 @@ import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import { BADGES, ProfileBadgeWithName } from "./badges";
 import { definePluginSettings, SettingsStore } from "@api/Settings";
-import { UserStore } from "@webpack/common";
+import { Toasts, UserStore } from "@webpack/common";
 
 const logger = new Logger("FakeBadges", "#5aa5ff");
 const registeredBadges: ProfileBadge[] = [];
@@ -35,6 +35,7 @@ function createProfileBadge(
     userId: string,
     props: Partial<ProfileBadge["props"]> = {}
 ): ProfileBadge {
+    logger.debug(`Creating profile badge "${badge.name}" for userId ${userId}`);
     return {
         ...badge,
         position: BadgePosition.END,
@@ -47,6 +48,7 @@ function createProfileBadge(
 }
 
 function reloadBadges() {
+    logger.info("Reloading FakeBadges...");
     const userId = UserStore.getCurrentUser()?.id;
     if (!userId) {
         logger.warn("No current user found; cannot reload badges.");
@@ -69,17 +71,25 @@ function reloadBadges() {
         return;
     }
 
+    let count = 0;
     for (const badge of BADGES as ProfileBadgeWithName[]) {
-        if (!pluginSettings[badge.name]) continue;
+        if (!pluginSettings[badge.name]) {
+            logger.debug(`Badge "${badge.name}" is disabled in settings.`);
+            continue;
+        }
+
         try {
             const profileBadge = createProfileBadge(badge, userId, badge.props ?? {});
             addProfileBadge(profileBadge);
             registeredBadges.push(profileBadge);
-            logger.debug(`Added badge: ${badge.name}`);
+            logger.info(`Added badge: ${badge.name}`);
+            count++;
         } catch (err) {
             logger.error(`Failed to add badge "${badge.name}":`, err);
         }
     }
+
+    logger.info(`Reload complete. ${count} badge(s) active.`);
 }
 
 export default definePlugin({
@@ -87,6 +97,18 @@ export default definePlugin({
     description: "Add fake badges that you can wear.",
     authors: [Devs.prodbyeagle],
     settings,
+
+    toolboxActions: {
+        async "Reload Fake Badges"() {
+            logger.info("Toolbox action: Reload Fake Badges");
+            reloadBadges();
+            Toasts.show({
+                id: Toasts.genId(),
+                message: "Successfully refetched Fake badges!",
+                type: Toasts.Type.SUCCESS
+            });
+        }
+    },
 
     start() {
         reloadBadges();
