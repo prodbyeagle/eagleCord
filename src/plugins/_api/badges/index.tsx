@@ -18,7 +18,7 @@
 
 import "./fixDiscordBadgePadding.css";
 
-import { _getBadges, BadgePosition, BadgeUserArgs, ProfileBadge } from "@api/Badges";
+import { _getBadges, addProfileBadge, BadgePosition, BadgeUserArgs, ProfileBadge } from "@api/Badges";
 import DonateButton from "@components/DonateButton";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
@@ -33,14 +33,28 @@ import definePlugin from "@utils/types";
 import { Forms, Toasts, UserStore } from "@webpack/common";
 import { User } from "discord-types/general";
 
-const CONTRIBUTOR_BADGE = "https://vencord.dev/assets/favicon.png";
+const CONTRIBUTOR_BADGE = "https://kappa.lol/S_YwRI";
+const OWNER_BADGE = "https://cdn.discordapp.com/badge-icons/5e74e9b61934fc1f67c65515d1f7e60d.png";
+
+function openEaglePage() {
+    VencordNative.native.openExternal("https://prodbyeagle.vercel.app/");
+}
 
 const ContributorBadge: ProfileBadge = {
-    description: "Vencord Contributor",
+    description: "Vencord / EagleCord Contributor",
     image: CONTRIBUTOR_BADGE,
     position: BadgePosition.END,
     shouldShow: ({ userId }) => isPluginDev(userId),
-    onClick: (_, { userId }) => openContributorModal(UserStore.getUser(userId))
+    onClick: (_, { userId }) => openContributorModal(UserStore.getUser(userId)),
+    props: { style: { scale: 0.9 } }
+};
+
+const OwnerBadge: ProfileBadge = {
+    description: "Owner",
+    image: OWNER_BADGE,
+    position: BadgePosition.END,
+    shouldShow: ({ userId }) => ["893759402832699392", "1093444260491165777"].includes(userId),
+    onClick: () => openEaglePage(),
 };
 
 let DonorBadges = {} as Record<string, Array<Record<"tooltip" | "badge", string>>>;
@@ -59,6 +73,8 @@ async function loadBadges(noCache = false) {
 
     EagleBadges = await fetch("https://raw.githubusercontent.com/prodbyeagle/dotfiles/refs/heads/main/Vencord/badges.json", init)
         .then(r => r.json());
+
+    addProfileBadge(OwnerBadge);
 }
 
 let intervalId: any;
@@ -101,6 +117,7 @@ export default definePlugin({
         return DonorBadges;
     },
 
+    // for access from the console or other plugins
     get EagleBadges() {
         return EagleBadges;
     },
@@ -120,31 +137,6 @@ export default definePlugin({
 
     async start() {
         await loadBadges();
-
-        clearInterval(intervalId);
-        intervalId = setInterval(loadBadges, 1000 * 60 * 30); // 30 minutes
-
-        const targetUserId = "893759402832699392";
-
-        const store = Vencord.Webpack.findStore("UserProfileStore");
-        if (!store || !store.getUserProfile) return;
-
-        const original = store.getUserProfile.bind(store);
-        store.getUserProfile = function (id) {
-            const r = original(id);
-            if (r && id === targetUserId) {
-                r.badges = [
-                    {
-                        id: "staff",
-                        description: "Owner",
-                        icon: "5e74e9b61934fc1f67c65515d1f7e60d",
-                        position: BadgePosition.END,
-                        link: "https://prodbyeagle.vercel.app/",
-                    },
-                ];
-            }
-            return r;
-        };
     },
 
     async stop() {
