@@ -33,7 +33,7 @@ import definePlugin from "@utils/types";
 import { Forms, Toasts, UserStore } from "@webpack/common";
 import { User } from "discord-types/general";
 
-const CONTRIBUTOR_BADGE = "https://kappa.lol/S_YwRI";
+export const CONTRIBUTOR_BADGE = "https://kappa.lol/S_YwRI";
 const OWNER_BADGE = "https://cdn.discordapp.com/badge-icons/5e74e9b61934fc1f67c65515d1f7e60d.png";
 
 function openEaglePage() {
