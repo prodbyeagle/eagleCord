@@ -83,7 +83,7 @@ async function generateDebugInfoMessage() {
     })();
 
     const info = {
-        Vencord:
+        EagleCord:
             `v${VERSION} • [${gitHash}](<https://github.com/prodbyeagle/cord/commit/${gitHash}>)` +
             `${SettingsPlugin.additionalInfo} - ${Intl.DateTimeFormat("en-GB", { dateStyle: "medium" }).format(BUILD_TIMESTAMP)}`,
         Client: `${RELEASE_CHANNEL} ~ ${client}`,
