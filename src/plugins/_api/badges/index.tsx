@@ -46,7 +46,7 @@ const ContributorBadge: ProfileBadge = {
     position: BadgePosition.END,
     shouldShow: ({ userId }) => shouldShowContributorBadge(userId),
     onClick: (_, { userId }) => openContributorModal(UserStore.getUser(userId)),
-    props: { style: { scale: 0.9 } }
+    props: { style: { scale: 0.85 } }
 };
 
 const OwnerBadge: ProfileBadge = {

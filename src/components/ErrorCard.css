@@ -5,3 +5,7 @@
     border-radius: 5px;
     color: var(--text-normal, white);
 }
+
+& a:hover {
+    text-decoration: underline;
+}

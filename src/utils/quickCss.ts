@@ -39,7 +39,7 @@ async function initSystemValues() {
     createStyle("vencord-os-theme-values").textContent = `:root{${variables}}`;
 }
 
-export async function toggle(isEnabled: boolean) {
+async function toggle(isEnabled: boolean) {
     if (!style) {
         if (isEnabled) {
             style = createStyle("vencord-custom-css");
@@ -59,10 +59,11 @@ async function initThemes() {
 
     const { themeLinks, enabledThemes } = Settings;
 
-    // Wait for ThemeStore to be defined
-    const activeTheme = typeof ThemeStore?.theme === "string"
-        ? ThemeStore.theme === "light" ? "light" : "dark"
-        : undefined;
+    // "darker" and "midnight" both count as dark
+    // This function is first called on DOMContentLoaded, so ThemeStore may not have been loaded yet
+    const activeTheme = ThemeStore == null
+        ? undefined
+        : ThemeStore.theme === "light" ? "light" : "dark";
 
     const links = themeLinks
         .map(rawLink => {
@@ -72,7 +73,7 @@ async function initThemes() {
             const [, mode, link] = match;
             return mode === activeTheme ? link : null;
         })
-        .filter((link): link is string => link !== null);
+        .filter(link => link !== null);
 
     if (IS_WEB) {
         for (const theme of enabledThemes) {
@@ -90,6 +91,8 @@ async function initThemes() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    if (IS_USERSCRIPT) return;
+
     initSystemValues();
     initThemes();
 
@@ -102,18 +105,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!IS_WEB) {
         VencordNative.quickCss.addThemeChangeListener(initThemes);
     }
-});
+}, { once: true });
 
 export function initQuickCssThemeStore() {
-    if (typeof ThemeStore?.theme !== "string") return;
+    if (IS_USERSCRIPT) return;
 
     initThemes();
 
     let currentTheme = ThemeStore.theme;
     ThemeStore.addChangeListener(() => {
-        if (ThemeStore?.theme && currentTheme !== ThemeStore.theme) {
-            currentTheme = ThemeStore.theme;
-            initThemes();
-        }
+        if (currentTheme === ThemeStore.theme) return;
+
+        currentTheme = ThemeStore.theme;
+        initThemes();
     });
 }
