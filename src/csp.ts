@@ -36,6 +36,7 @@ export const CspPolicies: PolicyMap = {
     "i.pinimg.com": MediaSrc, // Pinterest, used by some themes
     "*.tenor.com": MediaSrc, // Tenor, used by some themes
     "files.catbox.moe": MediaSrc, // Catbox, used by some themes
+    "kappa.lol": MediaSrc, // EagleCord API ( not really, just an image hoster )
 
     "cdn.discordapp.com": MediaAndCssSrc, // Discord CDN, used by Vencord and some themes to load media
     "media.discordapp.net": MediaSrc, // Discord media CDN, possible alternative to Discord CDN
@@ -57,7 +58,6 @@ export const CspPolicies: PolicyMap = {
     "dearrow-thumb.ajay.app": MediaSrc, // Dearrow Thumbnail CDN
     "usrbg.is-hardly.online": MediaSrc, // USRBG API
     "icons.duckduckgo.com": MediaSrc, // DuckDuckGo Favicon API (Reverse Image Search)
-    "kappa.lol": MediaSrc, // eagle cord badges are stored here.
 };
 
 const findHeader = (headers: PolicyMap, headerName: Lowercase<string>) => {
