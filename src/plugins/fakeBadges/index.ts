@@ -82,7 +82,6 @@ function reloadBadges() {
             const profileBadge = createProfileBadge(badge, userId, badge.props ?? {});
             addProfileBadge(profileBadge);
             registeredBadges.push(profileBadge);
-            logger.info(`Added badge: ${badge.name}`);
             count++;
         } catch (err) {
             logger.error(`Failed to add badge "${badge.name}":`, err);
