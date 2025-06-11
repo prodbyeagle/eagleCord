@@ -49,8 +49,8 @@ const ContributorBadge: ProfileBadge = {
     props: { style: { scale: 0.85 } }
 };
 
-const FormerOwner: ProfileBadge = {
-    description: "Former Owner",
+const FormerStaff: ProfileBadge = {
+    description: "Former Staff",
     image: OWNER_BADGE,
     position: BadgePosition.END,
     shouldShow: ({ userId }) => ["1093444260491165777"].includes(userId),
@@ -88,7 +88,7 @@ async function loadBadges(noCache = false) {
         .then(r => r.json());
 
     addProfileBadge(OwnerBadge);
-    addProfileBadge(FormerOwner);
+    addProfileBadge(FormerStaff);
 }
 
 let intervalId: any;
