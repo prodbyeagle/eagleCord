@@ -23,7 +23,7 @@ import DonateButton from "@components/DonateButton";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
 import { Heart } from "@components/Heart";
-import { openContributorModal } from "@components/PluginSettings/ContributorModal";
+import { openContributorModal, openStaffModal } from "@components/PluginSettings/ContributorModal";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
@@ -53,6 +53,7 @@ const FormerStaff: ProfileBadge = {
     description: "Former Staff",
     image: OWNER_BADGE,
     position: BadgePosition.END,
+    onClick: () => openStaffModal(FormerStaff),
     shouldShow: ({ userId }) => ["1093444260491165777", "773166395147157504"].includes(userId),
     props: {
         style: {

@@ -13,16 +13,30 @@ import { Link } from "@components/Link";
 import { DevsById } from "@utils/constants";
 import { fetchUserProfile } from "@utils/discord";
 import { classes, pluralise } from "@utils/misc";
-import { ModalContent, ModalRoot, openModal } from "@utils/modal";
-import { Avatar, Forms, showToast, useEffect, useMemo, UserProfileStore, useStateFromStores } from "@webpack/common";
+import { ModalContent, ModalHeader, ModalRoot, openModal } from "@utils/modal";
+import { Avatar, Flex, Forms, showToast, useEffect, useMemo, UserProfileStore, useStateFromStores } from "@webpack/common";
 import { User } from "discord-types/general";
 
 import Plugins from "~plugins";
 
 import { PluginCard } from ".";
 import { GithubButton, WebsiteButton } from "./LinkIconButton";
+import { ProfileBadge } from "@api/Badges";
+import { Margins } from "@utils/margins";
 
 const cl = classNameFactory("vc-author-modal-");
+
+export function openStaffModal(badge: ProfileBadge) {
+    openModal(modalProps =>
+        <ModalRoot {...modalProps}>
+            <ErrorBoundary>
+                <ModalContent className={cl("root")}>
+                    <StaffModal badge={badge} />
+                </ModalContent>
+            </ErrorBoundary>
+        </ModalRoot>
+    );
+}
 
 export function openContributorModal(user: User) {
     openModal(modalProps =>
@@ -36,63 +50,43 @@ export function openContributorModal(user: User) {
     );
 }
 
-export function openEagleCordModal(user: User) {
-    openModal(modalProps =>
-        <ModalRoot {...modalProps}>
-            <ErrorBoundary>
-                <ModalContent className={cl("root")}>
-                    <EagleCordModal user={user} />
-                </ModalContent>
-            </ErrorBoundary>
-        </ModalRoot>
-    );
-}
-
-function EagleCordModal({ user }: { user: User; }) {
+function StaffModal({ badge }: { badge: ProfileBadge; }) {
     return (
-        <div>
-            <div
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "0.75rem",
-                    padding: "1.5rem",
-                }}
-            >
-                <Avatar
-                    src={user.getAvatarURL(void 0, 128, true)}
-                    size={"SIZE_120"}
-                />
+        <>
+            <ModalHeader>
+                <Flex style={{ width: "100%", justifyContent: "center", gap: "1rem" }}>
+                    <Forms.FormTitle
+                        style={{
+                            width: "100%",
+                            textAlign: "center",
+                            margin: 0,
+                        }}
+                    >
+                        🦅 EagleCord
+                    </Forms.FormTitle>
+                </Flex>
+            </ModalHeader>
 
-                <Forms.FormTitle tag="h1">
-                    Welcome to <strong>EagleCord</strong>
-                </Forms.FormTitle>
-
-                <Forms.FormText>
-                    You're running a custom build of Vencord, modified by <strong>@prodbyeagle</strong>.
-                </Forms.FormText>
-
-                <Forms.FormText>
-                    This version adds some easter eggs, UI tweaks, and custom enhancements.
-                </Forms.FormText>
-
-                <Forms.FormText>
-                    The EagleCord badge is shown to every user as a subtle signature of this modded experience.
-                </Forms.FormText>
-
-                <div className={cl("modal-links")}>
-                    <WebsiteButton
-                        text="prodbyeagle's Website"
-                        href="https://prodbyeagle.vercel.app/"
+            <ModalContent>
+                <Flex style={{ justifyContent: "center", gap: "1rem" }}>
+                    <img
+                        src={badge.image}
+                        alt="EagleCord Former Staff Badge"
+                        style={{
+                            width: 64,
+                            height: 64,
+                            filter: "grayscale(100%)"
+                        }}
                     />
-                    <GithubButton
-                        text="GitHub"
-                        href="https://github.com/prodbyeagle"
-                    />
+                </Flex>
+                <div style={{ padding: "1em", textAlign: "center", gap: "1rem" }}>
+                    <Forms.FormText>{badge.description}</Forms.FormText>
+                    <Forms.FormText className={Margins.top20}>
+                        This user is a former staff member of EagleCord. I want to honor and remember my former colleagues.
+                    </Forms.FormText>
                 </div>
-            </div>
-        </div>
+            </ModalContent>
+        </>
     );
 }
 
@@ -173,3 +167,4 @@ function ContributorModal({ user }: { user: User; }) {
         </>
     );
 }
+
