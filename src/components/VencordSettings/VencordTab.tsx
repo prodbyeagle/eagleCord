@@ -114,8 +114,8 @@ function VencordSettings() {
             {isEagleUser(user?.id) && (
                 <SpecialCard
                     title="EagleCord"
-                    subtitle="Thanks for using EagleCord!"
-                    description="Thanks for downloading EagleCord!"
+                    subtitle="Thank you for using EagleCord!"
+                    description="We appreciate you downloading and trying out EagleCord."
                     cardImage="https://kappa.lol/WTiY5"
                     backgroundImage={CONTRIB_BACKGROUND_IMAGE}
                     backgroundColor="#b083c9"
@@ -126,20 +126,21 @@ function VencordSettings() {
                 ? (
                     <SpecialCard
                         title="Donations"
-                        subtitle="Thank you for donating!"
-                        description="You can manage your perks at any time by messaging @vending.machine."
+                        subtitle="Thank you for your support!"
+                        description="You can manage your donor perks anytime by messaging @vending.machine."
                         cardImage={VENNIE_DONATOR_IMAGE}
                         backgroundImage={DONOR_BACKGROUND_IMAGE}
-                        backgroundColor="#ED87A9">
-                    </SpecialCard>
+                        backgroundColor="#ED87A9"
+                    />
                 )
                 : (
                     <SpecialCard
-                        title="Support the Project"
-                        description="Please consider supporting the development of Vencord by donating!"
+                        title="Support Vencord"
+                        description="Consider supporting Vencord's development by making a donation!"
                         cardImage={donateImage}
                         backgroundImage={DONOR_BACKGROUND_IMAGE}
-                        backgroundColor="#c3a3ce">
+                        backgroundColor="#c3a3ce"
+                    >
                         <DonateButtonComponent />
                     </SpecialCard>
                 )
@@ -149,11 +150,11 @@ function VencordSettings() {
                 <SpecialCard
                     title="Contributions"
                     subtitle="Thank you for contributing!"
-                    description="Since you've contributed to Vencord you now have a cool new badge!"
+                    description="As a contributor to Vencord, you now have a special badge!"
                     cardImage={VENCORD_ICON_IMAGE}
                     backgroundImage={CONTRIB_BACKGROUND_IMAGE}
                     backgroundColor="#EDCC87"
-                    buttonTitle="See what you've contributed to"
+                    buttonTitle="See your contributions"
                     buttonOnClick={() => openContributorModal(user)}
                 />
             )}
@@ -162,7 +163,7 @@ function VencordSettings() {
                 <QuickActionCard>
                     <QuickAction
                         Icon={LogIcon}
-                        text="Notification Log"
+                        text="Open Notification Log"
                         action={openNotificationLogModal}
                     />
                     <QuickAction
@@ -196,14 +197,16 @@ function VencordSettings() {
 
             <Forms.FormSection className={Margins.top16} title="Settings" tag="h5">
                 <Forms.FormText className={Margins.bottom20} style={{ color: "var(--text-muted)" }}>
-                    Hint: You can change the position of this settings section in the
-                    {" "}<Button
+                    Tip: You can change the position of this section in the
+                    {" "}
+                    <Button
                         look={Button.Looks.BLANK}
                         style={{ color: "var(--text-link)", display: "inline-block" }}
                         onClick={() => openPluginModal(Vencord.Plugins.plugins.Settings)}
                     >
-                        settings of the Settings plugin
-                    </Button>!
+                        Settings plugin options
+                    </Button>
+                    .
                 </Forms.FormText>
 
                 {Switches.map(s => s && (
@@ -218,70 +221,33 @@ function VencordSettings() {
                 ))}
             </Forms.FormSection>
 
-
-            {needsVibrancySettings && <>
-                <Forms.FormTitle tag="h5">Window vibrancy style (requires restart)</Forms.FormTitle>
-                <Select
-                    className={Margins.bottom20}
-                    placeholder="Window vibrancy style"
-                    options={[
-                        // Sorted from most opaque to most transparent
-                        {
-                            label: "No vibrancy", value: undefined
-                        },
-                        {
-                            label: "Under Page (window tinting)",
-                            value: "under-page"
-                        },
-                        {
-                            label: "Content",
-                            value: "content"
-                        },
-                        {
-                            label: "Window",
-                            value: "window"
-                        },
-                        {
-                            label: "Selection",
-                            value: "selection"
-                        },
-                        {
-                            label: "Titlebar",
-                            value: "titlebar"
-                        },
-                        {
-                            label: "Header",
-                            value: "header"
-                        },
-                        {
-                            label: "Sidebar",
-                            value: "sidebar"
-                        },
-                        {
-                            label: "Tooltip",
-                            value: "tooltip"
-                        },
-                        {
-                            label: "Menu",
-                            value: "menu"
-                        },
-                        {
-                            label: "Popover",
-                            value: "popover"
-                        },
-                        {
-                            label: "Fullscreen UI (transparent but slightly muted)",
-                            value: "fullscreen-ui"
-                        },
-                        {
-                            label: "HUD (Most transparent)",
-                            value: "hud"
-                        },
-                    ]}
-                    select={v => settings.macosVibrancyStyle = v}
-                    isSelected={v => settings.macosVibrancyStyle === v}
-                    serialize={identity} />
-            </>}
+            {needsVibrancySettings && (
+                <>
+                    <Forms.FormTitle tag="h5">Window Vibrancy Style (requires restart)</Forms.FormTitle>
+                    <Select
+                        className={Margins.bottom20}
+                        placeholder="Select vibrancy style"
+                        options={[
+                            { label: "No vibrancy", value: undefined },
+                            { label: "Under Page (window tinting)", value: "under-page" },
+                            { label: "Content", value: "content" },
+                            { label: "Window", value: "window" },
+                            { label: "Selection", value: "selection" },
+                            { label: "Titlebar", value: "titlebar" },
+                            { label: "Header", value: "header" },
+                            { label: "Sidebar", value: "sidebar" },
+                            { label: "Tooltip", value: "tooltip" },
+                            { label: "Menu", value: "menu" },
+                            { label: "Popover", value: "popover" },
+                            { label: "Fullscreen UI (transparent but slightly muted)", value: "fullscreen-ui" },
+                            { label: "HUD (Most transparent)", value: "hud" },
+                        ]}
+                        select={v => settings.macosVibrancyStyle = v}
+                        isSelected={v => settings.macosVibrancyStyle === v}
+                        serialize={identity}
+                    />
+                </>
+            )}
 
             <Forms.FormSection className={Margins.top16} title="Vencord Notifications" tag="h5">
                 <Flex>
