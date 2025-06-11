@@ -293,25 +293,11 @@ export default definePlugin({
                                     <Forms.FormText>{badge.tooltip}</Forms.FormText>
                                     <Forms.FormText className={Margins.top20}>
                                         {badge.tooltip === "EagleCord User"
-                                            ? "This badge is given by the owner to EagleCord users."
+                                            ? "This badge is given by 'prodbyeagle'. The Creator of EagleCord"
                                             : "This is a custom badge from the EagleCord project, made by the user you are currently visiting."}
                                     </Forms.FormText>
                                 </div>
                             </ModalContent>
-
-                            <ModalFooter>
-                                <Flex style={{ width: "100%", justifyContent: "center" }}>
-                                    <Button
-                                        sizes={Button.Sizes.SMALL}
-                                        color={Button.Colors.BRAND_NEW}
-                                        onClick={() =>
-                                            VencordNative.native.openExternal("https://prodbyeagle.vercel.app")
-                                        }
-                                    >
-                                        Visit Owner Page.
-                                    </Button>
-                                </Flex>
-                            </ModalFooter>
                         </ModalRoot>
                     </ErrorBoundary>
                 ));
