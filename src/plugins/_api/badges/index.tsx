@@ -260,7 +260,6 @@ export default definePlugin({
                         noop
                         onError={() => {
                             closeModal(modalKey);
-                            VencordNative.native.openExternal("https://prodbyeagle.vercel.app");
                         }}
                     >
                         <ModalRoot {...props}>
