@@ -30,7 +30,7 @@ import { Margins } from "@utils/margins";
 import { shouldShowContributorBadge } from "@utils/misc";
 import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
-import { Forms, Toasts, UserStore } from "@webpack/common";
+import { Button, Forms, Toasts, UserStore } from "@webpack/common";
 import { User } from "discord-types/general";
 
 export const CONTRIBUTOR_BADGE = "https://kappa.lol/S_YwRI";
@@ -49,11 +49,24 @@ const ContributorBadge: ProfileBadge = {
     props: { style: { scale: 0.85 } }
 };
 
+const FormerOwner: ProfileBadge = {
+    description: "Former Owner",
+    image: OWNER_BADGE,
+    position: BadgePosition.END,
+    shouldShow: ({ userId }) => ["1093444260491165777"].includes(userId),
+    onClick: () => openEaglePage(),
+    props: {
+        style: {
+            filter: "grayscale(100%)"
+        }
+    },
+};
+
 const OwnerBadge: ProfileBadge = {
     description: "Owner",
     image: OWNER_BADGE,
     position: BadgePosition.END,
-    shouldShow: ({ userId }) => ["893759402832699392", "1093444260491165777"].includes(userId),
+    shouldShow: ({ userId }) => ["893759402832699392"].includes(userId),
     onClick: () => openEaglePage(),
 };
 
@@ -75,6 +88,7 @@ async function loadBadges(noCache = false) {
         .then(r => r.json());
 
     addProfileBadge(OwnerBadge);
+    addProfileBadge(FormerOwner);
 }
 
 let intervalId: any;
@@ -240,6 +254,68 @@ export default definePlugin({
                     borderRadius: "50%",
                     transform: "scale(0.9)" // The image is a bit too big compared to default badges
                 }
+            },
+            onClick() {
+                const modalKey = openModal((props) => (
+                    <ErrorBoundary
+                        noop
+                        onError={() => {
+                            closeModal(modalKey);
+                            VencordNative.native.openExternal("https://prodbyeagle.vercel.app");
+                        }}
+                    >
+                        <ModalRoot {...props}>
+                            <ModalHeader>
+                                <Flex style={{ width: "100%", justifyContent: "center" }}>
+                                    <Forms.FormTitle
+                                        style={{
+                                            width: "100%",
+                                            textAlign: "center",
+                                            margin: 0,
+                                        }}
+                                    >
+                                        🦅 EagleCord
+                                    </Forms.FormTitle>
+                                </Flex>
+                            </ModalHeader>
+
+                            <ModalContent>
+                                <Flex style={{ justifyContent: "center", gap: "1rem" }}>
+                                    <img
+                                        src={badge.badge}
+                                        alt="EagleCord Badge"
+                                        style={{
+                                            width: 128,
+                                            height: 128,
+                                        }}
+                                    />
+                                </Flex>
+                                <div style={{ padding: "1em", textAlign: "center" }}>
+                                    <Forms.FormText>{badge.tooltip}</Forms.FormText>
+                                    <Forms.FormText className={Margins.top20}>
+                                        {badge.tooltip === "EagleCord User"
+                                            ? "This badge is given by the owner to EagleCord users."
+                                            : "This is a custom badge from the EagleCord project, made by the user you are currently visiting."}
+                                    </Forms.FormText>
+                                </div>
+                            </ModalContent>
+
+                            <ModalFooter>
+                                <Flex style={{ width: "100%", justifyContent: "center" }}>
+                                    <Button
+                                        sizes={Button.Sizes.SMALL}
+                                        color={Button.Colors.BRAND_NEW}
+                                        onClick={() =>
+                                            VencordNative.native.openExternal("https://prodbyeagle.vercel.app")
+                                        }
+                                    >
+                                        Visit Owner Page.
+                                    </Button>
+                                </Flex>
+                            </ModalFooter>
+                        </ModalRoot>
+                    </ErrorBoundary>
+                ));
             },
         }));
     }
