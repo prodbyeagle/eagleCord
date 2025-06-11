@@ -54,7 +54,6 @@ const FormerStaff: ProfileBadge = {
     image: OWNER_BADGE,
     position: BadgePosition.END,
     shouldShow: ({ userId }) => ["1093444260491165777", "773166395147157504"].includes(userId),
-    onClick: () => openEaglePage(),
     props: {
         style: {
             filter: "grayscale(100%)"
