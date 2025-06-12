@@ -4,12 +4,12 @@
 
 ## ✨ Features
 
-* 🎖️ Custom Badges
-  Choose from 10+ unique, non-Discord badges you can toggle on your profile.
-  (No default Discord badges here.)
+-   🎖️ Custom Badges
+    Choose from 10+ unique, non-Discord badges you can toggle on your profile.
+    (No default Discord badges here.)
 
-* 🧷 Client Badge
-  Add a custom badge just for yourself. Personal flair? Yes please.
+-   🧷 Client Badge
+    Add a custom badge just for yourself. Personal flair? Yes please.
 
 ---
 
@@ -18,4 +18,4 @@ Open an issue with your suggestion — or better yet, send a pull request with w
 
 ---
 
-*That’s it. Clean, simple, and a little silly — just how we like it.*
+_That’s it. Clean, simple, and a little silly — just how we like it._
