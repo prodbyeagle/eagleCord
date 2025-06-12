@@ -73,7 +73,7 @@ export interface Menu {
         renderValue?(value: number): string,
     }>;
     MenuSearchControl: RC<{
-        query: string
+        query: string;
         onChange(query: string): void;
         placeholder?: string;
     }>;

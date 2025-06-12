@@ -17,12 +17,11 @@
 */
 
 import { Flex } from "@components/Flex";
+import { SettingsTab, wrapTab } from "@components/VencordSettings/shared";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { downloadSettingsBackup, uploadSettingsBackup } from "@utils/settingsSync";
 import { Button, Card, Text } from "@webpack/common";
-
-import { SettingsTab, wrapTab } from "./shared";
 
 function BackupRestoreTab() {
     return (

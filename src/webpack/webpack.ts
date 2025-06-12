@@ -20,10 +20,10 @@ import { makeLazy, proxyLazy } from "@utils/lazy";
 import { LazyComponent } from "@utils/lazyReact";
 import { Logger } from "@utils/Logger";
 import { canonicalizeMatch } from "@utils/patches";
+import { Flux } from "@webpack/common";
 import { FluxStore } from "@webpack/types";
 
 import { traceFunction } from "../debug/Tracer";
-import { Flux } from "./common";
 import { AnyModuleFactory, AnyWebpackRequire, ModuleExports, WebpackRequire } from "./wreq";
 
 const logger = new Logger("Webpack");

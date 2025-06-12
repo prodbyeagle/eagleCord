@@ -4,25 +4,26 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+// eslint-disable-next-line path-alias/no-relative
 import "./contributorModal.css";
 
+import { ProfileBadge } from "@api/Badges";
 import { useSettings } from "@api/Settings";
 import { classNameFactory } from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Link } from "@components/Link";
+import { GithubButton, WebsiteButton } from "@components/PluginSettings/LinkIconButton";
 import { DevsById } from "@utils/constants";
 import { fetchUserProfile } from "@utils/discord";
+import { Margins } from "@utils/margins";
 import { classes, pluralise } from "@utils/misc";
 import { ModalContent, ModalHeader, ModalRoot, openModal } from "@utils/modal";
-import { Avatar, Flex, Forms, showToast, useEffect, useMemo, UserProfileStore, useStateFromStores } from "@webpack/common";
+import { Flex, Forms, showToast, useEffect, useMemo, UserProfileStore, useStateFromStores } from "@webpack/common";
 import { User } from "discord-types/general";
 
 import Plugins from "~plugins";
 
 import { PluginCard } from ".";
-import { GithubButton, WebsiteButton } from "./LinkIconButton";
-import { ProfileBadge } from "@api/Badges";
-import { Margins } from "@utils/margins";
 
 const cl = classNameFactory("vc-author-modal-");
 

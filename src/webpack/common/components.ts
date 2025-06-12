@@ -18,9 +18,10 @@
 
 import { LazyComponent } from "@utils/lazyReact";
 import { filters, mapMangledModuleLazy, waitFor } from "@webpack";
+import * as t from "@webpack/types";
 
+// eslint-disable-next-line path-alias/no-relative
 import { waitForComponent } from "./internal";
-import * as t from "./types/components";
 
 
 const FormTitle = waitForComponent<t.FormTitle>("FormTitle", filters.componentByCode('["defaultMargin".concat', '="h5"'));

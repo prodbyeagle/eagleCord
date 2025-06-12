@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// eslint-disable-next-line path-alias/no-relative
 import "./PluginModal.css";
 
 import { generateId } from "@api/Commands";
@@ -23,6 +24,18 @@ import { useSettings } from "@api/Settings";
 import { classNameFactory } from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
+import {
+    ISettingCustomElementProps,
+    ISettingElementProps,
+    SettingBooleanComponent,
+    SettingCustomComponent,
+    SettingNumericComponent,
+    SettingSelectComponent,
+    SettingSliderComponent,
+    SettingTextComponent
+} from "@components/PluginSettings/components";
+import { openContributorModal } from "@components/PluginSettings/ContributorModal";
+import { GithubButton, WebsiteButton } from "@components/PluginSettings/LinkIconButton";
 import { gitRemote } from "@shared/vencordUserAgent";
 import { proxyLazy } from "@utils/lazy";
 import { Margins } from "@utils/margins";
@@ -35,19 +48,6 @@ import { User } from "discord-types/general";
 import { Constructor } from "type-fest";
 
 import { PluginMeta } from "~plugins";
-
-import {
-    ISettingCustomElementProps,
-    ISettingElementProps,
-    SettingBooleanComponent,
-    SettingCustomComponent,
-    SettingNumericComponent,
-    SettingSelectComponent,
-    SettingSliderComponent,
-    SettingTextComponent
-} from "./components";
-import { openContributorModal } from "./ContributorModal";
-import { GithubButton, WebsiteButton } from "./LinkIconButton";
 
 const cl = classNameFactory("vc-plugin-modal-");
 

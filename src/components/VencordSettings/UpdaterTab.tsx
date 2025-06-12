@@ -20,6 +20,7 @@ import { useSettings } from "@api/Settings";
 import { ErrorCard } from "@components/ErrorCard";
 import { Flex } from "@components/Flex";
 import { Link } from "@components/Link";
+import { handleSettingsTabError, SettingsTab, wrapTab } from "@components/VencordSettings/shared";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { ModalCloseButton, ModalContent, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
@@ -29,8 +30,6 @@ import { changes, checkForUpdates, getRepo, isNewer, update, updateError, Update
 import { Alerts, Button, Card, Forms, Parser, React, Switch, Toasts } from "@webpack/common";
 
 import gitHash from "~git-hash";
-
-import { handleSettingsTabError, SettingsTab, wrapTab } from "./shared";
 
 function withDispatcher(dispatcher: React.Dispatch<React.SetStateAction<boolean>>, action: () => any) {
     return async () => {

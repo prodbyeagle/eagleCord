@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { runtimeHashMessageKey } from "./intlHash";
-import { Patch, PatchReplacement, ReplaceFn } from "./types";
+import { runtimeHashMessageKey } from "@utils/intlHash";
+import { Patch, PatchReplacement, ReplaceFn } from "@utils/types";
 
 export function canonicalizeMatch<T extends RegExp | string>(match: T): T {
     let partialCanon = typeof match === "string" ? match : match.source;

@@ -16,11 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import type { FluxEvents } from "@webpack/types\fluxEvents";
 import { Channel, Guild, GuildMember, Message, User } from "discord-types/general";
 import type { ReactNode } from "react";
 import { LiteralUnion } from "type-fest";
-
-import type { FluxEvents } from "./fluxEvents";
 
 export { FluxEvents };
 

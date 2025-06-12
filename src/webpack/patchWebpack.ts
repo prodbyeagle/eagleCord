@@ -10,10 +10,10 @@ import { Logger } from "@utils/Logger";
 import { interpolateIfDefined } from "@utils/misc";
 import { canonicalizeReplacement } from "@utils/patches";
 import { Patch, PatchReplacement } from "@utils/types";
+import { _blacklistBadModules, _initWebpack, factoryListeners, findModuleFactory, moduleListeners, waitForSubscriptions, wreq } from "@webpack";
+import { AnyModuleFactory, AnyWebpackRequire, MaybePatchedModuleFactory, PatchedModuleFactory, WebpackRequire } from "@webpack/wreq.d";
 
 import { traceFunctionWithResults } from "../debug/Tracer";
-import { _blacklistBadModules, _initWebpack, factoryListeners, findModuleFactory, moduleListeners, waitForSubscriptions, wreq } from "./webpack";
-import { AnyModuleFactory, AnyWebpackRequire, MaybePatchedModuleFactory, PatchedModuleFactory, WebpackRequire } from "./wreq.d";
 
 export const patches = [] as Patch[];
 

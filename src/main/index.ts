@@ -16,14 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { initCsp } from "@main/csp";
+import { ensureSafePath } from "@main/ipcMain";
+import { RendererSettings } from "@main/settings";
+import { IS_VANILLA, THEMES_DIR } from "@main/utils/constants";
+import { installExt } from "@main/utils/extensions";
 import { app, protocol } from "electron";
 import { join } from "path";
-
-import { initCsp } from "./csp";
-import { ensureSafePath } from "./ipcMain";
-import { RendererSettings } from "./settings";
-import { IS_VANILLA, THEMES_DIR } from "./utils/constants";
-import { installExt } from "./utils/extensions";
 
 if (IS_VESKTOP || !IS_VANILLA) {
     app.whenReady().then(() => {

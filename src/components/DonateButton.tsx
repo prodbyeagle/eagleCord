@@ -16,10 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { Heart } from "@components/Heart";
 import { Button } from "@webpack/common";
 import { ButtonProps } from "@webpack/types";
-
-import { Heart } from "./Heart";
 
 export default function DonateButton({
     look = Button.Looks.LINK,

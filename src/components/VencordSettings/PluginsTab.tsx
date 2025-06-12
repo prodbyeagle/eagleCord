@@ -17,7 +17,6 @@
 */
 
 import PluginSettings from "@components/PluginSettings";
-
-import { wrapTab } from "./shared";
+import { wrapTab } from "@components/VencordSettings/shared";
 
 export default wrapTab(PluginSettings, "Plugins");

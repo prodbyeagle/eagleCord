@@ -18,13 +18,12 @@
 
 import { showNotification } from "@api/Notifications";
 import { PlainSettings, Settings } from "@api/Settings";
+import { getCloudAuth, getCloudUrl } from "@utils/cloud";
+import { Logger } from "@utils/Logger";
+import { relaunch } from "@utils/native";
+import { chooseFile, saveFile } from "@utils/web";
 import { moment, Toasts } from "@webpack/common";
 import { deflateSync, inflateSync } from "fflate";
-
-import { getCloudAuth, getCloudUrl } from "./cloud";
-import { Logger } from "./Logger";
-import { relaunch } from "./native";
-import { chooseFile, saveFile } from "./web";
 
 export async function importSettings(data: string) {
     try {

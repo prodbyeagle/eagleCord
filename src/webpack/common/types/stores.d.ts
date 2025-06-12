@@ -16,9 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { FluxDispatcher, FluxEvents } from "@webpack/types";
 import { Channel, Guild, Role } from "discord-types/general";
-
-import { FluxDispatcher, FluxEvents } from "./utils";
 
 type GenericFunction = (...args: any[]) => any;
 

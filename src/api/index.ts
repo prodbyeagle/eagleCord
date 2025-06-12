@@ -16,23 +16,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import * as $Badges from "./Badges";
-import * as $ChatButtons from "./ChatButtons";
-import * as $Commands from "./Commands";
-import * as $ContextMenu from "./ContextMenu";
-import * as $DataStore from "./DataStore";
-import * as $MemberListDecorators from "./MemberListDecorators";
-import * as $MessageAccessories from "./MessageAccessories";
-import * as $MessageDecorations from "./MessageDecorations";
-import * as $MessageEventsAPI from "./MessageEvents";
-import * as $MessagePopover from "./MessagePopover";
-import * as $MessageUpdater from "./MessageUpdater";
-import * as $Notices from "./Notices";
-import * as $Notifications from "./Notifications";
-import * as $ServerList from "./ServerList";
-import * as $Settings from "./Settings";
-import * as $Styles from "./Styles";
-import * as $UserSettings from "./UserSettings";
+import * as $Badges from "@api/Badges";
+import * as $ChatButtons from "@api/ChatButtons";
+import * as $Commands from "@api/Commands";
+import * as $ContextMenu from "@api/ContextMenu";
+import * as $DataStore from "@api/DataStore";
+import * as $MemberListDecorators from "@api/MemberListDecorators";
+import * as $MessageAccessories from "@api/MessageAccessories";
+import * as $MessageDecorations from "@api/MessageDecorations";
+import * as $MessageEventsAPI from "@api/MessageEvents";
+import * as $MessagePopover from "@api/MessagePopover";
+import * as $MessageUpdater from "@api/MessageUpdater";
+import * as $Notices from "@api/Notices";
+import * as $Notifications from "@api/Notifications";
+import * as $ServerList from "@api/ServerList";
+import * as $Settings from "@api/Settings";
+import * as $Styles from "@api/Styles";
+import * as $UserSettings from "@api/UserSettings";
 
 /**
  * An API allowing you to listen to Message Clicks or run your own logic

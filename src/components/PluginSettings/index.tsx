@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// eslint-disable-next-line path-alias/no-relative
 import "./styles.css";
 
 import * as DataStore from "@api/DataStore";

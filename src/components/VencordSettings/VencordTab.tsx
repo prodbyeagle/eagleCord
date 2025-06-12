@@ -22,6 +22,10 @@ import { classNameFactory } from "@api/Styles";
 import DonateButton from "@components/DonateButton";
 import { openContributorModal } from "@components/PluginSettings/ContributorModal";
 import { openPluginModal } from "@components/PluginSettings/PluginModal";
+import { openNotificationSettingsModal } from "@components/VencordSettings/NotificationSettings";
+import { QuickAction, QuickActionCard } from "@components/VencordSettings/quickActions";
+import { SettingsTab, wrapTab } from "@components/VencordSettings/shared";
+import { SpecialCard } from "@components/VencordSettings/SpecialCard";
 import { gitRemote } from "@shared/vencordUserAgent";
 import { DONOR_ROLE_ID, EAGLE_USER_ROLE_ID, MEOW_LOUNGE_GUILD_ID, VENCORD_GUILD_ID } from "@utils/constants";
 import { Margins } from "@utils/margins";
@@ -32,10 +36,6 @@ import { Button, Forms, GuildMemberStore, React, Select, Switch, UserStore } fro
 
 import BadgeAPI from "../../plugins/_api/badges";
 import { Flex, FolderIcon, GithubIcon, LogIcon, PaintbrushIcon, RestartIcon } from "..";
-import { openNotificationSettingsModal } from "./NotificationSettings";
-import { QuickAction, QuickActionCard } from "./quickActions";
-import { SettingsTab, wrapTab } from "./shared";
-import { SpecialCard } from "./SpecialCard";
 
 const cl = classNameFactory("vc-settings-");
 

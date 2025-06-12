@@ -19,10 +19,9 @@
 import * as DataStore from "@api/DataStore";
 import { showNotification } from "@api/Notifications";
 import { Settings } from "@api/Settings";
+import { Logger } from "@utils/Logger";
+import { openModal } from "@utils/modal";
 import { OAuth2AuthorizeModal, UserStore } from "@webpack/common";
-
-import { Logger } from "./Logger";
-import { openModal } from "./modal";
 
 export const cloudLogger = new Logger("Cloud", "#39b7e0");
 export const getCloudUrl = () => new URL(Settings.cloud.url);

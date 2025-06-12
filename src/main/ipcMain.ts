@@ -16,10 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import "./updater";
-import "./ipcPlugins";
-import "./settings";
+import "@main/updater";
+import "@main/ipcPlugins";
+import "@main/settings";
 
+import { getThemeInfo, stripBOM, UserThemeHeader } from "@main/themes";
+import { ALLOWED_PROTOCOLS, QUICKCSS_PATH, THEMES_DIR } from "@main/utils/constants";
+import { makeLinksOpenExternally } from "@main/utils/externalLinks";
 import { debounce } from "@shared/debounce";
 import { IpcEvents } from "@shared/IpcEvents";
 import { BrowserWindow, ipcMain, shell, systemPreferences } from "electron";
@@ -27,10 +30,6 @@ import monacoHtml from "file://monacoWin.html?minify&base64";
 import { FSWatcher, mkdirSync, watch, writeFileSync } from "fs";
 import { open, readdir, readFile } from "fs/promises";
 import { join, normalize } from "path";
-
-import { getThemeInfo, stripBOM, UserThemeHeader } from "./themes";
-import { ALLOWED_PROTOCOLS, QUICKCSS_PATH, THEMES_DIR } from "./utils/constants";
-import { makeLinksOpenExternally } from "./utils/externalLinks";
 
 mkdirSync(THEMES_DIR, { recursive: true });
 

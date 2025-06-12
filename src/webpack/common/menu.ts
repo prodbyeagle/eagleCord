@@ -16,9 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-// eslint-disable-next-line path-alias/no-relative
-import { filters, mapMangledModuleLazy, waitFor, wreq } from "../webpack";
-import type * as t from "./types/menu";
+import { filters, mapMangledModuleLazy, waitFor, wreq } from "@webpack";
+import type * as t from "@webpack/types";
 
 export const Menu = {} as t.Menu;
 

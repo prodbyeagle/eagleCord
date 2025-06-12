@@ -16,13 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { Argument } from "@api/Commands/types";
 import { mergeDefaults } from "@utils/mergeDefaults";
 import { findByCodeLazy } from "@webpack";
 import { MessageActions, SnowflakeUtils } from "@webpack/common";
 import { Message } from "discord-types/general";
 import type { PartialDeep } from "type-fest";
-
-import { Argument } from "./types";
 
 const createBotMessage = findByCodeLazy('username:"Clyde"');
 

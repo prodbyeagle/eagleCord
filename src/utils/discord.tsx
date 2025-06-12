@@ -17,13 +17,12 @@
 */
 
 import { MessageObject } from "@api/MessageEvents";
+import { runtimeHashMessageKey } from "@utils/intlHash";
+import { Logger } from "@utils/Logger";
+import { MediaModalItem, MediaModalProps, openMediaModal } from "@utils/modal";
 import { ChannelStore, ComponentDispatch, Constants, FluxDispatcher, GuildStore, i18n, IconUtils, InviteActions, MessageActions, PrivateChannelsStore, RestAPI, SelectedChannelStore, SelectedGuildStore, UserProfileActions, UserProfileStore, UserSettingsActionCreators, UserUtils } from "@webpack/common";
 import { Channel, Guild, Message, User } from "discord-types/general";
 import { Except } from "type-fest";
-
-import { runtimeHashMessageKey } from "./intlHash";
-import { Logger } from "./Logger";
-import { MediaModalItem, MediaModalProps, openMediaModal } from "./modal";
 
 const IntlManagerLogger = new Logger("IntlManager");
 

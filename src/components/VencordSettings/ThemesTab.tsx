@@ -23,6 +23,9 @@ import { Flex } from "@components/Flex";
 import { DeleteIcon, FolderIcon, PaintbrushIcon, PencilIcon, PlusIcon, RestartIcon } from "@components/Icons";
 import { Link } from "@components/Link";
 import { openPluginModal } from "@components/PluginSettings/PluginModal";
+import { AddonCard } from "@components/VencordSettings/AddonCard";
+import { QuickAction, QuickActionCard } from "@components/VencordSettings/quickActions";
+import { SettingsTab, wrapTab } from "@components/VencordSettings/shared";
 import type { UserThemeHeader } from "@main/themes";
 import { useCspErrors } from "@utils/cspViolations";
 import { openInviteModal } from "@utils/discord";
@@ -36,10 +39,6 @@ import { Card, Forms, React, showToast, TabBar, TextArea, useEffect, useRef, use
 import type { ComponentType, Ref, SyntheticEvent } from "react";
 
 import Plugins from "~plugins";
-
-import { AddonCard } from "./AddonCard";
-import { QuickAction, QuickActionCard } from "./quickActions";
-import { SettingsTab, wrapTab } from "./shared";
 
 type FileInput = ComponentType<{
     ref: Ref<HTMLInputElement>;

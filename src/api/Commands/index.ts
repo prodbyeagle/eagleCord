@@ -16,11 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { sendBotMessage } from "@api/Commands/commandHelpers";
+import { ApplicationCommandInputType, ApplicationCommandOptionType, ApplicationCommandType, Argument, Command, CommandContext, Option } from "@api/Commands/types";
 import { Logger } from "@utils/Logger";
 import { makeCodeblock } from "@utils/text";
-
-import { sendBotMessage } from "./commandHelpers";
-import { ApplicationCommandInputType, ApplicationCommandOptionType, ApplicationCommandType, Argument, Command, CommandContext, Option } from "./types";
 
 export * from "./commandHelpers";
 export * from "./types";
