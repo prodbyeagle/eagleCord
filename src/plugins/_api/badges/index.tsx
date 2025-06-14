@@ -30,7 +30,7 @@ import { Margins } from "@utils/margins";
 import { shouldShowContributorBadge } from "@utils/misc";
 import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
-import { Button, Forms, Toasts, UserStore } from "@webpack/common";
+import { Forms, Toasts, UserStore } from "@webpack/common";
 import { User } from "discord-types/general";
 
 export const CONTRIBUTOR_BADGE = "https://kappa.lol/S_YwRI";
@@ -84,7 +84,7 @@ async function loadBadges(noCache = false) {
     DonorBadges = await fetch("https://badges.vencord.dev/badges.json", init)
         .then(r => r.json());
 
-    EagleBadges = await fetch("https://raw.githubusercontent.com/prodbyeagle/dotfiles/refs/heads/main/Vencord/badges.json", init)
+    EagleBadges = await fetch("https://raw.githubusercontent.com/prodbyeagle/dotfiles/refs/heads/main/Vencord/eagleCord/badges.json", init)
         .then(r => r.json());
 
     addProfileBadge(OwnerBadge);
@@ -256,7 +256,7 @@ export default definePlugin({
                 }
             },
             onClick() {
-                const modalKey = openModal((props) => (
+                const modalKey = openModal(props => (
                     <ErrorBoundary
                         noop
                         onError={() => {
