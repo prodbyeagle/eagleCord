@@ -8,8 +8,9 @@ import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
+import { Toasts } from "@webpack/common";
 
-const log = new Logger("EAGLEUSRBG", "#4CAF50");
+const log = new Logger("EAGLEUSRBG", "#3c4512");
 
 const GITHUB_JSON_URL = "https://raw.githubusercontent.com/prodbyeagle/dotfiles/refs/heads/main/Vencord/eagleCord/usrbg.json";
 const GITHUB_IMAGE_BASE = "https://raw.githubusercontent.com/prodbyeagle/dotfiles/refs/heads/main/Vencord/eagleCord/images/";
@@ -33,11 +34,59 @@ const settings = definePluginSettings({
     }
 });
 
+async function reloadBanners(context: {
+    log: Logger,
+    setData: (data: UsrbgGitHubData) => void;
+}): Promise<boolean> {
+    context.log.info("Reloading banner data from GitHub...");
+
+    try {
+        const res = await fetch(GITHUB_JSON_URL);
+        if (!res.ok) {
+            context.log.error("Failed to reload banner data. Status:", res.status);
+            return false;
+        }
+
+        const data = await res.json() as UsrbgGitHubData;
+        context.setData(data);
+
+        const count = Object.keys(data ?? {}).length;
+        context.log.info(`Reloaded ${count} GitHub banners`);
+        return true;
+    } catch (err) {
+        context.log.error("Error reloading GitHub banner data:", err);
+        return false;
+    }
+}
+
 export default definePlugin({
     name: "USRBG",
     description: "Displays user banners from USRBG (MODDED BY EAGLE), allowing anyone to get a banner without Nitro",
     authors: [Devs.AutumnVN, Devs.katlyn, Devs.pylix, Devs.TheKodeToad, Devs.prodbyeagle],
     settings,
+
+    toolboxActions: {
+        async "Refetch Banners"() {
+            const success = await reloadBanners({
+                log,
+                setData: data => { data = data; }
+            });
+
+            if (success) {
+                Toasts.show({
+                    id: Toasts.genId(),
+                    message: "Successfully refetched Banner Images!",
+                    type: Toasts.Type.SUCCESS
+                });
+            } else {
+                Toasts.show({
+                    id: Toasts.genId(),
+                    message: "Failed to refetch Banner Images.",
+                    type: Toasts.Type.FAILURE
+                });
+            }
+        }
+    },
 
     patches: [
         {
