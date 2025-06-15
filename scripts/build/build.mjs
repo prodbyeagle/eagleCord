@@ -71,7 +71,7 @@ const nodeCommonOpts = {
         "electron",
         "original-fs",
         "~pluginNatives",
-        ...commonOpts.external,
+        ...(commonOpts.external ?? []),
     ],
 };
 

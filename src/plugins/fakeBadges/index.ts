@@ -1,22 +1,29 @@
-import definePlugin, { OptionType } from "@utils/types";
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2025 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import {
     addProfileBadge,
     BadgePosition,
     ProfileBadge,
     removeProfileBadge,
 } from "@api/Badges";
+import { definePluginSettings, SettingsStore } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
-import { BADGES, ProfileBadgeWithName } from "./badges";
-import { definePluginSettings, SettingsStore } from "@api/Settings";
+import definePlugin, { OptionType } from "@utils/types";
 import { Toasts, UserStore } from "@webpack/common";
+
+import { BADGES, ProfileBadgeWithName } from "./badges";
 
 const logger = new Logger("FakeBadges", "#5aa5ff");
 const registeredBadges: ProfileBadge[] = [];
 
 const settings = definePluginSettings(
     Object.fromEntries(
-        (BADGES as ProfileBadgeWithName[]).map((badge) => [
+        (BADGES as ProfileBadgeWithName[]).map(badge => [
             badge.name,
             {
                 type: OptionType.BOOLEAN,

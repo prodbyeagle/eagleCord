@@ -1,15 +1,21 @@
-import definePlugin, { OptionType } from "@utils/types";
-import { definePluginSettings } from "@api/Settings";
-import { Toasts, UserStore } from "@webpack/common";
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2025 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import {
     addProfileBadge,
     BadgePosition,
     ProfileBadge,
     removeProfileBadge,
 } from "@api/Badges";
-import { Devs } from "@utils/constants";
+import { definePluginSettings } from "@api/Settings";
 import { makeRange } from "@components/PluginSettings/components";
+import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
+import definePlugin, { OptionType } from "@utils/types";
+import { Toasts, UserStore } from "@webpack/common";
 
 type UserBadge = {
     userId: string;
@@ -122,7 +128,7 @@ export default definePlugin({
             shouldShow: ({ userId }) => userId === badge.userId,
             props: {
                 style: {
-                    transform: `scale(0.9)`,
+                    transform: "scale(0.9)",
                     borderRadius:
                         badge.borderRadius !== undefined ? `${badge.borderRadius}px` : "50%",
                 },
