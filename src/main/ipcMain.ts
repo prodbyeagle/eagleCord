@@ -22,7 +22,7 @@ import "@main/settings";
 
 import { registerCspIpcHandlers } from "@main/csp/manager";
 import { getThemeInfo, stripBOM, UserThemeHeader } from "@main/themes";
-import { ALLOWED_PROTOCOLS, QUICKCSS_PATH, THEMES_DIR } from "@main/utils/constants";
+import { ALLOWED_PROTOCOLS, QUICKCSS_PATH, SETTINGS_DIR, THEMES_DIR } from "@main/utils/constants";
 import { makeLinksOpenExternally } from "@main/utils/externalLinks";
 import { debounce } from "@shared/debounce";
 import { IpcEvents } from "@shared/IpcEvents";
@@ -99,6 +99,8 @@ ipcMain.handle(IpcEvents.GET_THEME_SYSTEM_VALUES, () => ({
     "os-accent-color": `#${systemPreferences.getAccentColor?.() || ""}`
 }));
 
+ipcMain.handle(IpcEvents.OPEN_THEMES_FOLDER, () => shell.openPath(THEMES_DIR));
+ipcMain.handle(IpcEvents.OPEN_SETTINGS_FOLDER, () => shell.openPath(SETTINGS_DIR));
 
 export function initIpc(mainWindow: BrowserWindow) {
     let quickCssWatcher: FSWatcher | undefined;
