@@ -27,7 +27,7 @@ import { QuickAction, QuickActionCard } from "@components/VencordSettings/quickA
 import { SettingsTab, wrapTab } from "@components/VencordSettings/shared";
 import { SpecialCard } from "@components/VencordSettings/SpecialCard";
 import { gitRemote } from "@shared/vencordUserAgent";
-import { DONOR_ROLE_ID, VENCORD_GUILD_ID } from "@utils/constants";
+import { DONOR_ROLE_ID, EAGLE_USER_ROLE_ID, MEOW_LOUNGE_GUILD_ID, VENCORD_GUILD_ID } from "@utils/constants";
 import { Margins } from "@utils/margins";
 import { identity, isPluginDev } from "@utils/misc";
 import { relaunch } from "@utils/native";
@@ -42,7 +42,8 @@ const DEFAULT_DONATE_IMAGE = "https://cdn.discordapp.com/emojis/1026533090627174
 const SHIGGY_DONATE_IMAGE = "https://media.discordapp.net/stickers/1039992459209490513.png";
 
 const VENNIE_DONATOR_IMAGE = "https://cdn.discordapp.com/emojis/1238120638020063377.png";
-const COZY_CONTRIB_IMAGE = "https://cdn.discordapp.com/emojis/1026533070955872337.png";
+// const COZY_CONTRIB_IMAGE = "https://cdn.discordapp.com/emojis/1026533070955872337.png";
+const VENCORD_ICON_IMAGE = "https://kappa.lol/S_YwRI";
 
 const DONOR_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070116305436712.png?size=2048";
 const CONTRIB_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070166481895484.png?size=2048";
@@ -106,23 +107,32 @@ function VencordSettings() {
 
     return (
         <SettingsTab title="Vencord Settings">
+            {isEagleUser(user?.id) && (
+                <SpecialCard
+                    title="EagleCord"
+                    subtitle="Thank you for using EagleCord!"
+                    description="We appreciate you downloading and trying out EagleCord."
+                    cardImage="https://kappa.lol/WTiY5"
+                    backgroundImage={CONTRIB_BACKGROUND_IMAGE}
+                    backgroundColor="#b083c9"
+                />
+            )}
+
             {isDonor(user?.id)
                 ? (
                     <SpecialCard
                         title="Donations"
-                        subtitle="Thank you for donating!"
-                        description="You can manage your perks at any time by messaging @vending.machine."
+                        subtitle="Thank you for your support!"
+                        description="You can manage your donor perks anytime by messaging @vending.machine."
                         cardImage={VENNIE_DONATOR_IMAGE}
                         backgroundImage={DONOR_BACKGROUND_IMAGE}
                         backgroundColor="#ED87A9"
-                    >
-                        <DonateButtonComponent />
-                    </SpecialCard>
+                    />
                 )
                 : (
                     <SpecialCard
-                        title="Support the Project"
-                        description="Please consider supporting the development of Vencord by donating!"
+                        title="Support Vencord"
+                        description="Consider supporting Vencord's development by making a donation!"
                         cardImage={donateImage}
                         backgroundImage={DONOR_BACKGROUND_IMAGE}
                         backgroundColor="#c3a3ce"
@@ -131,15 +141,16 @@ function VencordSettings() {
                     </SpecialCard>
                 )
             }
+
             {isPluginDev(user?.id) && (
                 <SpecialCard
                     title="Contributions"
                     subtitle="Thank you for contributing!"
-                    description="Since you've contributed to Vencord you now have a cool new badge!"
-                    cardImage={COZY_CONTRIB_IMAGE}
+                    description="As a contributor to Vencord, you now have a special badge!"
+                    cardImage={VENCORD_ICON_IMAGE}
                     backgroundImage={CONTRIB_BACKGROUND_IMAGE}
                     backgroundColor="#EDCC87"
-                    buttonTitle="See what you've contributed to"
+                    buttonTitle="See your contributions"
                     buttonOnClick={() => openContributorModal(user)}
                 />
             )}
@@ -148,7 +159,7 @@ function VencordSettings() {
                 <QuickActionCard>
                     <QuickAction
                         Icon={LogIcon}
-                        text="Notification Log"
+                        text="Open Notification Log"
                         action={openNotificationLogModal}
                     />
                     <QuickAction
@@ -182,14 +193,16 @@ function VencordSettings() {
 
             <Forms.FormSection className={Margins.top16} title="Settings" tag="h5">
                 <Forms.FormText className={Margins.bottom20} style={{ color: "var(--text-muted)" }}>
-                    Hint: You can change the position of this settings section in the
-                    {" "}<Button
+                    Tip: You can change the position of this section in the
+                    {" "}
+                    <Button
                         look={Button.Looks.BLANK}
                         style={{ color: "var(--text-link)", display: "inline-block" }}
                         onClick={() => openPluginModal(Vencord.Plugins.plugins.Settings)}
                     >
-                        settings of the Settings plugin
-                    </Button>!
+                        Settings plugin options
+                    </Button>
+                    .
                 </Forms.FormText>
 
                 {Switches.map(s => s && (
@@ -204,70 +217,33 @@ function VencordSettings() {
                 ))}
             </Forms.FormSection>
 
-
-            {needsVibrancySettings && <>
-                <Forms.FormTitle tag="h5">Window vibrancy style (requires restart)</Forms.FormTitle>
-                <Select
-                    className={Margins.bottom20}
-                    placeholder="Window vibrancy style"
-                    options={[
-                        // Sorted from most opaque to most transparent
-                        {
-                            label: "No vibrancy", value: undefined
-                        },
-                        {
-                            label: "Under Page (window tinting)",
-                            value: "under-page"
-                        },
-                        {
-                            label: "Content",
-                            value: "content"
-                        },
-                        {
-                            label: "Window",
-                            value: "window"
-                        },
-                        {
-                            label: "Selection",
-                            value: "selection"
-                        },
-                        {
-                            label: "Titlebar",
-                            value: "titlebar"
-                        },
-                        {
-                            label: "Header",
-                            value: "header"
-                        },
-                        {
-                            label: "Sidebar",
-                            value: "sidebar"
-                        },
-                        {
-                            label: "Tooltip",
-                            value: "tooltip"
-                        },
-                        {
-                            label: "Menu",
-                            value: "menu"
-                        },
-                        {
-                            label: "Popover",
-                            value: "popover"
-                        },
-                        {
-                            label: "Fullscreen UI (transparent but slightly muted)",
-                            value: "fullscreen-ui"
-                        },
-                        {
-                            label: "HUD (Most transparent)",
-                            value: "hud"
-                        },
-                    ]}
-                    select={v => settings.macosVibrancyStyle = v}
-                    isSelected={v => settings.macosVibrancyStyle === v}
-                    serialize={identity} />
-            </>}
+            {needsVibrancySettings && (
+                <>
+                    <Forms.FormTitle tag="h5">Window Vibrancy Style (requires restart)</Forms.FormTitle>
+                    <Select
+                        className={Margins.bottom20}
+                        placeholder="Select vibrancy style"
+                        options={[
+                            { label: "No vibrancy", value: undefined },
+                            { label: "Under Page (window tinting)", value: "under-page" },
+                            { label: "Content", value: "content" },
+                            { label: "Window", value: "window" },
+                            { label: "Selection", value: "selection" },
+                            { label: "Titlebar", value: "titlebar" },
+                            { label: "Header", value: "header" },
+                            { label: "Sidebar", value: "sidebar" },
+                            { label: "Tooltip", value: "tooltip" },
+                            { label: "Menu", value: "menu" },
+                            { label: "Popover", value: "popover" },
+                            { label: "Fullscreen UI (transparent but slightly muted)", value: "fullscreen-ui" },
+                            { label: "HUD (Most transparent)", value: "hud" },
+                        ]}
+                        select={v => settings.macosVibrancyStyle = v}
+                        isSelected={v => settings.macosVibrancyStyle === v}
+                        serialize={identity}
+                    />
+                </>
+            )}
 
             <Forms.FormSection className={Margins.top16} title="Vencord Notifications" tag="h5">
                 <Flex>
@@ -294,8 +270,25 @@ function DonateButtonComponent() {
 }
 
 function isDonor(userId: string): boolean {
+    const HARD_CODED_DONORS = ["893759402832699392"];
+
+    if (HARD_CODED_DONORS.includes(userId)) {
+        return true;
+    }
+
     const donorBadges = BadgeAPI.getDonorBadges(userId);
-    return GuildMemberStore.getMember(VENCORD_GUILD_ID, userId)?.roles.includes(DONOR_ROLE_ID) || !!donorBadges;
+    return (
+        GuildMemberStore.getMember(VENCORD_GUILD_ID, userId)?.roles.includes(DONOR_ROLE_ID) ||
+        !!donorBadges
+    );
+}
+
+function isEagleUser(userId: string): boolean {
+    const EagleBadges = BadgeAPI.getEagleCordBadges(userId);
+    return (
+        GuildMemberStore.getMember(MEOW_LOUNGE_GUILD_ID, userId)?.roles.includes(EAGLE_USER_ROLE_ID) ||
+        !!EagleBadges
+    );
 }
 
 export default wrapTab(VencordSettings, "Vencord Settings");
