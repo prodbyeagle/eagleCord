@@ -10,12 +10,13 @@ import {
     addMessageDecoration,
     removeMessageDecoration,
 } from "@api/MessageDecorations";
+import { VENCORD_ICON_IMAGE } from "@components/VencordSettings/VencordTab";
 import { Devs } from "@utils/constants";
 import { isPluginDev } from "@utils/misc";
 import definePlugin from "@utils/types";
 import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import { User } from "discord-types/general";
-import badges, { CONTRIBUTOR_BADGE } from "plugins/_api/badges";
+import badges from "plugins/_api/badges";
 
 import settings, { cl } from "./settings";
 
@@ -93,7 +94,7 @@ function ChatBadges({ author }: { author: User; }) {
                             className={roleIconClassName}
                             name="Vencord / EagleCord Contributor"
                             size={18}
-                            src={CONTRIBUTOR_BADGE}
+                            src={VENCORD_ICON_IMAGE}
                         />
                     </span>
                 )}

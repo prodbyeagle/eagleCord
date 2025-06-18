@@ -6,9 +6,9 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { classNameFactory } from "@api/Styles";
+import { VENCORD_ICON_IMAGE } from "@components/VencordSettings/VencordTab";
 import { OptionType } from "@utils/types";
 import { Text, UserStore } from "@webpack/common";
-import { CONTRIBUTOR_BADGE } from "plugins/_api/badges";
 
 export const cl = classNameFactory("vc-sbic-");
 
@@ -56,7 +56,7 @@ function BadgeSettings() {
             title: "Vencord donor badges",
         },
         {
-            src: CONTRIBUTOR_BADGE,
+            src: VENCORD_ICON_IMAGE,
             settings: settings.store.vencordContributor,
             title: "Vencord contributor badge",
         },

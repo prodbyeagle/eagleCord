@@ -24,6 +24,7 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
 import { Heart } from "@components/Heart";
 import { openContributorModal, openStaffModal } from "@components/PluginSettings/ContributorModal";
+import { EAGLECORD_ICON_IMAGE } from "@components/VencordSettings/VencordTab";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
@@ -33,7 +34,6 @@ import definePlugin from "@utils/types";
 import { Forms, Toasts, UserStore } from "@webpack/common";
 import { User } from "discord-types/general";
 
-export const CONTRIBUTOR_BADGE = "https://kappa.lol/S_YwRI";
 const OWNER_BADGE = "https://cdn.discordapp.com/badge-icons/5e74e9b61934fc1f67c65515d1f7e60d.png";
 
 function openEaglePage() {
@@ -42,7 +42,7 @@ function openEaglePage() {
 
 const ContributorBadge: ProfileBadge = {
     description: "Vencord / EagleCord Contributor",
-    image: CONTRIBUTOR_BADGE,
+    image: EAGLECORD_ICON_IMAGE,
     position: BadgePosition.END,
     shouldShow: ({ userId }) => shouldShowContributorBadge(userId),
     onClick: (_, { userId }) => openContributorModal(UserStore.getUser(userId)),

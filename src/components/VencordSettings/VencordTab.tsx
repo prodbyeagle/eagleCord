@@ -43,7 +43,9 @@ const SHIGGY_DONATE_IMAGE = "https://media.discordapp.net/stickers/1039992459209
 
 const VENNIE_DONATOR_IMAGE = "https://cdn.discordapp.com/emojis/1238120638020063377.png";
 // const COZY_CONTRIB_IMAGE = "https://cdn.discordapp.com/emojis/1026533070955872337.png";
-const VENCORD_ICON_IMAGE = "https://kappa.lol/S_YwRI";
+export const VENCORD_ICON_IMAGE = "https://cdn.discordapp.com/emojis/1385015887668445274.webp";
+
+export const EAGLECORD_ICON_IMAGE = "https://cdn.discordapp.com/emojis/1385016033831555233.gif";
 
 const DONOR_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070116305436712.png?size=2048";
 const CONTRIB_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070166481895484.png?size=2048";
@@ -112,7 +114,7 @@ function VencordSettings() {
                     title="EagleCord"
                     subtitle="Thank you for using EagleCord!"
                     description="We appreciate you downloading and trying out EagleCord."
-                    cardImage="https://kappa.lol/WTiY5"
+                    cardImage={EAGLECORD_ICON_IMAGE}
                     backgroundImage={CONTRIB_BACKGROUND_IMAGE}
                     backgroundColor="#b083c9"
                 />
