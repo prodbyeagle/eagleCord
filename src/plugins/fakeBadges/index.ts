@@ -43,13 +43,17 @@ function createProfileBadge(
     props: Partial<ProfileBadge["props"]> = {}
 ): ProfileBadge {
     logger.debug(`Creating profile badge "${badge.name}" for userId ${userId}`);
+
+    const emojiUrl = `https://cdn.discordapp.com/emojis/${badge.emojiId}`;
+
     return {
         ...badge,
+        image: emojiUrl,
         position: BadgePosition.END,
         shouldShow: badge.shouldShow ?? (({ userId: id }) => id === userId),
         props: {
-            ...(badge.props ?? {}),
             ...props,
+            ...(badge.props ?? {}),
         },
     };
 }
