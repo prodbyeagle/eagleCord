@@ -18,10 +18,9 @@
 
 import { LazyComponent } from "@utils/lazyReact";
 import { filters, mapMangledModuleLazy, waitFor } from "@webpack";
-import * as t from "@webpack/types";
 
-// eslint-disable-next-line path-alias/no-relative
 import { waitForComponent } from "./internal";
+import * as t from "./types/components";
 
 
 const FormTitle = waitForComponent<t.FormTitle>("FormTitle", filters.componentByCode('["defaultMargin".concat', '="h5"'));
@@ -65,6 +64,9 @@ export const TabBar = waitForComponent("TabBar", filters.componentByCode("ref:th
 export const Paginator = waitForComponent<t.Paginator>("Paginator", filters.componentByCode('rel:"prev",children:'));
 export const Clickable = waitForComponent<t.Clickable>("Clickable", filters.componentByCode("this.context?this.renderNonInteractive():"));
 export const Avatar = waitForComponent<t.Avatar>("Avatar", filters.componentByCode(".size-1.375*"));
+
+export const ColorPicker = waitForComponent<t.ColorPicker>("ColorPicker", filters.componentByCode("#{intl::USER_SETTINGS_PROFILE_COLOR_SELECT_COLOR}", "showEyeDropper"));
+
 
 export let createScroller: (scrollbarClassName: string, fadeClassName: string, customThemeClassName: string) => t.ScrollerThin;
 export let scrollerClasses: Record<string, string>;

@@ -535,3 +535,11 @@ export type Icon = ComponentType<JSX.IntrinsicElements["svg"] & {
     size?: string;
     colorClass?: string;
 } & Record<string, any>>;
+
+export type ColorPicker = ComponentType<{
+    color: number | null;
+    showEyeDropper?: boolean;
+    suggestedColors?: string[];
+    label?: ReactNode;
+    onChange(value: number | null): void;
+}>;
