@@ -16,12 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { findByCodeLazy, findByPropsLazy } from "@webpack";
-import * as t from "@webpack/types";
+import { findByCodeLazy, findByPropsLazy, waitFor } from "@webpack";
 import type * as Stores from "discord-types/stores";
 
-// eslint-disable-next-line path-alias/no-relative
 import { waitForStore } from "./internal";
+import * as t from "./types/stores";
 
 export const Flux: t.Flux = findByPropsLazy("connectStores");
 
@@ -41,12 +40,13 @@ export let ReadStateStore: GenericStore;
 export let PresenceStore: GenericStore;
 
 export let GuildStore: t.GuildStore;
+export let GuildRoleStore: t.GuildRoleStore;
+export let GuildMemberStore: Stores.GuildMemberStore & t.FluxStore;
 export let UserStore: Stores.UserStore & t.FluxStore;
 export let UserProfileStore: GenericStore;
 export let SelectedChannelStore: Stores.SelectedChannelStore & t.FluxStore;
 export let SelectedGuildStore: t.FluxStore & Record<string, any>;
 export let ChannelStore: Stores.ChannelStore & t.FluxStore;
-export let GuildMemberStore: Stores.GuildMemberStore & t.FluxStore;
 export let RelationshipStore: t.RelationshipStore;
 
 export let EmojiStore: t.EmojiStore;
@@ -87,3 +87,7 @@ waitForStore("ThemeStore", m => {
     // Importing this directly can easily cause circular imports. For this reason, use a non import access here.
     Vencord.QuickCss.initQuickCssThemeStore();
 });
+
+// GuildRoleStore is new, this code is for stable + canary compatibility
+// TODO: Change to waitForStore once GuildRoleStore is on stable
+waitFor(["getRole", "getRoles"], m => GuildRoleStore = m);
