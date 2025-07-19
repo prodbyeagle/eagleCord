@@ -20,7 +20,7 @@ import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType, StartAt } from "@utils/types";
-import { WebpackRequire } from "@webpack/wreq.d";
+import { WebpackRequire } from "@vencord/discord-types/webpack";
 
 const settings = definePluginSettings({
     disableAnalytics: {
@@ -117,7 +117,7 @@ export default definePlugin({
                 Reflect.deleteProperty(Function.prototype, "g");
                 Reflect.deleteProperty(window, "DiscordSentry");
 
-                new Logger("NoTrack", "#e78284").info("Sentry successfully disabled");
+                throw new Error("Sentry successfully disabled");
             }
         });
 

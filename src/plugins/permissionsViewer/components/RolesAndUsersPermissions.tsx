@@ -25,7 +25,7 @@ import { ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot, Mod
 import { findByCodeLazy } from "@webpack";
 import { ContextMenuApi, FluxDispatcher, GuildMemberStore, GuildStore, i18n, Menu, PermissionsBits, ScrollerThin, Text, Tooltip, useEffect, useMemo, UserStore, useState, useStateFromStores } from "@webpack/common";
 import { UnicodeEmoji } from "@webpack/types";
-import type { Guild, Role, User } from "discord-types/general";
+import type { Guild, Role, User } from "@vencord/discord-types";
 
 import { settings } from "..";
 import { cl, getGuildPermissionSpecMap } from "../utils";

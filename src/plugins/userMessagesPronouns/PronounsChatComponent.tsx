@@ -22,7 +22,7 @@ import { getIntlMessage } from "@utils/discord";
 import { classes } from "@utils/misc";
 import { findByPropsLazy } from "@webpack";
 import { Tooltip, UserStore } from "@webpack/common";
-import { Message } from "discord-types/general";
+import { Message } from "@vencord/discord-types";
 
 import { settings } from "./settings";
 import { useFormattedPronouns } from "./utils";

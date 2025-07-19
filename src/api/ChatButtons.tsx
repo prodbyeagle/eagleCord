@@ -11,7 +11,7 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { Logger } from "@utils/Logger";
 import { waitFor } from "@webpack";
 import { Button, ButtonWrapperClasses, Tooltip } from "@webpack/common";
-import { Channel } from "discord-types/general";
+import { Channel } from "@vencord/discord-types";
 import { HTMLProps, JSX, MouseEventHandler, ReactNode } from "react";
 
 let ChannelTextAreaClasses: Record<"button" | "buttonContainer", string>;

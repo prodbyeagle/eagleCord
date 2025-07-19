@@ -19,7 +19,7 @@ import { Margins } from "@utils/margins";
 import { classes, pluralise } from "@utils/misc";
 import { ModalContent, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import { Flex, Forms, showToast, useEffect, useMemo, UserProfileStore, useStateFromStores } from "@webpack/common";
-import { User } from "discord-types/general";
+import { User } from "@vencord/discord-types";
 
 import Plugins from "~plugins";
 

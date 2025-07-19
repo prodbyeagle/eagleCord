@@ -19,7 +19,7 @@
 import { classNameFactory } from "@api/Styles";
 import { findByPropsLazy } from "@webpack";
 import { GuildStore } from "@webpack/common";
-import { Guild, GuildMember, Role } from "discord-types/general";
+import { Guild, GuildMember, Role } from "@vencord/discord-types";
 
 import { PermissionsSortOrder, settings } from ".";
 import { PermissionType } from "./components/RolesAndUsersPermissions";

@@ -213,7 +213,7 @@ export default definePlugin({
     get chromiumVersion() {
         try {
             return VencordNative.native.getVersions().chrome
-                // @ts-ignore Typescript will add userAgentData IMMEDIATELY
+                // @ts-expect-error Typescript will add userAgentData IMMEDIATELY
                 || navigator.userAgentData?.brands?.find(b => b.brand === "Chromium" || b.brand === "Google Chrome")?.version
                 || null;
         } catch { // inb4 some stupid browser throws unsupported error for navigator.userAgentData, it's only in chromium
@@ -232,7 +232,7 @@ export default definePlugin({
     getInfoRows() {
         const { electronVersion, chromiumVersion, additionalInfo } = this;
 
-        const rows = [`EagleCord ( based on Vencord ) ${gitHash}${additionalInfo}`];
+        const rows = [`Vencord ${gitHash}${additionalInfo}`];
 
         if (electronVersion) rows.push(`Electron ${electronVersion}`);
         if (chromiumVersion) rows.push(`Chromium ${chromiumVersion}`);

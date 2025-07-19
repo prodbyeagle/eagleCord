@@ -17,7 +17,7 @@
 */
 
 import { Parser, useEffect, useState } from "@webpack/common";
-import { Message } from "discord-types/general";
+import { Message } from "@vencord/discord-types";
 
 import { TranslateIcon } from "./TranslateIcon";
 import { cl, TranslationValue } from "./utils";

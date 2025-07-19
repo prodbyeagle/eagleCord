@@ -17,7 +17,7 @@
 */
 
 import { findByCodeLazy, findByPropsLazy, waitFor } from "@webpack";
-import type * as Stores from "discord-types/stores";
+import type * as Stores from "@vencord/discord-types";
 
 import { waitForStore } from "./internal";
 import * as t from "./types/stores";

@@ -24,7 +24,7 @@ import { NoopComponent } from "@utils/react";
 import definePlugin from "@utils/types";
 import { filters, findByCodeLazy, waitFor } from "@webpack";
 import { ChannelStore, ContextMenuApi, UserStore } from "@webpack/common";
-import { Message } from "discord-types/general";
+import { Message } from "@vencord/discord-types";
 
 const useMessageMenu = findByCodeLazy(".MESSAGE,commandTargetId:");
 

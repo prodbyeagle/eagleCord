@@ -22,7 +22,7 @@ import { copyToClipboard } from "@utils/clipboard";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 import { Menu } from "@webpack/common";
-import type { Channel, User } from "discord-types/general";
+import type { Channel, User } from "@vencord/discord-types";
 
 interface UserContextProps {
     channel: Channel;

@@ -8,7 +8,7 @@ import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/Co
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 import { Menu } from "@webpack/common";
-import { Guild } from "discord-types/general";
+import { Guild } from "@vencord/discord-types";
 
 import { openGuildInfoModal } from "./GuildInfoModal";
 

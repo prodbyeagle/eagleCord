@@ -15,7 +15,7 @@ import { Devs } from "@utils/constants";
 import { isPluginDev } from "@utils/misc";
 import definePlugin from "@utils/types";
 import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
-import { User } from "discord-types/general";
+import { User } from "@vencord/discord-types";
 import badges from "plugins/_api/badges";
 
 import settings, { cl } from "./settings";

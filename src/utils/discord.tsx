@@ -21,7 +21,7 @@ import { runtimeHashMessageKey } from "@utils/intlHash";
 import { Logger } from "@utils/Logger";
 import { MediaModalItem, MediaModalProps, openMediaModal } from "@utils/modal";
 import { ChannelStore, ComponentDispatch, Constants, FluxDispatcher, GuildStore, i18n, IconUtils, InviteActions, MessageActions, PrivateChannelsStore, RestAPI, SelectedChannelStore, SelectedGuildStore, UserProfileActions, UserProfileStore, UserSettingsActionCreators, UserUtils } from "@webpack/common";
-import { Channel, Guild, Message, User } from "discord-types/general";
+import { Channel, Guild, Message, User } from "@vencord/discord-types";
 import { Except } from "type-fest";
 
 const IntlManagerLogger = new Logger("IntlManager");

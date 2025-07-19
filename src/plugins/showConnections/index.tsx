@@ -27,7 +27,7 @@ import { copyWithToast } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByCodeLazy, findByPropsLazy } from "@webpack";
 import { Tooltip, UserProfileStore } from "@webpack/common";
-import { User } from "discord-types/general";
+import { User } from "@vencord/discord-types";
 
 import { VerifiedIcon } from "./VerifiedIcon";
 

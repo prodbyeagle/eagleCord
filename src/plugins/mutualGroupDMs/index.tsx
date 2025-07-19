@@ -25,7 +25,7 @@ import { Logger } from "@utils/Logger";
 import definePlugin from "@utils/types";
 import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import { Avatar, ChannelStore, Clickable, IconUtils, RelationshipStore, ScrollerThin, useMemo, UserStore } from "@webpack/common";
-import { Channel, User } from "discord-types/general";
+import { Channel, User } from "@vencord/discord-types";
 import { JSX } from "react";
 
 const SelectedChannelActionCreators = findByPropsLazy("selectPrivateChannel");

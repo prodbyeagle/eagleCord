@@ -22,7 +22,7 @@ import { classes } from "@utils/misc";
 import { formatDuration } from "@utils/text";
 import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import { EmojiStore, FluxDispatcher, GuildMemberStore, GuildStore, Parser, PermissionsBits, PermissionStore, SnowflakeUtils, Text, Timestamp, Tooltip, useEffect, useState } from "@webpack/common";
-import type { Channel } from "discord-types/general";
+import type { Channel } from "@vencord/discord-types";
 
 import openRolesAndUsersPermissionsModal, { PermissionType, RoleOrUserPermission } from "../../permissionsViewer/components/RolesAndUsersPermissions";
 import { sortPermissionOverwrites } from "../../permissionsViewer/utils";

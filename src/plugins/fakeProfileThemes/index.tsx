@@ -27,7 +27,7 @@ import { classes, copyWithToast } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
 import { findComponentByCodeLazy } from "@webpack";
 import { Button, ColorPicker, Flex, Forms, React, Text, UserProfileStore, UserStore, useState } from "@webpack/common";
-import { User } from "discord-types/general";
+import { User } from "@vencord/discord-types";
 import { ReactElement } from "react";
 import virtualMerge from "virtual-merge";
 

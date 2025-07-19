@@ -39,7 +39,7 @@ import {
     Text,
     UserStore
 } from "@webpack/common";
-import { Channel, Message } from "discord-types/general";
+import { Channel, Message } from "@vencord/discord-types";
 import { JSX } from "react";
 
 const messageCache = new Map<string, {

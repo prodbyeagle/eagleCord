@@ -17,7 +17,7 @@
 */
 
 import type * as t from "@webpack/types";
-import type { Channel } from "discord-types/general";
+import type { Channel } from "@vencord/discord-types";
 
 // eslint-disable-next-line path-alias/no-relative
 import { _resolveReady, filters, findByCodeLazy, findByPropsLazy, findLazy, mapMangledModuleLazy, waitFor } from "../webpack";

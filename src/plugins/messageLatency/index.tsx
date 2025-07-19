@@ -11,7 +11,7 @@ import { isNonNullish } from "@utils/guards";
 import definePlugin, { OptionType } from "@utils/types";
 import { findComponentByCodeLazy } from "@webpack";
 import { SnowflakeUtils, Tooltip } from "@webpack/common";
-import { Message } from "discord-types/general";
+import { Message } from "@vencord/discord-types";
 
 type FillValue = ("status-danger" | "status-warning" | "status-positive" | "text-muted");
 type Fill = [FillValue, FillValue, FillValue];

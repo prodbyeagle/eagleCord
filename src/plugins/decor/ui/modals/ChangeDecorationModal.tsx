@@ -13,7 +13,7 @@ import { closeAllModals, ModalCloseButton, ModalContent, ModalFooter, ModalHeade
 import { Queue } from "@utils/Queue";
 import { findComponentByCodeLazy } from "@webpack";
 import { Alerts, Button, FluxDispatcher, Forms, GuildStore, NavigationRouter, Parser, Text, Tooltip, useEffect, UserStore, UserUtils, useState } from "@webpack/common";
-import { User } from "discord-types/general";
+import { User } from "@vencord/discord-types";
 
 import { Decoration, getPresets, Preset } from "../../lib/api";
 import { GUILD_ID, INVITE_KEY } from "../../lib/constants";

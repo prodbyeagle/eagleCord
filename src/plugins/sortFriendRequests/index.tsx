@@ -24,7 +24,7 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { DateUtils, RelationshipStore, Text, TooltipContainer } from "@webpack/common";
-import { User } from "discord-types/general";
+import { User } from "@vencord/discord-types";
 import { PropsWithChildren } from "react";
 
 const formatter = new Intl.DateTimeFormat(undefined, {
