@@ -1,6 +1,5 @@
 /* eslint-disable */
 
-const self = module.exports;
 /**
  * apng-canvas v2.1.2
  *
@@ -546,15 +545,7 @@ const self = module.exports;
                             : "function" == typeof define && define.amd
                             ? define(e)
                             : (t.ES6Promise = e());
-                }).call(
-                    this,
-                    Y("VCmEsw"),
-                    "undefined" != typeof self
-                        ? self
-                        : "undefined" != typeof window
-                        ? window
-                        : {}
-                );
+                }).call(this, Y("VCmEsw"), module.exports);
             },
             { VCmEsw: 2 },
         ],
@@ -878,14 +869,7 @@ const self = module.exports;
                             "_apng_animation" in e &&
                                 e._apng_animation.removeContext(e);
                         });
-                }).call(
-                    this,
-                    "undefined" != typeof self
-                        ? self
-                        : "undefined" != typeof window
-                        ? window
-                        : {}
-                );
+                }).call(this, module.exports);
             },
             { "./loader": 6, "./parser": 7, "./support-test": 8 },
         ],
@@ -1151,14 +1135,7 @@ const self = module.exports;
                             );
                         },
                     };
-                }).call(
-                    this,
-                    "undefined" != typeof self
-                        ? self
-                        : "undefined" != typeof window
-                        ? window
-                        : {}
-                );
+                }).call(this, module.exports);
             },
             { "es6-promise": 1 },
         ],

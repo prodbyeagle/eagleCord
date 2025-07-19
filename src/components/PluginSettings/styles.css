@@ -66,7 +66,7 @@
     gap: 0.25em;
 }
 
-.vc-plugins-restart-card {
+.vc-warning-card {
     padding: 1em;
     background: var(--info-warning-background);
     border: 1px solid var(--info-warning-foreground);

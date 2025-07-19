@@ -18,14 +18,13 @@
 
 import { ProfileBadge } from "@api/Badges";
 import { ChatBarButtonFactory } from "@api/ChatButtons";
-import { Command } from "@api/Commands";
+import { Command, FluxEvents } from "@vencord/discord-types";
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { MemberListDecoratorFactory } from "@api/MemberListDecorators";
 import { MessageAccessoryFactory } from "@api/MessageAccessories";
 import { MessageDecorationFactory } from "@api/MessageDecorations";
 import { MessageClickListener, MessageEditListener, MessageSendListener } from "@api/MessageEvents";
 import { MessagePopoverButtonFactory } from "@api/MessagePopover";
-import { FluxEvents } from "@webpack/types";
 import { ReactNode } from "react";
 import { Promisable } from "type-fest";
 
@@ -172,16 +171,7 @@ export interface PluginDef {
     managedStyle?: string;
 
     userProfileBadge?: ProfileBadge;
-
-    /** Custom Badge for prodbyeagle. Do not change*/
-    // eagleBadge?: ProfileBadge;
-
-    /** Custom Badge for dwhincandi. Do not change*/
-    // andiBadge?: ProfileBadge;
-
-    /** Custom Badge for lerxyonhub. Do not change*/
-    // lerxyBadge?: ProfileBadge;
-
+    
     /** Custom Badge for VIP Users. Do not change*/
     VIPBadge?: ProfileBadge;
 

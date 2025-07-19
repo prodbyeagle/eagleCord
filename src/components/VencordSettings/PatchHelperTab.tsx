@@ -17,7 +17,6 @@
 */
 
 import { CodeBlock } from "@components/CodeBlock";
-import { SettingsTab, wrapTab } from "@components/VencordSettings/shared";
 import { debounce } from "@shared/debounce";
 import { copyToClipboard } from "@utils/clipboard";
 import { Margins } from "@utils/margins";
@@ -26,6 +25,8 @@ import { makeCodeblock } from "@utils/text";
 import { Patch, ReplaceFn } from "@utils/types";
 import { search } from "@webpack";
 import { Button, Forms, Parser, React, Switch, TextArea, TextInput } from "@webpack/common";
+
+import { SettingsTab, wrapTab } from "./shared";
 
 // Do not include diff in non dev builds (side effects import)
 if (IS_DEV) {
@@ -147,7 +148,7 @@ function ReplacementComponent({ module, match, replacement, setReplacementError 
             )}
 
             {compileResult &&
-                <Forms.FormText style={{ color: compileResult[0] ? "var(--text-positive)" : "var(--text-danger)" }}>
+                <Forms.FormText style={{ color: compileResult[0] ? "var(--status-positive)" : "var(--text-danger)" }}>
                     {compileResult[1]}
                 </Forms.FormText>
             }
@@ -193,7 +194,7 @@ function ReplacementInput({ replacement, setReplacement, replacementError }) {
                 error={error ?? replacementError}
             />
             {!isFunc && (
-                <div className="vc-text-selectable">
+                <div>
                     <Forms.FormTitle className={Margins.top8}>Cheat Sheet</Forms.FormTitle>
                     {Object.entries({
                         "\\i": "Special regex escape sequence that matches identifiers (varnames, classnames, etc.)",
