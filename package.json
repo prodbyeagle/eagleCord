@@ -54,7 +54,7 @@
         "@types/react-dom": "^19.1.6",
         "@types/yazl": "^3.3.0",
         "diff": "^8.0.2",
-        "@vencord/discord-types": "link:packages/discord-types",
+        "@vencord/discord-types": "link:@vencord/discord-types",
         "esbuild": "^0.25.5",
         "eslint": "9.29.0",
         "eslint-import-resolver-alias": "^1.1.2",
@@ -80,28 +80,6 @@
         "zip-local": "^0.3.5"
     },
     "packageManager": "bun@10.4.1",
-    "bun": {
-        "patchedDependencies": {
-            "eslint@9.20.1": "patches/eslint@9.20.1.patch",
-            "eslint-plugin-path-alias@2.1.0": "patches/eslint-plugin-path-alias@2.1.0.patch"
-        },
-        "peerDependencyRules": {
-            "ignoreMissing": [
-                "eslint-plugin-import",
-                "eslint"
-            ]
-        },
-        "allowedDeprecatedVersions": {
-            "source-map-resolve": "*",
-            "resolve-url": "*",
-            "source-map-url": "*",
-            "urix": "*",
-            "q": "*"
-        },
-        "onlyBuiltDependencies": [
-            "esbuild"
-        ]
-    },
     "engines": {
         "node": ">=18"
     }
