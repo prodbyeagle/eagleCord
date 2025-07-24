@@ -26,6 +26,9 @@ export const SUPPORT_CHANNEL_ID = "1026515880080842772";
 export const SUPPORT_CATEGORY_ID = "1108135649699180705";
 export const KNOWN_ISSUES_CHANNEL_ID = "1222936386626129920";
 
+export const EAGLE_USER_ROLE_ID = "915234197080268880";
+export const MEOW_LOUNGE_GUILD_ID = "893762438007246868";
+
 const platform = navigator.platform.toLowerCase();
 export const IS_WINDOWS = platform.startsWith("win");
 export const IS_MAC = platform.startsWith("mac");
@@ -597,6 +600,10 @@ export const Devs = /* #__PURE__*/ Object.freeze({
     Cootshk: {
         name: "Cootshk",
         id: 921605971577548820n
+    },
+    prodbyeagle: {
+        name: "prodbyeagle",
+        id: 893759402832699392n
     },
 } satisfies Record<string, Dev>);
 

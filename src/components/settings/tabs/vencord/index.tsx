@@ -31,7 +31,7 @@ import { isPluginDev } from "@utils/misc";
 import { relaunch } from "@utils/native";
 import { Forms, React, Switch, useMemo, UserStore } from "@webpack/common";
 
-import { DonateButtonComponent, isDonor } from "./DonateButton";
+import { DonateButtonComponent, isDonor, isEagleUser } from "./DonateButton";
 import { VibrancySettings } from "./MacVibrancySettings";
 import { NotificationSection } from "./NotificationSettings";
 
@@ -41,6 +41,8 @@ const VENNIE_DONATOR_IMAGE = "https://cdn.discordapp.com/emojis/1238120638020063
 const COZY_CONTRIB_IMAGE = "https://cdn.discordapp.com/emojis/1026533070955872337.png";
 const DONOR_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070116305436712.png?size=2048";
 const CONTRIB_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070166481895484.png?size=2048";
+
+export const EAGLECORD_ICON_IMAGE = "https://cdn.discordapp.com/emojis/1385016033831555233.gif";
 
 type KeysOfType<Object, Type> = {
     [K in keyof Object]: Object[K] extends Type ? K : never;
@@ -114,6 +116,17 @@ function VencordSettings() {
 
     return (
         <SettingsTab title="Vencord Settings">
+            {isEagleUser(user?.id) && (
+                <SpecialCard
+                    title="EagleCord"
+                    subtitle="Thank you for using EagleCord!"
+                    description="We appreciate you downloading and trying out EagleCord."
+                    cardImage={EAGLECORD_ICON_IMAGE}
+                    backgroundImage={CONTRIB_BACKGROUND_IMAGE}
+                    backgroundColor="#b083c9"
+                />
+            )}
+
             {isDonor(user?.id)
                 ? (
                     <SpecialCard

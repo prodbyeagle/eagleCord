@@ -1,64 +1,99 @@
 /*
- * Vencord, a modification for Discord's desktop app
- * Copyright (c) 2023 Vendicated and contributors
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Vencord, a Discord client mod
+ * Copyright (c) 2025 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 import { definePluginSettings } from "@api/Settings";
-import { Link } from "@components/Link";
 import { Devs } from "@utils/constants";
+import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
+import { Toasts } from "@webpack/common";
 
-const API_URL = "https://usrbg.is-hardly.online/users";
+const log = new Logger("EAGLEUSRBG", "#139375");
 
-interface UsrbgApiReturn {
-    endpoint: string;
-    bucket: string;
-    prefix: string;
-    users: Record<string, string>;
-}
+const GITHUB_JSON_URL = "https://raw.githubusercontent.com/prodbyeagle/dotfiles/refs/heads/main/Vencord/eagleCord/usrbg.json";
+const GITHUB_IMAGE_BASE = "https://raw.githubusercontent.com/prodbyeagle/dotfiles/refs/heads/main/Vencord/eagleCord/images/";
+
+type UsrbgGitHubData = Record<string, string>;
 
 const settings = definePluginSettings({
     nitroFirst: {
-        description: "Banner to use if both Nitro and USRBG banners are present",
+        description: "Banner to use if both Nitro and GitHub banners are present",
         type: OptionType.SELECT,
         options: [
             { label: "Nitro banner", value: true, default: true },
-            { label: "USRBG banner", value: false },
+            { label: "GitHub banner", value: false }
         ]
     },
     voiceBackground: {
-        description: "Use USRBG banners as voice chat backgrounds",
+        description: "Use GitHub banners as voice chat backgrounds",
         type: OptionType.BOOLEAN,
         default: true,
         restartNeeded: true
     }
 });
 
+async function reloadBanners(context: {
+    log: Logger,
+    setData: (data: UsrbgGitHubData) => void;
+}): Promise<boolean> {
+    context.log.info("Reloading banner data from GitHub...");
+
+    try {
+        const res = await fetch(GITHUB_JSON_URL);
+        if (!res.ok) {
+            context.log.error("Failed to reload banner data. Status:", res.status);
+            return false;
+        }
+
+        const data = await res.json() as UsrbgGitHubData;
+        context.setData(data);
+
+        const count = Object.keys(data ?? {}).length;
+        context.log.info(`Reloaded ${count} GitHub banners`);
+        return true;
+    } catch (err) {
+        context.log.error("Error reloading GitHub banner data:", err);
+        return false;
+    }
+}
+
 export default definePlugin({
     name: "USRBG",
-    description: "Displays user banners from USRBG, allowing anyone to get a banner without Nitro",
-    authors: [Devs.AutumnVN, Devs.katlyn, Devs.pylix, Devs.TheKodeToad],
+    description: "Displays user banners from USRBG (MODDED BY EAGLE), allowing anyone to get a banner without Nitro",
+    authors: [Devs.AutumnVN, Devs.katlyn, Devs.pylix, Devs.TheKodeToad, Devs.prodbyeagle],
     settings,
+
+    toolboxActions: {
+        async "Refetch Banners"() {
+            const success = await reloadBanners({
+                log,
+                setData: data => { data = data; }
+            });
+
+            if (success) {
+                Toasts.show({
+                    id: Toasts.genId(),
+                    message: "Successfully refetched Banner Images!",
+                    type: Toasts.Type.SUCCESS
+                });
+            } else {
+                Toasts.show({
+                    id: Toasts.genId(),
+                    message: "Failed to refetch Banner Images.",
+                    type: Toasts.Type.FAILURE
+                });
+            }
+        }
+    },
+
     patches: [
         {
             find: '.banner)==null?"COMPLETE"',
             replacement: {
                 match: /(?<=void 0:)\i.getPreviewBanner\(\i,\i,\i\)/,
                 replace: "$self.patchBannerUrl(arguments[0])||$&"
-
             }
         },
         {
@@ -73,48 +108,88 @@ export default definePlugin({
         }
     ],
 
-    data: null as UsrbgApiReturn | null,
-
-    settingsAboutComponent: () => {
-        return (
-            <Link href="https://github.com/AutumnVN/usrbg#how-to-request-your-own-usrbg-banner">CLICK HERE TO GET YOUR OWN BANNER</Link>
-        );
-    },
-
     getVoiceBackgroundStyles({ className, participantUserId }: any) {
-        if (className.includes("tile_")) {
-            if (this.userHasBackground(participantUserId)) {
-                return {
-                    backgroundImage: `url(${this.getImageUrl(participantUserId)})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat"
-                };
-            }
+        log.debug("getVoiceBackgroundStyles called with:", { className, participantUserId });
+
+        if (!participantUserId) {
+            log.warn("Missing participantUserId in getVoiceBackgroundStyles");
+            return;
         }
+
+        if (className.includes("tile_") && this.userHasBackground(participantUserId)) {
+            const url = this.getImageUrl(participantUserId);
+            log.debug("Applying voice background for user:", participantUserId, "->", url);
+
+            return {
+                backgroundImage: `url(${url})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat"
+            };
+        }
+
+        log.debug("No background applied for user:", participantUserId);
     },
 
     patchBannerUrl({ displayProfile }: any) {
-        if (displayProfile?.banner && settings.store.nitroFirst) return;
-        if (this.userHasBackground(displayProfile?.userId)) return this.getImageUrl(displayProfile?.userId);
+        log.debug("patchBannerUrl called with:", displayProfile);
+
+        if (!displayProfile) {
+            log.warn("Missing displayProfile in patchBannerUrl");
+            return;
+        }
+
+        if (displayProfile?.banner && settings.store.nitroFirst) {
+            log.debug("User has Nitro banner, skipping GitHub banner:", displayProfile.userId);
+            return;
+        }
+
+        if (this.userHasBackground(displayProfile.userId)) {
+            const url = this.getImageUrl(displayProfile.userId);
+            log.debug("Returning GitHub banner URL for user:", displayProfile.userId, "->", url);
+            return url;
+        }
+
+        log.debug("No GitHub banner found for user:", displayProfile.userId);
     },
 
+    data: null as UsrbgGitHubData | null,
+
     userHasBackground(userId: string) {
-        return !!this.data?.users[userId];
+        const has = !!this.data?.[userId];
+        log.debug(`userHasBackground(${userId}) =>`, has);
+        return has;
     },
 
     getImageUrl(userId: string): string | null {
-        if (!this.userHasBackground(userId)) return null;
+        const filename = this.data?.[userId];
 
-        // We can assert that data exists because userHasBackground returned true
-        const { endpoint, bucket, prefix, users: { [userId]: etag } } = this.data!;
-        return `${endpoint}/${bucket}/${prefix}${userId}?${etag}`;
+        if (!filename) {
+            log.debug("getImageUrl: No image found for user:", userId);
+            return null;
+        }
+
+        const url = `${GITHUB_IMAGE_BASE}${filename}`;
+        log.debug("getImageUrl:", userId, "->", url);
+        return url;
     },
 
     async start() {
-        const res = await fetch(API_URL);
-        if (res.ok) {
+        log.info("Starting plugin... Fetching banner data");
+
+        try {
+            const res = await fetch(GITHUB_JSON_URL);
+            if (!res.ok) {
+                log.error("Failed to fetch banner data. Status:", res.status);
+                return;
+            }
+
             this.data = await res.json();
+
+            const count = Object.keys(this.data ?? {}).length;
+            log.info(`Loaded ${count} GitHub banners`);
+        } catch (err) {
+            log.error("Error fetching GitHub banner data:", err);
         }
     }
 });
