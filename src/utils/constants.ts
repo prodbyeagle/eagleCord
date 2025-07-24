@@ -25,13 +25,9 @@ export const REGULAR_ROLE_ID = "1026504932959977532";
 export const SUPPORT_CHANNEL_ID = "1026515880080842772";
 export const SUPPORT_CATEGORY_ID = "1108135649699180705";
 export const KNOWN_ISSUES_CHANNEL_ID = "1222936386626129920";
+
 export const EAGLE_USER_ROLE_ID = "915234197080268880";
 export const MEOW_LOUNGE_GUILD_ID = "893762438007246868";
-
-const platform = navigator.platform.toLowerCase();
-export const IS_WINDOWS = platform.startsWith("win");
-export const IS_MAC = platform.startsWith("mac");
-export const IS_LINUX = platform.startsWith("linux");
 
 export interface Dev {
     name: string;
@@ -594,15 +590,15 @@ export const Devs = /* #__PURE__*/ Object.freeze({
     },
     samsam: {
         name: "samsam",
-        id: 400482410279469056n,
-    },
-    Cootshk: {
-        name: "Cootshk",
-        id: 921605971577548820n
+        id: 836452332387565589n,
     },
     prodbyeagle: {
         name: "prodbyeagle",
         id: 893759402832699392n
+    },
+    KrystalSkull: {
+        name: "krystalskullofficial",
+        id: 929208515883569182n,
     },
 } satisfies Record<string, Dev>);
 

@@ -25,10 +25,9 @@ import { CopyIcon, LinkIcon } from "@components/Icons";
 import { Devs } from "@utils/constants";
 import { copyWithToast } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { ConnectedAccount, User } from "@vencord/discord-types";
 import { findByCodeLazy, findByPropsLazy } from "@webpack";
 import { Tooltip, UserProfileStore } from "@webpack/common";
-import OpenInAppPlugin from "plugins/openInApp";
+import { User } from "@vencord/discord-types";
 
 import { VerifiedIcon } from "./VerifiedIcon";
 
@@ -61,8 +60,15 @@ const settings = definePluginSettings({
     }
 });
 
+interface Connection {
+    type: string;
+    id: string;
+    name: string;
+    verified: boolean;
+}
+
 interface ConnectionPlatform {
-    getPlatformUserUrl(connection: ConnectedAccount): string;
+    getPlatformUserUrl(connection: Connection): string;
     icon: { lightSVG: string, darkSVG: string; };
 }
 
@@ -82,7 +88,7 @@ function ConnectionsComponent({ id, theme }: { id: string, theme: string; }) {
     if (!profile)
         return null;
 
-    const connections = profile.connectedAccounts;
+    const connections: Connection[] = profile.connectedAccounts;
     if (!connections?.length)
         return null;
 
@@ -96,7 +102,7 @@ function ConnectionsComponent({ id, theme }: { id: string, theme: string; }) {
     );
 }
 
-function CompactConnectionComponent({ connection, theme }: { connection: ConnectedAccount, theme: string; }) {
+function CompactConnectionComponent({ connection, theme }: { connection: Connection, theme: string; }) {
     const platform = platforms.get(useLegacyPlatformType(connection.type));
     const url = platform.getPlatformUserUrl?.(connection);
 
@@ -134,8 +140,9 @@ function CompactConnectionComponent({ connection, theme }: { connection: Connect
                         rel="noreferrer"
                         onClick={e => {
                             if (Vencord.Plugins.isPluginEnabled("OpenInApp")) {
+                                const OpenInApp = Vencord.Plugins.plugins.OpenInApp as any as typeof import("../openInApp").default;
                                 // handleLink will .preventDefault() if applicable
-                                OpenInAppPlugin.handleLink(e.currentTarget, e);
+                                OpenInApp.handleLink(e.currentTarget, e);
                             }
                         }}
                     >

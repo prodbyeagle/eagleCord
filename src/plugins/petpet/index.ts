@@ -16,11 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { ApplicationCommandInputType, ApplicationCommandOptionType, findOption, sendBotMessage } from "@api/Commands";
+import { ApplicationCommandInputType, ApplicationCommandOptionType, Argument, CommandContext, findOption, sendBotMessage } from "@api/Commands";
 import { Devs } from "@utils/constants";
 import { makeLazy } from "@utils/lazy";
 import definePlugin from "@utils/types";
-import { CommandArgument, CommandContext } from "@vencord/discord-types";
 import { findByPropsLazy } from "@webpack";
 import { DraftType, UploadHandler, UploadManager, UserUtils } from "@webpack/common";
 import { applyPalette, GIFEncoder, quantize } from "gifenc";
@@ -55,7 +54,7 @@ function loadImage(source: File | string) {
     });
 }
 
-async function resolveImage(options: CommandArgument[], ctx: CommandContext, noServerPfp: boolean): Promise<File | string | null> {
+async function resolveImage(options: Argument[], ctx: CommandContext, noServerPfp: boolean): Promise<File | string | null> {
     for (const opt of options) {
         switch (opt.name) {
             case "image":
@@ -178,8 +177,6 @@ export default definePlugin({
                 }
 
                 gif.finish();
-                // @ts-ignore This causes a type error on *only some* typescript versions.
-                // usage adheres to mdn https://developer.mozilla.org/en-US/docs/Web/API/File/File#parameters
                 const file = new File([gif.bytesView()], "petpet.gif", { type: "image/gif" });
                 // Immediately after the command finishes, Discord clears all input, including pending attachments.
                 // Thus, setTimeout is needed to make this execute after Discord cleared the input

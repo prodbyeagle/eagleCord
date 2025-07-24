@@ -16,9 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-// DO NOT REMOVE UNLESS YOU WISH TO FACE THE WRATH OF THE CIRCULAR DEPENDENCY DEMON!!!!!!!
-import "~plugins";
-
 export * as Api from "./api";
 export * as Components from "./components";
 export * as Plugins from "./plugins";
@@ -29,23 +26,22 @@ export * as Webpack from "./webpack";
 export * as WebpackPatcher from "./webpack/patchWebpack";
 export { PlainSettings, Settings };
 
-import "./utils/quickCss";
-import "./webpack/patchWebpack";
+import "@utils/quickCss";
+import "@webpack/patcher";
 
-import { openUpdaterModal } from "@components/settings/tabs/updater";
-import { IS_WINDOWS } from "@utils/constants";
+import { get as dsGet } from "@api/DataStore";
+import { NotificationData, showNotification } from "@api/Notifications";
+import { PlainSettings, Settings } from "@api/Settings";
+import { openUpdaterModal } from "@components/VencordSettings/UpdaterTab";
+import { localStorage } from "@utils/localStorage";
+import { relaunch } from "@utils/native";
+import { getCloudSettings, putCloudSettings } from "@utils/settingsSync";
 import { StartAt } from "@utils/types";
+import { checkForUpdates, update, UpdateLogger } from "@utils/updater";
+import { SettingsRouter } from "@webpack/common";
 
-import { get as dsGet } from "./api/DataStore";
-import { NotificationData, showNotification } from "./api/Notifications";
-import { PlainSettings, Settings } from "./api/Settings";
 import { patches, PMLogger, startAllPlugins } from "./plugins";
-import { localStorage } from "./utils/localStorage";
-import { relaunch } from "./utils/native";
-import { getCloudSettings, putCloudSettings } from "./utils/settingsSync";
-import { checkForUpdates, update, UpdateLogger } from "./utils/updater";
 import { onceReady } from "./webpack";
-import { SettingsRouter } from "./webpack/common";
 
 if (IS_REPORTER) {
     require("./debug/runReporter");
@@ -165,7 +161,7 @@ init();
 document.addEventListener("DOMContentLoaded", () => {
     startAllPlugins(StartAt.DOMContentLoaded);
 
-    if (IS_DISCORD_DESKTOP && Settings.winNativeTitleBar && IS_WINDOWS) {
+    if (IS_DISCORD_DESKTOP && Settings.winNativeTitleBar && navigator.platform.toLowerCase().startsWith("win")) {
         document.head.append(Object.assign(document.createElement("style"), {
             id: "vencord-native-titlebar-style",
             textContent: "[class*=titleBar]{display: none!important}"

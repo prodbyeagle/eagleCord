@@ -17,18 +17,17 @@
 */
 
 import * as DataStore from "@api/DataStore";
+import NotificationComponent from "@api/Notifications/NotificationComponent";
+import type { NotificationData } from "@api/Notifications/Notifications";
 import { Settings } from "@api/Settings";
 import { classNameFactory } from "@api/Styles";
 import { Flex } from "@components/Flex";
-import { openNotificationSettingsModal } from "@components/settings/tabs/vencord/NotificationSettings";
+import { openNotificationSettingsModal } from "@components/VencordSettings/NotificationSettings";
 import { closeModal, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import { useAwaiter } from "@utils/react";
 import { Alerts, Button, Forms, React, Text, Timestamp, useEffect, useReducer, useState } from "@webpack/common";
 import { nanoid } from "nanoid";
 import type { DispatchWithoutAction } from "react";
-
-import NotificationComponent from "./NotificationComponent";
-import type { NotificationData } from "./Notifications";
 
 interface PersistentNotificationData extends Pick<NotificationData, "title" | "body" | "image" | "icon" | "color"> {
     timestamp: number;

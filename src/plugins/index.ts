@@ -30,9 +30,9 @@ import { disableStyle, enableStyle } from "@api/Styles";
 import { Logger } from "@utils/Logger";
 import { canonicalizeFind, canonicalizeReplacement } from "@utils/patches";
 import { Patch, Plugin, PluginDef, ReporterTestable, StartAt } from "@utils/types";
-import { FluxEvents } from "@vencord/discord-types";
 import { FluxDispatcher } from "@webpack/common";
 import { patches } from "@webpack/patcher";
+import { FluxEvents } from "@webpack/types";
 
 import Plugins from "~plugins";
 
@@ -132,6 +132,7 @@ for (const p of pluginsValues) if (isPluginEnabled(p.name)) {
     if (p.renderMessageDecoration) neededApiPlugins.add("MessageDecorationsAPI");
     if (p.renderMessagePopoverButton) neededApiPlugins.add("MessagePopoverAPI");
     if (p.userProfileBadge) neededApiPlugins.add("BadgeAPI");
+    if (p.VIPBadge) neededApiPlugins.add("BadgeAPI");
 
     for (const key of pluginKeysToBind) {
         p[key] &&= p[key].bind(p) as any;
@@ -259,6 +260,7 @@ export function subscribeAllPluginsFluxEvents(fluxDispatcher: typeof FluxDispatc
 export const startPlugin = traceFunction("startPlugin", function startPlugin(p: Plugin) {
     const {
         name, commands, contextMenus, managedStyle, userProfileBadge,
+        VIPBadge,
         onBeforeMessageEdit, onBeforeMessageSend, onMessageClick,
         renderChatBarButton, renderMemberListDecorator, renderMessageAccessory, renderMessageDecoration, renderMessagePopoverButton
     } = p;
@@ -305,6 +307,7 @@ export const startPlugin = traceFunction("startPlugin", function startPlugin(p: 
     if (managedStyle) enableStyle(managedStyle);
 
     if (userProfileBadge) addProfileBadge(userProfileBadge);
+    if (VIPBadge) addProfileBadge(VIPBadge);
 
     if (onBeforeMessageEdit) addMessagePreEditListener(onBeforeMessageEdit);
     if (onBeforeMessageSend) addMessagePreSendListener(onBeforeMessageSend);

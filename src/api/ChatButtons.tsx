@@ -4,13 +4,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+// eslint-disable-next-line path-alias/no-relative
 import "./ChatButton.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Logger } from "@utils/Logger";
-import { Channel } from "@vencord/discord-types";
 import { waitFor } from "@webpack";
 import { Button, ButtonWrapperClasses, Tooltip } from "@webpack/common";
+import { Channel } from "@vencord/discord-types";
 import { HTMLProps, JSX, MouseEventHandler, ReactNode } from "react";
 
 let ChannelTextAreaClasses: Record<"button" | "buttonContainer", string>;

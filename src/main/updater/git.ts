@@ -16,13 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { serializeErrors } from "@main/updater/common";
 import { IpcEvents } from "@shared/IpcEvents";
 import { execFile as cpExecFile } from "child_process";
 import { ipcMain } from "electron";
 import { join } from "path";
 import { promisify } from "util";
-
-import { serializeErrors } from "./common";
 
 const VENCORD_SRC_DIR = join(__dirname, "..");
 

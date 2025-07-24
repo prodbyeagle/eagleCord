@@ -25,9 +25,9 @@ import { Devs } from "@utils/constants";
 import { classes } from "@utils/misc";
 import { canonicalizeMatch } from "@utils/patches";
 import definePlugin, { OptionType } from "@utils/types";
-import type { Channel, Role } from "@vencord/discord-types";
 import { findByPropsLazy } from "@webpack";
 import { ChannelStore, PermissionsBits, PermissionStore, Tooltip } from "@webpack/common";
+import type { Channel, Role } from "@vencord/discord-types";
 
 import HiddenChannelLockScreen from "./components/HiddenChannelLockScreen";
 
@@ -250,7 +250,7 @@ export default definePlugin({
                     replace: (m, channel) => `${m}if($self.isHiddenChannel(${channel}))break;`
                 },
                 {
-                    match: /(?<="renderHeaderBar",\i=>{.+?hideSearch:(\i)\.isDirectory\(\))/,
+                    match: /(?<="renderHeaderBar",\(\)=>{.+?hideSearch:(\i)\.isDirectory\(\))/,
                     replace: (_, channel) => `||$self.isHiddenChannel(${channel})`
                 },
                 {
@@ -494,11 +494,10 @@ export default definePlugin({
 
     isHiddenChannel(channel: Channel & { channelId?: string; }, checkConnect = false) {
         try {
-            if (channel == null || Object.hasOwn(channel, "channelId") && channel.channelId == null) return false;
+            if (!channel) return false;
 
-            if (channel.channelId != null) channel = ChannelStore.getChannel(channel.channelId);
-            if (channel == null || channel.isDM() || channel.isGroupDM() || channel.isMultiUserDM()) return false;
-            if (["browse", "customize", "guide"].includes(channel.id)) return false;
+            if (channel.channelId) channel = ChannelStore.getChannel(channel.channelId);
+            if (!channel || channel.isDM() || channel.isGroupDM() || channel.isMultiUserDM()) return false;
 
             return !PermissionStore.can(PermissionsBits.VIEW_CHANNEL, channel) || checkConnect && !PermissionStore.can(PermissionsBits.CONNECT, channel);
         } catch (e) {

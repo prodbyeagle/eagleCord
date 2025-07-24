@@ -6,8 +6,8 @@
 
 import { debounce } from "@shared/debounce";
 import { proxyLazy } from "@utils/lazy";
-import { User } from "@vencord/discord-types";
 import { useEffect, useState, zustandCreate } from "@webpack/common";
+import { User } from "@vencord/discord-types";
 
 import { AvatarDecoration } from "../../";
 import { getUsersDecorations } from "../api";

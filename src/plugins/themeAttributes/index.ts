@@ -6,8 +6,8 @@
 
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Message } from "@vencord/discord-types";
 import { UserStore } from "@webpack/common";
+import { Message } from "@vencord/discord-types";
 
 
 export default definePlugin({

@@ -1,3 +1,8 @@
+export interface ImageModalClasses {
+    image: string,
+    modal: string,
+}
+
 export interface ButtonWrapperClasses {
     hoverScale: string;
     buttonWrapper: string;

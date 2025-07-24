@@ -48,11 +48,11 @@ export default definePlugin({
     authors: [Devs.Rini, Devs.TheKodeToad],
     patches: [
         {
-            find: '="SYSTEM_TAG"',
+            find: '"BaseUsername"',
             replacement: {
-                // The field is named "userName", but as this is unusual casing, the regex also matches username, in case they change it
-                match: /(?<=onContextMenu:\i,children:)\i\?(?=.{0,100}?user[Nn]ame:)/,
-                replace: "$self.renderUsername(arguments[0]),_oldChildren:$&"
+                /* TODO: remove \i+\i once change makes it to stable */
+                match: /(?<=onContextMenu:\i,children:)(?:\i\+\i|\i)/,
+                replace: "$self.renderUsername(arguments[0])"
             }
         },
     ],
@@ -63,7 +63,7 @@ export default definePlugin({
             const user = userOverride ?? message.author;
             let { username } = user;
             if (settings.store.displayNames)
-                username = user.globalName || username;
+                username = (user as any).globalName || username;
 
             const { nick } = author;
             const prefix = withMentionPrefix ? "@" : "";

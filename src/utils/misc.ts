@@ -16,10 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { GuildMemberStore, Toasts } from "@webpack/common";
-
-import { copyToClipboard } from "./clipboard";
-import { DevsById } from "./constants";
+import { copyToClipboard } from "@utils/clipboard";
+import { DevsById } from "@utils/constants";
+import { Toasts } from "@webpack/common";
 
 /**
  * Calls .join(" ") on the arguments

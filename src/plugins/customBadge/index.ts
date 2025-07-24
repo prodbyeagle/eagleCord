@@ -11,7 +11,7 @@ import {
     removeProfileBadge,
 } from "@api/Badges";
 import { definePluginSettings } from "@api/Settings";
-import { makeRange } from "@utils/types";
+import { makeRange } from "@components/PluginSettings/components";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";

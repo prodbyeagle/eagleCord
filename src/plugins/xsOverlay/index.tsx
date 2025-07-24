@@ -5,12 +5,13 @@
  */
 
 import { definePluginSettings } from "@api/Settings";
+import { makeRange } from "@components/PluginSettings/components";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
-import definePlugin, { makeRange, OptionType, PluginNative, ReporterTestable } from "@utils/types";
-import type { Channel, Embed, GuildMember, MessageAttachment, User } from "@vencord/discord-types";
+import definePlugin, { OptionType, PluginNative, ReporterTestable } from "@utils/types";
 import { findByCodeLazy, findLazy } from "@webpack";
-import { Button, ChannelStore, GuildRoleStore, GuildStore, UserStore } from "@webpack/common";
+import { Button, ChannelStore, GuildStore, UserStore } from "@webpack/common";
+import type { Channel, Embed, GuildMember, MessageAttachment, User } from "@vencord/discord-types";
 
 const ChannelTypes = findLazy(m => m.ANNOUNCEMENT_THREAD === 10);
 
@@ -266,7 +267,7 @@ export default definePlugin({
             // color role mentions (unity styling btw lol)
             if (message.mention_roles.length > 0) {
                 for (const roleId of message.mention_roles) {
-                    const role = GuildRoleStore.getRole(channel.guild_id, roleId);
+                    const role = GuildStore.getRole(channel.guild_id, roleId);
                     if (!role) continue;
                     const roleColor = role.colorString ?? `#${pingColor}`;
                     finalMsg = finalMsg.replace(`<@&${roleId}>`, `<b><color=${roleColor}>@${role.name}</color></b>`);

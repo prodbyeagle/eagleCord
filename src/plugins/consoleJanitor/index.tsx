@@ -5,8 +5,7 @@
  */
 
 import { definePluginSettings } from "@api/Settings";
-import ErrorBoundary from "@components/ErrorBoundary";
-import { Flex } from "@components/Flex";
+import { ErrorBoundary, Flex } from "@components/index";
 import { Devs } from "@utils/constants";
 import { Margins } from "@utils/margins";
 import definePlugin, { defineDefault, OptionType, StartAt } from "@utils/types";

@@ -24,7 +24,6 @@ import { Devs } from "@utils/constants.js";
 import { classes } from "@utils/misc";
 import { Queue } from "@utils/Queue";
 import definePlugin, { OptionType } from "@utils/types";
-import { Channel, Message } from "@vencord/discord-types";
 import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import {
     Button,
@@ -40,6 +39,7 @@ import {
     Text,
     UserStore
 } from "@webpack/common";
+import { Channel, Message } from "@vencord/discord-types";
 import { JSX } from "react";
 
 const messageCache = new Map<string, {
@@ -217,7 +217,7 @@ function withEmbeddedBy(message: Message, embeddedBy: string[]) {
     return new Proxy(message, {
         get(_, prop) {
             if (prop === "vencordEmbeddedBy") return embeddedBy;
-            // @ts-expect-error ts so bad
+            // @ts-ignore ts so bad
             return Reflect.get(...arguments);
         }
     });
@@ -225,7 +225,7 @@ function withEmbeddedBy(message: Message, embeddedBy: string[]) {
 
 
 function MessageEmbedAccessory({ message }: { message: Message; }) {
-    // @ts-expect-error
+    // @ts-ignore
     const embeddedBy: string[] = message.vencordEmbeddedBy ?? [];
 
     const accessories = [] as (JSX.Element | null)[];
