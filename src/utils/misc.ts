@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Toasts } from "@webpack/common";
+import { GuildMemberStore, Toasts } from "@webpack/common";
 
 import { copyToClipboard } from "./clipboard";
 import { DevsById } from "./constants";
