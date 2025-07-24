@@ -172,6 +172,9 @@ export interface PluginDef {
 
     userProfileBadge?: ProfileBadge;
 
+    /** Custom Badge for VIP Users. Do not change*/
+    VIPBadge?: ProfileBadge;
+
     onMessageClick?: MessageClickListener;
     onBeforeMessageSend?: MessageSendListener;
     onBeforeMessageEdit?: MessageEditListener;

@@ -16,10 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { LazyComponent } from "@utils/react";
 import { filters, findByCodeLazy, mapMangledModuleLazy } from "@webpack";
 import type { ComponentType, PropsWithChildren, ReactNode, Ref } from "react";
-
-import { LazyComponent } from "./react";
 
 export const enum ModalSize {
     SMALL = "small",

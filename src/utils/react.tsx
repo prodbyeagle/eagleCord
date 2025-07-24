@@ -16,10 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { checkIntersecting } from "@utils/misc";
 import { React, useEffect, useMemo, useReducer, useState } from "@webpack/common";
 import { ActionDispatch } from "react";
-
-import { checkIntersecting } from "./misc";
 
 export * from "./lazyReact";
 

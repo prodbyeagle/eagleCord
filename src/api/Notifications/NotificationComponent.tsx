@@ -16,14 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+// eslint-disable-next-line path-alias/no-relative
 import "./styles.css";
 
+import { NotificationData } from "@api/Notifications/Notifications";
 import { useSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { classes } from "@utils/misc";
 import { React, useEffect, useMemo, useState, useStateFromStores, WindowStore } from "@webpack/common";
-
-import { NotificationData } from "./Notifications";
 
 export default ErrorBoundary.wrap(function NotificationComponent({
     title,

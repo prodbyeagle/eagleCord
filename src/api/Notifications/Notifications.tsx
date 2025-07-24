@@ -16,14 +16,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import NotificationComponent from "@api/Notifications/NotificationComponent";
+import { persistNotification } from "@api/Notifications/notificationLog";
 import { Settings } from "@api/Settings";
 import { Queue } from "@utils/Queue";
 import { createRoot } from "@webpack/common";
 import type { ReactNode } from "react";
 import type { Root } from "react-dom/client";
-
-import NotificationComponent from "./NotificationComponent";
-import { persistNotification } from "./notificationLog";
 
 const NotificationQueue = new Queue();
 

@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { makeLazy } from "@utils/lazy";
 import type { ComponentType } from "react";
-
-import { makeLazy } from "./lazy";
 
 const NoopComponent = () => null;
 

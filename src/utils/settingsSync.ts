@@ -18,6 +18,10 @@
 
 import { showNotification } from "@api/Notifications";
 import { PlainSettings, Settings } from "@api/Settings";
+import { checkCloudUrlCsp, getCloudAuth, getCloudUrl } from "@utils/cloud";
+import { Logger } from "@utils/Logger";
+import { relaunch } from "@utils/native";
+import { chooseFile, saveFile } from "@utils/web";
 import { moment, Toasts } from "@webpack/common";
 import { deflateSync, inflateSync } from "fflate";
 

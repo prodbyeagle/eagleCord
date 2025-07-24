@@ -22,6 +22,17 @@ import definePlugin, { OptionType } from "@utils/types";
 import { Channel, Message } from "@vencord/discord-types";
 import { findLazy } from "@webpack";
 import { ContextMenuApi, FluxDispatcher, Menu, MessageActions } from "@webpack/common";
+<<<<<<< HEAD
+=======
+import { Channel, Message } from "@vencord/discord-types";
+
+interface Sticker {
+    id: string;
+    format_type: number;
+    description: string;
+    name: string;
+}
+>>>>>>> 9c5b8cc7de5c5efe7d24387258b9df376abf077c
 
 enum GreetMode {
     Greet = "Greet",
