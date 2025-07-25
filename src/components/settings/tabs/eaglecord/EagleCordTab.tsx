@@ -1,52 +1,35 @@
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
-import { SpecialCard } from "@components/settings/SpecialCard";
 import { React, Forms, Switch, UserStore } from "@webpack/common";
 import { useSettings } from "@api/Settings";
 import { Margins } from "@utils/margins";
-import { CONTRIB_BACKGROUND_IMAGE, EAGLECORD_ICON_IMAGE } from "../vencord";
 
 function EagleCordTab() {
     const user = UserStore.getCurrentUser();
 
     const settings = useSettings([
-        "plugins.eaglecord.showEagleBadges",
-        "plugins.eaglecord.showCustomBanners"
+        "eaglecord.showBadge",
+        "eaglecord.showBanner"
     ]);
 
     return (
         <SettingsTab title="EagleCord">
-            <SpecialCard
-                title="EagleCord"
-                subtitle="Custom Discord Experience"
-                description="Welcome to your personalized EagleCord space!"
-                cardImage={EAGLECORD_ICON_IMAGE}
-                backgroundImage={CONTRIB_BACKGROUND_IMAGE}
-                backgroundColor="#b083c9"
-            />
-
-            <Forms.FormSection className={Margins.top16} title="User Info">
-                <Forms.FormText>
-                    You are currently logged in as: <strong>{user?.username}</strong>
-                </Forms.FormText>
-            </Forms.FormSection>
-
-            <Forms.FormSection className={Margins.top16} title="Feature Flags">
+            <Forms.FormSection className={Margins.top16} title="Funktionen">
                 <Switch
-                    key="plugins.eaglecord.showEagleBadges"
-                    value={settings["plugins.eaglecord.showEagleBadges"]}
-                    onChange={v => settings["plugins.eaglecord.showEagleBadges"] = v}
-                    note="Display EagleCord-specific user badges where supported."
+                    key="eaglecord.showBadge"
+                    value={settings.eaglecord.showBadge}
+                    onChange={v => settings.eaglecord.showBadge = v}
+                    note="Zeigt benutzerdefinierte Badges bei manchen Nutzern."
                 >
-                    Show EagleCord Badges
+                    Benutzerdefinierte-Badges anzeigen
                 </Switch>
 
                 <Switch
-                    key="plugins.eaglecord.showCustomBanners"
-                    value={settings["plugins.eaglecord.showCustomBanners"]}
-                    onChange={v => settings["plugins.eaglecord.showCustomBanners"] = v}
-                    note="Render custom banners in profiles and settings."
+                    key="eaglecord.showBanner"
+                    value={settings.eaglecord.showBanner}
+                    onChange={v => settings.eaglecord.showBanner = v}
+                    note="Zeigt benutzerdefinierte Banner in Profilen und Einstellungen."
                 >
-                    Show Custom Banners
+                    Benutzerdefinierte Banner anzeigen
                 </Switch>
             </Forms.FormSection>
         </SettingsTab>
