@@ -121,9 +121,8 @@ export default definePlugin({
             },
             {
                 section: "EagleCord",
-                label: "Eagle Cord Settings",
-                element: EagleCordTab,
-                className: "vc-backup-restore"
+                label: "EagleCord",
+                element: EagleCordTab
             },
             IS_DEV && {
                 section: "VencordPatchHelper",
