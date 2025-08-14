@@ -96,7 +96,7 @@ export default tseslint.config(
             "@stylistic/no-extra-semi": "error",
 
             // TS Rules
-            "@stylistic/func-call-spacing": ["error", "never"],
+            "@/func-call-spacing": ["error", "never"],
 
             // ESLint Rules
             yoda: "error",
