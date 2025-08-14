@@ -48,10 +48,10 @@
 
 .vc-plugins-info-card {
     padding: 1em;
-    height: 9em;
+    /* FIX PADDING BELOW THE BUTTON IN PLUGINS RESTART CARD */
+    height: 8.5em;
     display: flex;
     flex-direction: column;
-    border-radius: 1em;
     gap: 0.25em;
 }
 

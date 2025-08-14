@@ -33,7 +33,7 @@ function EagleCordTab() {
                 backgroundColor="#cfa6f5"
             />
 
-            <Forms.FormSection title="Funktionen" className={Margins.top16}>
+            <Forms.FormSection title="Funktionen" className={Margins.top20}>
                 <Switch
                     key="eaglecord.showBanner"
                     value={settings.eaglecord.showBanner}
