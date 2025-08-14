@@ -34,7 +34,7 @@ interface Artist {
 }
 
 interface Track {
-    id: string;
+    id: string | null;
     album: Album;
     artists: Artist[];
     duration: number;
@@ -56,6 +56,13 @@ function makeCommand(name: string, formatUrl: (track: Track) => string): Command
             if (!track) {
                 return sendBotMessage(channel.id, {
                     content: "You're not listening to any music."
+                });
+            }
+
+            // local tracks have an id of null
+            if (track.id == null) {
+                return sendBotMessage(channel.id, {
+                    content: "Failed to find the track on spotify."
                 });
             }
 
