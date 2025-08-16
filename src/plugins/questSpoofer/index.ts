@@ -7,272 +7,76 @@
  */
 
 import { Devs } from "@utils/constants";
-import { Logger } from "@utils/Logger";
 import definePlugin from "@utils/types";
-import { findByPropsLazy } from "@webpack";
-import { ChannelStore, FluxDispatcher, GuildChannelStore, RestAPI, showToast, Toasts } from "@webpack/common";
+import { showToast, Toasts } from "@webpack/common";
 
-// lazy loading stores
-const ApplicationStreamingStore = findByPropsLazy("getStreamerActiveStreamMetadata");
-const RunningGameStore = findByPropsLazy("getRunningGames", "getGameForPID");
-const QuestsStore = findByPropsLazy("getQuest");
+import { QuestSpooferLogger, QuestTasks, randomPid } from "./constants";
+import { fetchQuests } from "./helpers";
+import { spoofDesktopPlayQuest } from "./tasks/desktopPlay";
+import { spoofPlayActivityQuest } from "./tasks/playActivity";
+import { spoofStreamDesktopQuest } from "./tasks/streamDesktop";
+import { spoofVideoQuest } from "./tasks/video";
 
-const log = new Logger("QuestSpoofer", "#473763");
 
 export default definePlugin({
     name: "E: QuestSpoofer",
     description: "Spoofs Discord Quests for video, desktop play, and streaming.",
     authors: [Devs.prodbyeagle],
 
-    toolboxActions: {
-        async "Refetch Quests"() {
-            try {
-                await QuestsStore.fetch();
-                showToast("✅ Successfully refetched quests!", Toasts.Type.SUCCESS);
-                log.info("Quests successfully refetched.");
-            } catch (err) {
-                showToast("❌ Failed to refetch quests.", Toasts.Type.FAILURE);
-                log.error("Failed to refetch quests:", err);
-            }
-        }
-    },
-
-
     async start() {
         delete (window as any).$;
 
-        const quest = [...QuestsStore.quests.values()].find(
-            q => q.id !== "1248385850622869556" &&
-                q.userStatus?.enrolledAt &&
-                !q.userStatus?.completedAt &&
-                new Date(q.config.expiresAt).getTime() > Date.now()
-        );
+        const quests = await fetchQuests();
 
-        if (!quest) {
-            log.warn("No eligible quest found.");
+        if (quests.length === 0) {
+            QuestSpooferLogger.warn("No uncompleted quests found from API.");
             return showToast("No uncompleted quest found.", Toasts.Type.MESSAGE);
         }
 
-        log.log(`Detected quest: ${quest.config.application.name} - ${quest.config.messages.questName}`);
+        QuestSpooferLogger.log(`Detected ${quests.length} uncompleted quest(s).`);
 
-        const pid = Math.floor(Math.random() * 30000) + 1000;
-        const appId = quest.config.application.id;
-        const appName = quest.config.application.name;
-        const { questName } = quest.config.messages;
-        const taskConfig = quest.config.taskConfig ?? quest.config.taskConfigV2;
-        const task = (["WATCH_VIDEO", "PLAY_ON_DESKTOP", "STREAM_ON_DESKTOP", "PLAY_ACTIVITY", "WATCH_VIDEO_ON_MOBILE"] as const)
-            .find(t => taskConfig?.tasks?.[t]);
+        for (const quest of quests) {
+            QuestSpooferLogger.log(`Detected quest: ${quest.config.application.name} - ${quest.config.messages.game_title}`);
 
-        if (!task) {
-            log.warn("No valid quest task found in config.");
-            return showToast("❌ Unsupported or missing task type.", Toasts.Type.FAILURE);
-        }
+            const pid = randomPid();
+            const appId = quest.config.application.id;
+            const appName = quest.config.application.name;
 
-        const secondsNeeded = taskConfig.tasks[task].target;
-        let secondsDone = quest.userStatus?.progress?.[task]?.value ?? 0;
+            const taskConfig = quest.config.taskConfig ?? quest.config.task_config_v2;
+            const task = QuestTasks.find(t => taskConfig?.tasks?.[t]);
 
-        log.info(`Spoofing task: ${task} | Needed: ${secondsNeeded}s | Done: ${secondsDone}s`);
-
-        if (task === "WATCH_VIDEO" || task === "WATCH_VIDEO_ON_MOBILE") {
-            const enrolledAt = new Date(quest.userStatus.enrolledAt).getTime();
-            const speed = 7;
-            const interval = 1;
-
-            (async function spoofVideo() {
-                log.info("Started video spoofing...");
-                while (true) {
-                    const maxAllowed = Math.floor((Date.now() - enrolledAt) / 1000) + 10;
-                    const diff = maxAllowed - secondsDone;
-                    const timestamp = secondsDone + speed;
-                    if (diff >= speed) {
-                        const postTime = Math.min(secondsNeeded, timestamp + Math.random());
-                        const res = await RestAPI.post({
-                            url: `/quests/${quest.id}/video-progress`,
-                            body: { timestamp: postTime }
-                        });
-
-                        log.log(`POST /video-progress: +${speed}s → ${postTime}s`);
-
-                        if (res.body.completed_at) {
-                            log.info("Video quest marked as completed.");
-                            break;
-                        }
-
-                        secondsDone = Math.min(secondsNeeded, timestamp);
-                    }
-
-                    if (timestamp >= secondsNeeded) break;
-                    await new Promise(r => setTimeout(r, interval * 1000));
-                }
-
-                await RestAPI.post({
-                    url: `/quests/${quest.id}/video-progress`,
-                    body: { timestamp: secondsNeeded }
-                });
-
-                showToast("✅ Video quest completed!", Toasts.Type.SUCCESS);
-                log.info("Sent final video-progress to finish quest.");
-            })();
-
-            showToast(`▶️ Spoofing video quest: ${questName}`, Toasts.Type.MESSAGE);
-        }
-
-        else if (task === "PLAY_ON_DESKTOP") {
-            if (!IS_DISCORD_DESKTOP) {
-                log.error("Not in desktop environment.");
-                return showToast("❌ Use the desktop app to spoof this quest.", Toasts.Type.FAILURE);
+            if (!task) {
+                QuestSpooferLogger.warn(`No valid quest task found in config for ${appName}.`);
+                continue;
             }
 
-            RestAPI.get({ url: `/applications/public?application_ids=${appId}` }).then(res => {
-                const app = res.body[0];
-                const exeName = app.executables.find(x => x.os === "win32")?.name.replace(">", "");
+            const secondsNeeded = taskConfig.tasks[task].target;
+            const secondsDone = quest.user_status?.progress?.[task]?.value ?? 0;
 
-                const fakeGame = {
-                    cmdLine: `C:\\Program Files\\${app.name}\\${exeName}`,
-                    exeName,
-                    exePath: `c:/program files/${app.name.toLowerCase()}/${exeName}`,
-                    hidden: false,
-                    isLauncher: false,
-                    id: appId,
-                    name: app.name,
-                    pid,
-                    pidPath: [pid],
-                    processName: app.name,
-                    start: Date.now(),
-                };
+            QuestSpooferLogger.info(`Spoofing task: ${task} | Needed: ${secondsNeeded}s | Done: ${secondsDone}s`);
 
-                log.log(`Injecting fake game process: ${exeName} (pid ${pid})`);
-
-                const realGames = RunningGameStore.getRunningGames();
-                const backupGetGames = RunningGameStore.getRunningGames;
-                const backupGetByPid = RunningGameStore.getGameForPID;
-
-                RunningGameStore.getRunningGames = () => [fakeGame];
-                RunningGameStore.getGameForPID = () => fakeGame;
-
-                FluxDispatcher.dispatch({
-                    type: "RUNNING_GAMES_CHANGE",
-                    removed: realGames,
-                    added: [fakeGame],
-                    games: [fakeGame],
-                });
-
-                const listener = (data: any) => {
-                    const progress = quest.config.configVersion === 1
-                        ? data.userStatus.streamProgressSeconds
-                        : Math.floor(data.userStatus.progress.PLAY_ON_DESKTOP.value);
-
-                    log.debug(`Heartbeat received: ${progress}/${secondsNeeded}s`);
-
-                    if (progress >= secondsNeeded) {
-                        FluxDispatcher.unsubscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", listener);
-                        RunningGameStore.getRunningGames = backupGetGames;
-                        RunningGameStore.getGameForPID = backupGetByPid;
-                        FluxDispatcher.dispatch({
-                            type: "RUNNING_GAMES_CHANGE",
-                            removed: [fakeGame],
-                            added: [],
-                            games: [],
-                        });
-
-                        showToast("✅ Desktop play quest completed!", Toasts.Type.SUCCESS);
-                        log.info("Desktop play quest spoofed successfully.");
-                    }
-                };
-
-                FluxDispatcher.subscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", listener);
-                showToast(`🎮 Spoofing game: ${appName}`, Toasts.Type.MESSAGE);
-            }).catch(err => {
-                log.error("Failed to fetch application data.", err);
-            });
-        }
-
-        else if (task === "STREAM_ON_DESKTOP") {
-            if (!IS_DISCORD_DESKTOP) {
-                log.error("Not in desktop environment.");
-                return showToast("❌ Use the desktop app to spoof this quest.", Toasts.Type.FAILURE);
-            }
-
-            const backup = ApplicationStreamingStore.getStreamerActiveStreamMetadata;
-            ApplicationStreamingStore.getStreamerActiveStreamMetadata = () => ({
-                id: appId,
-                pid,
-                sourceName: null,
-            });
-
-            log.log(`Simulating stream for ${appName} (pid ${pid})`);
-
-            const listener = (data: any) => {
-                const progress = quest.config.configVersion === 1
-                    ? data.userStatus.streamProgressSeconds
-                    : Math.floor(data.userStatus.progress.STREAM_ON_DESKTOP.value);
-
-                log.debug(`Stream heartbeat: ${progress}/${secondsNeeded}s`);
-
-                if (progress >= secondsNeeded) {
-                    FluxDispatcher.unsubscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", listener);
-                    ApplicationStreamingStore.getStreamerActiveStreamMetadata = backup;
-                    showToast("✅ Streaming quest completed!", Toasts.Type.SUCCESS);
-                    log.info("Stream quest spoofed successfully.");
+            try {
+                if (task === "WATCH_VIDEO" || task === "WATCH_VIDEO_ON_MOBILE") {
+                    await spoofVideoQuest(quest, secondsNeeded, secondsDone);
+                } else if (task === "PLAY_ON_DESKTOP") {
+                    await spoofDesktopPlayQuest(quest, appId, appName, pid, secondsNeeded);
+                } else if (task === "STREAM_ON_DESKTOP") {
+                    spoofStreamDesktopQuest(quest, appId, appName, pid, secondsNeeded);
+                } else if (task === "PLAY_ACTIVITY") {
+                    await spoofPlayActivityQuest(quest, secondsNeeded);
+                } else {
+                    QuestSpooferLogger.warn(`Unsupported quest task: ${task}`);
                 }
-            };
-
-            FluxDispatcher.subscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", listener);
-            showToast(`📡 Spoofing stream for ${appName}`, Toasts.Type.MESSAGE);
-        }
-
-        else if (task === "PLAY_ACTIVITY") {
-            const guilds = GuildChannelStore.getAllGuilds() as Record<string, { VOCAL?: { channel: { id: string; }; }[]; }>;
-
-            const vcId =
-                ChannelStore.getSortedPrivateChannels()[0]?.id ??
-                Object.values(guilds)
-                    .find(g => (g.VOCAL ?? []).length > 0)?.VOCAL?.[0]?.channel?.id;
-
-            if (!vcId) {
-                log.error("No voice channel found to spoof activity.");
-                return showToast("❌ No voice channel available to spoof activity.", Toasts.Type.FAILURE);
+            } catch (err) {
+                QuestSpooferLogger.error(`Failed to spoof quest ${appName}:`, err);
             }
-
-            const streamKey = `call:${vcId}:1`;
-            log.log(`Using stream key: ${streamKey}`);
-
-            (async function spoofHeartbeat() {
-                log.info("Started activity spoofing...");
-                while (true) {
-                    const res = await RestAPI.post({
-                        url: `/quests/${quest.id}/heartbeat`,
-                        body: { stream_key: streamKey, terminal: false }
-                    });
-
-                    const progress = res.body.progress.PLAY_ACTIVITY.value;
-                    log.debug(`Activity progress: ${progress}/${secondsNeeded}`);
-
-                    if (progress >= secondsNeeded) {
-                        await RestAPI.post({
-                            url: `/quests/${quest.id}/heartbeat`,
-                            body: { stream_key: streamKey, terminal: true }
-                        });
-
-                        showToast("✅ Activity quest completed!", Toasts.Type.SUCCESS);
-                        log.info("Activity quest spoofed successfully.");
-                        break;
-                    }
-
-                    await new Promise(r => setTimeout(r, 20_000));
-                }
-            })();
-
-            showToast(`🧠 Spoofing activity: ${questName}`, Toasts.Type.MESSAGE);
         }
 
-        else {
-            log.warn(`Unsupported quest task: ${task}`);
-        }
+        showToast(`Finished spoofing ${quests.length} quest(s).`, Toasts.Type.MESSAGE);
     },
 
     stop() {
-        log.info("QuestSpoofer plugin stopped.");
+        QuestSpooferLogger.info("QuestSpoofer plugin stopped.");
         showToast("QuestSpoofer plugin stopped.", Toasts.Type.MESSAGE);
     }
 });
