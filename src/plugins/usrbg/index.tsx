@@ -67,6 +67,7 @@ export default definePlugin({
     authors: [Devs.AutumnVN, Devs.katlyn, Devs.pylix, Devs.TheKodeToad, Devs.prodbyeagle],
     settings,
     required: true,
+    isEagleCord: true,
     toolboxActions: {
         async "Refetch Banners"() {
             const success = await reloadBanners({

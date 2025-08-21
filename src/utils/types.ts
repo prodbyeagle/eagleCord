@@ -106,6 +106,10 @@ export interface PluginDef {
      */
     required?: boolean;
     /**
+     * Whether this plugin is an EagleCord plugin
+     */
+    isEagleCord?: boolean;
+    /**
      * Whether this plugin should be hidden from the user
      */
     hidden?: boolean;

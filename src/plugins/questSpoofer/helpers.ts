@@ -29,16 +29,15 @@ export async function fetchQuests() {
         const res = await RestAPI.get({ url: "/quests/@me" });
         const quests = res.body?.quests ?? [];
 
-        // Only return quests that have user_status (started) and not completed
         return quests.filter(q => {
             const userStatus = q.user_status;
-            if (!userStatus) return false; // Quest not started yet
-            if (userStatus.completed_at) return false; // Already completed
+            if (!userStatus) return false;
+            if (userStatus.completed_at) return false;
 
             const expires = new Date(q.config.expires_at).getTime();
-            if (expires <= Date.now()) return false; // Expired
+            if (expires <= Date.now()) return false;
 
-            return true; // Started, uncompleted, and not expired
+            return true;
         });
     } catch (err) {
         QuestSpooferLogger.error("Failed to fetch quests from API:", err);

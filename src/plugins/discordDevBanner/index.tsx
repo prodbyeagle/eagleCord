@@ -30,7 +30,8 @@ export default definePlugin({
     description: "Enables the Discord developer banner, in which displays the build-ID (CODE BY: krystalskullofficial)",
     authors: [Devs.prodbyeagle],
     settings,
-    required: true,
+    isEagleCord: true,
+    required: true, // ? This plugin is required for EagleCord to view the current Version.
 
     patches: [
         {

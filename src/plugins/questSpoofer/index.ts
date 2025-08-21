@@ -19,9 +19,10 @@ import { spoofVideoQuest } from "./tasks/video";
 
 
 export default definePlugin({
-    name: "E: QuestSpoofer",
+    name: "QuestSpoofer",
     description: "Spoofs Discord Quests for video, desktop play, and streaming.",
     authors: [Devs.prodbyeagle],
+    isEagleCord: true,
 
     async start() {
         delete (window as any).$;

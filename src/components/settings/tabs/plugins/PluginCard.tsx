@@ -91,6 +91,7 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
             name={plugin.name}
             description={plugin.description}
             isNew={isNew}
+            isEagleCord={plugin.isEagleCord}
             enabled={isEnabled()}
             setEnabled={toggleEnabled}
             disabled={disabled}

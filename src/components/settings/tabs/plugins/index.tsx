@@ -58,6 +58,7 @@ function ReloadRequiredCard({ required }: { required: boolean; }) {
 
 const enum SearchStatus {
     ALL,
+    EAGLE,
     ENABLED,
     DISABLED,
     NEW
@@ -170,6 +171,9 @@ function PluginSettings() {
             case SearchStatus.NEW:
                 if (!newPlugins?.includes(plugin.name)) return false;
                 break;
+            case SearchStatus.EAGLE:
+                if (!plugin.isEagleCord) return false;
+                break;
         }
 
         if (!search.length) return true;
@@ -258,7 +262,8 @@ function PluginSettings() {
                             { label: "Show All", value: SearchStatus.ALL, default: true },
                             { label: "Show Enabled", value: SearchStatus.ENABLED },
                             { label: "Show Disabled", value: SearchStatus.DISABLED },
-                            { label: "Show New", value: SearchStatus.NEW }
+                            { label: "Show New", value: SearchStatus.NEW },
+                            { label: "Show EagleCord", value: SearchStatus.EAGLE }
                         ]}
                         serialize={String}
                         select={onStatusChange}
