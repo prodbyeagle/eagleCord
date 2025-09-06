@@ -18,11 +18,11 @@ import { EAGLECORD_ICON_IMAGE } from "@components/settings/tabs/vencord";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
-import { shouldShowContributorBadge } from "@utils/misc";
+import { copyWithToast, shouldShowContributorBadge } from "@utils/misc";
 import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
 import { User } from "@vencord/discord-types";
-import { Forms, Toasts, UserStore } from "@webpack/common";
+import { ContextMenuApi, Forms, Menu, Toasts, UserStore } from "@webpack/common";
 
 // const CONTRIBUTOR_BADGE = "https://cdn.discordapp.com/emojis/1092089799109775453.png?size=64";
 const OWNER_BADGE = "https://cdn.discordapp.com/badge-icons/5e74e9b61934fc1f67c65515d1f7e60d.png";
@@ -81,6 +81,32 @@ async function loadBadges(noCache = false) {
 
 let intervalId: any;
 
+function BadgeContextMenu({ badge }: { badge: ProfileBadge & BadgeUserArgs; }) {
+    console.log(badge);
+    return (
+        <Menu.Menu
+            navId="vc-badge-context"
+            onClose={ContextMenuApi.closeContextMenu}
+            aria-label="Badge Options"
+        >
+            {badge.description && (
+                <Menu.MenuItem
+                    id="vc-badge-copy-name"
+                    label="Copy Badge Name"
+                    action={() => copyWithToast(badge.description!)}
+                />
+            )}
+            {badge.image && (
+                <Menu.MenuItem
+                    id="vc-badge-copy-link"
+                    label="Copy Badge Image Link"
+                    action={() => copyWithToast(badge.image!)}
+                />
+            )}
+        </Menu.Menu>
+    );
+}
+
 export default definePlugin({
     name: "BadgeAPI",
     description: "API to add badges to users. (modded by prodbyeagle)",
@@ -106,10 +132,10 @@ export default definePlugin({
                     match: /(?<="aria-label":(\i)\.description,.{0,200})children:/,
                     replace: "children:$1.component?$self.renderBadgeComponent({...$1}) :"
                 },
-                // conditionally override their onClick with badge.onClick if it exists
+                // handle onClick and onContextMenu
                 {
                     match: /href:(\i)\.link/,
-                    replace: "...($1.onClick&&{onClick:vcE=>$1.onClick(vcE,$1)}),$&"
+                    replace: "...$self.getBadgeMouseEventHandlers($1),$&"
                 }
             ]
         }
@@ -167,6 +193,21 @@ export default definePlugin({
         return <Component {...badge} />;
     }, { noop: true }),
 
+    getBadgeMouseEventHandlers(badge: ProfileBadge & BadgeUserArgs) {
+        const handlers = {} as Record<string, (e: React.MouseEvent) => void>;
+
+        if (!badge) return handlers; // sanity check
+
+        const { onClick, onContextMenu } = badge;
+
+        if (onClick) handlers.onClick = e => onClick(e, badge);
+        if (onContextMenu) handlers.onContextMenu = e => onContextMenu(e, badge);
+
+        return handlers;
+    },
+
+
+
     getDonorBadges(userId: string) {
         return DonorBadges[userId]?.map(badge => ({
             image: badge.badge,
@@ -177,6 +218,9 @@ export default definePlugin({
                     borderRadius: "50%",
                     transform: "scale(0.9)" // The image is a bit too big compared to default badges
                 }
+            },
+            onContextMenu(event, badge) {
+                ContextMenuApi.openContextMenu(event, () => <BadgeContextMenu badge={badge} />);
             },
             onClick() {
                 const modalKey = openModal(props => (
@@ -233,7 +277,7 @@ export default definePlugin({
                     </ErrorBoundary>
                 ));
             },
-        }));
+        }) satisfies ProfileBadge);
     },
 
     getEagleCordBadges(userId: string) {
@@ -246,6 +290,9 @@ export default definePlugin({
                     borderRadius: "50%",
                     transform: "scale(0.9)" // The image is a bit too big compared to default badges
                 }
+            },
+            onContextMenu(event, badge) {
+                ContextMenuApi.openContextMenu(event, () => <BadgeContextMenu badge={badge} />);
             },
             onClick() {
                 const modalKey = openModal(props => (
@@ -294,6 +341,6 @@ export default definePlugin({
                     </ErrorBoundary>
                 ));
             },
-        }));
+        }) satisfies ProfileBadge);
     }
 });
