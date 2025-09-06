@@ -13,6 +13,8 @@ import { useTimer } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
 import { React } from "@webpack/common";
 
+import alignedChatInputFix from "./alignedChatInputFix.css";
+
 function formatDuration(ms: number) {
     // here be dragons (moment fucking sucks)
     const human = Settings.plugins.CallTimer.format === "human";
@@ -40,6 +42,7 @@ export default definePlugin({
     name: "CallTimer",
     description: "Adds a timer to vcs",
     authors: [Devs.Ven],
+    managedStyle: alignedChatInputFix,
 
     startTime: 0,
     interval: void 0 as NodeJS.Timeout | undefined,
