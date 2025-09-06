@@ -13,7 +13,7 @@ import { useTimer } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
 import { React } from "@webpack/common";
 
-import alignedChatInputFix from "./alignedChatInputFix.css";
+import alignedChatInputFix from "./alignedChatInputFix.css?managed";
 
 function formatDuration(ms: number) {
     // here be dragons (moment fucking sucks)
