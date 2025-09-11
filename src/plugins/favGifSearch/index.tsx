@@ -20,6 +20,7 @@ interface SearchBarComponentProps {
     onClear: () => void;
     query: string;
     placeholder: string;
+    className?: string;
 }
 
 type TSearchBarComponent =
@@ -137,7 +138,7 @@ function SearchBar({ instance, SearchBarComponent }: { instance: Instance; Searc
 
         // scroll back to top
         ref.current?.containerRef?.current
-            .closest("#gif-picker-tab-panel")
+            ?.closest("#gif-picker-tab-panel")
             ?.querySelector("[class|=\"content\"]")
             ?.firstElementChild?.scrollTo(0, 0);
 
@@ -167,6 +168,7 @@ function SearchBar({ instance, SearchBarComponent }: { instance: Instance; Searc
             ref={ref}
             autoFocus={true}
             size="md"
+            className=""
             onChange={onChange}
             onClear={() => {
                 setQuery("");
