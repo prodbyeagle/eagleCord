@@ -18,18 +18,21 @@ export function serializeErrors(func: (...args: any[]) => any) {
         try {
             return {
                 ok: true,
-                value: await func(...arguments)
+                value: await func(...arguments),
             };
         } catch (e: any) {
             return {
                 ok: false,
-                error: e instanceof Error ? {
-                    // prototypes get lost, so turn error into plain object
-                    ...e,
-                    message: e.message,
-                    name: e.name,
-                    stack: e.stack
-                } : e
+                error:
+                    e instanceof Error
+                        ? {
+                              // prototypes get lost, so turn error into plain object
+                              ...e,
+                              message: e.message,
+                              name: e.name,
+                              stack: e.stack,
+                          }
+                        : e,
             };
         }
     };

@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 import {
@@ -15,14 +15,15 @@ import {
     onRelationshipRemove,
     removeFriend,
     removeGroup,
-    removeGuild
+    removeGuild,
 } from "./functions";
 import settings from "./settings";
-import {syncAndRunChecks, syncFriends, syncGroups, syncGuilds} from "./utils";
+import { syncAndRunChecks, syncFriends, syncGroups, syncGuilds } from "./utils";
 
 export default definePlugin({
     name: "RelationshipNotifier",
-    description: "Notifies you when a friend, group chat, or server removes you.",
+    description:
+        "Notifies you when a friend, group chat, or server removes you.",
     authors: [Devs.nick],
     settings,
 
@@ -31,23 +32,23 @@ export default definePlugin({
             find: "removeRelationship:(",
             replacement: {
                 match: /(removeRelationship:\((\i),\i,\i\)=>)/,
-                replace: "$1($self.removeFriend($2),0)||"
-            }
+                replace: "$1($self.removeFriend($2),0)||",
+            },
         },
         {
             find: "async leaveGuild(",
             replacement: {
                 match: /(leaveGuild\((\i)\){)/,
-                replace: "$1$self.removeGuild($2);"
-            }
+                replace: "$1$self.removeGuild($2);",
+            },
         },
         {
             find: "},closePrivateChannel(",
             replacement: {
                 match: /(closePrivateChannel\((\i)\){)/,
-                replace: "$1$self.removeGroup($2);"
-            }
-        }
+                replace: "$1$self.removeGroup($2);",
+            },
+        },
     ],
 
     flux: {
@@ -61,7 +62,7 @@ export default definePlugin({
             onRelationshipRemove(e);
             syncFriends();
         },
-        CONNECTION_OPEN: syncAndRunChecks
+        CONNECTION_OPEN: syncAndRunChecks,
     },
 
     async start() {
@@ -72,5 +73,5 @@ export default definePlugin({
 
     removeFriend,
     removeGroup,
-    removeGuild
+    removeGuild,
 });

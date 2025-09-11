@@ -6,15 +6,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type {Settings} from "@api/Settings";
-import {NATIVE_SETTINGS_FILE, SETTINGS_DIR, SETTINGS_FILE} from "@main/utils/constants";
-import {IpcEvents} from "@shared/IpcEvents";
-import {SettingsStore} from "@shared/SettingsStore";
-import {mergeDefaults} from "@utils/mergeDefaults";
-import {ipcMain} from "electron";
-import {mkdirSync, readFileSync, writeFileSync} from "fs";
+import type { Settings } from "@api/Settings";
+import {
+    NATIVE_SETTINGS_FILE,
+    SETTINGS_DIR,
+    SETTINGS_FILE,
+} from "@main/utils/constants";
+import { IpcEvents } from "@shared/IpcEvents";
+import { SettingsStore } from "@shared/SettingsStore";
+import { mergeDefaults } from "@utils/mergeDefaults";
+import { ipcMain } from "electron";
+import { mkdirSync, readFileSync, writeFileSync } from "fs";
 
-mkdirSync(SETTINGS_DIR, {recursive: true});
+mkdirSync(SETTINGS_DIR, { recursive: true });
 
 function readSettings<T = object>(name: string, file: string): Partial<T> {
     try {
@@ -27,21 +31,32 @@ function readSettings<T = object>(name: string, file: string): Partial<T> {
     }
 }
 
-export const RendererSettings = new SettingsStore(readSettings<Settings>("renderer", SETTINGS_FILE));
+export const RendererSettings = new SettingsStore(
+    readSettings<Settings>("renderer", SETTINGS_FILE),
+);
 
 RendererSettings.addGlobalChangeListener(() => {
     try {
-        writeFileSync(SETTINGS_FILE, JSON.stringify(RendererSettings.plain, null, 4));
+        writeFileSync(
+            SETTINGS_FILE,
+            JSON.stringify(RendererSettings.plain, null, 4),
+        );
     } catch (e) {
         console.error("Failed to write renderer settings", e);
     }
 });
 
-ipcMain.on(IpcEvents.GET_SETTINGS, e => e.returnValue = RendererSettings.plain);
+ipcMain.on(
+    IpcEvents.GET_SETTINGS,
+    (e) => (e.returnValue = RendererSettings.plain),
+);
 
-ipcMain.handle(IpcEvents.SET_SETTINGS, (_, data: Settings, pathToNotify?: string) => {
-    RendererSettings.setData(data, pathToNotify);
-});
+ipcMain.handle(
+    IpcEvents.SET_SETTINGS,
+    (_, data: Settings, pathToNotify?: string) => {
+        RendererSettings.setData(data, pathToNotify);
+    },
+);
 
 export interface NativeSettings {
     plugins: {
@@ -54,17 +69,25 @@ export interface NativeSettings {
 
 const DefaultNativeSettings: NativeSettings = {
     plugins: {},
-    customCspRules: {}
+    customCspRules: {},
 };
 
-const nativeSettings = readSettings<NativeSettings>("native", NATIVE_SETTINGS_FILE);
+const nativeSettings = readSettings<NativeSettings>(
+    "native",
+    NATIVE_SETTINGS_FILE,
+);
 mergeDefaults(nativeSettings, DefaultNativeSettings);
 
-export const NativeSettings = new SettingsStore(nativeSettings as NativeSettings);
+export const NativeSettings = new SettingsStore(
+    nativeSettings as NativeSettings,
+);
 
 NativeSettings.addGlobalChangeListener(() => {
     try {
-        writeFileSync(NATIVE_SETTINGS_FILE, JSON.stringify(NativeSettings.plain, null, 4));
+        writeFileSync(
+            NATIVE_SETTINGS_FILE,
+            JSON.stringify(NativeSettings.plain, null, 4),
+        );
     } catch (e) {
         console.error("Failed to write native settings", e);
     }

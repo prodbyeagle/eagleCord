@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 export default definePlugin({
@@ -19,8 +19,9 @@ export default definePlugin({
             find: '"sticker")',
             replacement: {
                 match: /return\(\i\.\i\|\|(?=\(.+?(\i)\.push)/,
-                replace: "$&(Vencord.Api.ChatButtons._injectButtons($1,arguments[0]),false)||"
-            }
-        }
-    ]
+                replace:
+                    "$&(Vencord.Api.ChatButtons._injectButtons($1,arguments[0]),false)||",
+            },
+        },
+    ],
 });

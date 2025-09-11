@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 export default definePlugin({
@@ -18,7 +18,8 @@ export default definePlugin({
             find: "#{intl::REMOVE_ATTACHMENT_BODY}",
             replacement: {
                 match: /(?<=.container\)?,children:)(\[.+?\])/,
-                replace: "Vencord.Api.MessageAccessories._modifyAccessories($1,this.props)",
+                replace:
+                    "Vencord.Api.MessageAccessories._modifyAccessories($1,this.props)",
             },
         },
     ],

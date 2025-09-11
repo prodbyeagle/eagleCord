@@ -9,4 +9,4 @@ declare global {
     export var Vencord: typeof import("./Vencord");
 }
 
-export { };
+export {};

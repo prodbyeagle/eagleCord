@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import {React} from "@webpack/common";
+import { React } from "@webpack/common";
 
 let ERROR_CODES: Record<string, string> | undefined;
 
@@ -21,17 +21,23 @@ export default definePlugin({
             find: "React has blocked a javascript: URL as a security precaution.",
             replacement: {
                 match: /"https:\/\/react.dev\/errors\/"\+\i;/,
-                replace: "$&const vcDecodedError=$self.decodeError(...arguments);if(vcDecodedError)return vcDecodedError;"
-            }
-        }
+                replace:
+                    "$&const vcDecodedError=$self.decodeError(...arguments);if(vcDecodedError)return vcDecodedError;",
+            },
+        },
     ],
 
     async start() {
         const CODES_URL = `https://raw.githubusercontent.com/facebook/react/v${React.version}/scripts/error-codes/codes.json`;
 
         ERROR_CODES = await fetch(CODES_URL)
-            .then(res => res.json())
-            .catch(e => console.error("[ReactErrorDecoder] Failed to fetch React error codes\n", e));
+            .then((res) => res.json())
+            .catch((e) =>
+                console.error(
+                    "[ReactErrorDecoder] Failed to fetch React error codes\n",
+                    e,
+                ),
+            );
     },
 
     stop() {
@@ -45,5 +51,5 @@ export default definePlugin({
             index++;
             return arg;
         });
-    }
+    },
 });

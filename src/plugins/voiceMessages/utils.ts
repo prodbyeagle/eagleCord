@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {classNameFactory} from "@api/Styles";
-import {findStoreLazy} from "@webpack";
+import { classNameFactory } from "@api/Styles";
+import { findStoreLazy } from "@webpack";
 
 export const MediaEngineStore = findStoreLazy("MediaEngineStore");
 export const cl = classNameFactory("vc-vmsg-");

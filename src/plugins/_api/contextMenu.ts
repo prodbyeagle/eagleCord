@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 export default definePlugin({
@@ -20,8 +20,8 @@ export default definePlugin({
             find: "♫ (つ｡◕‿‿◕｡)つ ♪",
             replacement: {
                 match: /(?=let{navId:)(?<=function \i\((\i)\).+?)/,
-                replace: "$1=Vencord.Api.ContextMenu._usePatchContextMenu($1);"
-            }
+                replace: "$1=Vencord.Api.ContextMenu._usePatchContextMenu($1);",
+            },
         },
         {
             find: "navId:",
@@ -37,9 +37,9 @@ export default definePlugin({
                             return `contextMenuAPIArguments:typeof arguments!=='undefined'?arguments:[],${m}`;
                         }
                         return m;
-                    }
-                }
-            ]
-        }
-    ]
+                    },
+                },
+            ],
+        },
+    ],
 });

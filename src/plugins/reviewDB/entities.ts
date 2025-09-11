@@ -9,21 +9,21 @@
 export const enum UserType {
     Banned = -1,
     Normal = 0,
-    Admin = 1
+    Admin = 1,
 }
 
 export const enum ReviewType {
     User = 0,
     Server = 1,
     Support = 2,
-    System = 3
+    System = 3,
 }
 
 export const enum NotificationType {
     Info = 0,
     Ban = 1,
     Unban = 2,
-    Warning = 3
+    Warning = 3,
 }
 
 export interface ReviewDBAuth {
@@ -73,18 +73,18 @@ export interface ReviewDBCurrentUser extends ReviewDBUser {
 }
 
 export interface ReviewAuthor {
-    id: number,
-    discordID: string,
-    username: string,
-    profilePhoto: string,
+    id: number;
+    discordID: string;
+    username: string;
+    profilePhoto: string;
     badges: Badge[];
 }
 
 export interface Review {
-    comment: string,
-    id: number,
-    star: number,
-    sender: ReviewAuthor,
+    comment: string;
+    id: number;
+    star: number;
+    sender: ReviewAuthor;
     timestamp: number;
     type?: ReviewType;
 }

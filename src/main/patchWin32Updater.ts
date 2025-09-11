@@ -6,9 +6,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {app} from "electron";
-import {existsSync, mkdirSync, readdirSync, renameSync, statSync, writeFileSync} from "original-fs";
-import {basename, dirname, join} from "path";
+import { app } from "electron";
+import {
+    existsSync,
+    mkdirSync,
+    readdirSync,
+    renameSync,
+    statSync,
+    writeFileSync,
+} from "original-fs";
+import { basename, dirname, join } from "path";
 
 function isNewer($new: string, old: string) {
     const newParts = $new.slice(4).split(".").map(Number);
@@ -30,9 +37,7 @@ function patchLatest() {
         const discordPath = join(currentAppPath, "..");
 
         const latestVersion = readdirSync(discordPath).reduce((prev, curr) => {
-            return (curr.startsWith("app-") && isNewer(curr, prev))
-                ? curr
-                : prev;
+            return curr.startsWith("app-") && isNewer(curr, prev) ? curr : prev;
         }, currentVersion as string);
 
         if (latestVersion === currentVersion) return;
@@ -47,11 +52,17 @@ function patchLatest() {
 
         renameSync(app, _app);
         mkdirSync(app);
-        writeFileSync(join(app, "package.json"), JSON.stringify({
-            name: "discord",
-            main: "index.js"
-        }));
-        writeFileSync(join(app, "index.js"), `require(${JSON.stringify(join(__dirname, "patcher.js"))});`);
+        writeFileSync(
+            join(app, "package.json"),
+            JSON.stringify({
+                name: "discord",
+                main: "index.js",
+            }),
+        );
+        writeFileSync(
+            join(app, "index.js"),
+            `require(${JSON.stringify(join(__dirname, "patcher.js"))});`,
+        );
     } catch (err) {
         console.error("[Vencord] Failed to repatch latest host update", err);
     }

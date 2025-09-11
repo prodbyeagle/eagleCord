@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 export default definePlugin({
@@ -24,34 +24,35 @@ export default definePlugin({
                 match: /canAnimate:.+?([,}].*?\))/g,
                 replace: (m, rest) => {
                     const destructuringMatch = rest.match(/}=.+/);
-                    if (destructuringMatch == null) return `canAnimate:!0${rest}`;
+                    if (destructuringMatch == null)
+                        return `canAnimate:!0${rest}`;
                     return m;
-                }
-            }
+                },
+            },
         },
         {
             // Status emojis
             find: "#{intl::GUILD_OWNER}),children:",
             replacement: {
                 match: /(\.CUSTOM_STATUS.+?animateEmoji:)\i/,
-                replace: "$1!0"
-            }
+                replace: "$1!0",
+            },
         },
         {
             // Guild Banner
             find: ".animatedBannerHoverLayer,onMouseEnter:",
             replacement: {
                 match: /(\.headerContent.+?guildBanner:\i,animate:)\i/,
-                replace: "$1!0"
-            }
+                replace: "$1!0",
+            },
         },
         {
             // Nameplates
             find: ".MINI_PREVIEW,[",
             replacement: {
                 match: /animate:\i,loop:/,
-                replace: "animate:true,loop:true,_loop:"
-            }
-        }
-    ]
+                replace: "animate:true,loop:true,_loop:",
+            },
+        },
+    ],
 });

@@ -6,12 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {migratePluginSettings} from "@api/Settings";
-import {Devs} from "@utils/constants";
+import { migratePluginSettings } from "@api/Settings";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
-import {CompactPronounsChatComponentWrapper, PronounsChatComponentWrapper} from "./PronounsChatComponent";
-import {settings} from "./settings";
+import {
+    CompactPronounsChatComponentWrapper,
+    PronounsChatComponentWrapper,
+} from "./PronounsChatComponent";
+import { settings } from "./settings";
 
 migratePluginSettings("UserMessagesPronouns", "PronounDB");
 export default definePlugin({
@@ -26,8 +29,9 @@ export default definePlugin({
             replacement: {
                 // Add next to timestamp (normal mode)
                 match: /(?<=return\s*\(0,\i\.jsxs?\)\(.+!\i&&)(\(0,\i.jsxs?\)\(.+?\{.+?\}\))/,
-                replace: "[$1, $self.PronounsChatComponentWrapper(arguments[0])]"
-            }
+                replace:
+                    "[$1, $self.PronounsChatComponentWrapper(arguments[0])]",
+            },
         },
         {
             find: '="SYSTEM_TAG"',
@@ -35,10 +39,11 @@ export default definePlugin({
                 {
                     // Add next to username (compact mode)
                     match: /className:\i\(\)\(\i\.className(?:,\i\.clickable)?,\i\)}\)\),(?=\i)/g,
-                    replace: "$&$self.CompactPronounsChatComponentWrapper(arguments[0]),",
+                    replace:
+                        "$&$self.CompactPronounsChatComponentWrapper(arguments[0]),",
                 },
-            ]
-        }
+            ],
+        },
     ],
 
     PronounsChatComponentWrapper,

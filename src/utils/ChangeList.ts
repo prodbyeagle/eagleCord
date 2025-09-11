@@ -18,8 +18,7 @@ export class ChangeList<T> {
     }
 
     public handleChange(item: T) {
-        if (!this.set.delete(item))
-            this.set.add(item);
+        if (!this.set.delete(item)) this.set.add(item);
     }
 
     public add(item: T) {

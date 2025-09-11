@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Channel} from "@vencord/discord-types";
+import { Channel } from "@vencord/discord-types";
 
 export interface ChannelDelete {
     type: "CHANNEL_DELETE";

@@ -29,9 +29,18 @@ export class VoiceStateStore extends FluxStore {
     getVoiceStatesForChannel(channelId: string): UserVoiceStateRecords;
     getVideoVoiceStatesForChannel(channelId: string): UserVoiceStateRecords;
 
-    getVoiceState(guildId: string | null, userId: string): VoiceState | undefined;
-    getUserVoiceChannelId(guildId: string | null, userId: string): string | undefined;
-    getVoiceStateForChannel(channelId: string, userId?: string): VoiceState | undefined;
+    getVoiceState(
+        guildId: string | null,
+        userId: string,
+    ): VoiceState | undefined;
+    getUserVoiceChannelId(
+        guildId: string | null,
+        userId: string,
+    ): string | undefined;
+    getVoiceStateForChannel(
+        channelId: string,
+        userId?: string,
+    ): VoiceState | undefined;
     getVoiceStateForUser(userId: string): VoiceState | undefined;
 
     getCurrentClientVoiceChannelId(guildId: string | null): string | undefined;

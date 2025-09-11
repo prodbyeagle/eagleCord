@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {Devs} from "@utils/constants";
-import definePlugin, {makeRange, OptionType} from "@utils/types";
+import { definePluginSettings } from "@api/Settings";
+import { Devs } from "@utils/constants";
+import definePlugin, { makeRange, OptionType } from "@utils/types";
 
 const settings = definePluginSettings({
     zoomMultiplier: {
@@ -21,7 +21,8 @@ const settings = definePluginSettings({
 
 export default definePlugin({
     name: "UnlockedAvatarZoom",
-    description: "Allows you to zoom in further in the image crop tool when changing your avatar",
+    description:
+        "Allows you to zoom in further in the image crop tool when changing your avatar",
     authors: [Devs.nakoyasha],
     settings,
     patches: [
@@ -30,7 +31,7 @@ export default definePlugin({
             replacement: {
                 match: /maxValue:\d/,
                 replace: "maxValue:$self.settings.store.zoomMultiplier",
-            }
-        }
-    ]
+            },
+        },
+    ],
 });

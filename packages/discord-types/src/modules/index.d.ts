@@ -1,1 +1,1 @@
-export * from "./CloudUpload"
+export * from "./CloudUpload";

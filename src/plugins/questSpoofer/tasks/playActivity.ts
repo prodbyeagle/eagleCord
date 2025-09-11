@@ -6,21 +6,36 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {ChannelStore, GuildChannelStore, RestAPI, showToast, Toasts} from "@webpack/common";
+import {
+    ChannelStore,
+    GuildChannelStore,
+    RestAPI,
+    showToast,
+    Toasts,
+} from "@webpack/common";
 
-import {QuestSpooferLogger} from "../constants";
+import { QuestSpooferLogger } from "../constants";
 
-export async function spoofPlayActivityQuest(quest: any, secondsNeeded: number) {
-    const guilds = GuildChannelStore.getAllGuilds() as Record<string, { VOCAL?: { channel: { id: string; }; }[]; }>;
+export async function spoofPlayActivityQuest(
+    quest: any,
+    secondsNeeded: number,
+) {
+    const guilds = GuildChannelStore.getAllGuilds() as Record<
+        string,
+        { VOCAL?: { channel: { id: string } }[] }
+    >;
 
     const vcId =
         ChannelStore.getSortedPrivateChannels()[0]?.id ??
-        Object.values(guilds)
-            .find(g => (g.VOCAL ?? []).length > 0)?.VOCAL?.[0]?.channel?.id;
+        Object.values(guilds).find((g) => (g.VOCAL ?? []).length > 0)
+            ?.VOCAL?.[0]?.channel?.id;
 
     if (!vcId) {
         QuestSpooferLogger.error("No voice channel found to spoof activity.");
-        return showToast("❌ No voice channel available to spoof activity.", Toasts.Type.FAILURE);
+        return showToast(
+            "❌ No voice channel available to spoof activity.",
+            Toasts.Type.FAILURE,
+        );
     }
 
     const streamKey = `call:${vcId}:1`;
@@ -31,16 +46,18 @@ export async function spoofPlayActivityQuest(quest: any, secondsNeeded: number) 
         while (true) {
             const res = await RestAPI.post({
                 url: `/quests/${quest.id}/heartbeat`,
-                body: {stream_key: streamKey, terminal: false}
+                body: { stream_key: streamKey, terminal: false },
             });
 
             const progress = res.body.progress.PLAY_ACTIVITY.value;
-            QuestSpooferLogger.debug(`Activity progress: ${progress}/${secondsNeeded}`);
+            QuestSpooferLogger.debug(
+                `Activity progress: ${progress}/${secondsNeeded}`,
+            );
 
             if (progress >= secondsNeeded) {
                 await RestAPI.post({
                     url: `/quests/${quest.id}/heartbeat`,
-                    body: {stream_key: streamKey, terminal: true}
+                    body: { stream_key: streamKey, terminal: true },
                 });
 
                 showToast("✅ Activity quest completed!", Toasts.Type.SUCCESS);
@@ -48,9 +65,12 @@ export async function spoofPlayActivityQuest(quest: any, secondsNeeded: number) 
                 break;
             }
 
-            await new Promise(r => setTimeout(r, 20_000));
+            await new Promise((r) => setTimeout(r, 20_000));
         }
     })();
 
-    showToast(`🧠 Spoofing activity: ${quest.config.messages.questName}`, Toasts.Type.MESSAGE);
+    showToast(
+        `🧠 Spoofing activity: ${quest.config.messages.questName}`,
+        Toasts.Type.MESSAGE,
+    );
 }

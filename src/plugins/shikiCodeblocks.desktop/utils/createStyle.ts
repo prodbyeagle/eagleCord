@@ -21,6 +21,6 @@ export function removeStyle(id: string) {
 }
 
 export const clearStyles = () => {
-    styles.forEach(style => style.remove());
+    styles.forEach((style) => style.remove());
     styles.clear();
 };

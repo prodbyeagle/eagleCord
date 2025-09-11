@@ -6,29 +6,32 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {Devs} from "@utils/constants";
-import {canonicalizeMatch} from "@utils/patches";
-import definePlugin, {OptionType} from "@utils/types";
+import { definePluginSettings } from "@api/Settings";
+import { Devs } from "@utils/constants";
+import { canonicalizeMatch } from "@utils/patches";
+import definePlugin, { OptionType } from "@utils/types";
 
 const settings = definePluginSettings({
     lockout: {
         type: OptionType.BOOLEAN,
         default: true,
-        description: 'Bypass the permission lockout prevention ("Pretty sure you don\'t want to do this")',
-        restartNeeded: true
+        description:
+            'Bypass the permission lockout prevention ("Pretty sure you don\'t want to do this")',
+        restartNeeded: true,
     },
     onboarding: {
         type: OptionType.BOOLEAN,
         default: true,
-        description: 'Bypass the onboarding requirements ("Making this change will make your server incompatible [...]")',
-        restartNeeded: true
-    }
+        description:
+            'Bypass the onboarding requirements ("Making this change will make your server incompatible [...]")',
+        restartNeeded: true,
+    },
 });
 
 export default definePlugin({
     name: "PermissionFreeWill",
-    description: "Disables the client-side restrictions for channel permission management.",
+    description:
+        "Disables the client-side restrictions for channel permission management.",
     authors: [Devs.lewisakura],
 
     patches: [
@@ -38,10 +41,10 @@ export default definePlugin({
             replacement: [
                 {
                     match: /case"DENY":.{0,50}if\((?=\i\.\i\.can)/,
-                    replace: "$&true||"
-                }
+                    replace: "$&true||",
+                },
             ],
-            predicate: () => settings.store.lockout
+            predicate: () => settings.store.lockout,
         },
         // Onboarding, same thing but we need to prevent the check
         {
@@ -50,11 +53,15 @@ export default definePlugin({
                 {
                     // replace export getters with functions that always resolve to true
                     match: /{(?:\i:\(\)=>\i,?){2}}/,
-                    replace: m => m.replaceAll(canonicalizeMatch(/\(\)=>\i/g), "()=>()=>Promise.resolve(true)")
-                }
+                    replace: (m) =>
+                        m.replaceAll(
+                            canonicalizeMatch(/\(\)=>\i/g),
+                            "()=>()=>Promise.resolve(true)",
+                        ),
+                },
             ],
-            predicate: () => settings.store.onboarding
-        }
+            predicate: () => settings.store.onboarding,
+        },
     ],
-    settings
+    settings,
 });

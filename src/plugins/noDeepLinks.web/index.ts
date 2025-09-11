@@ -6,23 +6,25 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 export default definePlugin({
     name: "DisableDeepLinks",
-    description: "Disables Discord's stupid deep linking feature which tries to force you to use their Desktop App",
+    description:
+        "Disables Discord's stupid deep linking feature which tries to force you to use their Desktop App",
     authors: [Devs.Ven],
     required: true,
 
-    noop: () => {
-    },
+    noop: () => {},
 
-    patches: [{
-        find: /\.openNativeAppModal\(.{0,50}?\.DEEP_LINK/,
-        replacement: {
-            match: /\i\.\i\.openNativeAppModal/,
-            replace: "$self.noop",
-        }
-    }]
+    patches: [
+        {
+            find: /\.openNativeAppModal\(.{0,50}?\.DEEP_LINK/,
+            replacement: {
+                match: /\i\.\i\.openNativeAppModal/,
+                replace: "$self.noop",
+            },
+        },
+    ],
 });

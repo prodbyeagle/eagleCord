@@ -15,7 +15,7 @@ export function crxToZip(buf: Buffer) {
         length += a << 0;
         length += b << 8;
         length += c << 16;
-        length += d << 24 >>> 0;
+        length += (d << 24) >>> 0;
         return length;
     }
 

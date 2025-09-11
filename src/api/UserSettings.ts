@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {proxyLazy} from "@utils/lazy";
-import {Logger} from "@utils/Logger";
-import {findModuleId, proxyLazyWebpack, wreq} from "@webpack";
+import { proxyLazy } from "@utils/lazy";
+import { Logger } from "@utils/Logger";
+import { findModuleId, proxyLazyWebpack, wreq } from "@webpack";
 
 interface UserSettingDefinition<T> {
     /**
@@ -37,9 +37,14 @@ interface UserSettingDefinition<T> {
     userSettingsAPIName: string;
 }
 
-export const UserSettings: Record<PropertyKey, UserSettingDefinition<any>> | undefined = proxyLazyWebpack(() => {
+export const UserSettings:
+    | Record<PropertyKey, UserSettingDefinition<any>>
+    | undefined = proxyLazyWebpack(() => {
     const modId = findModuleId('"textAndImages","renderSpoilers"');
-    if (modId == null) return new Logger("UserSettingsAPI ").error("Didn't find settings module.");
+    if (modId == null)
+        return new Logger("UserSettingsAPI ").error(
+            "Didn't find settings module.",
+        );
 
     return wreq(modId as any);
 });
@@ -50,13 +55,22 @@ export const UserSettings: Record<PropertyKey, UserSettingDefinition<any>> | und
  * @param group The setting group
  * @param name The name of the setting
  */
-export function getUserSetting<T = any>(group: string, name: string): UserSettingDefinition<T> | undefined {
-    if (!Vencord.Plugins.isPluginEnabled("UserSettingsAPI")) throw new Error("Cannot use UserSettingsAPI without setting as dependency.");
+export function getUserSetting<T = any>(
+    group: string,
+    name: string,
+): UserSettingDefinition<T> | undefined {
+    if (!Vencord.Plugins.isPluginEnabled("UserSettingsAPI"))
+        throw new Error(
+            "Cannot use UserSettingsAPI without setting as dependency.",
+        );
 
     for (const key in UserSettings) {
         const userSetting = UserSettings[key];
 
-        if (userSetting.userSettingsAPIGroup === group && userSetting.userSettingsAPIName === name) {
+        if (
+            userSetting.userSettingsAPIGroup === group &&
+            userSetting.userSettingsAPIName === name
+        ) {
             return userSetting;
         }
     }

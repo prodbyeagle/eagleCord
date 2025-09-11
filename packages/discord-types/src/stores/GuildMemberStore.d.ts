@@ -5,7 +5,10 @@ export class GuildMemberStore extends FluxStore {
     getCommunicationDisabledUserMap(): Record<string, string>;
     getCommunicationDisabledVersion(): number;
 
-    getMutableAllGuildsAndMembers(): Record<string, Record<string, GuildMember>>;
+    getMutableAllGuildsAndMembers(): Record<
+        string,
+        Record<string, GuildMember>
+    >;
 
     getMember(guildId: string, userId: string): GuildMember | null;
     getTrueMember(guildId: string, userId: string): GuildMember | null;

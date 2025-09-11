@@ -7,12 +7,23 @@
 import { cpSync, moveSync, readdirSync, rmSync } from "fs-extra";
 import { join } from "path";
 
-readdirSync(join(__dirname, "src"))
-    .forEach(child => moveSync(join(__dirname, "src", child), join(__dirname, child), { overwrite: true }));
+readdirSync(join(__dirname, "src")).forEach((child) =>
+    moveSync(join(__dirname, "src", child), join(__dirname, child), {
+        overwrite: true,
+    }),
+);
 
 const VencordSrc = join(__dirname, "..", "..", "src");
 
-for (const file of ["preload.d.ts", "userplugins", "main", "debug", "src", "browser", "scripts"]) {
+for (const file of [
+    "preload.d.ts",
+    "userplugins",
+    "main",
+    "debug",
+    "src",
+    "browser",
+    "scripts",
+]) {
     rmSync(join(__dirname, file), { recursive: true, force: true });
 }
 

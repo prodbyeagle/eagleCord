@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {showNotification} from "@api/Notifications";
-import {PlainSettings, Settings} from "@api/Settings";
-import {checkCloudUrlCsp, getCloudAuth, getCloudUrl} from "@utils/cloud";
-import {Logger} from "@utils/Logger";
-import {relaunch} from "@utils/native";
-import {chooseFile, saveFile} from "@utils/web";
-import {moment, Toasts} from "@webpack/common";
-import {deflateSync, inflateSync} from "fflate";
+import { showNotification } from "@api/Notifications";
+import { PlainSettings, Settings } from "@api/Settings";
+import { checkCloudUrlCsp, getCloudAuth, getCloudUrl } from "@utils/cloud";
+import { Logger } from "@utils/Logger";
+import { relaunch } from "@utils/native";
+import { chooseFile, saveFile } from "@utils/web";
+import { moment, Toasts } from "@webpack/common";
+import { deflateSync, inflateSync } from "fflate";
 
 export async function importSettings(data: string) {
     try {
@@ -28,13 +28,15 @@ export async function importSettings(data: string) {
         await VencordNative.settings.set(parsed.settings);
         await VencordNative.quickCss.set(parsed.quickCss);
     } else
-        throw new Error("Invalid Settings. Is this even a EagleCord Settings file?");
+        throw new Error(
+            "Invalid Settings. Is this even a EagleCord Settings file?",
+        );
 }
 
-export async function exportSettings({minify}: { minify?: boolean; } = {}) {
+export async function exportSettings({ minify }: { minify?: boolean } = {}) {
     const settings = VencordNative.settings.get();
     const quickCss = await VencordNative.quickCss.get();
-    return JSON.stringify({settings, quickCss}, null, minify ? undefined : 4);
+    return JSON.stringify({ settings, quickCss }, null, minify ? undefined : 4);
 }
 
 export async function downloadSettingsBackup() {
@@ -45,7 +47,7 @@ export async function downloadSettingsBackup() {
     if (IS_DISCORD_DESKTOP) {
         DiscordNative.fileManager.saveWithDialog(data, filename);
     } else {
-        saveFile(new File([data], filename, {type: "application/json"}));
+        saveFile(new File([data], filename, { type: "application/json" }));
     }
 }
 
@@ -53,11 +55,14 @@ const toast = (type: string, message: string) =>
     Toasts.show({
         type,
         message,
-        id: Toasts.genId()
+        id: Toasts.genId(),
     });
 
 const toastSuccess = () =>
-    toast(Toasts.Type.SUCCESS, "Settings successfully imported. Restart to apply changes!");
+    toast(
+        Toasts.Type.SUCCESS,
+        "Settings successfully imported. Restart to apply changes!",
+    );
 
 const toastFailure = (err: any) =>
     toast(Toasts.Type.FAILURE, `Failed to import settings: ${String(err)}`);
@@ -66,9 +71,9 @@ export async function uploadSettingsBackup(showToast = true): Promise<void> {
     if (IS_DISCORD_DESKTOP) {
         const [file] = await DiscordNative.fileManager.openFiles({
             filters: [
-                {name: "EagleCord Settings Backup", extensions: ["json"]},
-                {name: "all", extensions: ["*"]}
-            ]
+                { name: "EagleCord Settings Backup", extensions: ["json"] },
+                { name: "all", extensions: ["*"] },
+            ],
         });
 
         if (file) {
@@ -102,31 +107,33 @@ export async function uploadSettingsBackup(showToast = true): Promise<void> {
 const cloudSettingsLogger = new Logger("Cloud:Settings", "#39b7e0");
 
 export async function putCloudSettings(manual?: boolean) {
-    const settings = await exportSettings({minify: true});
+    const settings = await exportSettings({ minify: true });
 
-    if (!await checkCloudUrlCsp()) return;
+    if (!(await checkCloudUrlCsp())) return;
 
     try {
         const res = await fetch(new URL("/v1/settings", getCloudUrl()), {
             method: "PUT",
             headers: {
                 Authorization: await getCloudAuth(),
-                "Content-Type": "application/octet-stream"
+                "Content-Type": "application/octet-stream",
             },
-            body: deflateSync(new TextEncoder().encode(settings))
+            body: deflateSync(new TextEncoder().encode(settings)),
         });
 
         if (!res.ok) {
-            cloudSettingsLogger.error(`Failed to sync up, API returned ${res.status}`);
+            cloudSettingsLogger.error(
+                `Failed to sync up, API returned ${res.status}`,
+            );
             showNotification({
                 title: "Cloud Settings",
                 body: `Could not synchronize settings to cloud (API returned ${res.status}).`,
-                color: "var(--red-360)"
+                color: "var(--red-360)",
             });
             return;
         }
 
-        const {written} = await res.json();
+        const { written } = await res.json();
         PlainSettings.cloud.settingsSyncVersion = written;
         VencordNative.settings.set(PlainSettings);
 
@@ -144,13 +151,13 @@ export async function putCloudSettings(manual?: boolean) {
         showNotification({
             title: "Cloud Settings",
             body: `Could not synchronize settings to the cloud (${e.toString()}).`,
-            color: "var(--red-360)"
+            color: "var(--red-360)",
         });
     }
 }
 
 export async function getCloudSettings(shouldNotify = true, force = false) {
-    if (!await checkCloudUrlCsp()) return;
+    if (!(await checkCloudUrlCsp())) return;
 
     try {
         const res = await fetch(new URL("/v1/settings", getCloudUrl()), {
@@ -158,7 +165,7 @@ export async function getCloudSettings(shouldNotify = true, force = false) {
             headers: {
                 Authorization: await getCloudAuth(),
                 Accept: "application/octet-stream",
-                "If-None-Match": Settings.cloud.settingsSyncVersion.toString()
+                "If-None-Match": Settings.cloud.settingsSyncVersion.toString(),
             },
         });
 
@@ -168,7 +175,7 @@ export async function getCloudSettings(shouldNotify = true, force = false) {
                 showNotification({
                     title: "Cloud Settings",
                     body: "There are no settings in the cloud.",
-                    noPersist: true
+                    noPersist: true,
                 });
             return false;
         }
@@ -179,17 +186,19 @@ export async function getCloudSettings(shouldNotify = true, force = false) {
                 showNotification({
                     title: "Cloud Settings",
                     body: "Your settings are up to date.",
-                    noPersist: true
+                    noPersist: true,
                 });
             return false;
         }
 
         if (!res.ok) {
-            cloudSettingsLogger.error(`Failed to sync down, API returned ${res.status}`);
+            cloudSettingsLogger.error(
+                `Failed to sync down, API returned ${res.status}`,
+            );
             showNotification({
                 title: "Cloud Settings",
                 body: `Could not synchronize settings from the cloud (API returned ${res.status}).`,
-                color: "var(--red-360)"
+                color: "var(--red-360)",
             });
             return false;
         }
@@ -210,7 +219,9 @@ export async function getCloudSettings(shouldNotify = true, force = false) {
 
         const data = await res.arrayBuffer();
 
-        const settings = new TextDecoder().decode(inflateSync(new Uint8Array(data)));
+        const settings = new TextDecoder().decode(
+            inflateSync(new Uint8Array(data)),
+        );
         await importSettings(settings);
 
         // sync with server timestamp instead of local one
@@ -224,7 +235,7 @@ export async function getCloudSettings(shouldNotify = true, force = false) {
                 body: "Your settings have been updated! Click here to restart to fully apply changes!",
                 color: "var(--green-360)",
                 onClick: IS_WEB ? () => location.reload() : relaunch,
-                noPersist: true
+                noPersist: true,
             });
 
         return true;
@@ -233,7 +244,7 @@ export async function getCloudSettings(shouldNotify = true, force = false) {
         showNotification({
             title: "Cloud Settings",
             body: `Could not synchronize settings from the cloud (${e.toString()}).`,
-            color: "var(--red-360)"
+            color: "var(--red-360)",
         });
 
         return false;
@@ -241,20 +252,22 @@ export async function getCloudSettings(shouldNotify = true, force = false) {
 }
 
 export async function deleteCloudSettings() {
-    if (!await checkCloudUrlCsp()) return;
+    if (!(await checkCloudUrlCsp())) return;
 
     try {
         const res = await fetch(new URL("/v1/settings", getCloudUrl()), {
             method: "DELETE",
-            headers: {Authorization: await getCloudAuth()},
+            headers: { Authorization: await getCloudAuth() },
         });
 
         if (!res.ok) {
-            cloudSettingsLogger.error(`Failed to delete, API returned ${res.status}`);
+            cloudSettingsLogger.error(
+                `Failed to delete, API returned ${res.status}`,
+            );
             showNotification({
                 title: "Cloud Settings",
                 body: `Could not delete settings (API returned ${res.status}).`,
-                color: "var(--red-360)"
+                color: "var(--red-360)",
             });
             return;
         }
@@ -263,14 +276,14 @@ export async function deleteCloudSettings() {
         showNotification({
             title: "Cloud Settings",
             body: "Settings deleted from cloud!",
-            color: "var(--green-360)"
+            color: "var(--green-360)",
         });
     } catch (e: any) {
         cloudSettingsLogger.error("Failed to delete", e);
         showNotification({
             title: "Cloud Settings",
             body: `Could not delete settings (${e.toString()}).`,
-            color: "var(--red-360)"
+            color: "var(--red-360)",
         });
     }
 }

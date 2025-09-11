@@ -6,21 +6,33 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {FluxDispatcher, RestAPI, showToast, Toasts} from "@webpack/common";
+import { FluxDispatcher, RestAPI, showToast, Toasts } from "@webpack/common";
 
-import {QuestSpooferLogger, RunningGameStore} from "../constants";
+import { QuestSpooferLogger, RunningGameStore } from "../constants";
 
-
-export async function spoofDesktopPlayQuest(quest: any, appId: string, appName: string, pid: number, secondsNeeded: number) {
+export async function spoofDesktopPlayQuest(
+    quest: any,
+    appId: string,
+    appName: string,
+    pid: number,
+    secondsNeeded: number,
+) {
     if (!IS_DISCORD_DESKTOP) {
         QuestSpooferLogger.error("Not in desktop environment.");
-        return showToast("❌ Use the desktop app to spoof this quest.", Toasts.Type.FAILURE);
+        return showToast(
+            "❌ Use the desktop app to spoof this quest.",
+            Toasts.Type.FAILURE,
+        );
     }
 
     try {
-        const res = await RestAPI.get({url: `/applications/public?application_ids=${appId}`});
+        const res = await RestAPI.get({
+            url: `/applications/public?application_ids=${appId}`,
+        });
         const app = res.body[0];
-        const exeName = app.executables.find(x => x.os === "win32")?.name.replace(">", "");
+        const exeName = app.executables
+            .find((x) => x.os === "win32")
+            ?.name.replace(">", "");
 
         const fakeGame = {
             cmdLine: `C:\\Program Files\\${app.name}\\${exeName}`,
@@ -36,7 +48,9 @@ export async function spoofDesktopPlayQuest(quest: any, appId: string, appName: 
             start: Date.now(),
         };
 
-        QuestSpooferLogger.log(`Injecting fake game process: ${exeName} (pid ${pid})`);
+        QuestSpooferLogger.log(
+            `Injecting fake game process: ${exeName} (pid ${pid})`,
+        );
 
         const realGames = RunningGameStore.getRunningGames();
         const backupGetGames = RunningGameStore.getRunningGames;
@@ -53,14 +67,22 @@ export async function spoofDesktopPlayQuest(quest: any, appId: string, appName: 
         });
 
         const listener = (data: any) => {
-            const progress = quest.config.configVersion === 1
-                ? data.userStatus.streamProgressSeconds
-                : Math.floor(data.userStatus.progress.PLAY_ON_DESKTOP.value);
+            const progress =
+                quest.config.configVersion === 1
+                    ? data.userStatus.streamProgressSeconds
+                    : Math.floor(
+                          data.userStatus.progress.PLAY_ON_DESKTOP.value,
+                      );
 
-            QuestSpooferLogger.debug(`Heartbeat received: ${progress}/${secondsNeeded}s`);
+            QuestSpooferLogger.debug(
+                `Heartbeat received: ${progress}/${secondsNeeded}s`,
+            );
 
             if (progress >= secondsNeeded) {
-                FluxDispatcher.unsubscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", listener);
+                FluxDispatcher.unsubscribe(
+                    "QUESTS_SEND_HEARTBEAT_SUCCESS",
+                    listener,
+                );
                 RunningGameStore.getRunningGames = backupGetGames;
                 RunningGameStore.getGameForPID = backupGetByPid;
                 FluxDispatcher.dispatch({
@@ -70,8 +92,13 @@ export async function spoofDesktopPlayQuest(quest: any, appId: string, appName: 
                     games: [],
                 });
 
-                showToast("✅ Desktop play quest completed!", Toasts.Type.SUCCESS);
-                QuestSpooferLogger.info("Desktop play quest spoofed successfully.");
+                showToast(
+                    "✅ Desktop play quest completed!",
+                    Toasts.Type.SUCCESS,
+                );
+                QuestSpooferLogger.info(
+                    "Desktop play quest spoofed successfully.",
+                );
             }
         };
 

@@ -12,15 +12,15 @@ import {
     removeMessagePreEditListener,
     removeMessagePreSendListener
 } from "@api/MessageEvents";
-import {definePluginSettings} from "@api/Settings";
-import {Devs} from "@utils/constants";
-import {ApngBlendOp, ApngDisposeOp, importApngJs} from "@utils/dependencies";
-import {getCurrentGuild, getEmojiURL} from "@utils/discord";
-import {Logger} from "@utils/Logger";
-import definePlugin, {OptionType, Patch} from "@utils/types";
-import type {Emoji, Message} from "@vencord/discord-types";
-import {StickerFormatType} from "@vencord/discord-types/enums";
-import {findByCodeLazy, findByPropsLazy, findStoreLazy, proxyLazyWebpack} from "@webpack";
+import { definePluginSettings } from "@api/Settings";
+import { Devs } from "@utils/constants";
+import { ApngBlendOp, ApngDisposeOp, importApngJs } from "@utils/dependencies";
+import { getCurrentGuild, getEmojiURL } from "@utils/discord";
+import { Logger } from "@utils/Logger";
+import definePlugin, { OptionType, Patch } from "@utils/types";
+import type { Emoji, Message } from "@vencord/discord-types";
+import { StickerFormatType } from "@vencord/discord-types/enums";
+import { findByCodeLazy, findByPropsLazy, findStoreLazy, proxyLazyWebpack } from "@webpack";
 import {
     Alerts,
     ChannelStore,
@@ -38,8 +38,8 @@ import {
     UserSettingsActionCreators,
     UserStore
 } from "@webpack/common";
-import {applyPalette, GIFEncoder, quantize} from "gifenc";
-import type {ReactElement, ReactNode} from "react";
+import { applyPalette, GIFEncoder, quantize } from "gifenc";
+import type { ReactElement, ReactNode } from "react";
 
 const UserSettingsProtoStore = findStoreLazy("UserSettingsProtoStore");
 
@@ -166,16 +166,16 @@ const hasAttachmentPerms = (channelId: string) => hasPermission(channelId, Permi
 
 function makeBypassPatches(): Omit<Patch, "plugin"> {
     const mapping: Array<{ func: string, predicate?: () => boolean; }> = [
-        {func: "canUseCustomStickersEverywhere", predicate: () => settings.store.enableStickerBypass},
-        {func: "canUseHighVideoUploadQuality", predicate: () => settings.store.enableStreamQualityBypass},
-        {func: "canStreamQuality", predicate: () => settings.store.enableStreamQualityBypass},
-        {func: "canUseClientThemes"},
-        {func: "canUsePremiumAppIcons"}
+        { func: "canUseCustomStickersEverywhere", predicate: () => settings.store.enableStickerBypass },
+        { func: "canUseHighVideoUploadQuality", predicate: () => settings.store.enableStreamQualityBypass },
+        { func: "canStreamQuality", predicate: () => settings.store.enableStreamQualityBypass },
+        { func: "canUseClientThemes" },
+        { func: "canUsePremiumAppIcons" }
     ];
 
     return {
         find: "canUseCustomStickersEverywhere:",
-        replacement: mapping.map(({func, predicate}) => ({
+        replacement: mapping.map(({ func, predicate }) => ({
             match: new RegExp(String.raw`(?<=${func}:)\i`),
             replace: "() => true",
             predicate
@@ -185,8 +185,8 @@ function makeBypassPatches(): Omit<Patch, "plugin"> {
 
 export default definePlugin({
     name: "FakeNitro",
-    authors: [Devs.Arjix, Devs.D3SOX, Devs.Ven, Devs.fawn, Devs.captain, Devs.Nuckyz, Devs.AutumnVN],
-    description: "Allows you to stream in nitro quality, send fake emojis/stickers, and use client themes.",
+    authors: [Devs.Arjix, Devs.D3SOX, Devs.Ven, Devs.fawn, Devs.captain, Devs.Nuckyz, Devs.AutumnVN, Devs.sadan],
+    description: "Allows you to send fake emojis/stickers, use nitro themes, and stream in nitro quality",
     dependencies: ["MessageEventsAPI"],
 
     settings,
@@ -282,6 +282,14 @@ export default definePlugin({
             replacement: {
                 match: /(function \i\(\i\){let{backgroundGradientPresetId:(\i).+?)(\i\.\i\.updateAsync.+?theme=(.+?),.+?},\i\))/,
                 replace: (_, rest, backgroundGradientPresetId, originalCall, theme) => `${rest}$self.handleGradientThemeSelect(${backgroundGradientPresetId},${theme},()=>${originalCall});`
+            }
+        },
+        // Allow users to use custom client themes
+        {
+            find: "customUserThemeSettings:{",
+            replacement: {
+                match: /(?<=\i=)\(0,\i\.\i\)\(\i\.\i\.TIER_2\)(?=,|;)/g,
+                replace: "true"
             }
         },
         {
@@ -397,24 +405,13 @@ export default definePlugin({
             if (premiumType !== 2) {
                 proto.appearance ??= AppearanceSettingsActionCreators.create();
 
-                if (UserSettingsProtoStore.settings.appearance?.theme != null) {
-                    const appearanceSettingsDummy = AppearanceSettingsActionCreators.create({
-                        theme: UserSettingsProtoStore.settings.appearance.theme
-                    });
+                const protoStoreAppearenceSettings = UserSettingsProtoStore.settings.appearance;
 
-                    proto.appearance.theme = appearanceSettingsDummy.theme;
-                }
-
-                if (UserSettingsProtoStore.settings.appearance?.clientThemeSettings?.backgroundGradientPresetId?.value != null) {
-                    const clientThemeSettingsDummy = ClientThemeSettingsActionsCreators.create({
-                        backgroundGradientPresetId: {
-                            value: UserSettingsProtoStore.settings.appearance.clientThemeSettings.backgroundGradientPresetId.value
-                        }
-                    });
-
-                    proto.appearance.clientThemeSettings ??= clientThemeSettingsDummy;
-                    proto.appearance.clientThemeSettings.backgroundGradientPresetId = clientThemeSettingsDummy.backgroundGradientPresetId;
-                }
+                proto.appearance = AppearanceSettingsActionCreators.create({
+                    ...proto.appearance,
+                    theme: protoStoreAppearenceSettings?.theme,
+                    clientThemeSettings: protoStoreAppearenceSettings?.clientThemeSettings
+                });
             }
         } catch (err) {
             new Logger("FakeNitro").error(err);
@@ -511,7 +508,7 @@ export default definePlugin({
                         emojiId: fakeNitroMatch[1],
                         name: emojiName,
                         fake: true
-                    }, void 0, {key: String(nextIndex++)});
+                    }, void 0, { key: String(nextIndex++) });
                 }
             }
 
@@ -717,10 +714,10 @@ export default definePlugin({
         return `https://media.discordapp.net/stickers/${stickerId}.png?size=${settings.store.stickerSize}`;
     },
 
-    async sendAnimatedSticker(stickerLink: string, stickerId: string, channelId: string) {
-        const {parseURL} = importApngJs();
+    sendAnimatedSticker: async function (stickerLink: string, stickerId: string, channelId: string) {
+        const { parseURL } = importApngJs();
 
-        const {frames, width, height} = await parseURL(stickerLink);
+        const { frames, width, height } = await parseURL(stickerLink);
 
         const gif = GIFEncoder();
         const resolution = settings.store.stickerSize;
@@ -739,7 +736,7 @@ export default definePlugin({
         let previousFrameData: ImageData;
 
         for (const frame of frames) {
-            const {left, top, width, height, img, delay, blendOp, disposeOp} = frame;
+            const { left, top, width, height, img, delay, blendOp, disposeOp } = frame;
 
             previousFrameData = ctx.getImageData(left, top, width, height);
 
@@ -749,7 +746,7 @@ export default definePlugin({
 
             ctx.drawImage(img, left, top, width, height);
 
-            const {data} = ctx.getImageData(0, 0, resolution, resolution);
+            const { data } = ctx.getImageData(0, 0, resolution, resolution);
 
             const palette = quantize(data, 256);
             const index = applyPalette(data, palette);
@@ -769,7 +766,7 @@ export default definePlugin({
 
         gif.finish();
 
-        const file = new File([gif.bytesView()], `${stickerId}.gif`, {type: "image/gif"});
+        const file = new File([gif.bytesView()], `${stickerId}.gif`, { type: "image/gif" });
         UploadHandler.promptToUpload([file], ChannelStore.getChannel(channelId), DraftType.ChannelMessage);
     },
 
@@ -830,7 +827,7 @@ export default definePlugin({
         }
 
         this.preSend = addMessagePreSendListener(async (channelId, messageObj, extra) => {
-            const {guildId} = this;
+            const { guildId } = this;
 
             let hasBypass = false;
 
@@ -847,7 +844,7 @@ export default definePlugin({
                     break stickerBypass;
 
                 const canUseStickers = this.canUseStickers && hasExternalStickerPerms(channelId);
-                if (sticker.available && (canUseStickers || sticker.guild_id === guildId))
+                if (sticker.available !== false && (canUseStickers || sticker.guild_id === guildId))
                     break stickerBypass;
 
                 // [12/12/2023]
@@ -872,10 +869,10 @@ export default definePlugin({
                             </div>
                         });
                     } else {
-                        await this.sendAnimatedSticker(link, sticker.id, channelId);
+                        this.sendAnimatedSticker(link, sticker.id, channelId);
                     }
 
-                    return {cancel: true};
+                    return { cancel: true };
                 } else {
                     hasBypass = true;
 
@@ -911,11 +908,11 @@ export default definePlugin({
 
             if (hasBypass && !s.disableEmbedPermissionCheck && !hasEmbedPerms(channelId)) {
                 if (!await cannotEmbedNotice()) {
-                    return {cancel: true};
+                    return { cancel: true };
                 }
             }
 
-            return {cancel: false};
+            return { cancel: false };
         });
 
         this.preEdit = addMessagePreEditListener(async (channelId, __, messageObj) => {
@@ -923,7 +920,7 @@ export default definePlugin({
 
             let hasBypass = false;
 
-            messageObj.content = messageObj.content.replace(/(?<!\\)<a?:\w+:(\d+)>/ig, (emojiStr, emojiId, offset, origStr) => {
+            messageObj.content = messageObj.content.replace(/(?<!\\)<a?:(?:\w+):(\d+)>/ig, (emojiStr, emojiId, offset, origStr) => {
                 const emoji = EmojiStore.getCustomEmojiById(emojiId);
                 if (emoji == null) return emojiStr;
                 if (this.canUseEmote(emoji, channelId)) return emojiStr;
@@ -941,11 +938,11 @@ export default definePlugin({
 
             if (hasBypass && !s.disableEmbedPermissionCheck && !hasEmbedPerms(channelId)) {
                 if (!await cannotEmbedNotice()) {
-                    return {cancel: true};
+                    return { cancel: true };
                 }
             }
 
-            return {cancel: false};
+            return { cancel: false };
         });
     },
 

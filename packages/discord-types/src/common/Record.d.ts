@@ -8,5 +8,9 @@ export class DiscordRecord {
 
     set(key: string, value: any): this;
     merge(data: Record<string, any>): this;
-    update(key: string, defaultValueOrUpdater: Updater | any, updater?: Updater): this;
+    update(
+        key: string,
+        defaultValueOrUpdater: Updater | any,
+        updater?: Updater,
+    ): this;
 }

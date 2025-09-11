@@ -6,16 +6,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {ApplicationCommandInputType, sendBotMessage} from "@api/Commands";
-import {Devs} from "@utils/constants";
+import { ApplicationCommandInputType, sendBotMessage } from "@api/Commands";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import {findByPropsLazy} from "@webpack";
+import { findByPropsLazy } from "@webpack";
 
 const FriendInvites = findByPropsLazy("createFriendInvite");
 
 export default definePlugin({
     name: "FriendInvites",
-    description: "Create and manage friend invite links via slash commands (/create friend invite, /view friend invites, /revoke friend invites).",
+    description:
+        "Create and manage friend invite links via slash commands (/create friend invite, /view friend invites, /revoke friend invites).",
     authors: [Devs.afn, Devs.Dziurwa],
     commands: [
         {
@@ -31,9 +32,11 @@ export default definePlugin({
                         discord.gg/${invite.code} ·
                         Expires: <t:${new Date(invite.expires_at).getTime() / 1000}:R> ·
                         Max uses: \`${invite.max_uses}\`
-                    `.trim().replace(/\s+/g, " ")
+                    `
+                        .trim()
+                        .replace(/\s+/g, " "),
                 });
-            }
+            },
         },
         {
             name: "view friend invites",
@@ -41,16 +44,20 @@ export default definePlugin({
             inputType: ApplicationCommandInputType.BUILT_IN,
             execute: async (_, ctx) => {
                 const invites = await FriendInvites.getAllFriendInvites();
-                const friendInviteList = invites.map(i =>
+                const friendInviteList = invites.map((i) =>
                     `
                     _discord.gg/${i.code}_ ·
                     Expires: <t:${new Date(i.expires_at).getTime() / 1000}:R> ·
                     Times used: \`${i.uses}/${i.max_uses}\`
-                    `.trim().replace(/\s+/g, " ")
+                    `
+                        .trim()
+                        .replace(/\s+/g, " "),
                 );
 
                 sendBotMessage(ctx.channel.id, {
-                    content: friendInviteList.join("\n") || "You have no active friend invites!"
+                    content:
+                        friendInviteList.join("\n") ||
+                        "You have no active friend invites!",
                 });
             },
         },
@@ -62,9 +69,9 @@ export default definePlugin({
                 await FriendInvites.revokeFriendInvites();
 
                 sendBotMessage(ctx.channel.id, {
-                    content: "All friend invites have been revoked."
+                    content: "All friend invites have been revoked.",
                 });
             },
         },
-    ]
+    ],
 });

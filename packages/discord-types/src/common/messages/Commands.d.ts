@@ -1,7 +1,11 @@
 import { Channel } from "../Channel";
 import { Guild } from "../Guild";
 import { Promisable } from "type-fest";
-import { ApplicationCommandInputType, ApplicationCommandOptionType, ApplicationCommandType } from "../../../enums";
+import {
+    ApplicationCommandInputType,
+    ApplicationCommandOptionType,
+    ApplicationCommandType,
+} from "../../../enums";
 
 export interface CommandContext {
     channel: Channel;
@@ -57,5 +61,8 @@ export interface Command {
     options?: CommandOption[];
     predicate?(ctx: CommandContext): boolean;
 
-    execute(args: CommandArgument[], ctx: CommandContext): Promisable<void | CommandReturnValue>;
+    execute(
+        args: CommandArgument[],
+        ctx: CommandContext,
+    ): Promisable<void | CommandReturnValue>;
 }

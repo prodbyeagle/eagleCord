@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {app} from "electron";
-import {join} from "path";
+import { app } from "electron";
+import { join } from "path";
 
-export const DATA_DIR = process.env.VENCORD_USER_DATA_DIR ?? (
-    process.env.DISCORD_USER_DATA_DIR
+export const DATA_DIR =
+    process.env.VENCORD_USER_DATA_DIR ??
+    (process.env.DISCORD_USER_DATA_DIR
         ? join(process.env.DISCORD_USER_DATA_DIR, "..", "VencordData")
-        : join(app.getPath("userData"), "..", "Vencord")
-);
+        : join(app.getPath("userData"), "..", "Vencord"));
 export const SETTINGS_DIR = join(DATA_DIR, "settings");
 export const THEMES_DIR = join(DATA_DIR, "themes");
 export const QUICKCSS_PATH = join(SETTINGS_DIR, "quickCss.css");

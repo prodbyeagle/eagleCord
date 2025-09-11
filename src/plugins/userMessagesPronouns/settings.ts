@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {OptionType} from "@utils/types";
+import { definePluginSettings } from "@api/Settings";
+import { OptionType } from "@utils/types";
 
 export const enum PronounsFormat {
     Lowercase = "LOWERCASE",
-    Capitalized = "CAPITALIZED"
+    Capitalized = "CAPITALIZED",
 }
 
 export const settings = definePluginSettings({
@@ -22,17 +22,17 @@ export const settings = definePluginSettings({
             {
                 label: "Lowercase",
                 value: PronounsFormat.Lowercase,
-                default: true
+                default: true,
             },
             {
                 label: "Capitalized",
-                value: PronounsFormat.Capitalized
-            }
-        ]
+                value: PronounsFormat.Capitalized,
+            },
+        ],
     },
     showSelf: {
         type: OptionType.BOOLEAN,
         description: "Enable or disable showing pronouns for yourself",
-        default: true
-    }
+        default: true,
+    },
 });

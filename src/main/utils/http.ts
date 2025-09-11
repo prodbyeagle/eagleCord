@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {createWriteStream} from "original-fs";
-import {Readable} from "stream";
-import {finished} from "stream/promises";
+import { createWriteStream } from "original-fs";
+import { Readable } from "stream";
+import { finished } from "stream/promises";
 
 type Url = string | URL;
 
@@ -31,8 +31,7 @@ export async function checkedFetch(url: Url, options?: RequestInit) {
     try {
         const reason = await res.text();
         message += `\n${reason}`;
-    } catch {
-    }
+    } catch {}
 
     throw new Error(message);
 }
@@ -49,7 +48,11 @@ export async function fetchBuffer(url: Url, options?: RequestInit) {
     return Buffer.from(buf);
 }
 
-export async function downloadToFile(url: Url, path: string, options?: RequestInit) {
+export async function downloadToFile(
+    url: Url,
+    path: string,
+    options?: RequestInit,
+) {
     const res = await checkedFetch(url, options);
     if (!res.body) {
         throw new Error(`Download ${url}: response body is empty`);

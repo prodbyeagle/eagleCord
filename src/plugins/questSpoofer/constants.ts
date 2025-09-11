@@ -6,12 +6,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Logger} from "@utils/Logger";
-import {findByPropsLazy} from "@webpack";
+import { Logger } from "@utils/Logger";
+import { findByPropsLazy } from "@webpack";
 
 // Lazy-loaded stores
-export const ApplicationStreamingStore = findByPropsLazy("getStreamerActiveStreamMetadata");
-export const RunningGameStore = findByPropsLazy("getRunningGames", "getGameForPID");
+export const ApplicationStreamingStore = findByPropsLazy(
+    "getStreamerActiveStreamMetadata",
+);
+export const RunningGameStore = findByPropsLazy(
+    "getRunningGames",
+    "getGameForPID",
+);
 export const QuestsStore = findByPropsLazy("getQuest");
 
 // Task types
@@ -20,11 +25,9 @@ export const QuestTasks = [
     "PLAY_ON_DESKTOP",
     "STREAM_ON_DESKTOP",
     "PLAY_ACTIVITY",
-    "WATCH_VIDEO_ON_MOBILE"
+    "WATCH_VIDEO_ON_MOBILE",
 ] as const;
 
 // Helpers
 export const randomPid = () => Math.floor(Math.random() * 30000) + 1000;
 export const QuestSpooferLogger = new Logger("QuestSpoofer", "#473763");
-
-

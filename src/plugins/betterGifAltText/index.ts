@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 export default definePlugin({
@@ -19,8 +19,7 @@ export default definePlugin({
             find: '"onCloseImage",',
             replacement: {
                 match: /(return.{0,10}\.jsx.{0,50}isWindowFocused)/,
-                replace:
-                    "$self.altify(e);$1",
+                replace: "$self.altify(e);$1",
             },
         },
         {
@@ -28,7 +27,7 @@ export default definePlugin({
             replacement: {
                 match: /alt:(\i)=(\i\.\i\.string\(\i\.\i#{intl::GIF}\))(?=,[^}]*\}=(\i))/,
                 replace:
-                // rename prop so we can always use default value
+                    // rename prop so we can always use default value
                     "alt_$$:$1=$self.altify($3)||$2",
             },
         },
@@ -41,8 +40,7 @@ export default definePlugin({
         let url: string = props.original || props.src;
         try {
             url = decodeURI(url);
-        } catch {
-        }
+        } catch {}
 
         let name = url
             .slice(url.lastIndexOf("/") + 1)

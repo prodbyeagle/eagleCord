@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {LiteralUnion} from "type-fest";
+import { LiteralUnion } from "type-fest";
 
 export const SYM_IS_PROXY = Symbol("SettingsStore.isProxy");
 export const SYM_GET_RAW_TARGET = Symbol("SettingsStore.getRawTarget");
@@ -17,8 +17,8 @@ type ResolvePropDeep<T, P> = P extends `${infer Pre}.${infer Suf}`
         ? ResolvePropDeep<T[Pre], Suf>
         : any
     : P extends keyof T
-        ? T[P]
-        : any;
+      ? T[P]
+      : any;
 
 interface SettingsStoreOptions {
     readOnly?: boolean;
@@ -31,8 +31,7 @@ interface SettingsStoreOptions {
 }
 
 // merges the SettingsStoreOptions type into the class
-export interface SettingsStore<T extends object> extends SettingsStoreOptions {
-}
+export interface SettingsStore<T extends object> extends SettingsStoreOptions {}
 
 interface ProxyContext<T extends object = any> {
     root: T;
@@ -68,14 +67,14 @@ export class SettingsStore<T extends object> {
                     return v;
                 }
 
-                const {root, path} = proxyContext;
+                const { root, path } = proxyContext;
 
                 if (!(key in target) && self.getDefaultValue != null) {
                     v = self.getDefaultValue({
                         target,
                         key,
                         root,
-                        path
+                        path,
                     });
                 }
 
@@ -104,7 +103,7 @@ export class SettingsStore<T extends object> {
                     return true;
                 }
 
-                const {root, path} = proxyContext;
+                const { root, path } = proxyContext;
 
                 const setPath = `${path}${path && "."}${key}`;
                 self.notifyListeners(setPath, value, root);
@@ -121,24 +120,24 @@ export class SettingsStore<T extends object> {
                     return true;
                 }
 
-                const {root, path} = proxyContext;
+                const { root, path } = proxyContext;
 
                 const deletePath = `${path}${path && "."}${key}`;
                 self.notifyListeners(deletePath, undefined, root);
 
                 return true;
-            }
+            },
         };
     })();
 
     /**
      * The store object. Making changes to this object will trigger the applicable change listeners
      */
-    public declare store: T;
+    declare public store: T;
     /**
      * The plain data. Changes to this object will not trigger any change listeners
      */
-    public declare plain: T;
+    declare public plain: T;
 
     public constructor(plain: T, options: SettingsStoreOptions = {}) {
         this.plain = plain;
@@ -149,7 +148,7 @@ export class SettingsStore<T extends object> {
     private makeProxy(object: any, root: T = object, path = "") {
         this.proxyContexts.set(object, {
             root,
-            path
+            path,
         });
 
         return new Proxy(object, this.proxyHandler);
@@ -166,15 +165,20 @@ export class SettingsStore<T extends object> {
         if (paths.length > 3 && paths[0] === "plugins") {
             const settingPath = paths.slice(0, 3);
             const settingPathStr = settingPath.join(".");
-            const settingValue = settingPath.reduce((acc, curr) => acc[curr], root);
+            const settingValue = settingPath.reduce(
+                (acc, curr) => acc[curr],
+                root,
+            );
 
-            this.globalListeners.forEach(cb => cb(root, settingPathStr));
-            this.pathListeners.get(settingPathStr)?.forEach(cb => cb(settingValue));
+            this.globalListeners.forEach((cb) => cb(root, settingPathStr));
+            this.pathListeners
+                .get(settingPathStr)
+                ?.forEach((cb) => cb(settingValue));
         } else {
-            this.globalListeners.forEach(cb => cb(root, pathStr));
+            this.globalListeners.forEach((cb) => cb(root, pathStr));
         }
 
-        this.pathListeners.get(pathStr)?.forEach(cb => cb(value));
+        this.pathListeners.get(pathStr)?.forEach((cb) => cb(value));
     }
 
     /**
@@ -198,14 +202,14 @@ export class SettingsStore<T extends object> {
             for (const p of path) {
                 if (!v) {
                     console.warn(
-                        `Settings#setData: Path ${pathToNotify} does not exist in new data. Not dispatching update`
+                        `Settings#setData: Path ${pathToNotify} does not exist in new data. Not dispatching update`,
                     );
                     return;
                 }
                 v = v[p];
             }
 
-            this.pathListeners.get(pathToNotify)?.forEach(cb => cb(v));
+            this.pathListeners.get(pathToNotify)?.forEach((cb) => cb(v));
         }
 
         this.markAsChanged();
@@ -237,7 +241,7 @@ export class SettingsStore<T extends object> {
      */
     public addChangeListener<P extends LiteralUnion<keyof T, string>>(
         path: P,
-        cb: (data: ResolvePropDeep<T, P>) => void
+        cb: (data: ResolvePropDeep<T, P>) => void,
     ) {
         const listeners = this.pathListeners.get(path as string) ?? new Set();
         listeners.add(cb);
@@ -256,7 +260,10 @@ export class SettingsStore<T extends object> {
      * Remove a scoped listener
      * @see {@link addChangeListener}
      */
-    public removeChangeListener(path: LiteralUnion<keyof T, string>, cb: (data: any) => void) {
+    public removeChangeListener(
+        path: LiteralUnion<keyof T, string>,
+        cb: (data: any) => void,
+    ) {
         const listeners = this.pathListeners.get(path as string);
         if (!listeners) return;
 
@@ -268,6 +275,6 @@ export class SettingsStore<T extends object> {
      * Call all global change listeners
      */
     public markAsChanged() {
-        this.globalListeners.forEach(cb => cb(this.plain, ""));
+        this.globalListeners.forEach((cb) => cb(this.plain, ""));
     }
 }

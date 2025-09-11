@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {MessageObject} from "@api/MessageEvents";
-import {Devs} from "@utils/constants";
+import { MessageObject } from "@api/MessageEvents";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
-import {defaultRules} from "./defaultRules";
+import { defaultRules } from "./defaultRules";
 
 // From lodash
 const reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
@@ -34,9 +34,9 @@ export default definePlugin({
     },
 
     escapeRegExp(str: string) {
-        return (str && reHasRegExpChar.test(str))
+        return str && reHasRegExpChar.test(str)
             ? str.replace(reRegExpChar, "\\$&")
-            : (str || "");
+            : str || "";
     },
 
     createRules() {
@@ -52,8 +52,8 @@ export default definePlugin({
             const splitRule = rule.split("@");
             const paramRule = new RegExp(
                 "^" +
-                this.escapeRegExp(splitRule[0]).replace(/\\\*/, ".+?") +
-                "$"
+                    this.escapeRegExp(splitRule[0]).replace(/\\\*/, ".+?") +
+                    "$",
             );
 
             if (!splitRule[1]) {
@@ -62,11 +62,11 @@ export default definePlugin({
             }
             const hostRule = new RegExp(
                 "^(www\\.)?" +
-                this.escapeRegExp(splitRule[1])
-                    .replace(/\\\./, "\\.")
-                    .replace(/^\\\*\\\./, "(.+?\\.)?")
-                    .replace(/\\\*/, ".+?") +
-                "$"
+                    this.escapeRegExp(splitRule[1])
+                        .replace(/\\\./, "\\.")
+                        .replace(/^\\\*\\\./, "(.+?\\.)?")
+                        .replace(/\\\*/, ".+?") +
+                    "$",
             );
             const hostRuleIndex = hostRule.toString();
 
@@ -79,7 +79,7 @@ export default definePlugin({
     },
 
     removeParam(rule: string | RegExp, param: string, parent: URLSearchParams) {
-        if (param === rule || rule instanceof RegExp && rule.test(param)) {
+        if (param === rule || (rule instanceof RegExp && rule.test(param))) {
             parent.delete(param);
         }
     },
@@ -100,7 +100,7 @@ export default definePlugin({
         }
 
         // Check all universal rules
-        this.universalRules.forEach(rule => {
+        this.universalRules.forEach((rule) => {
             url.searchParams.forEach((_value, param, parent) => {
                 this.removeParam(rule, param, parent);
             });
@@ -109,7 +109,7 @@ export default definePlugin({
         // Check rules for each hosts that match
         this.hostRules.forEach((regex, hostRuleName) => {
             if (!regex.test(url.hostname)) return;
-            this.rulesByHost.get(hostRuleName).forEach(rule => {
+            this.rulesByHost.get(hostRuleName).forEach((rule) => {
                 url.searchParams.forEach((_value, param, parent) => {
                     this.removeParam(rule, param, parent);
                 });
@@ -124,7 +124,7 @@ export default definePlugin({
         if (msg.content.match(/http(s)?:\/\//)) {
             msg.content = msg.content.replace(
                 /(https?:\/\/[^\s<]+[^<.,:;"'>)|\]\s])/g,
-                match => this.replacer(match)
+                (match) => this.replacer(match),
             );
         }
     },

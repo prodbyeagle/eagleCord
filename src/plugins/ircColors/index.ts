@@ -6,23 +6,24 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {hash as h64} from "@intrnl/xxhash64";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
-import {useMemo} from "@webpack/common";
+import { definePluginSettings } from "@api/Settings";
+import { hash as h64 } from "@intrnl/xxhash64";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
+import { useMemo } from "@webpack/common";
 
 // Calculate a CSS color string based on the user ID
 function calculateNameColorForUser(id?: string) {
-    const {lightness} = settings.use(["lightness"]);
-    const idHash = useMemo(() => id ? h64(id) : null, [id]);
+    const { lightness } = settings.use(["lightness"]);
+    const idHash = useMemo(() => (id ? h64(id) : null), [id]);
 
     return idHash && `hsl(${idHash % 360n}, 100%, ${lightness}%)`;
 }
 
 const settings = definePluginSettings({
     lightness: {
-        description: "Lightness, in %. Change if the colors are too light or too dark",
+        description:
+            "Lightness, in %. Change if the colors are too light or too dark",
         type: OptionType.NUMBER,
         default: 70,
     },
@@ -30,20 +31,22 @@ const settings = definePluginSettings({
         description: "Replace role colors in the member list",
         restartNeeded: true,
         type: OptionType.BOOLEAN,
-        default: true
+        default: true,
     },
     applyColorOnlyToUsersWithoutColor: {
-        description: "Apply colors only to users who don't have a predefined color",
+        description:
+            "Apply colors only to users who don't have a predefined color",
         restartNeeded: false,
         type: OptionType.BOOLEAN,
-        default: false
+        default: false,
     },
     applyColorOnlyInDms: {
-        description: "Apply colors only in direct messages; do not apply colors in servers.",
+        description:
+            "Apply colors only in direct messages; do not apply colors in servers.",
         restartNeeded: false,
         type: OptionType.BOOLEAN,
-        default: false
-    }
+        default: false,
+    },
 });
 
 export default definePlugin({
@@ -58,25 +61,33 @@ export default definePlugin({
             replacement: {
                 // Override colorString with our custom color and disable gradients if applying the custom color.
                 match: /(?<=colorString:\i,colorStrings:\i,colorRoleName:\i.*?}=)(\i),/,
-                replace: "$self.wrapMessageColorProps($1, arguments[0]),"
-            }
+                replace: "$self.wrapMessageColorProps($1, arguments[0]),",
+            },
         },
         {
             find: "#{intl::GUILD_OWNER}),children:",
             replacement: {
                 match: /(?<=roleName:\i,)colorString:/,
-                replace: "colorString:$self.calculateNameColorForListContext(arguments[0]),originalColor:"
+                replace:
+                    "colorString:$self.calculateNameColorForListContext(arguments[0]),originalColor:",
             },
-            predicate: () => settings.store.memberListColors
-        }
+            predicate: () => settings.store.memberListColors,
+        },
     ],
 
-    wrapMessageColorProps(colorProps: {
-        colorString: string,
-        colorStrings?: Record<"primaryColor" | "secondaryColor" | "tertiaryColor", string>;
-    }, context: any) {
+    wrapMessageColorProps(
+        colorProps: {
+            colorString: string;
+            colorStrings?: Record<
+                "primaryColor" | "secondaryColor" | "tertiaryColor",
+                string
+            >;
+        },
+        context: any,
+    ) {
         try {
-            const colorString = this.calculateNameColorForMessageContext(context);
+            const colorString =
+                this.calculateNameColorForMessageContext(context);
             if (colorString === colorProps.colorString) {
                 return colorProps;
             }
@@ -87,8 +98,8 @@ export default definePlugin({
                 colorStrings: colorProps.colorStrings && {
                     primaryColor: colorString,
                     secondaryColor: undefined,
-                    tertiaryColor: undefined
-                }
+                    tertiaryColor: undefined,
+                },
             };
         } catch (e) {
             console.error("Failed to calculate message color strings:", e);
@@ -105,11 +116,14 @@ export default definePlugin({
         if (context?.message?.channel_id === "1337" && userId === "313337")
             return colorString;
 
-        if (settings.store.applyColorOnlyInDms && !context?.channel?.isPrivate()) {
+        if (
+            settings.store.applyColorOnlyInDms &&
+            !context?.channel?.isPrivate()
+        ) {
             return colorString;
         }
 
-        return (!settings.store.applyColorOnlyToUsersWithoutColor || !colorString)
+        return !settings.store.applyColorOnlyToUsersWithoutColor || !colorString
             ? color
             : colorString;
     },
@@ -120,15 +134,22 @@ export default definePlugin({
             const colorString = context?.colorString;
             const color = calculateNameColorForUser(id);
 
-            if (settings.store.applyColorOnlyInDms && !context?.channel?.isPrivate()) {
+            if (
+                settings.store.applyColorOnlyInDms &&
+                !context?.channel?.isPrivate()
+            ) {
                 return colorString;
             }
 
-            return (!settings.store.applyColorOnlyToUsersWithoutColor || !colorString)
+            return !settings.store.applyColorOnlyToUsersWithoutColor ||
+                !colorString
                 ? color
                 : colorString;
         } catch (e) {
-            console.error("Failed to calculate name color for list context:", e);
+            console.error(
+                "Failed to calculate name color for list context:",
+                e,
+            );
         }
-    }
+    },
 });

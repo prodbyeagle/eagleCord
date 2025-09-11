@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {Devs, IS_MAC} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
+import { definePluginSettings } from "@api/Settings";
+import { Devs, IS_MAC } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
 
 export default definePlugin({
     name: "CtrlEnterSend",
@@ -21,24 +21,25 @@ export default definePlugin({
             options: [
                 {
                     label: "Ctrl+Enter (Enter or Shift+Enter for new line) (cmd+enter on macOS)",
-                    value: "ctrl+enter"
+                    value: "ctrl+enter",
                 },
                 {
                     label: "Shift+Enter (Enter for new line)",
-                    value: "shift+enter"
+                    value: "shift+enter",
                 },
                 {
                     label: "Enter (Shift+Enter for new line; Discord default)",
-                    value: "enter"
-                }
+                    value: "enter",
+                },
             ],
-            default: "ctrl+enter"
+            default: "ctrl+enter",
         },
         sendMessageInTheMiddleOfACodeBlock: {
-            description: "Whether to send a message in the middle of a code block",
+            description:
+                "Whether to send a message in the middle of a code block",
             type: OptionType.BOOLEAN,
             default: true,
-        }
+        },
     }),
     patches: [
         // Only one of the two patches will be at effect; Discord often updates to switch between them.
@@ -47,16 +48,16 @@ export default definePlugin({
             find: ".selectPreviousCommandOption(",
             replacement: {
                 match: /(?<=(\i)\.which!==\i\.\i.ENTER\|\|).{0,100}(\(0,\i\.\i\)\(\i\)).{0,100}(?=\|\|\(\i\.preventDefault)/,
-                replace: "!$self.shouldSubmit($1,$2)"
-            }
+                replace: "!$self.shouldSubmit($1,$2)",
+            },
         },
         {
             find: "!this.hasOpenCodeBlock()",
             replacement: {
                 match: /!(\i).shiftKey&&!(this.hasOpenCodeBlock\(\))&&\(.{0,100}?\)/,
-                replace: "$self.shouldSubmit($1, $2)"
-            }
-        }
+                replace: "$self.shouldSubmit($1, $2)",
+            },
+        },
     ],
     shouldSubmit(event: KeyboardEvent, codeblock: boolean): boolean {
         let result = false;
@@ -75,5 +76,5 @@ export default definePlugin({
             result &&= !codeblock;
         }
         return result;
-    }
+    },
 });

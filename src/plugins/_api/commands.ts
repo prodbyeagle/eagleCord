@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 export default definePlugin({
@@ -26,7 +26,7 @@ export default definePlugin({
                     // textCommands = builtInCommands.filter(...)
                     match: /(?<=\w=)(\w)(\.filter\(.{0,60}tenor)/,
                     replace: "Vencord.Api.Commands._init($1)$2",
-                }
+                },
             ],
         },
         // command error handling
@@ -35,8 +35,9 @@ export default definePlugin({
             replacement: {
                 // return [2, cmd.execute(args, ctx)]
                 match: /,(\i)\.execute\((\i),(\i)\)/,
-                replace: (_, cmd, args, ctx) => `,Vencord.Api.Commands._handleCommand(${cmd}, ${args}, ${ctx})`
-            }
+                replace: (_, cmd, args, ctx) =>
+                    `,Vencord.Api.Commands._handleCommand(${cmd}, ${args}, ${ctx})`,
+            },
         },
         // Show plugin name instead of "Built-In"
         {
@@ -44,8 +45,8 @@ export default definePlugin({
             replacement: {
                 // ...children: p?.name
                 match: /(?<=:(.{1,3})\.displayDescription\}.{0,200}\.source,children:)[^}]+/,
-                replace: "$1.plugin||($&)"
-            }
-        }
+                replace: "$1.plugin||($&)",
+            },
+        },
     ],
 });

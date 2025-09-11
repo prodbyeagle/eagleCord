@@ -6,12 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 export default definePlugin({
     name: "ShowAllMessageButtons",
-    description: "Always show all message buttons no matter if you are holding the shift key or not.",
+    description:
+        "Always show all message buttons no matter if you are holding the shift key or not.",
     authors: [Devs.Nuckyz],
 
     patches: [
@@ -20,8 +21,8 @@ export default definePlugin({
             replacement: {
                 // isExpanded: isShiftPressed && other conditions...
                 match: /isExpanded:\i&&(.+?),/,
-                replace: "isExpanded:$1,"
-            }
-        }
-    ]
+                replace: "isExpanded:$1,",
+            },
+        },
+    ],
 });

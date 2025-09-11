@@ -1,4 +1,10 @@
-import { FluxStore, Guild, User, Application, ApplicationInstallParams } from "..";
+import {
+    FluxStore,
+    Guild,
+    User,
+    Application,
+    ApplicationInstallParams,
+} from "..";
 import { ApplicationIntegrationType } from "../../enums";
 
 export interface MutualFriend {
@@ -25,7 +31,6 @@ export interface MutualGuild {
      * the user's nickname in the guild, if any
      */
     nick: string | null;
-
 }
 
 export interface ProfileBadge {
@@ -36,7 +41,38 @@ export interface ProfileBadge {
 }
 
 export interface ConnectedAccount {
-    type: "twitch" | "youtube" | "skype" | "steam" | "leagueoflegends" | "battlenet" | "bluesky" | "bungie" | "reddit" | "twitter" | "twitter_legacy" | "spotify" | "facebook" | "xbox" | "samsung" | "contacts" | "instagram" | "mastodon" | "soundcloud" | "github" | "playstation" | "playstation-stg" | "epicgames" | "riotgames" | "roblox" | "paypal" | "ebay" | "tiktok" | "crunchyroll" | "domain" | "amazon-music";
+    type:
+        | "twitch"
+        | "youtube"
+        | "skype"
+        | "steam"
+        | "leagueoflegends"
+        | "battlenet"
+        | "bluesky"
+        | "bungie"
+        | "reddit"
+        | "twitter"
+        | "twitter_legacy"
+        | "spotify"
+        | "facebook"
+        | "xbox"
+        | "samsung"
+        | "contacts"
+        | "instagram"
+        | "mastodon"
+        | "soundcloud"
+        | "github"
+        | "playstation"
+        | "playstation-stg"
+        | "epicgames"
+        | "riotgames"
+        | "roblox"
+        | "paypal"
+        | "ebay"
+        | "tiktok"
+        | "crunchyroll"
+        | "domain"
+        | "amazon-music";
     /**
      * underlying id of connected account
      * eg. account uuid
@@ -56,9 +92,12 @@ export interface ProfileApplication {
     installParams: ApplicationInstallParams | undefined;
     flags: number;
     popularApplicationCommandIds?: string[];
-    integrationTypesConfig: Record<ApplicationIntegrationType, Partial<{
-        oauth2_install_params: ApplicationInstallParams;
-    }>>;
+    integrationTypesConfig: Record<
+        ApplicationIntegrationType,
+        Partial<{
+            oauth2_install_params: ApplicationInstallParams;
+        }>
+    >;
     primarySkuId: string | undefined;
     storefront_available: boolean;
 }
@@ -89,7 +128,9 @@ export interface ApplicationRoleConnection {
     platform_username: string;
 }
 
-export interface UserProfile extends UserProfileBase, Pick<User, "premiumType"> {
+export interface UserProfile
+    extends UserProfileBase,
+        Pick<User, "premiumType"> {
     /** If this is a bot user profile, this will be its application */
     application: ProfileApplication | null;
     applicationRoleConnections: ApplicationRoleConnection[] | undefined;
@@ -123,7 +164,10 @@ export class UserProfileStore extends FluxStore {
 
     getUserProfile(userId: string): UserProfile | undefined;
 
-    getGuildMemberProfile(userId: string, guildId: string | undefined): UserProfileBase | null;
+    getGuildMemberProfile(
+        userId: string,
+        guildId: string | undefined,
+    ): UserProfileBase | null;
     /**
      * Get the mutual friends of a user.
      *

@@ -6,5 +6,4 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-if (!IS_UPDATER_DISABLED)
-    require(IS_STANDALONE ? "./http" : "./git");
+if (!IS_UPDATER_DISABLED) require(IS_STANDALONE ? "./http" : "./git");

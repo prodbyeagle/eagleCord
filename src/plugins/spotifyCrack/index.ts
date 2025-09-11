@@ -6,38 +6,38 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
+import { definePluginSettings } from "@api/Settings";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
 
 const settings = definePluginSettings({
     noSpotifyAutoPause: {
         description: "Disable Spotify auto-pause",
         type: OptionType.BOOLEAN,
         default: true,
-        restartNeeded: true
+        restartNeeded: true,
     },
     keepSpotifyActivityOnIdle: {
         description: "Keep Spotify activity playing when idling",
         type: OptionType.BOOLEAN,
         default: false,
-        restartNeeded: true
-    }
+        restartNeeded: true,
+    },
 });
 
 export default definePlugin({
     name: "SpotifyCrack",
-    description: "Free listen along, no auto-pausing in voice chat, and allows activity to continue playing when idling",
+    description:
+        "Free listen along, no auto-pausing in voice chat, and allows activity to continue playing when idling",
     authors: [Devs.Cyn, Devs.Nuckyz],
     settings,
 
     patches: [
         {
-
             find: 'dispatch({type:"SPOTIFY_PROFILE_UPDATE"',
             replacement: {
                 match: /SPOTIFY_PROFILE_UPDATE.+?isPremium:(?="premium"===(\i)\.body\.product)/,
-                replace: (m, req) => `${m}(${req}.body.product="premium")&&`
+                replace: (m, req) => `${m}(${req}.body.product="premium")&&`,
             },
         },
         {
@@ -46,14 +46,14 @@ export default definePlugin({
                 {
                     predicate: () => settings.store.noSpotifyAutoPause,
                     match: /(?<=function \i\(\){)(?=.{0,200}SPOTIFY_AUTO_PAUSED\))/,
-                    replace: "return;"
+                    replace: "return;",
                 },
                 {
                     predicate: () => settings.store.keepSpotifyActivityOnIdle,
                     match: /(shouldShowActivity\(\){.{0,50})&&!\i\.\i\.isIdle\(\)/,
-                    replace: "$1"
-                }
-            ]
-        }
-    ]
+                    replace: "$1",
+                },
+            ],
+        },
+    ],
 });

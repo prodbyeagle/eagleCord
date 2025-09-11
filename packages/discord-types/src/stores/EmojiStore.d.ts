@@ -3,15 +3,18 @@ import { Channel, CustomEmoji, Emoji, FluxStore } from "..";
 export class EmojiStore extends FluxStore {
     getCustomEmojiById(id?: string | null): CustomEmoji | undefined;
     getUsableCustomEmojiById(id?: string | null): CustomEmoji | undefined;
-    getGuilds(): Record<string, {
-        id: string;
-        get emojis(): CustomEmoji[];
-        get rawEmojis(): CustomEmoji[];
-        get usableEmojis(): CustomEmoji[];
-        get emoticons(): any[];
-        getEmoji(id: string): CustomEmoji | undefined;
-        isUsable(emoji: CustomEmoji): boolean;
-    }>;
+    getGuilds(): Record<
+        string,
+        {
+            id: string;
+            get emojis(): CustomEmoji[];
+            get rawEmojis(): CustomEmoji[];
+            get usableEmojis(): CustomEmoji[];
+            get emoticons(): any[];
+            getEmoji(id: string): CustomEmoji | undefined;
+            isUsable(emoji: CustomEmoji): boolean;
+        }
+    >;
     getGuildEmoji(guildId?: string | null): CustomEmoji[];
     getNewlyAddedEmoji(guildId?: string | null): CustomEmoji[];
     getTopEmoji(guildId?: string | null): CustomEmoji[];
@@ -24,7 +27,7 @@ export class EmojiStore extends FluxStore {
     searchWithoutFetchingLatest(data: any): any;
     getSearchResultsOrder(...args: any[]): any;
     getState(): {
-        pendingUsages: { key: string, timestamp: number; }[];
+        pendingUsages: { key: string; timestamp: number }[];
     };
     searchWithoutFetchingLatest(data: {
         channel: Channel;

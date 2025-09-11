@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
+import { definePluginSettings } from "@api/Settings";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
 
 const settings = definePluginSettings({
     shownEmojis: {
@@ -16,11 +16,17 @@ const settings = definePluginSettings({
         type: OptionType.SELECT,
         default: "onlyUnicode",
         options: [
-            {label: "Only unicode emojis", value: "onlyUnicode"},
-            {label: "Unicode emojis and server emojis from current server", value: "currentServer"},
-            {label: "Unicode emojis and all server emojis (Discord default)", value: "all"}
-        ]
-    }
+            { label: "Only unicode emojis", value: "onlyUnicode" },
+            {
+                label: "Unicode emojis and server emojis from current server",
+                value: "currentServer",
+            },
+            {
+                label: "Unicode emojis and all server emojis (Discord default)",
+                value: "all",
+            },
+        ],
+    },
 });
 
 export default definePlugin({
@@ -33,9 +39,9 @@ export default definePlugin({
             find: "}searchWithoutFetchingLatest(",
             replacement: {
                 match: /\.get\((\i)\)\.nameMatchesChain\(\i\)\.reduce\(\((\i),(\i)\)=>\{/,
-                replace: "$& if ($self.shouldSkip($1, $3)) return $2;"
-            }
-        }
+                replace: "$& if ($self.shouldSkip($1, $3)) return $2;",
+            },
+        },
     ],
     shouldSkip(guildId: string, emoji: any) {
         if (emoji.type !== 1) {
@@ -48,5 +54,5 @@ export default definePlugin({
             return emoji.guildId !== guildId;
         }
         return false;
-    }
+    },
 });

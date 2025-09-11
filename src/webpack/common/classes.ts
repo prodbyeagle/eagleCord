@@ -7,6 +7,9 @@
  */
 
 import * as t from "@vencord/discord-types";
-import {findByPropsLazy} from "@webpack";
+import { findByPropsLazy } from "@webpack";
 
-export const ButtonWrapperClasses: t.ButtonWrapperClasses = findByPropsLazy("buttonWrapper", "buttonContent");
+export const ButtonWrapperClasses: t.ButtonWrapperClasses = findByPropsLazy(
+    "buttonWrapper",
+    "buttonContent",
+);

@@ -1,6 +1,6 @@
-import { CommandOption } from './Commands';
-import { User, UserJSON } from '../User';
-import { Embed, EmbedJSON } from './Embed';
+import { CommandOption } from "./Commands";
+import { User, UserJSON } from "../User";
+import { Embed, EmbedJSON } from "./Embed";
 import { DiscordRecord } from "../Record";
 import { StickerFormatType } from "../../../enums";
 import moment from "moment/moment";
@@ -39,12 +39,14 @@ export class Message extends DiscordRecord {
     flags: number;
     giftCodes: string[];
     id: string;
-    interaction: {
-        id: string;
-        name: string;
-        type: number;
-        user: User;
-    }[] | undefined;
+    interaction:
+        | {
+              id: string;
+              name: string;
+              type: number;
+              user: User;
+          }[]
+        | undefined;
     interactionData: {
         application_command: {
             application_id: string;
@@ -80,11 +82,13 @@ export class Message extends DiscordRecord {
     mentionRoles: string[];
     mentioned: boolean;
     mentions: string[];
-    messageReference: {
-        guild_id?: string;
-        channel_id: string;
-        message_id: string;
-    } | undefined;
+    messageReference:
+        | {
+              guild_id?: string;
+              channel_id: string;
+              message_id: string;
+          }
+        | undefined;
     messageSnapshots: {
         message: Message;
     }[];
@@ -141,27 +145,31 @@ export interface MessageJSON {
     guild_id: string | undefined;
     id: string;
     loggingName: unknown;
-    member: {
-        avatar: string | undefined;
-        communication_disabled_until: string | undefined;
-        deaf: boolean;
-        hoisted_role: string | undefined;
-        is_pending: boolean;
-        joined_at: string;
-        mute: boolean;
-        nick: string | boolean;
-        pending: boolean;
-        premium_since: string | undefined;
-        roles: string[];
-    } | undefined;
+    member:
+        | {
+              avatar: string | undefined;
+              communication_disabled_until: string | undefined;
+              deaf: boolean;
+              hoisted_role: string | undefined;
+              is_pending: boolean;
+              joined_at: string;
+              mute: boolean;
+              nick: string | boolean;
+              pending: boolean;
+              premium_since: string | undefined;
+              roles: string[];
+          }
+        | undefined;
     mention_everyone: boolean;
     mention_roles: string[];
     mentions: UserJSON[];
-    message_reference: {
-        guild_id?: string;
-        channel_id: string;
-        message_id: string;
-    } | undefined;
+    message_reference:
+        | {
+              guild_id?: string;
+              channel_id: string;
+              message_id: string;
+          }
+        | undefined;
     nonce: string | undefined;
     pinned: boolean;
     referenced_message: MessageJSON | undefined;

@@ -15,7 +15,7 @@ export interface SessionInfo {
             platform: string;
             location: string;
         };
-    },
+    };
     current?: boolean;
 }
 

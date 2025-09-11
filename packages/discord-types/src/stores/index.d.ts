@@ -17,7 +17,7 @@ export * from "./ThemeStore";
 export * from "./TypingStore";
 export * from "./UserProfileStore";
 export * from "./UserStore";
-export * from "./VoiceStateStore"
+export * from "./VoiceStateStore";
 export * from "./WindowStore";
 
 /**
@@ -34,5 +34,5 @@ export type useStateFromStores = <T>(
     stores: any[],
     mapper: () => T,
     dependencies?: any,
-    isEqual?: (old: T, newer: T) => boolean
+    isEqual?: (old: T, newer: T) => boolean,
 ) => T;

@@ -6,23 +6,28 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {classNameFactory} from "@api/Styles";
-import {Guild, GuildMember, Role} from "@vencord/discord-types";
-import {findByPropsLazy} from "@webpack";
-import {GuildRoleStore} from "@webpack/common";
+import { classNameFactory } from "@api/Styles";
+import { Guild, GuildMember, Role } from "@vencord/discord-types";
+import { findByPropsLazy } from "@webpack";
+import { GuildRoleStore } from "@webpack/common";
 
-import {PermissionsSortOrder, settings} from ".";
-import {PermissionType} from "./components/RolesAndUsersPermissions";
+import { PermissionsSortOrder, settings } from ".";
+import { PermissionType } from "./components/RolesAndUsersPermissions";
 
-export const {getGuildPermissionSpecMap} = findByPropsLazy("getGuildPermissionSpecMap");
+export const { getGuildPermissionSpecMap } = findByPropsLazy(
+    "getGuildPermissionSpecMap",
+);
 
 export const cl = classNameFactory("vc-permviewer-");
 
-export function getSortedRolesForMember({id: guildId}: Guild, member: GuildMember) {
+export function getSortedRolesForMember(
+    { id: guildId }: Guild,
+    member: GuildMember,
+) {
     // The guild id is the @everyone role
-    return GuildRoleStore
-        .getSortedRoles(guildId)
-        .filter(role => role.id === guildId || member.roles.includes(role.id));
+    return GuildRoleStore.getSortedRoles(guildId).filter(
+        (role) => role.id === guildId || member.roles.includes(role.id),
+    );
 }
 
 export function sortUserRoles(roles: Role[]) {
@@ -36,11 +41,14 @@ export function sortUserRoles(roles: Role[]) {
     }
 }
 
-export function sortPermissionOverwrites<T extends { id: string; type: number; }>(overwrites: T[], guildId: string) {
+export function sortPermissionOverwrites<
+    T extends { id: string; type: number },
+>(overwrites: T[], guildId: string) {
     const roles = GuildRoleStore.getRolesSnapshot(guildId);
 
     return overwrites.sort((a, b) => {
-        if (a.type !== PermissionType.Role || b.type !== PermissionType.Role) return 0;
+        if (a.type !== PermissionType.Role || b.type !== PermissionType.Role)
+            return 0;
 
         const roleA = roles[a.id];
         const roleB = roles[b.id];

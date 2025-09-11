@@ -23,7 +23,10 @@ export class FluxStore {
 
     addChangeListener(callback: Callback): void;
     /** Listener will be removed once the callback returns false. */
-    addConditionalChangeListener(callback: () => boolean, preemptive?: boolean): void;
+    addConditionalChangeListener(
+        callback: () => boolean,
+        preemptive?: boolean,
+    ): void;
     addReactChangeListener(callback: Callback): void;
     removeChangeListener(callback: Callback): void;
     removeReactChangeListener(callback: Callback): void;

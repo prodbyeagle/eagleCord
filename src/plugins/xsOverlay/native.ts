@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {createSocket, Socket} from "dgram";
+import { createSocket, Socket } from "dgram";
 
 let xsoSocket: Socket;
 

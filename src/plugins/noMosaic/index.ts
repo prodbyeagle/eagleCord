@@ -6,17 +6,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
+import { definePluginSettings } from "@api/Settings";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
 
 const settings = definePluginSettings({
     inlineVideo: {
         description: "Play videos without carousel modal",
         type: OptionType.BOOLEAN,
         default: true,
-        restartNeeded: true
-    }
+        restartNeeded: true,
+    },
 });
 
 export default definePlugin({
@@ -32,16 +32,19 @@ export default definePlugin({
             find: '=>"IMAGE"===',
             replacement: {
                 match: /=>"IMAGE"===\i\|\|"VIDEO"===\i(?:\|\|("VISUAL_PLACEHOLDER"===\i))?;/,
-                replace: (_, visualPlaceholderPred) => visualPlaceholderPred != null ? `=>${visualPlaceholderPred};` : "=>false;"
-            }
+                replace: (_, visualPlaceholderPred) =>
+                    visualPlaceholderPred != null
+                        ? `=>${visualPlaceholderPred};`
+                        : "=>false;",
+            },
         },
         {
             find: "renderAttachments(",
             predicate: () => settings.store.inlineVideo,
             replacement: {
                 match: /url:(\i)\.url\}\);return /,
-                replace: "$&$1.content_type?.startsWith('image/')&&"
-            }
+                replace: "$&$1.content_type?.startsWith('image/')&&",
+            },
         },
-    ]
+    ],
 });

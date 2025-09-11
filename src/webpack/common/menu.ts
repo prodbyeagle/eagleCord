@@ -7,7 +7,7 @@
  */
 
 import type * as t from "@vencord/discord-types";
-import {filters, mapMangledModuleLazy, waitFor, wreq} from "@webpack";
+import { filters, mapMangledModuleLazy, waitFor, wreq } from "@webpack";
 
 export const Menu = {} as t.Menu;
 
@@ -32,7 +32,7 @@ waitFor(m => m.name === "MenuCheckboxItem", (_, id) => {
 
 waitFor(filters.componentByCode('path:["empty"]'), m => Menu.Menu = m);
 waitFor(filters.componentByCode("sliderContainer", "slider", "handleSize:16", "=100"), m => Menu.MenuSliderControl = m);
-waitFor(filters.componentByCode('role:"searchbox', "top:2", "query:"), m => Menu.MenuSearchControl = m);
+waitFor(filters.componentByCode(".SEARCH)", ".focus()", "query:"), m => Menu.MenuSearchControl = m);
 
 export const ContextMenuApi: t.ContextMenuApi = mapMangledModuleLazy('type:"CONTEXT_MENU_OPEN', {
     closeContextMenu: filters.byCode("CONTEXT_MENU_CLOSE"),

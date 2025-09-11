@@ -6,18 +6,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {IShikiTheme} from "@vap/shiki";
+import { IShikiTheme } from "@vap/shiki";
 
 export const SHIKI_REPO = "shikijs/textmate-grammars-themes";
 export const SHIKI_REPO_COMMIT = "2d87559c7601a928b9f7e0f0dda243d2fb6d4499";
-export const shikiRepoTheme = (name: string) => `https://raw.githubusercontent.com/${SHIKI_REPO}/${SHIKI_REPO_COMMIT}/packages/tm-themes/themes/${name}.json`;
+export const shikiRepoTheme = (name: string) =>
+    `https://raw.githubusercontent.com/${SHIKI_REPO}/${SHIKI_REPO_COMMIT}/packages/tm-themes/themes/${name}.json`;
 
 export const themes = {
     // Default
     DarkPlus: shikiRepoTheme("dark-plus"),
 
     // Dev Choices
-    MaterialCandy: "https://raw.githubusercontent.com/millsp/material-candy/master/material-candy.json",
+    MaterialCandy:
+        "https://raw.githubusercontent.com/millsp/material-candy/master/material-candy.json",
 
     // More from Shiki repo
     Andromeeda: shikiRepoTheme("andromeeda"),
@@ -79,5 +81,5 @@ export const themeCache = new Map<string, IShikiTheme>();
 
 export const getTheme = (url: string): Promise<IShikiTheme> => {
     if (themeCache.has(url)) return Promise.resolve(themeCache.get(url)!);
-    return fetch(url).then(res => res.json());
+    return fetch(url).then((res) => res.json());
 };

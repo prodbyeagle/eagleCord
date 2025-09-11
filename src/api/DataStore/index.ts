@@ -35,7 +35,7 @@ export function createStore(dbName: string, storeName: string): UseStore {
     const dbp = promisifyRequest(request);
 
     return (txMode, callback) =>
-        dbp.then(db =>
+        dbp.then((db) =>
             callback(db.transaction(storeName, txMode).objectStore(storeName)),
         );
 }
@@ -49,7 +49,10 @@ let defaultGetStoreFunc: UseStore | undefined;
 
 function defaultGetStore() {
     if (!defaultGetStoreFunc) {
-        defaultGetStoreFunc = createStore(!IS_REPORTER ? "VencordData" : "VencordDataReporter", "VencordStore");
+        defaultGetStoreFunc = createStore(
+            !IS_REPORTER ? "VencordData" : "VencordDataReporter",
+            "VencordStore",
+        );
     }
     return defaultGetStoreFunc;
 }
@@ -64,7 +67,7 @@ export function get<T = any>(
     key: IDBValidKey,
     customStore = defaultGetStore(),
 ): Promise<T | undefined> {
-    return customStore("readonly", store => promisifyRequest(store.get(key)));
+    return customStore("readonly", (store) => promisifyRequest(store.get(key)));
 }
 
 /**
@@ -79,7 +82,7 @@ export function set(
     value: any,
     customStore = defaultGetStore(),
 ): Promise<void> {
-    return customStore("readwrite", store => {
+    return customStore("readwrite", (store) => {
         store.put(value, key);
         return promisifyRequest(store.transaction);
     });
@@ -96,8 +99,8 @@ export function setMany(
     entries: [IDBValidKey, any][],
     customStore = defaultGetStore(),
 ): Promise<void> {
-    return customStore("readwrite", store => {
-        entries.forEach(entry => store.put(entry[1], entry[0]));
+    return customStore("readwrite", (store) => {
+        entries.forEach((entry) => store.put(entry[1], entry[0]));
         return promisifyRequest(store.transaction);
     });
 }
@@ -112,8 +115,8 @@ export function getMany<T = any>(
     keys: IDBValidKey[],
     customStore = defaultGetStore(),
 ): Promise<T[]> {
-    return customStore("readonly", store =>
-        Promise.all(keys.map(key => promisifyRequest(store.get(key)))),
+    return customStore("readonly", (store) =>
+        Promise.all(keys.map((key) => promisifyRequest(store.get(key)))),
     );
 }
 
@@ -131,7 +134,7 @@ export function update<T = any>(
 ): Promise<void> {
     return customStore(
         "readwrite",
-        store =>
+        (store) =>
             // Need to create the promise manually.
             // If I try to chain promises, the transaction closes in browsers
             // that use a promise polyfill (IE10/11).
@@ -158,7 +161,7 @@ export function del(
     key: IDBValidKey,
     customStore = defaultGetStore(),
 ): Promise<void> {
-    return customStore("readwrite", store => {
+    return customStore("readwrite", (store) => {
         store.delete(key);
         return promisifyRequest(store.transaction);
     });
@@ -186,7 +189,7 @@ export function delMany(
  * @param customStore Method to get a custom store. Use with caution (see the docs).
  */
 export function clear(customStore = defaultGetStore()): Promise<void> {
-    return customStore("readwrite", store => {
+    return customStore("readwrite", (store) => {
         store.clear();
         return promisifyRequest(store.transaction);
     });
@@ -212,7 +215,7 @@ function eachCursor(
 export function keys<KeyType extends IDBValidKey>(
     customStore = defaultGetStore(),
 ): Promise<KeyType[]> {
-    return customStore("readonly", store => {
+    return customStore("readonly", (store) => {
         // Fast path for modern browsers
         if (store.getAllKeys) {
             return promisifyRequest(
@@ -222,7 +225,7 @@ export function keys<KeyType extends IDBValidKey>(
 
         const items: KeyType[] = [];
 
-        return eachCursor(store, cursor =>
+        return eachCursor(store, (cursor) =>
             items.push(cursor.key as KeyType),
         ).then(() => items);
     });
@@ -234,7 +237,7 @@ export function keys<KeyType extends IDBValidKey>(
  * @param customStore Method to get a custom store. Use with caution (see the docs).
  */
 export function values<T = any>(customStore = defaultGetStore()): Promise<T[]> {
-    return customStore("readonly", store => {
+    return customStore("readonly", (store) => {
         // Fast path for modern browsers
         if (store.getAll) {
             return promisifyRequest(store.getAll() as IDBRequest<T[]>);
@@ -242,9 +245,9 @@ export function values<T = any>(customStore = defaultGetStore()): Promise<T[]> {
 
         const items: T[] = [];
 
-        return eachCursor(store, cursor => items.push(cursor.value as T)).then(
-            () => items,
-        );
+        return eachCursor(store, (cursor) =>
+            items.push(cursor.value as T),
+        ).then(() => items);
     });
 }
 
@@ -256,7 +259,7 @@ export function values<T = any>(customStore = defaultGetStore()): Promise<T[]> {
 export function entries<KeyType extends IDBValidKey, ValueType = any>(
     customStore = defaultGetStore(),
 ): Promise<[KeyType, ValueType][]> {
-    return customStore("readonly", store => {
+    return customStore("readonly", (store) => {
         // Fast path for modern browsers
         // (although, hopefully we'll get a simpler path some day)
         if (store.getAll && store.getAllKeys) {
@@ -270,8 +273,8 @@ export function entries<KeyType extends IDBValidKey, ValueType = any>(
 
         const items: [KeyType, ValueType][] = [];
 
-        return customStore("readonly", store =>
-            eachCursor(store, cursor =>
+        return customStore("readonly", (store) =>
+            eachCursor(store, (cursor) =>
                 items.push([cursor.key as KeyType, cursor.value]),
             ).then(() => items),
         );

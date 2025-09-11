@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Settings} from "@api/Settings";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
+import { Settings } from "@api/Settings";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
 
 let style: HTMLStyleElement;
 
@@ -34,11 +34,13 @@ export default definePlugin({
     patches: [
         {
             find: "}renderEmbeds(",
-            replacement: [{
-                match: /\.container/,
-                replace: "$&+(this.props.channel.nsfw? ' vc-nsfw-img': '')"
-            }]
-        }
+            replacement: [
+                {
+                    match: /\.container/,
+                    replace: "$&+(this.props.channel.nsfw? ' vc-nsfw-img': '')",
+                },
+            ],
+        },
     ],
 
     options: {
@@ -46,8 +48,8 @@ export default definePlugin({
             type: OptionType.NUMBER,
             description: "Blur Amount (in pixels)",
             default: 10,
-            onChange: setCss
-        }
+            onChange: setCss,
+        },
     },
 
     start() {
@@ -60,5 +62,5 @@ export default definePlugin({
 
     stop() {
         style?.remove();
-    }
+    },
 });

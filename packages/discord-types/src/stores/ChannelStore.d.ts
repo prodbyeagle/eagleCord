@@ -6,7 +6,9 @@ export class ChannelStore extends FluxStore {
     hasChannel(channelId: string): boolean;
 
     getChannelIds(guildId?: string | null): string[];
-    getMutableBasicGuildChannelsForGuild(guildId: string): Record<string, Channel>;
+    getMutableBasicGuildChannelsForGuild(
+        guildId: string,
+    ): Record<string, Channel>;
     getMutableGuildChannelsForGuild(guildId: string): Record<string, Channel>;
     getAllThreadsForGuild(guildId: string): Channel[];
     getAllThreadsForParent(channelId: string): Channel[];

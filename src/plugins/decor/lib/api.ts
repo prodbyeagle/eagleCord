@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {API_URL} from "./constants";
-import {useAuthorizationStore} from "./stores/AuthorizationStore";
+import { API_URL } from "./constants";
+import { useAuthorizationStore } from "./stores/AuthorizationStore";
 
 export interface Preset {
     id: string;
@@ -36,30 +36,40 @@ export async function fetchApi(url: RequestInfo, options?: RequestInit) {
         ...options,
         headers: {
             ...options?.headers,
-            Authorization: `Bearer ${useAuthorizationStore.getState().token}`
-        }
+            Authorization: `Bearer ${useAuthorizationStore.getState().token}`,
+        },
     });
 
     if (res.ok) return res;
     else throw new Error(await res.text());
 }
 
-export const getUsersDecorations = async (ids?: string[]): Promise<Record<string, string | null>> => {
+export const getUsersDecorations = async (
+    ids?: string[],
+): Promise<Record<string, string | null>> => {
     if (ids?.length === 0) return {};
 
     const url = new URL(API_URL + "/users");
-    if (ids && ids.length !== 0) url.searchParams.set("ids", JSON.stringify(ids));
+    if (ids && ids.length !== 0)
+        url.searchParams.set("ids", JSON.stringify(ids));
 
-    return await fetch(url).then(c => c.json());
+    return await fetch(url).then((c) => c.json());
 };
 
-export const getUserDecorations = async (id: string = "@me"): Promise<Decoration[]> =>
-    fetchApi(API_URL + `/users/${id}/decorations`).then(c => c.json());
+export const getUserDecorations = async (
+    id: string = "@me",
+): Promise<Decoration[]> =>
+    fetchApi(API_URL + `/users/${id}/decorations`).then((c) => c.json());
 
-export const getUserDecoration = async (id: string = "@me"): Promise<Decoration | null> =>
-    fetchApi(API_URL + `/users/${id}/decoration`).then(c => c.json());
+export const getUserDecoration = async (
+    id: string = "@me",
+): Promise<Decoration | null> =>
+    fetchApi(API_URL + `/users/${id}/decoration`).then((c) => c.json());
 
-export const setUserDecoration = async (decoration: Decoration | NewDecoration | null, id: string = "@me"): Promise<string | Decoration> => {
+export const setUserDecoration = async (
+    decoration: Decoration | NewDecoration | null,
+    id: string = "@me",
+): Promise<string | Decoration> => {
     const formData = new FormData();
 
     if (!decoration) {
@@ -71,15 +81,18 @@ export const setUserDecoration = async (decoration: Decoration | NewDecoration |
         formData.append("alt", decoration.alt ?? "null");
     }
 
-    return fetchApi(API_URL + `/users/${id}/decoration`, {method: "PUT", body: formData}).then(c =>
-        decoration && "file" in decoration ? c.json() : c.text()
-    );
+    return fetchApi(API_URL + `/users/${id}/decoration`, {
+        method: "PUT",
+        body: formData,
+    }).then((c) => (decoration && "file" in decoration ? c.json() : c.text()));
 };
 
-export const getDecoration = async (hash: string): Promise<Decoration> => fetch(API_URL + `/decorations/${hash}`).then(c => c.json());
+export const getDecoration = async (hash: string): Promise<Decoration> =>
+    fetch(API_URL + `/decorations/${hash}`).then((c) => c.json());
 
 export const deleteDecoration = async (hash: string): Promise<void> => {
-    await fetchApi(API_URL + `/decorations/${hash}`, {method: "DELETE"});
+    await fetchApi(API_URL + `/decorations/${hash}`, { method: "DELETE" });
 };
 
-export const getPresets = async (): Promise<Preset[]> => fetch(API_URL + "/decorations/presets").then(c => c.json());
+export const getPresets = async (): Promise<Preset[]> =>
+    fetch(API_URL + "/decorations/presets").then((c) => c.json());

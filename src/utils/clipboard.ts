@@ -7,5 +7,7 @@
  */
 
 export function copyToClipboard(text: string): Promise<void> {
-    return IS_DISCORD_DESKTOP ? DiscordNative.clipboard.copy(text) : navigator.clipboard.writeText(text);
+    return IS_DISCORD_DESKTOP
+        ? DiscordNative.clipboard.copy(text)
+        : navigator.clipboard.writeText(text);
 }

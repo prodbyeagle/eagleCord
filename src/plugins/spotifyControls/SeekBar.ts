@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {LazyComponent} from "@utils/lazyReact";
-import {Slider} from "@webpack/common";
+import { LazyComponent } from "@utils/lazyReact";
+import { Slider } from "@webpack/common";
 
 export const SeekBar = LazyComponent(() => {
     const SliderClass = Slider.$$vencordGetWrappedComponent();

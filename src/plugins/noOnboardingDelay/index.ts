@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 export default definePlugin({
@@ -18,7 +18,7 @@ export default definePlugin({
             find: "#{intl::ONBOARDING_COVER_WELCOME_SUBTITLE}",
             replacement: {
                 match: "3e3",
-                replace: "0"
+                replace: "0",
             },
         },
     ],

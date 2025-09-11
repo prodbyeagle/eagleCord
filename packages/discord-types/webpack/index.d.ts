@@ -13,19 +13,25 @@ export type Module = {
 };
 
 /** exports can be anything, however initially it is always an empty object */
-export type ModuleFactory = (this: ModuleExports, module: Module, exports: ModuleExports, require: WebpackRequire) => void;
+export type ModuleFactory = (
+    this: ModuleExports,
+    module: Module,
+    exports: ModuleExports,
+    require: WebpackRequire,
+) => void;
 
 /** Keys here can be symbols too, but we can't properly type them */
 export type AsyncModulePromise = Promise<ModuleExports> & {
-    "__webpack_queues__": (fnQueue: ((queue: any[]) => any)) => any;
-    "__webpack_exports__": ModuleExports;
-    "__webpack_error__"?: any;
+    __webpack_queues__: (fnQueue: (queue: any[]) => any) => any;
+    __webpack_exports__: ModuleExports;
+    __webpack_error__?: any;
 };
 
 export type AsyncModuleBody = (
-    handleAsyncDependencies: (deps: AsyncModulePromise[]) =>
-        Promise<() => ModuleExports[]> | (() => ModuleExports[]),
-    asyncResult: (error?: any) => void
+    handleAsyncDependencies: (
+        deps: AsyncModulePromise[],
+    ) => Promise<() => ModuleExports[]> | (() => ModuleExports[]),
+    asyncResult: (error?: any) => void,
 ) => Promise<void>;
 
 export type EnsureChunkHandlers = {
@@ -34,13 +40,21 @@ export type EnsureChunkHandlers = {
      * @param chunkId The chunk id
      * @param promises The promises array to add the loading promise to
      */
-    j: (this: EnsureChunkHandlers, chunkId: PropertyKey, promises: Promise<void[]>) => void;
+    j: (
+        this: EnsureChunkHandlers,
+        chunkId: PropertyKey,
+        promises: Promise<void[]>,
+    ) => void;
     /**
      * Ensures the css file for this chunk is loaded, or starts to load if it's not.
      * @param chunkId The chunk id
      * @param promises The promises array to add the loading promise to. This array will likely contain the promise of the js file too
      */
-    css: (this: EnsureChunkHandlers, chunkId: PropertyKey, promises: Promise<void[]>) => void;
+    css: (
+        this: EnsureChunkHandlers,
+        chunkId: PropertyKey,
+        promises: Promise<void[]>,
+    ) => void;
     /**
      * Trigger for prefetching next chunks. This is called after ensuring a chunk is loaded and internally looks up
      * a map to see if the chunk that just loaded has next chunks to prefetch.
@@ -50,7 +64,11 @@ export type EnsureChunkHandlers = {
      * @param chunkId The chunk id
      * @param promises The promises array of ensuring the chunk is loaded
      */
-    prefetch: (this: EnsureChunkHandlers, chunkId: PropertyKey, promises: Promise<void[]>) => void;
+    prefetch: (
+        this: EnsureChunkHandlers,
+        chunkId: PropertyKey,
+        promises: Promise<void[]>,
+    ) => void;
 };
 
 export type PrefetchChunkHandlers = {
@@ -63,7 +81,13 @@ export type PrefetchChunkHandlers = {
 
 export type ScriptLoadDone = (event: Event) => void;
 
-export type OnChunksLoaded = ((this: WebpackRequire, result: any, chunkIds: PropertyKey[] | undefined | null, callback: () => any, priority: number) => any) & {
+export type OnChunksLoaded = ((
+    this: WebpackRequire,
+    result: any,
+    chunkIds: PropertyKey[] | undefined | null,
+    callback: () => any,
+    priority: number,
+) => any) & {
     /** Check if a chunk has been loaded */
     j: (this: OnChunksLoaded, chunkId: PropertyKey) => boolean;
 };
@@ -115,7 +139,12 @@ export type WebpackRequire = ((moduleId: PropertyKey) => ModuleExports) & {
      *     }, false); // false because our module does not have an await after dealing with the async requires
      * }
      */
-    a: (this: WebpackRequire, module: Module, body: AsyncModuleBody, hasAwaitAfterDependencies?: boolean) => void;
+    a: (
+        this: WebpackRequire,
+        module: Module,
+        body: AsyncModuleBody,
+        hasAwaitAfterDependencies?: boolean,
+    ) => void;
     /** getDefaultExport function for compatibility with non-harmony modules */
     n: (this: WebpackRequire, exports: any) => () => ModuleExports;
     /**
@@ -147,7 +176,11 @@ export type WebpackRequire = ((moduleId: PropertyKey) => ModuleExports) & {
      * }
      * // exports is now { exportName: someExportedValue } (but each value is actually a getter)
      */
-    d: (this: WebpackRequire, exports: Record<PropertyKey, any>, definiton: Record<PropertyKey, () => ModuleExports>) => void;
+    d: (
+        this: WebpackRequire,
+        exports: Record<PropertyKey, any>,
+        definiton: Record<PropertyKey, () => ModuleExports>,
+    ) => void;
     /** The ensure chunk handlers, which are used to ensure the files of the chunks are loaded, or load if necessary */
     f: EnsureChunkHandlers;
     /**
@@ -177,7 +210,13 @@ export type WebpackRequire = ((moduleId: PropertyKey) => ModuleExports) & {
      * "done" will be attached to existing scripts loading if src === url or data-webpack === `${uniqueName}:${key}`,
      * so it will be called when that existing script finishes loading.
      */
-    l: (this: WebpackRequire, url: string, done: ScriptLoadDone, key?: string | number, chunkId?: PropertyKey) => void;
+    l: (
+        this: WebpackRequire,
+        url: string,
+        done: ScriptLoadDone,
+        key?: string | number,
+        chunkId?: PropertyKey,
+    ) => void;
     /** Defines __esModule on the exports, marking ES Modules compatibility as true */
     r: (this: WebpackRequire, exports: ModuleExports) => void;
     /** Node.js module decorator. Decorates a module as a Node.js module */
@@ -198,7 +237,13 @@ export type WebpackRequire = ((moduleId: PropertyKey) => ModuleExports) & {
      * Instantiate a wasm instance with source using "wasmModuleHash", and importObject "importsObj", and then assign the exports of its instance to "exports".
      * @returns The exports argument, but now assigned with the exports of the wasm instance
      */
-    v: (this: WebpackRequire, exports: ModuleExports, wasmModuleId: any, wasmModuleHash: string, importsObj?: WebAssembly.Imports) => Promise<any>;
+    v: (
+        this: WebpackRequire,
+        exports: ModuleExports,
+        wasmModuleId: any,
+        wasmModuleHash: string,
+        importsObj?: WebAssembly.Imports,
+    ) => Promise<any>;
     /** Bundle public path, where chunk files are stored. Used by other methods which load chunks to obtain the full asset url */
     p: string;
     /** The runtime id of the current runtime */

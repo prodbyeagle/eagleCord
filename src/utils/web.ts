@@ -29,7 +29,7 @@ export function saveFile(file: File) {
  * @returns A promise that resolves to the chosen file or null if the user cancels
  */
 export function chooseFile(mimeTypes: string) {
-    return new Promise<File | null>(resolve => {
+    return new Promise<File | null>((resolve) => {
         const input = document.createElement("input");
         input.type = "file";
         input.style.display = "none";
@@ -45,7 +45,9 @@ export function chooseFile(mimeTypes: string) {
 }
 
 export function getStylusWebStoreUrl() {
-    const isChromium = (navigator as any).userAgentData?.brands?.some(b => b.brand === "Chromium");
+    const isChromium = (navigator as any).userAgentData?.brands?.some(
+        (b) => b.brand === "Chromium",
+    );
 
     return isChromium
         ? "https://chromewebstore.google.com/detail/stylus/clngdbkpkpeebahjckkjfobafhncgmne"

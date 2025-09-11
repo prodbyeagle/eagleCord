@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Settings} from "@api/Settings";
-import {Devs} from "@utils/constants";
-import {copyWithToast} from "@utils/misc";
-import definePlugin, {OptionType} from "@utils/types";
+import { Settings } from "@api/Settings";
+import { Devs } from "@utils/constants";
+import { copyWithToast } from "@utils/misc";
+import definePlugin, { OptionType } from "@utils/types";
 
 export default definePlugin({
     name: "BetterRoleDot",
@@ -22,7 +22,8 @@ export default definePlugin({
             find: ".dotBorderBase",
             replacement: {
                 match: /,viewBox:"0 0 20 20"/,
-                replace: "$&,onClick:()=>$self.copyToClipBoard(arguments[0].color),style:{cursor:'pointer'}",
+                replace:
+                    "$&,onClick:()=>$self.copyToClipBoard(arguments[0].color),style:{cursor:'pointer'}",
             },
         },
         {
@@ -39,23 +40,27 @@ export default definePlugin({
         {
             find: "#{intl::ADD_ROLE_A11Y_LABEL}",
             all: true,
-            predicate: () => Settings.plugins.BetterRoleDot.copyRoleColorInProfilePopout && !Settings.plugins.BetterRoleDot.bothStyles,
+            predicate: () =>
+                Settings.plugins.BetterRoleDot.copyRoleColorInProfilePopout &&
+                !Settings.plugins.BetterRoleDot.bothStyles,
             noWarn: true,
             replacement: {
                 match: /"dot"===\i/,
-                replace: "true"
-            }
+                replace: "true",
+            },
         },
         {
             find: ".roleVerifiedIcon",
             all: true,
-            predicate: () => Settings.plugins.BetterRoleDot.copyRoleColorInProfilePopout && !Settings.plugins.BetterRoleDot.bothStyles,
+            predicate: () =>
+                Settings.plugins.BetterRoleDot.copyRoleColorInProfilePopout &&
+                !Settings.plugins.BetterRoleDot.bothStyles,
             noWarn: true,
             replacement: {
                 match: /"dot"===\i/,
-                replace: "true"
-            }
-        }
+                replace: "true",
+            },
+        },
     ],
 
     options: {
@@ -67,10 +72,11 @@ export default definePlugin({
         },
         copyRoleColorInProfilePopout: {
             type: OptionType.BOOLEAN,
-            description: "Allow click on role dot in profile popout to copy role color",
+            description:
+                "Allow click on role dot in profile popout to copy role color",
             restartNeeded: true,
-            default: false
-        }
+            default: false,
+        },
     },
 
     copyToClipBoard(color: string) {

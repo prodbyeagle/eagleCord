@@ -8,18 +8,21 @@
 
 import "./styles.css";
 
-import {OptionType} from "@utils/types";
-import {ComponentType} from "react";
+import { OptionType } from "@utils/types";
+import { ComponentType } from "react";
 
-import {BooleanSetting} from "./BooleanSetting";
-import {ComponentSettingProps, SettingProps} from "./Common";
-import {ComponentSetting} from "./ComponentSetting";
-import {NumberSetting} from "./NumberSetting";
-import {SelectSetting} from "./SelectSetting";
-import {SliderSetting} from "./SliderSetting";
-import {TextSetting} from "./TextSetting";
+import { BooleanSetting } from "./BooleanSetting";
+import { ComponentSettingProps, SettingProps } from "./Common";
+import { ComponentSetting } from "./ComponentSetting";
+import { NumberSetting } from "./NumberSetting";
+import { SelectSetting } from "./SelectSetting";
+import { SliderSetting } from "./SliderSetting";
+import { TextSetting } from "./TextSetting";
 
-export const OptionComponentMap: Record<OptionType, ComponentType<SettingProps<any> | ComponentSettingProps<any>>> = {
+export const OptionComponentMap: Record<
+    OptionType,
+    ComponentType<SettingProps<any> | ComponentSettingProps<any>>
+> = {
     [OptionType.STRING]: TextSetting,
     [OptionType.NUMBER]: NumberSetting,
     [OptionType.BIGINT]: NumberSetting,

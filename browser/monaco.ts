@@ -19,23 +19,21 @@ const BASE = "/vendor/monaco/vs";
 
 self.MonacoEnvironment = {
     getWorkerUrl(_moduleId: unknown, label: string) {
-        const path = label === "css" ? "/language/css/css.worker.js" : "/editor/editor.worker.js";
+        const path =
+            label === "css"
+                ? "/language/css/css.worker.js"
+                : "/editor/editor.worker.js";
         return new URL(BASE + path, baseUrl).toString();
-    }
+    },
 };
 
-getCurrentCss().then(css => {
-    const editor = monaco.editor.create(
-        document.getElementById("container")!,
-        {
-            value: css,
-            language: "css",
-            theme: getTheme(),
-        }
-    );
-    editor.onDidChangeModelContent(() =>
-        setCss(editor.getValue())
-    );
+getCurrentCss().then((css) => {
+    const editor = monaco.editor.create(document.getElementById("container")!, {
+        value: css,
+        language: "css",
+        theme: getTheme(),
+    });
+    editor.onDidChangeModelContent(() => setCss(editor.getValue()));
     window.addEventListener("resize", () => {
         // make monaco re-layout
         editor.layout();

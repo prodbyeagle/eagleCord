@@ -6,9 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {findStoreLazy} from "@webpack";
+import { findStoreLazy } from "@webpack";
 
 import * as t from "./types/stores";
 
-export const ApplicationStreamPreviewStore: t.ApplicationStreamPreviewStore = findStoreLazy("ApplicationStreamPreviewStore");
-export const ApplicationStreamingStore: t.ApplicationStreamingStore = findStoreLazy("ApplicationStreamingStore");
+export const ApplicationStreamPreviewStore: t.ApplicationStreamPreviewStore =
+    findStoreLazy("ApplicationStreamPreviewStore");
+export const ApplicationStreamingStore: t.ApplicationStreamingStore =
+    findStoreLazy("ApplicationStreamingStore");

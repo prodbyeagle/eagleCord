@@ -40,13 +40,13 @@ for (const method of [
     "ownKeys",
     "preventExtensions",
     "set",
-    "setPrototypeOf"
+    "setPrototypeOf",
 ]) {
-    handler[method] =
-        (target: any, ...args: any[]) => Reflect[method](target[SYM_LAZY_GET](), ...args);
+    handler[method] = (target: any, ...args: any[]) =>
+        Reflect[method](target[SYM_LAZY_GET](), ...args);
 }
 
-handler.ownKeys = target => {
+handler.ownKeys = (target) => {
     const v = target[SYM_LAZY_GET]();
     const keys = Reflect.ownKeys(v);
     for (const key of unconfigurable) {
@@ -59,7 +59,10 @@ handler.getOwnPropertyDescriptor = (target, p) => {
     if (typeof p === "string" && unconfigurable.includes(p))
         return Reflect.getOwnPropertyDescriptor(target, p);
 
-    const descriptor = Reflect.getOwnPropertyDescriptor(target[SYM_LAZY_GET](), p);
+    const descriptor = Reflect.getOwnPropertyDescriptor(
+        target[SYM_LAZY_GET](),
+        p,
+    );
 
     if (descriptor) Object.defineProperty(target, p, descriptor);
     return descriptor;
@@ -75,14 +78,16 @@ handler.getOwnPropertyDescriptor = (target, p) => {
  * Note that the example below exists already as an api, see {@link findByPropsLazy}
  * @example const mod = proxyLazy(() => findByProps("blah")); console.log(mod.blah);
  */
-export function proxyLazy<T>(factory: () => T, attempts = 5, isChild = false): T {
+export function proxyLazy<T>(
+    factory: () => T,
+    attempts = 5,
+    isChild = false,
+): T {
     let isSameTick = true;
-    if (!isChild)
-        setTimeout(() => isSameTick = false, 0);
+    if (!isChild) setTimeout(() => (isSameTick = false), 0);
 
     let tries = 0;
-    const proxyDummy = Object.assign(function () {
-    }, {
+    const proxyDummy = Object.assign(function () {}, {
         [SYM_LAZY_CACHED]: void 0 as T | undefined,
         [SYM_LAZY_GET]() {
             if (!proxyDummy[SYM_LAZY_CACHED] && attempts > tries++) {
@@ -91,7 +96,7 @@ export function proxyLazy<T>(factory: () => T, attempts = 5, isChild = false): T
                     console.error("Lazy factory failed:", factory);
             }
             return proxyDummy[SYM_LAZY_CACHED];
-        }
+        },
     });
 
     return new Proxy(proxyDummy, {
@@ -108,13 +113,16 @@ export function proxyLazy<T>(factory: () => T, attempts = 5, isChild = false): T
                 return proxyLazy(
                     () => Reflect.get(target[SYM_LAZY_GET](), p, receiver),
                     attempts,
-                    true
+                    true,
                 );
             const lazyTarget = target[SYM_LAZY_GET]();
-            if (typeof lazyTarget === "object" || typeof lazyTarget === "function") {
+            if (
+                typeof lazyTarget === "object" ||
+                typeof lazyTarget === "function"
+            ) {
                 return Reflect.get(lazyTarget, p, receiver);
             }
             throw new Error("proxyLazy called on a primitive value");
-        }
+        },
     }) as any;
 }

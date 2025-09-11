@@ -7,7 +7,7 @@ export enum DraftType {
     ApplicationLauncherCommand = 3,
     Poll = 4,
     SlashCommand = 5,
-    ForwardContextMessage = 6
+    ForwardContextMessage = 6,
 }
 
 export interface Draft {
@@ -35,9 +35,15 @@ export type DraftState = Partial<Record<string, UserDrafts>>;
 
 export class DraftStore extends FluxStore {
     getState(): DraftState;
-    getRecentlyEditedDrafts(type: DraftType): Array<Draft & { channelId: string; }>;
+    getRecentlyEditedDrafts(
+        type: DraftType,
+    ): Array<Draft & { channelId: string }>;
     getDraft(channelId: string, type: DraftType): string;
 
-    getThreadSettings(channelId: string): ThreadSettingsDraft | null | undefined;
-    getThreadDraftWithParentMessageId(parentMessageId: string): ThreadSettingsDraft | null | undefined;
+    getThreadSettings(
+        channelId: string,
+    ): ThreadSettingsDraft | null | undefined;
+    getThreadDraftWithParentMessageId(
+        parentMessageId: string,
+    ): ThreadSettingsDraft | null | undefined;
 }

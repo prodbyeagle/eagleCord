@@ -28,5 +28,5 @@ export const enum ApplicationCommandType {
 
 export const enum ApplicationIntegrationType {
     GUILD_INSTALL = 0,
-    USER_INSTALL = 1
+    USER_INSTALL = 1,
 }

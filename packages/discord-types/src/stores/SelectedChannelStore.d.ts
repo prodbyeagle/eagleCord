@@ -10,5 +10,7 @@ export class SelectedChannelStore extends FluxStore {
     getLastSelectedChannels(guildId?: string): string;
 
     /** If you follow an announcement channel, this will return whichever channel you chose as destination */
-    getLastChannelFollowingDestination(): { guildId?: string; channelId?: string; } | undefined;
+    getLastChannelFollowingDestination():
+        | { guildId?: string; channelId?: string }
+        | undefined;
 }

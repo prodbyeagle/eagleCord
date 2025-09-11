@@ -11,15 +11,27 @@
 declare module "~plugins" {
     const plugins: Record<string, import("./utils/types").Plugin>;
     export default plugins;
-    export const PluginMeta: Record<string, {
-        folderName: string;
-        userPlugin: boolean;
-    }>;
-    export const ExcludedPlugins: Record<string, "web" | "discordDesktop" | "vesktop" | "desktop" | "dev">;
+    export const PluginMeta: Record<
+        string,
+        {
+            folderName: string;
+            userPlugin: boolean;
+        }
+    >;
+    export const ExcludedPlugins: Record<
+        string,
+        "web" | "discordDesktop" | "vesktop" | "desktop" | "dev"
+    >;
 }
 
 declare module "~pluginNatives" {
-    const pluginNatives: Record<string, Record<string, (event: Electron.IpcMainInvokeEvent, ...args: unknown[]) => unknown>>;
+    const pluginNatives: Record<
+        string,
+        Record<
+            string,
+            (event: Electron.IpcMainInvokeEvent, ...args: unknown[]) => unknown
+        >
+    >;
     export default pluginNatives;
 }
 

@@ -10,20 +10,25 @@ import "@main/updater";
 import "@main/ipcPlugins";
 import "@main/settings";
 
-import {debounce} from "@shared/debounce";
-import {IpcEvents} from "@shared/IpcEvents";
-import {BrowserWindow, ipcMain, shell, systemPreferences} from "electron";
+import { debounce } from "@shared/debounce";
+import { IpcEvents } from "@shared/IpcEvents";
+import { BrowserWindow, ipcMain, shell, systemPreferences } from "electron";
 import monacoHtml from "file://monacoWin.html?minify&base64";
-import {FSWatcher, mkdirSync, watch, writeFileSync} from "fs";
-import {open, readdir, readFile} from "fs/promises";
-import {join, normalize} from "path";
+import { FSWatcher, mkdirSync, watch, writeFileSync } from "fs";
+import { open, readdir, readFile } from "fs/promises";
+import { join, normalize } from "path";
 
-import {registerCspIpcHandlers} from "./csp/manager";
-import {getThemeInfo, stripBOM, UserThemeHeader} from "./themes";
-import {ALLOWED_PROTOCOLS, QUICKCSS_PATH, SETTINGS_DIR, THEMES_DIR} from "./utils/constants";
-import {makeLinksOpenExternally} from "./utils/externalLinks";
+import { registerCspIpcHandlers } from "./csp/manager";
+import { getThemeInfo, stripBOM, UserThemeHeader } from "./themes";
+import {
+    ALLOWED_PROTOCOLS,
+    QUICKCSS_PATH,
+    SETTINGS_DIR,
+    THEMES_DIR,
+} from "./utils/constants";
+import { makeLinksOpenExternally } from "./utils/externalLinks";
 
-mkdirSync(THEMES_DIR, {recursive: true});
+mkdirSync(THEMES_DIR, { recursive: true });
 
 registerCspIpcHandlers();
 
@@ -31,7 +36,9 @@ export function ensureSafePath(basePath: string, path: string) {
     const normalizedBasePath = normalize(basePath + "/");
     const newPath = join(basePath, path);
     const normalizedPath = normalize(newPath);
-    return normalizedPath.startsWith(normalizedBasePath) ? normalizedPath : null;
+    return normalizedPath.startsWith(normalizedBasePath)
+        ? normalizedPath
+        : null;
 }
 
 function readCss() {
@@ -46,7 +53,9 @@ async function listThemes(): Promise<UserThemeHeader[]> {
     for (const fileName of files) {
         if (!fileName.endsWith(".css")) continue;
 
-        const data = await getThemeData(fileName).then(stripBOM).catch(() => null);
+        const data = await getThemeData(fileName)
+            .then(stripBOM)
+            .catch(() => null);
         if (data == null) continue;
 
         themeInfo.push(getThemeInfo(data, fileName));
@@ -66,46 +75,60 @@ ipcMain.handle(IpcEvents.OPEN_QUICKCSS, () => shell.openPath(QUICKCSS_PATH));
 
 ipcMain.handle(IpcEvents.OPEN_EXTERNAL, (_, url) => {
     try {
-        var {protocol} = new URL(url);
+        var { protocol } = new URL(url);
     } catch {
         throw "Malformed URL";
     }
-    if (!ALLOWED_PROTOCOLS.includes(protocol))
-        throw "Disallowed protocol.";
+    if (!ALLOWED_PROTOCOLS.includes(protocol)) throw "Disallowed protocol.";
 
     shell.openExternal(url);
 });
 
-
 ipcMain.handle(IpcEvents.GET_QUICK_CSS, () => readCss());
 ipcMain.handle(IpcEvents.SET_QUICK_CSS, (_, css) =>
-    writeFileSync(QUICKCSS_PATH, css)
+    writeFileSync(QUICKCSS_PATH, css),
 );
 
 ipcMain.handle(IpcEvents.GET_THEMES_LIST, () => listThemes());
-ipcMain.handle(IpcEvents.GET_THEME_DATA, (_, fileName) => getThemeData(fileName));
+ipcMain.handle(IpcEvents.GET_THEME_DATA, (_, fileName) =>
+    getThemeData(fileName),
+);
 ipcMain.handle(IpcEvents.GET_THEME_SYSTEM_VALUES, () => ({
     // win & mac only
-    "os-accent-color": `#${systemPreferences.getAccentColor?.() || ""}`
+    "os-accent-color": `#${systemPreferences.getAccentColor?.() || ""}`,
 }));
 
 ipcMain.handle(IpcEvents.OPEN_THEMES_FOLDER, () => shell.openPath(THEMES_DIR));
-ipcMain.handle(IpcEvents.OPEN_SETTINGS_FOLDER, () => shell.openPath(SETTINGS_DIR));
+ipcMain.handle(IpcEvents.OPEN_SETTINGS_FOLDER, () =>
+    shell.openPath(SETTINGS_DIR),
+);
 
 export function initIpc(mainWindow: BrowserWindow) {
     let quickCssWatcher: FSWatcher | undefined;
 
-    open(QUICKCSS_PATH, "a+").then(fd => {
-        fd.close();
-        quickCssWatcher = watch(QUICKCSS_PATH, {persistent: false}, debounce(async () => {
-            mainWindow.webContents.postMessage(IpcEvents.QUICK_CSS_UPDATE, await readCss());
-        }, 50));
-    }).catch(() => {
-    });
+    open(QUICKCSS_PATH, "a+")
+        .then((fd) => {
+            fd.close();
+            quickCssWatcher = watch(
+                QUICKCSS_PATH,
+                { persistent: false },
+                debounce(async () => {
+                    mainWindow.webContents.postMessage(
+                        IpcEvents.QUICK_CSS_UPDATE,
+                        await readCss(),
+                    );
+                }, 50),
+            );
+        })
+        .catch(() => {});
 
-    const themesWatcher = watch(THEMES_DIR, {persistent: false}, debounce(() => {
-        mainWindow.webContents.postMessage(IpcEvents.THEME_UPDATE, void 0);
-    }));
+    const themesWatcher = watch(
+        THEMES_DIR,
+        { persistent: false },
+        debounce(() => {
+            mainWindow.webContents.postMessage(IpcEvents.THEME_UPDATE, void 0);
+        }),
+    );
 
     mainWindow.once("closed", () => {
         quickCssWatcher?.close();
@@ -115,7 +138,9 @@ export function initIpc(mainWindow: BrowserWindow) {
 
 ipcMain.handle(IpcEvents.OPEN_MONACO_EDITOR, async () => {
     const title = "Vencord QuickCSS Editor";
-    const existingWindow = BrowserWindow.getAllWindows().find(w => w.title === title);
+    const existingWindow = BrowserWindow.getAllWindows().find(
+        (w) => w.title === title,
+    );
     if (existingWindow && !existingWindow.isDestroyed()) {
         existingWindow.focus();
         return;
@@ -126,11 +151,14 @@ ipcMain.handle(IpcEvents.OPEN_MONACO_EDITOR, async () => {
         autoHideMenuBar: true,
         darkTheme: true,
         webPreferences: {
-            preload: join(__dirname, IS_DISCORD_DESKTOP ? "preload.js" : "vencordDesktopPreload.js"),
+            preload: join(
+                __dirname,
+                IS_DISCORD_DESKTOP ? "preload.js" : "vencordDesktopPreload.js",
+            ),
             contextIsolation: true,
             nodeIntegration: false,
-            sandbox: false
-        }
+            sandbox: false,
+        },
     });
 
     makeLinksOpenExternally(win);

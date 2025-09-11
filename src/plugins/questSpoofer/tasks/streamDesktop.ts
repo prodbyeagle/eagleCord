@@ -6,14 +6,23 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {FluxDispatcher, showToast, Toasts} from "@webpack/common";
+import { FluxDispatcher, showToast, Toasts } from "@webpack/common";
 
-import {ApplicationStreamingStore, QuestSpooferLogger} from "../constants";
+import { ApplicationStreamingStore, QuestSpooferLogger } from "../constants";
 
-export function spoofStreamDesktopQuest(quest: any, appId: string, appName: string, pid: number, secondsNeeded: number) {
+export function spoofStreamDesktopQuest(
+    quest: any,
+    appId: string,
+    appName: string,
+    pid: number,
+    secondsNeeded: number,
+) {
     if (!IS_DISCORD_DESKTOP) {
         QuestSpooferLogger.error("Not in desktop environment.");
-        return showToast("❌ Use the desktop app to spoof this quest.", Toasts.Type.FAILURE);
+        return showToast(
+            "❌ Use the desktop app to spoof this quest.",
+            Toasts.Type.FAILURE,
+        );
     }
 
     const backup = ApplicationStreamingStore.getStreamerActiveStreamMetadata;
@@ -26,14 +35,20 @@ export function spoofStreamDesktopQuest(quest: any, appId: string, appName: stri
     QuestSpooferLogger.log(`Simulating stream for ${appName} (pid ${pid})`);
 
     const listener = (data: any) => {
-        const progress = quest.config.configVersion === 1
-            ? data.userStatus.streamProgressSeconds
-            : Math.floor(data.userStatus.progress.STREAM_ON_DESKTOP.value);
+        const progress =
+            quest.config.configVersion === 1
+                ? data.userStatus.streamProgressSeconds
+                : Math.floor(data.userStatus.progress.STREAM_ON_DESKTOP.value);
 
-        QuestSpooferLogger.debug(`Stream heartbeat: ${progress}/${secondsNeeded}s`);
+        QuestSpooferLogger.debug(
+            `Stream heartbeat: ${progress}/${secondsNeeded}s`,
+        );
 
         if (progress >= secondsNeeded) {
-            FluxDispatcher.unsubscribe("QUESTS_SEND_HEARTBEAT_SUCCESS", listener);
+            FluxDispatcher.unsubscribe(
+                "QUESTS_SEND_HEARTBEAT_SUCCESS",
+                listener,
+            );
             ApplicationStreamingStore.getStreamerActiveStreamMetadata = backup;
             showToast("✅ Streaming quest completed!", Toasts.Type.SUCCESS);
             QuestSpooferLogger.info("Stream quest spoofed successfully.");

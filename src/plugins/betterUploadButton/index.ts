@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 export default definePlugin({
@@ -21,7 +21,7 @@ export default definePlugin({
                     match: /onClick:(\i\?void 0:\i)(?=,onDoubleClick:(\i\?void 0:\i),)/,
                     replace: "$&,...$self.getOverrides(arguments[0],$1,$2)",
                 },
-            ]
+            ],
         },
     ],
 
@@ -30,7 +30,7 @@ export default definePlugin({
 
         return {
             onClick: onDoubleClick,
-            onContextMenu: onClick
+            onContextMenu: onClick,
         };
-    }
+    },
 });
