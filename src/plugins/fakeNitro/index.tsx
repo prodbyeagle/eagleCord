@@ -149,7 +149,6 @@ function makeBypassPatches(): Omit<Patch, "plugin"> {
         { func: "canUseHighVideoUploadQuality", predicate: () => settings.store.enableStreamQualityBypass },
         { func: "canStreamQuality", predicate: () => settings.store.enableStreamQualityBypass },
         { func: "canUseClientThemes" },
-        { func: "canUseCustomNotificationSounds" },
         { func: "canUsePremiumAppIcons" }
     ];
 
@@ -166,7 +165,7 @@ function makeBypassPatches(): Omit<Patch, "plugin"> {
 export default definePlugin({
     name: "FakeNitro",
     authors: [Devs.Arjix, Devs.D3SOX, Devs.Ven, Devs.fawn, Devs.captain, Devs.Nuckyz, Devs.AutumnVN],
-    description: "Allows you to stream in nitro quality, send fake emojis/stickers, use client themes and custom Discord notifications.",
+    description: "Allows you to stream in nitro quality, send fake emojis/stickers, and use client themes.",
     dependencies: ["MessageEventsAPI"],
 
     settings,
@@ -250,7 +249,7 @@ export default definePlugin({
                     replace: (m, funcName, props) => `${m}$self.handleProtoChange(${props}.userSettingsProto,${props}.user);`
                 },
                 {
-                    // Overwrite non local proto changes with our local settings
+                    // Overwrite non-local proto changes with our local settings
                     match: /let{settings:/,
                     replace: "arguments[0].local||$self.handleProtoChange(arguments[0].settings.proto);$&"
                 }
@@ -468,7 +467,7 @@ export default definePlugin({
     },
 
     patchFakeNitroEmojisOrRemoveStickersLinks(content: Array<any>, inline: boolean) {
-        // If content has more than one child or it's a single ReactElement like a header, list or span
+        // If content has more than one child, or it's a single ReactElement like a header, list or span
         if ((content.length > 1 || typeof content[0]?.type === "string") && !settings.store.transformCompoundSentence) return content;
 
         let nextIndex = content.length;
@@ -753,7 +752,7 @@ export default definePlugin({
 
     canUseEmote(e: Emoji, channelId: string) {
         if (e.type === 0) return true;
-        if (e.available === false) return false;
+        if (!e.available) return false;
 
         if (isUnusableRoleSubscriptionEmoji(e, this.guildId, true)) return false;
 
@@ -825,7 +824,7 @@ export default definePlugin({
                     break stickerBypass;
 
                 const canUseStickers = this.canUseStickers && hasExternalStickerPerms(channelId);
-                if (sticker.available !== false && (canUseStickers || sticker.guild_id === guildId))
+                if (sticker.available && (canUseStickers || sticker.guild_id === guildId))
                     break stickerBypass;
 
                 // [12/12/2023]
@@ -849,7 +848,7 @@ export default definePlugin({
                             </div>
                         });
                     } else {
-                        this.sendAnimatedSticker(link, sticker.id, channelId);
+                        await this.sendAnimatedSticker(link, sticker.id, channelId);
                     }
 
                     return { cancel: true };
@@ -900,7 +899,7 @@ export default definePlugin({
 
             let hasBypass = false;
 
-            messageObj.content = messageObj.content.replace(/(?<!\\)<a?:(?:\w+):(\d+)>/ig, (emojiStr, emojiId, offset, origStr) => {
+            messageObj.content = messageObj.content.replace(/(?<!\\)<a?:\w+:(\d+)>/ig, (emojiStr, emojiId, offset, origStr) => {
                 const emoji = EmojiStore.getCustomEmojiById(emojiId);
                 if (emoji == null) return emojiStr;
                 if (this.canUseEmote(emoji, channelId)) return emojiStr;
