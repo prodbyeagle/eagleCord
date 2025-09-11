@@ -6,12 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    addMessagePreEditListener,
-    addMessagePreSendListener,
-    removeMessagePreEditListener,
-    removeMessagePreSendListener
-} from "@api/MessageEvents";
+import { addMessagePreEditListener, addMessagePreSendListener, removeMessagePreEditListener, removeMessagePreSendListener } from "@api/MessageEvents";
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { ApngBlendOp, ApngDisposeOp, importApngJs } from "@utils/dependencies";
@@ -21,23 +16,7 @@ import definePlugin, { OptionType, Patch } from "@utils/types";
 import type { Emoji, Message } from "@vencord/discord-types";
 import { StickerFormatType } from "@vencord/discord-types/enums";
 import { findByCodeLazy, findByPropsLazy, findStoreLazy, proxyLazyWebpack } from "@webpack";
-import {
-    Alerts,
-    ChannelStore,
-    DraftType,
-    EmojiStore,
-    FluxDispatcher,
-    Forms,
-    GuildMemberStore,
-    lodash,
-    Parser,
-    PermissionsBits,
-    PermissionStore,
-    StickersStore,
-    UploadHandler,
-    UserSettingsActionCreators,
-    UserStore
-} from "@webpack/common";
+import { Alerts, ChannelStore, DraftType, EmojiStore, FluxDispatcher, Forms, GuildMemberStore, lodash, Parser, PermissionsBits, PermissionStore, StickersStore, UploadHandler, UserSettingsActionCreators, UserStore } from "@webpack/common";
 import { applyPalette, GIFEncoder, quantize } from "gifenc";
 import type { ReactElement, ReactNode } from "react";
 
@@ -270,7 +249,7 @@ export default definePlugin({
                     replace: (m, funcName, props) => `${m}$self.handleProtoChange(${props}.userSettingsProto,${props}.user);`
                 },
                 {
-                    // Overwrite non-local proto changes with our local settings
+                    // Overwrite non local proto changes with our local settings
                     match: /let{settings:/,
                     replace: "arguments[0].local||$self.handleProtoChange(arguments[0].settings.proto);$&"
                 }
@@ -287,6 +266,8 @@ export default definePlugin({
         // Allow users to use custom client themes
         {
             find: "customUserThemeSettings:{",
+            // Discord has two separate modules for treatments 1 and 2
+            all: true,
             replacement: {
                 match: /(?<=\i=)\(0,\i\.\i\)\(\i\.\i\.TIER_2\)(?=,|;)/g,
                 replace: "true"
@@ -407,11 +388,13 @@ export default definePlugin({
 
                 const protoStoreAppearenceSettings = UserSettingsProtoStore.settings.appearance;
 
-                proto.appearance = AppearanceSettingsActionCreators.create({
+                const appearanceSettingsOverwrite = AppearanceSettingsActionCreators.create({
                     ...proto.appearance,
                     theme: protoStoreAppearenceSettings?.theme,
                     clientThemeSettings: protoStoreAppearenceSettings?.clientThemeSettings
                 });
+
+                proto.appearance = appearanceSettingsOverwrite;
             }
         } catch (err) {
             new Logger("FakeNitro").error(err);
@@ -485,7 +468,7 @@ export default definePlugin({
     },
 
     patchFakeNitroEmojisOrRemoveStickersLinks(content: Array<any>, inline: boolean) {
-        // If content has more than one child, or it's a single ReactElement like a header, list or span
+        // If content has more than one child or it's a single ReactElement like a header, list or span
         if ((content.length > 1 || typeof content[0]?.type === "string") && !settings.store.transformCompoundSentence) return content;
 
         let nextIndex = content.length;
@@ -497,8 +480,7 @@ export default definePlugin({
                     let url: URL | null = null;
                     try {
                         url = new URL(child.props.href);
-                    } catch {
-                    }
+                    } catch { }
 
                     const emojiName = EmojiStore.getCustomEmojiById(fakeNitroMatch[1])?.name ?? url?.searchParams.get("name") ?? "FakeNitroEmoji";
 
@@ -604,8 +586,7 @@ export default definePlugin({
                 let url: URL | null = null;
                 try {
                     url = new URL(item);
-                } catch {
-                }
+                } catch { }
 
                 const stickerName = StickersStore.getStickerById(imgMatch[1])?.name ?? url?.searchParams.get("name") ?? "FakeNitroSticker";
                 stickers.push({
@@ -714,7 +695,7 @@ export default definePlugin({
         return `https://media.discordapp.net/stickers/${stickerId}.png?size=${settings.store.stickerSize}`;
     },
 
-    sendAnimatedSticker: async function (stickerLink: string, stickerId: string, channelId: string) {
+    async sendAnimatedSticker(stickerLink: string, stickerId: string, channelId: string) {
         const { parseURL } = importApngJs();
 
         const { frames, width, height } = await parseURL(stickerLink);
@@ -766,13 +747,17 @@ export default definePlugin({
 
         gif.finish();
 
-        const file = new File([gif.bytesView()], `${stickerId}.gif`, { type: "image/gif" });
+        const bytes = gif.bytesView();
+        const file = new File([new Uint8Array(bytes)], `${stickerId}.gif`, {
+            type: "image/gif",
+        });
+
         UploadHandler.promptToUpload([file], ChannelStore.getChannel(channelId), DraftType.ChannelMessage);
     },
 
     canUseEmote(e: Emoji, channelId: string) {
         if (e.type === 0) return true;
-        if (!e.available) return false;
+        if (e.available === false) return false;
 
         if (isUnusableRoleSubscriptionEmoji(e, this.guildId, true)) return false;
 
@@ -863,8 +848,7 @@ export default definePlugin({
                             body: <div>
                                 <Forms.FormText>
                                     You cannot send this message because it contains an animated FakeNitro sticker,
-                                    and you do not have permissions to attach files in the current channel. Please
-                                    remove the sticker to proceed.
+                                    and you do not have permissions to attach files in the current channel. Please remove the sticker to proceed.
                                 </Forms.FormText>
                             </div>
                         });
