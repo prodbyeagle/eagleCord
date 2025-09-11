@@ -41,6 +41,10 @@ export const Devs = /* #__PURE__*/ Object.freeze({
         name: "V",
         id: 343383572805058560n,
     },
+    thororen: {
+        name: "thororen",
+        id: 848339671629299742n
+    },
     Apexo: {
         name: "Apexo",
         id: 228548952687902720n,
@@ -606,7 +610,7 @@ export const DevsById = /* #__PURE__*/ (() =>
     Object.freeze(
         Object.fromEntries(
             Object.entries(Devs)
-                .filter((d) => d[1].id !== 0n)
+                .filter(d => d[1].id !== 0n)
                 .map(([_, v]) => [v.id, v] as const),
         ),
     ))() as Record<string, Dev>;
