@@ -44,6 +44,7 @@ export let StickersStore: t.StickersStore;
 export let ThemeStore: t.ThemeStore;
 export let WindowStore: t.WindowStore;
 export let DraftStore: t.DraftStore;
+export let StreamerModeStore: t.StreamerModeStore;
 
 /**
  * @see jsdoc of {@link t.useStateFromStores}
