@@ -32,13 +32,13 @@ const units = ["years", "months", "weeks", "days", "hours", "minutes", "seconds"
 type Units = typeof units[number];
 
 function getUnitStr(unit: Units, isOne: boolean, short: boolean) {
-    if (short === false) return isOne ? unit.slice(0, -1) : unit;
+    if (!short) return isOne ? unit.slice(0, -1) : unit;
 
     return unit[0];
 }
 
 /**
- * Forms time into a human readable string link "1 day, 2 hours, 3 minutes and 4 seconds"
+ * Forms time into a human-readable string link "1 day, 2 hours, 3 minutes and 4 seconds"
  * @param time The time on the specified unit
  * @param unit The unit the time is on
  * @param short Whether to use short units like "d" instead of "days"
@@ -85,12 +85,12 @@ export function formatDuration(time: number, unit: Units, short: boolean = false
 }
 
 /**
- * Join an array of strings in a human readable way (1, 2 and 3)
+ * Join an array of strings in a human-readable way (1, 2 and 3)
  * @param elements Elements
  */
 export function humanFriendlyJoin(elements: string[]): string;
 /**
- * Join an array of strings in a human readable way (1, 2 and 3)
+ * Join an array of strings in a human-readable way (1, 2 and 3)
  * @param elements Elements
  * @param mapper Function that converts elements to a string
  */
