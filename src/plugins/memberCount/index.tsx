@@ -8,26 +8,23 @@
 
 import "./style.css";
 
-import {definePluginSettings} from "@api/Settings";
-import {classNameFactory} from "@api/Styles";
+import { definePluginSettings } from "@api/Settings";
+import { classNameFactory } from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
-import {FluxStore} from "@vencord/discord-types";
-import {findStoreLazy} from "@webpack";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
+import { FluxStore } from "@vencord/discord-types";
+import { findStoreLazy } from "@webpack";
 
-import {MemberCount} from "./MemberCount";
+import { MemberCount } from "./MemberCount";
 
-export const GuildMemberCountStore = findStoreLazy("GuildMemberCountStore") as FluxStore & {
-    getMemberCount(guildId?: string): number | null;
-};
+export const GuildMemberCountStore = findStoreLazy("GuildMemberCountStore") as FluxStore & { getMemberCount(guildId?: string): number | null; };
 export const ChannelMemberStore = findStoreLazy("ChannelMemberStore") as FluxStore & {
     getProps(guildId?: string, channelId?: string): { groups: { count: number; id: string; }[]; };
 };
 export const ThreadMemberListStore = findStoreLazy("ThreadMemberListStore") as FluxStore & {
     getMemberListSections(channelId?: string): { [sectionId: string]: { sectionId: string; userIds: string[]; }; };
 };
-
 
 export const settings = definePluginSettings({
     toolTip: {
@@ -79,6 +76,6 @@ export default definePlugin({
             predicate: () => settings.store.toolTip
         }
     ],
-    render: ErrorBoundary.wrap(() => <MemberCount/>, {noop: true}),
-    renderTooltip: ErrorBoundary.wrap(guild => <MemberCount isTooltip tooltipGuildId={guild.id}/>, {noop: true})
+    render: ErrorBoundary.wrap(() => <MemberCount />, { noop: true }),
+    renderTooltip: ErrorBoundary.wrap(guild => <MemberCount isTooltip tooltipGuildId={guild.id} />, { noop: true })
 });
