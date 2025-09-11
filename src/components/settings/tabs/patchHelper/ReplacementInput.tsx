@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Margins } from "@utils/margins";
-import { Forms, Parser, Switch, TextInput, useEffect, useState } from "@webpack/common";
+import {Margins} from "@utils/margins";
+import {Forms, Parser, Switch, TextInput, useEffect, useState} from "@webpack/common";
 
 const RegexGuide = {
     "\\i": "Special regex escape sequence that matches identifiers (varnames, classnames, etc.)",
@@ -19,7 +19,7 @@ const RegexGuide = {
     "$self": "Insert the plugin instance",
 } as const;
 
-export function ReplacementInput({ replacement, setReplacement, replacementError }) {
+export function ReplacementInput({replacement, setReplacement, replacementError}) {
     const [isFunc, setIsFunc] = useState(false);
     const [error, setError] = useState<string>();
 

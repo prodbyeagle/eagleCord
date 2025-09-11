@@ -21,7 +21,8 @@ Fork and open a PR. I'd love too see what you'd like too add to this plugin :3
 ### Acknowledgments
 
 This plugin was inspired by [NotNite/my-moonlight-extensions](https://github.com/NotNite/my-moonlight-extensions) ~
-which itself is licensed under [MIT](https://raw.githubusercontent.com/NotNite/my-moonlight-extensions/refs/heads/main/LICENSE)
+which itself is licensed
+under [MIT](https://raw.githubusercontent.com/NotNite/my-moonlight-extensions/refs/heads/main/LICENSE)
 
 ---
 
@@ -33,11 +34,14 @@ You can either **git clone** the repository OR **manually install** it by downlo
 > Make sure you have the Vencord [developer build](https://docs.vencord.dev/installing/) installed.<br/>
 
 > [!IMPORTANT]
-> Inside the `Vencord` folder should be a folder called `src`. If you haven't already, create a folder called `userplugins` inside the `src` folder.
+> Inside the `Vencord` folder should be a folder called `src`. If you haven't already, create a folder called
+`userplugins` inside the `src` folder.
 
 ### GIT CLONE INSTALLATION
 
-The full cloning installation guide can be found [here](https://discord.com/channels/1015060230222131221/1257038407503446176/1257038407503446176) or via [the official Vencord Docs](https://docs.vencord.dev/installing/custom-plugins/).
+The full cloning installation guide can be
+found [here](https://discord.com/channels/1015060230222131221/1257038407503446176/1257038407503446176) or
+via [the official Vencord Docs](https://docs.vencord.dev/installing/custom-plugins/).
 
 1. Direct your terminal (command prompt/CMD) to the `userplugins` folder, e.g. `cd src/userplugins`.
 2. Open the terminal and paste `git clone https://github.com/KrstlSkll69/devBanner`

@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { DataStore } from "@api/index";
-import { Logger } from "@utils/Logger";
-import { openModal } from "@utils/modal";
-import { OAuth2AuthorizeModal, showToast, Toasts, UserStore } from "@webpack/common";
+import {DataStore} from "@api/index";
+import {Logger} from "@utils/Logger";
+import {openModal} from "@utils/modal";
+import {OAuth2AuthorizeModal, showToast, Toasts, UserStore} from "@webpack/common";
 
-import { ReviewDBAuth } from "./entities";
+import {ReviewDBAuth} from "./entities";
 
 const DATA_STORE_KEY = "rdb-auth";
 
@@ -58,17 +58,17 @@ export function authorize(callback?: any) {
                     const url = new URL(response.location);
                     url.searchParams.append("clientMod", "vencord");
                     const res = await fetch(url, {
-                        headers: { Accept: "application/json" }
+                        headers: {Accept: "application/json"}
                     });
 
                     if (!res.ok) {
-                        const { message } = await res.json();
+                        const {message} = await res.json();
                         showToast(message || "An error occured while authorizing", Toasts.Type.FAILURE);
                         return;
                     }
 
-                    const { token } = await res.json();
-                    updateAuth({ token });
+                    const {token} = await res.json();
+                    updateAuth({token});
                     showToast("Successfully logged in!", Toasts.Type.SUCCESS);
                     callback?.();
                 } catch (e) {

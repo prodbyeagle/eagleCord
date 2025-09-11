@@ -7,7 +7,15 @@
  */
 
 import type * as t from "@vencord/discord-types";
-import { _resolveReady, filters, findByCodeLazy, findByPropsLazy, findLazy, mapMangledModuleLazy, waitFor } from "@webpack";
+import {
+    _resolveReady,
+    filters,
+    findByCodeLazy,
+    findByPropsLazy,
+    findLazy,
+    mapMangledModuleLazy,
+    waitFor
+} from "@webpack";
 
 export let FluxDispatcher: t.FluxDispatcher;
 waitFor(["dispatch", "subscribe"], m => {
@@ -36,7 +44,10 @@ export const moment: typeof import("moment") = findByPropsLazy("parseTwoDigitYea
 
 export const hljs: typeof import("highlight.js").default = findByPropsLazy("highlight", "registerLanguage");
 
-export const { match, P }: Pick<typeof import("ts-pattern"), "match" | "P"> = mapMangledModuleLazy("@ts-pattern/matcher", {
+export const {
+    match,
+    P
+}: Pick<typeof import("ts-pattern"), "match" | "P"> = mapMangledModuleLazy("@ts-pattern/matcher", {
     match: filters.byCode("return new"),
     P: filters.byProps("when")
 });
@@ -152,11 +163,11 @@ waitFor(["open", "saveAccountChanges"], m => SettingsRouter = m);
 
 export const PermissionsBits: t.PermissionsBits = findLazy(m => typeof m.ADMINISTRATOR === "bigint");
 
-export const { zustandCreate } = mapMangledModuleLazy(["useSyncExternalStoreWithSelector:", "Object.assign"], {
+export const {zustandCreate} = mapMangledModuleLazy(["useSyncExternalStoreWithSelector:", "Object.assign"], {
     zustandCreate: filters.byCode(/=>(\i)\?\i\(\1/)
 });
 
-export const { zustandPersist } = mapMangledModuleLazy(".onRehydrateStorage)?", {
+export const {zustandPersist} = mapMangledModuleLazy(".onRehydrateStorage)?", {
     zustandPersist: filters.byCode(/(\(\i,\i\))=>.+?\i\1/)
 });
 

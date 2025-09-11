@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Settings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
+import {Settings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
 
 let style: HTMLStyleElement;
 

@@ -6,16 +6,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { disableStyle, enableStyle } from "@api/Styles";
-import { parseUrl } from "@utils/misc";
-import { wordsFromPascal, wordsToTitle } from "@utils/text";
-import { OptionType } from "@utils/types";
+import {definePluginSettings} from "@api/Settings";
+import {disableStyle, enableStyle} from "@api/Styles";
+import {parseUrl} from "@utils/misc";
+import {wordsFromPascal, wordsToTitle} from "@utils/text";
+import {OptionType} from "@utils/types";
 
-import { shiki } from "./api/shiki";
-import { themes } from "./api/themes";
+import {shiki} from "./api/shiki";
+import {themes} from "./api/themes";
 import deviconStyle from "./devicon.css?managed";
-import { DeviconSetting, HljsSetting } from "./types";
+import {DeviconSetting, HljsSetting} from "./types";
 
 const themeNames = Object.keys(themes) as (keyof typeof themes)[];
 
@@ -97,7 +97,9 @@ export const settings = definePluginSettings({
     },
 }, {
     theme: {
-        disabled() { return !!this.store.customTheme; },
+        disabled() {
+            return !!this.store.customTheme;
+        },
     },
     customTheme: {
         isValid(value) {

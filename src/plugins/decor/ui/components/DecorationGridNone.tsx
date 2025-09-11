@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { NoEntrySignIcon } from "@components/Icons";
-import { getIntlMessage } from "@utils/discord";
-import { Text } from "@webpack/common";
-import { HTMLProps } from "react";
+import {NoEntrySignIcon} from "@components/Icons";
+import {getIntlMessage} from "@utils/discord";
+import {Text} from "@webpack/common";
+import {HTMLProps} from "react";
 
-import { DecorationGridItem } from ".";
+import {DecorationGridItem} from ".";
 
 type DecorationGridNoneProps = HTMLProps<HTMLDivElement> & {
     isSelected: boolean;
@@ -22,12 +22,12 @@ export default function DecorationGridNone(props: DecorationGridNoneProps) {
     return <DecorationGridItem
         {...props}
     >
-        <NoEntrySignIcon />
+        <NoEntrySignIcon/>
         <Text
             variant="text-xs/normal"
             color="header-primary"
         >
             {getIntlMessage("NONE")}
         </Text>
-    </DecorationGridItem >;
+    </DecorationGridItem>;
 }

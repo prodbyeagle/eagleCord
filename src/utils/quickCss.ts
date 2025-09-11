@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Settings, SettingsStore } from "@api/Settings";
-import { ThemeStore } from "@webpack/common";
+import {Settings, SettingsStore} from "@api/Settings";
+import {ThemeStore} from "@webpack/common";
 
 let style: HTMLStyleElement;
 let themesStyle: HTMLStyleElement;
@@ -47,7 +47,7 @@ async function toggle(isEnabled: boolean) {
 async function initThemes() {
     themesStyle ??= createStyle("vencord-themes");
 
-    const { themeLinks, enabledThemes } = Settings;
+    const {themeLinks, enabledThemes} = Settings;
 
     // "darker" and "midnight" both count as dark
     // This function is first called on DOMContentLoaded, so ThemeStore may not have been loaded yet
@@ -69,7 +69,7 @@ async function initThemes() {
         for (const theme of enabledThemes) {
             const themeData = await VencordNative.themes.getThemeData(theme);
             if (!themeData) continue;
-            const blob = new Blob([themeData], { type: "text/css" });
+            const blob = new Blob([themeData], {type: "text/css"});
             links.push(URL.createObjectURL(blob));
         }
     } else {
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!IS_WEB) {
         VencordNative.quickCss.addThemeChangeListener(initThemes);
     }
-}, { once: true });
+}, {once: true});
 
 export function initQuickCssThemeStore() {
     if (IS_USERSCRIPT) return;

@@ -6,14 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Logger } from "@utils/Logger";
+import {Logger} from "@utils/Logger";
 
 if (IS_DEV || IS_REPORTER) {
     var traces = {} as Record<string, [number, any[]]>;
     var logger = new Logger("Tracer", "#FFD166");
 }
 
-export const beginTrace = !(IS_DEV || IS_REPORTER) ? () => { } :
+export const beginTrace = !(IS_DEV || IS_REPORTER) ? () => {
+    } :
     function beginTrace(name: string, ...args: any[]) {
         if (name in traces) {
             throw new Error(`Trace ${name} already exists!`);

@@ -8,15 +8,24 @@
 
 import "./styles.css";
 
-import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
-import { definePluginSettings } from "@api/Settings";
-import { classNameFactory } from "@api/Styles";
-import { Devs } from "@utils/constants";
-import { getTheme, insertTextIntoChatInputBox, Theme } from "@utils/discord";
-import { Margins } from "@utils/margins";
-import { closeModal, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, openModal } from "@utils/modal";
-import definePlugin, { OptionType } from "@utils/types";
-import { Button, Forms, Parser, Select, useMemo, useState } from "@webpack/common";
+import {ChatBarButton, ChatBarButtonFactory} from "@api/ChatButtons";
+import {definePluginSettings} from "@api/Settings";
+import {classNameFactory} from "@api/Styles";
+import {Devs} from "@utils/constants";
+import {getTheme, insertTextIntoChatInputBox, Theme} from "@utils/discord";
+import {Margins} from "@utils/margins";
+import {
+    closeModal,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalProps,
+    ModalRoot,
+    openModal
+} from "@utils/modal";
+import definePlugin, {OptionType} from "@utils/types";
+import {Button, Forms, Parser, Select, useMemo, useState} from "@webpack/common";
 
 const settings = definePluginSettings({
     replaceMessageContents: {
@@ -43,7 +52,7 @@ type Format = typeof Formats[number];
 
 const cl = classNameFactory("vc-st-");
 
-function PickerModal({ rootProps, close }: { rootProps: ModalProps, close(): void; }) {
+function PickerModal({rootProps, close}: { rootProps: ModalProps, close(): void; }) {
     const [value, setValue] = useState<string>();
     const [format, setFormat] = useState<Format>("");
     const time = Math.round((new Date(value!).getTime() || Date.now()) / 1000);
@@ -62,7 +71,7 @@ function PickerModal({ rootProps, close }: { rootProps: ModalProps, close(): voi
                     Timestamp Picker
                 </Forms.FormTitle>
 
-                <ModalCloseButton onClick={close} className={cl("modal-close-button")} />
+                <ModalCloseButton onClick={close} className={cl("modal-close-button")}/>
             </ModalHeader>
 
             <ModalContent className={cl("modal-content")}>
@@ -115,7 +124,7 @@ function PickerModal({ rootProps, close }: { rootProps: ModalProps, close(): voi
     );
 }
 
-const ChatBarIcon: ChatBarButtonFactory = ({ isMainChat }) => {
+const ChatBarIcon: ChatBarButtonFactory = ({isMainChat}) => {
     if (!isMainChat) return null;
 
     return (
@@ -129,7 +138,7 @@ const ChatBarIcon: ChatBarButtonFactory = ({ isMainChat }) => {
                     />
                 ));
             }}
-            buttonProps={{ "aria-haspopup": "dialog" }}
+            buttonProps={{"aria-haspopup": "dialog"}}
         >
             <svg
                 aria-hidden="true"
@@ -137,11 +146,12 @@ const ChatBarIcon: ChatBarButtonFactory = ({ isMainChat }) => {
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"
-                style={{ scale: "1.2" }}
+                style={{scale: "1.2"}}
             >
                 <g fill="none" fillRule="evenodd">
-                    <path fill="currentColor" d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7v-5z" />
-                    <rect width="24" height="24" />
+                    <path fill="currentColor"
+                          d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7v-5z"/>
+                    <rect width="24" height="24"/>
                 </g>
             </svg>
         </ChatBarButton>
@@ -175,7 +185,8 @@ export default definePlugin({
         return (
             <>
                 <Forms.FormText>
-                    To quickly send send time only timestamps, include timestamps formatted as `HH:MM` (including the backticks!) in your message
+                    To quickly send send time only timestamps, include timestamps formatted as `HH:MM` (including the
+                    backticks!) in your message
                 </Forms.FormText>
                 <Forms.FormText>
                     See below for examples.

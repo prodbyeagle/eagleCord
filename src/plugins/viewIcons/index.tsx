@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { NavContextMenuPatchCallback } from "@api/ContextMenu";
-import { definePluginSettings } from "@api/Settings";
-import { ImageIcon } from "@components/Icons";
-import { Devs } from "@utils/constants";
-import { openImageModal } from "@utils/discord";
-import definePlugin, { OptionType } from "@utils/types";
-import type { Channel, Guild, User } from "@vencord/discord-types";
-import { GuildMemberStore, IconUtils, Menu } from "@webpack/common";
+import {NavContextMenuPatchCallback} from "@api/ContextMenu";
+import {definePluginSettings} from "@api/Settings";
+import {ImageIcon} from "@components/Icons";
+import {Devs} from "@utils/constants";
+import {openImageModal} from "@utils/discord";
+import definePlugin, {OptionType} from "@utils/types";
+import type {Channel, Guild, User} from "@vencord/discord-types";
+import {GuildMemberStore, IconUtils, Menu} from "@webpack/common";
 
 
 interface UserContextProps {
@@ -53,7 +53,7 @@ const settings = definePluginSettings({
     imgSize: {
         type: OptionType.SELECT,
         description: "The image size to use",
-        options: ["128", "256", "512", "1024", "2048", "4096"].map(n => ({ label: n, value: n, default: n === "1024" }))
+        options: ["128", "256", "512", "1024", "2048", "4096"].map(n => ({label: n, value: n, default: n === "1024"}))
     }
 });
 
@@ -84,7 +84,7 @@ function openImage(url: string, width: number, height?: number) {
     });
 }
 
-const UserContext: NavContextMenuPatchCallback = (children, { user, guildId }: UserContextProps) => {
+const UserContext: NavContextMenuPatchCallback = (children, {user, guildId}: UserContextProps) => {
     if (!user) return;
     const memberAvatar = GuildMemberStore.getMember(guildId!, user.id)?.avatar || null;
 
@@ -113,10 +113,10 @@ const UserContext: NavContextMenuPatchCallback = (children, { user, guildId }: U
     ));
 };
 
-const GuildContext: NavContextMenuPatchCallback = (children, { guild }: GuildContextProps) => {
+const GuildContext: NavContextMenuPatchCallback = (children, {guild}: GuildContextProps) => {
     if (!guild) return;
 
-    const { id, icon, banner } = guild;
+    const {id, icon, banner} = guild;
     if (!banner && !icon) return;
 
     children.splice(-1, 0, (
@@ -149,7 +149,7 @@ const GuildContext: NavContextMenuPatchCallback = (children, { guild }: GuildCon
     ));
 };
 
-const GroupDMContext: NavContextMenuPatchCallback = (children, { channel }: GroupDMContextProps) => {
+const GroupDMContext: NavContextMenuPatchCallback = (children, {channel}: GroupDMContextProps) => {
     if (!channel) return;
 
     children.splice(-1, 0, (

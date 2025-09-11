@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { IpcMainInvokeEvent } from "electron";
+import {IpcMainInvokeEvent} from "electron";
 
 export async function makeDeeplTranslateRequest(_: IpcMainInvokeEvent, pro: boolean, apiKey: string, payload: string) {
     const url = pro
@@ -24,8 +24,8 @@ export async function makeDeeplTranslateRequest(_: IpcMainInvokeEvent, pro: bool
         });
 
         const data = await res.text();
-        return { status: res.status, data };
+        return {status: res.status, data};
     } catch (e) {
-        return { status: -1, data: String(e) };
+        return {status: -1, data: String(e)};
     }
 }

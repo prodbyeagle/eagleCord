@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Heart } from "@components/Heart";
-import { ButtonProps } from "@vencord/discord-types";
-import { Button } from "@webpack/common";
+import {Heart} from "@components/Heart";
+import {ButtonProps} from "@vencord/discord-types";
+import {Button} from "@webpack/common";
 
 export default function DonateButton({
-    look = Button.Looks.LINK,
-    color = Button.Colors.TRANSPARENT,
-    ...props
-}: Partial<ButtonProps>) {
+                                         look = Button.Looks.LINK,
+                                         color = Button.Colors.TRANSPARENT,
+                                         ...props
+                                     }: Partial<ButtonProps>) {
     return (
         <Button
             {...props}
@@ -23,7 +23,7 @@ export default function DonateButton({
             onClick={() => VencordNative.native.openExternal("https://github.com/sponsors/Vendicated")}
             innerClassName="vc-donate-button"
         >
-            <Heart />
+            <Heart/>
             Donate
         </Button>
     );

@@ -6,20 +6,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
-import { getCurrentChannel, getCurrentGuild } from "@utils/discord";
-import { runtimeHashMessageKey } from "@utils/intlHash";
-import { SYM_LAZY_CACHED, SYM_LAZY_GET } from "@utils/lazy";
-import { sleep } from "@utils/misc";
-import { ModalAPI } from "@utils/modal";
-import { relaunch } from "@utils/native";
-import { canonicalizeMatch, canonicalizeReplace, canonicalizeReplacement } from "@utils/patches";
-import definePlugin, { PluginNative, StartAt } from "@utils/types";
+import {Devs} from "@utils/constants";
+import {getCurrentChannel, getCurrentGuild} from "@utils/discord";
+import {runtimeHashMessageKey} from "@utils/intlHash";
+import {SYM_LAZY_CACHED, SYM_LAZY_GET} from "@utils/lazy";
+import {sleep} from "@utils/misc";
+import {ModalAPI} from "@utils/modal";
+import {relaunch} from "@utils/native";
+import {canonicalizeMatch, canonicalizeReplace, canonicalizeReplacement} from "@utils/patches";
+import definePlugin, {PluginNative, StartAt} from "@utils/types";
 import * as Webpack from "@webpack";
-import { extract, filters, findAll, findModuleId, search } from "@webpack";
+import {extract, filters, findAll, findModuleId, search} from "@webpack";
 import * as Common from "@webpack/common";
-import { loadLazyChunks } from "debug/loadLazyChunks";
-import type { ComponentType } from "react";
+import {loadLazyChunks} from "debug/loadLazyChunks";
+import type {ComponentType} from "react";
 
 const DESKTOP_ONLY = (f: string) => () => {
     throw new Error(`'${f}' is Discord Desktop only.`);
@@ -49,8 +49,10 @@ function makeShortcuts() {
 
             const result = (() => {
                 switch (matches.length) {
-                    case 0: return null;
-                    case 1: return matches[0];
+                    case 0:
+                        return null;
+                    case 1:
+                        return matches[0];
                     default:
                         const uniqueMatches = [...new Set(matches)];
                         if (uniqueMatches.length > 1)
@@ -74,7 +76,8 @@ function makeShortcuts() {
             let store: unknown;
             try {
                 store = findStore(storeName);
-            } catch { }
+            } catch {
+            }
             if (store) cache.set(cacheKey, store);
             return store;
         };
@@ -85,16 +88,18 @@ function makeShortcuts() {
     const findByProps = newFindWrapper(filters.byProps);
 
     return {
-        ...Object.fromEntries(Object.keys(Common).map(key => [key, { getter: () => Common[key] }])),
+        ...Object.fromEntries(Object.keys(Common).map(key => [key, {getter: () => Common[key]}])),
         wp: Webpack,
-        wpc: { getter: () => Webpack.cache },
-        wreq: { getter: () => Webpack.wreq },
-        wpPatcher: { getter: () => Vencord.WebpackPatcher },
-        wpInstances: { getter: () => Vencord.WebpackPatcher.allWebpackInstances },
+        wpc: {getter: () => Webpack.cache},
+        wreq: {getter: () => Webpack.wreq},
+        wpPatcher: {getter: () => Vencord.WebpackPatcher},
+        wpInstances: {getter: () => Vencord.WebpackPatcher.allWebpackInstances},
         wpsearch: search,
         wpex: extract,
         wpexs: (code: string) => extract(findModuleId(code)!),
-        loadLazyChunks: IS_DEV ? loadLazyChunks : () => { throw new Error("loadLazyChunks is dev only."); },
+        loadLazyChunks: IS_DEV ? loadLazyChunks : () => {
+            throw new Error("loadLazyChunks is dev only.");
+        },
         find,
         findAll: findAll,
         findByProps,
@@ -105,11 +110,11 @@ function makeShortcuts() {
         findAllComponentsByCode: (...code: string[]) => findAll(filters.componentByCode(...code)),
         findExportedComponent: (...props: string[]) => findByProps(...props)[props[0]],
         findStore: findStoreWrapper(Webpack.findStore),
-        PluginsApi: { getter: () => Vencord.Plugins },
-        plugins: { getter: () => Vencord.Plugins.plugins },
-        Settings: { getter: () => Vencord.Settings },
-        Api: { getter: () => Vencord.Api },
-        Util: { getter: () => Vencord.Util },
+        PluginsApi: {getter: () => Vencord.Plugins},
+        plugins: {getter: () => Vencord.Plugins.plugins},
+        Settings: {getter: () => Vencord.Settings},
+        Api: {getter: () => Vencord.Api},
+        Util: {getter: () => Vencord.Util},
         reload: () => location.reload(),
         restart: IS_WEB ? DESKTOP_ONLY("restart") : relaunch,
         canonicalizeMatch,
@@ -145,20 +150,23 @@ function makeShortcuts() {
             const root = Common.createRoot(doc.body.appendChild(document.createElement("div")));
             root.render(Common.React.createElement(component, props));
 
-            doc.addEventListener("close", () => root.unmount(), { once: true });
+            doc.addEventListener("close", () => root.unmount(), {once: true});
         },
 
-        preEnable: (plugin: string) => (Vencord.Settings.plugins[plugin] ??= { enabled: true }).enabled = true,
+        preEnable: (plugin: string) => (Vencord.Settings.plugins[plugin] ??= {enabled: true}).enabled = true,
 
-        channel: { getter: () => getCurrentChannel(), preload: false },
-        channelId: { getter: () => Common.SelectedChannelStore.getChannelId(), preload: false },
-        guild: { getter: () => getCurrentGuild(), preload: false },
-        guildId: { getter: () => Common.SelectedGuildStore.getGuildId(), preload: false },
-        me: { getter: () => Common.UserStore.getCurrentUser(), preload: false },
-        meId: { getter: () => Common.UserStore.getCurrentUser().id, preload: false },
-        messages: { getter: () => Common.MessageStore.getMessages(Common.SelectedChannelStore.getChannelId()), preload: false },
-        openModal: { getter: () => ModalAPI.openModal },
-        openModalLazy: { getter: () => ModalAPI.openModalLazy },
+        channel: {getter: () => getCurrentChannel(), preload: false},
+        channelId: {getter: () => Common.SelectedChannelStore.getChannelId(), preload: false},
+        guild: {getter: () => getCurrentGuild(), preload: false},
+        guildId: {getter: () => Common.SelectedGuildStore.getGuildId(), preload: false},
+        me: {getter: () => Common.UserStore.getCurrentUser(), preload: false},
+        meId: {getter: () => Common.UserStore.getCurrentUser().id, preload: false},
+        messages: {
+            getter: () => Common.MessageStore.getMessages(Common.SelectedChannelStore.getChannelId()),
+            preload: false
+        },
+        openModal: {getter: () => ModalAPI.openModal},
+        openModalLazy: {getter: () => ModalAPI.openModalLazy},
 
         Stores: Webpack.fluxStores,
 
@@ -206,8 +214,8 @@ function loadAndCacheShortcut(key: string, val: any, forceLoad: boolean) {
     }
 
     if (value != null) {
-        define(window.shortcutList, key, { value });
-        define(window, key, { value });
+        define(window.shortcutList, key, {value});
+        define(window, key, {value});
     }
 
     return value;
@@ -270,7 +278,8 @@ export default definePlugin({
 
             try {
                 loadAndCacheShortcut(key, val, forceLoad);
-            } catch { } // swallow not found errors in DEV
+            } catch {
+            } // swallow not found errors in DEV
         }
     },
 

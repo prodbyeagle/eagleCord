@@ -8,21 +8,21 @@
 
 import "./fixDiscordBadgePadding.css";
 
-import { _getBadges, addProfileBadge, BadgePosition, BadgeUserArgs, ProfileBadge } from "@api/Badges";
+import {_getBadges, addProfileBadge, BadgePosition, BadgeUserArgs, ProfileBadge} from "@api/Badges";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Flex } from "@components/Flex";
-import { Heart } from "@components/Heart";
+import {Flex} from "@components/Flex";
+import {Heart} from "@components/Heart";
 import DonateButton from "@components/settings/DonateButton";
-import { openContributorModal, openStaffModal } from "@components/settings/tabs";
-import { EAGLECORD_ICON_IMAGE } from "@components/settings/tabs/vencord";
-import { Devs } from "@utils/constants";
-import { Logger } from "@utils/Logger";
-import { Margins } from "@utils/margins";
-import { copyWithToast, shouldShowContributorBadge } from "@utils/misc";
-import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal } from "@utils/modal";
+import {openContributorModal, openStaffModal} from "@components/settings/tabs";
+import {EAGLECORD_ICON_IMAGE} from "@components/settings/tabs/vencord";
+import {Devs} from "@utils/constants";
+import {Logger} from "@utils/Logger";
+import {Margins} from "@utils/margins";
+import {copyWithToast, shouldShowContributorBadge} from "@utils/misc";
+import {closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal} from "@utils/modal";
 import definePlugin from "@utils/types";
-import { User } from "@vencord/discord-types";
-import { ContextMenuApi, Forms, Menu, Toasts, UserStore } from "@webpack/common";
+import {User} from "@vencord/discord-types";
+import {ContextMenuApi, Forms, Menu, Toasts, UserStore} from "@webpack/common";
 
 // const CONTRIBUTOR_BADGE = "https://cdn.discordapp.com/emojis/1092089799109775453.png?size=64";
 const OWNER_BADGE = "https://cdn.discordapp.com/badge-icons/5e74e9b61934fc1f67c65515d1f7e60d.png";
@@ -31,9 +31,9 @@ const ContributorBadge: ProfileBadge = {
     description: "EagleCord Contributor",
     image: EAGLECORD_ICON_IMAGE,
     position: BadgePosition.END,
-    shouldShow: ({ userId }) => shouldShowContributorBadge(userId),
-    onClick: (_, { userId }) => openContributorModal(UserStore.getUser(userId)),
-    props: { style: { scale: 0.85 } }
+    shouldShow: ({userId}) => shouldShowContributorBadge(userId),
+    onClick: (_, {userId}) => openContributorModal(UserStore.getUser(userId)),
+    props: {style: {scale: 0.85}}
 };
 
 const FormerStaff: ProfileBadge = {
@@ -41,7 +41,7 @@ const FormerStaff: ProfileBadge = {
     image: OWNER_BADGE,
     position: BadgePosition.END,
     onClick: () => openStaffModal(FormerStaff),
-    shouldShow: ({ userId }) => ["1093444260491165777", "773166395147157504"].includes(userId),
+    shouldShow: ({userId}) => ["1093444260491165777", "773166395147157504"].includes(userId),
     props: {
         style: {
             filter: "grayscale(100%)"
@@ -53,7 +53,7 @@ const OwnerBadge: ProfileBadge = {
     description: "Owner",
     image: OWNER_BADGE,
     position: BadgePosition.END,
-    shouldShow: ({ userId }) => ["893759402832699392"].includes(userId),
+    shouldShow: ({userId}) => ["893759402832699392"].includes(userId),
     onClick: () => openEaglePage(),
 };
 
@@ -81,7 +81,7 @@ async function loadBadges(noCache = false) {
 
 let intervalId: any;
 
-function BadgeContextMenu({ badge }: { badge: ProfileBadge & BadgeUserArgs; }) {
+function BadgeContextMenu({badge}: { badge: ProfileBadge & BadgeUserArgs; }) {
     return (
         <Menu.Menu
             navId="vc-badge-context"
@@ -190,14 +190,14 @@ export default definePlugin({
     renderBadgeComponent: ErrorBoundary.wrap((badge: ProfileBadge & BadgeUserArgs) => {
         const Component = badge.component!;
         return <Component {...badge} />;
-    }, { noop: true }),
+    }, {noop: true}),
 
     getBadgeMouseEventHandlers(badge: ProfileBadge & BadgeUserArgs) {
         const handlers = {} as Record<string, (e: React.MouseEvent) => void>;
 
         if (!badge) return handlers; // sanity check
 
-        const { onClick, onContextMenu } = badge;
+        const {onClick, onContextMenu} = badge;
 
         if (onClick) handlers.onClick = e => onClick(e, badge);
         if (onContextMenu) handlers.onContextMenu = e => onContextMenu(e, badge);
@@ -217,7 +217,7 @@ export default definePlugin({
                 }
             },
             onContextMenu(event, badge) {
-                ContextMenuApi.openContextMenu(event, () => <BadgeContextMenu badge={badge} />);
+                ContextMenuApi.openContextMenu(event, () => <BadgeContextMenu badge={badge}/>);
             },
             onClick() {
                 const modalKey = openModal(props => (
@@ -227,7 +227,7 @@ export default definePlugin({
                     }}>
                         <ModalRoot {...props}>
                             <ModalHeader>
-                                <Flex style={{ width: "100%", justifyContent: "center" }}>
+                                <Flex style={{width: "100%", justifyContent: "center"}}>
                                     <Forms.FormTitle
                                         tag="h2"
                                         style={{
@@ -236,7 +236,7 @@ export default definePlugin({
                                             margin: 0
                                         }}
                                     >
-                                        <Heart />
+                                        <Heart/>
                                         Vencord Donor
                                     </Forms.FormTitle>
                                 </Flex>
@@ -247,27 +247,28 @@ export default definePlugin({
                                         role="presentation"
                                         src="https://cdn.discordapp.com/emojis/1026533070955872337.png"
                                         alt=""
-                                        style={{ margin: "auto" }}
+                                        style={{margin: "auto"}}
                                     />
                                     <img
                                         role="presentation"
                                         src="https://cdn.discordapp.com/emojis/1026533090627174460.png"
                                         alt=""
-                                        style={{ margin: "auto" }}
+                                        style={{margin: "auto"}}
                                     />
                                 </Flex>
-                                <div style={{ padding: "1em" }}>
+                                <div style={{padding: "1em"}}>
                                     <Forms.FormText>
                                         This Badge is a special perk for Vencord Donors
                                     </Forms.FormText>
                                     <Forms.FormText className={Margins.top20}>
-                                        Please consider supporting the development of Vencord by becoming a donor. It would mean a lot!!
+                                        Please consider supporting the development of Vencord by becoming a donor. It
+                                        would mean a lot!!
                                     </Forms.FormText>
                                 </div>
                             </ModalContent>
                             <ModalFooter>
-                                <Flex style={{ width: "100%", justifyContent: "center" }}>
-                                    <DonateButton />
+                                <Flex style={{width: "100%", justifyContent: "center"}}>
+                                    <DonateButton/>
                                 </Flex>
                             </ModalFooter>
                         </ModalRoot>
@@ -289,7 +290,7 @@ export default definePlugin({
                 }
             },
             onContextMenu(event, badge) {
-                ContextMenuApi.openContextMenu(event, () => <BadgeContextMenu badge={badge} />);
+                ContextMenuApi.openContextMenu(event, () => <BadgeContextMenu badge={badge}/>);
             },
             onClick() {
                 const modalKey = openModal(props => (
@@ -301,7 +302,7 @@ export default definePlugin({
                     >
                         <ModalRoot {...props}>
                             <ModalHeader>
-                                <Flex style={{ width: "100%", justifyContent: "center" }}>
+                                <Flex style={{width: "100%", justifyContent: "center"}}>
                                     <Forms.FormTitle
                                         style={{
                                             width: "100%",
@@ -315,7 +316,7 @@ export default definePlugin({
                             </ModalHeader>
 
                             <ModalContent>
-                                <Flex style={{ justifyContent: "center", gap: "1rem" }}>
+                                <Flex style={{justifyContent: "center", gap: "1rem"}}>
                                     <img
                                         src={badge.badge}
                                         alt="EagleCord Badge"
@@ -325,7 +326,7 @@ export default definePlugin({
                                         }}
                                     />
                                 </Flex>
-                                <div style={{ padding: "1em", textAlign: "center" }}>
+                                <div style={{padding: "1em", textAlign: "center"}}>
                                     <Forms.FormText>{badge.tooltip}</Forms.FormText>
                                     <Forms.FormText className={Margins.top20}>
                                         {badge.tooltip === "EagleCord User"

@@ -6,19 +6,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { app, net, protocol } from "electron";
-import { join } from "path";
-import { pathToFileURL } from "url";
+import {app, net, protocol} from "electron";
+import {join} from "path";
+import {pathToFileURL} from "url";
 
-import { initCsp } from "./csp";
-import { ensureSafePath } from "./ipcMain";
-import { RendererSettings } from "./settings";
-import { IS_VANILLA, THEMES_DIR } from "./utils/constants";
-import { installExt } from "./utils/extensions";
+import {initCsp} from "./csp";
+import {ensureSafePath} from "./ipcMain";
+import {RendererSettings} from "./settings";
+import {IS_VANILLA, THEMES_DIR} from "./utils/constants";
+import {installExt} from "./utils/extensions";
 
 if (IS_VESKTOP || !IS_VANILLA) {
     app.whenReady().then(() => {
-        protocol.handle("vencord", ({ url: unsafeUrl }) => {
+        protocol.handle("vencord", ({url: unsafeUrl}) => {
             let url = decodeURI(unsafeUrl).slice("vencord://".length).replace(/\?v=\d+$/, "");
 
             if (url.endsWith("/")) url = url.slice(0, -1);
@@ -59,7 +59,8 @@ if (IS_VESKTOP || !IS_VANILLA) {
                 installExt("fmkadmapgofadopljbjfkapdkoienihi")
                     .then(() => console.info("[Vencord] Installed React Developer Tools"))
                     .catch(err => console.error("[Vencord] Failed to install React Developer Tools", err));
-        } catch { }
+        } catch {
+        }
 
 
         initCsp();

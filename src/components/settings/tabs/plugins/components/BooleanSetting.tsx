@@ -6,13 +6,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Switch } from "@components/settings/Switch";
-import { PluginOptionBoolean } from "@utils/types";
-import { React, useState } from "@webpack/common";
+import {Switch} from "@components/settings/Switch";
+import {PluginOptionBoolean} from "@utils/types";
+import {React, useState} from "@webpack/common";
 
-import { resolveError, SettingProps, SettingsSection } from "./Common";
+import {resolveError, SettingProps, SettingsSection} from "./Common";
 
-export function BooleanSetting({ option, pluginSettings, definedSettings, id, onChange }: SettingProps<PluginOptionBoolean>) {
+export function BooleanSetting({
+                                   option,
+                                   pluginSettings,
+                                   definedSettings,
+                                   id,
+                                   onChange
+                               }: SettingProps<PluginOptionBoolean>) {
     const def = pluginSettings[id] ?? option.default;
 
     const [state, setState] = useState(def ?? false);
@@ -31,7 +37,7 @@ export function BooleanSetting({ option, pluginSettings, definedSettings, id, on
 
     return (
         <SettingsSection name={id} description={option.description} error={error} inlineSetting>
-            <Switch checked={state} onChange={handleChange} />
+            <Switch checked={state} onChange={handleChange}/>
         </SettingsSection>
     );
 }

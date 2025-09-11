@@ -7,9 +7,9 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Flex } from "@components/Flex";
-import { findByPropsLazy } from "@webpack";
-import { Forms, React } from "@webpack/common";
+import {Flex} from "@components/Flex";
+import {findByPropsLazy} from "@webpack";
+import {Forms, React} from "@webpack/common";
 
 interface AppStartPerformance {
     prefix: string;
@@ -44,7 +44,7 @@ interface TimerItemProps extends Log {
     };
 }
 
-function TimerItem({ emoji, prefix, log, delta, instance }: TimerItemProps) {
+function TimerItem({emoji, prefix, log, delta, instance}: TimerItemProps) {
     return (
         <React.Fragment>
             <span>{instance.sinceStart.toFixed(3)}s</span>
@@ -61,7 +61,7 @@ interface TimingSectionProps {
     traceEnd?: number;
 }
 
-function TimingSection({ title, logs, traceEnd }: TimingSectionProps) {
+function TimingSection({title, logs, traceEnd}: TimingSectionProps) {
     const startTime = logs.find(l => l.timestamp)?.timestamp ?? 0;
 
     let lastTimestamp = startTime;
@@ -74,24 +74,30 @@ function TimingSection({ title, logs, traceEnd }: TimingSectionProps) {
 
         lastTimestamp = timestamp;
 
-        return { sinceStart, sinceLast };
+        return {sinceStart, sinceLast};
     });
 
     return (
         <Forms.FormSection title={title} tag="h1">
             <code>
                 {traceEnd && (
-                    <div style={{ color: "var(--header-primary)", marginBottom: 5, userSelect: "text" }}>
+                    <div style={{color: "var(--header-primary)", marginBottom: 5, userSelect: "text"}}>
                         Trace ended at: {(new Date(traceEnd)).toTimeString()}
                     </div>
                 )}
-                <div style={{ color: "var(--header-primary)", display: "grid", gridTemplateColumns: "repeat(3, auto) 1fr", gap: "2px 10px", userSelect: "text" }}>
+                <div style={{
+                    color: "var(--header-primary)",
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, auto) 1fr",
+                    gap: "2px 10px",
+                    userSelect: "text"
+                }}>
                     <span>Start</span>
                     <span>Interval</span>
                     <span>Delta</span>
-                    <span style={{ marginBottom: 5 }}>Event</span>
+                    <span style={{marginBottom: 5}}>Event</span>
                     {AppStartPerformance.logs.map((log, i) => (
-                        <TimerItem key={i} {...log} instance={timings[i]} />
+                        <TimerItem key={i} {...log} instance={timings[i]}/>
                     ))}
                 </div>
             </code>
@@ -103,13 +109,13 @@ interface ServerTraceProps {
     trace: string;
 }
 
-function ServerTrace({ trace }: ServerTraceProps) {
+function ServerTrace({trace}: ServerTraceProps) {
     const lines = trace.split("\n");
 
     return (
         <Forms.FormSection title="Server Trace" tag="h2">
             <code>
-                <Flex flexDirection="column" style={{ color: "var(--header-primary)", gap: 5, userSelect: "text" }}>
+                <Flex flexDirection="column" style={{color: "var(--header-primary)", gap: 5, userSelect: "text"}}>
                     {lines.map((line, idx) => (
                         <span key={idx}>{line}</span>
                     ))}
@@ -132,8 +138,8 @@ function StartupTimingPage() {
                 traceEnd={AppStartPerformance.endTime_}
             />
             {/* Lazy Divider */}
-            <div style={{ marginTop: 5 }}>&nbsp;</div>
-            {serverTrace && <ServerTrace trace={serverTrace} />}
+            <div style={{marginTop: 5}}>&nbsp;</div>
+            {serverTrace && <ServerTrace trace={serverTrace}/>}
         </React.Fragment>
     );
 }

@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { app } from "electron";
-import { existsSync, mkdirSync, readdirSync, renameSync, statSync, writeFileSync } from "original-fs";
-import { basename, dirname, join } from "path";
+import {app} from "electron";
+import {existsSync, mkdirSync, readdirSync, renameSync, statSync, writeFileSync} from "original-fs";
+import {basename, dirname, join} from "path";
 
 function isNewer($new: string, old: string) {
     const newParts = $new.slice(4).split(".").map(Number);

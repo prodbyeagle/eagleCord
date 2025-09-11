@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { IpcEvents } from "@shared/IpcEvents";
-import { ipcMain } from "electron";
+import {IpcEvents} from "@shared/IpcEvents";
+import {ipcMain} from "electron";
 
 import PluginNatives from "~pluginNatives";
 

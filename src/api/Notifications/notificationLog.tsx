@@ -7,18 +7,38 @@
  */
 
 import * as DataStore from "@api/DataStore";
-import { Settings } from "@api/Settings";
-import { classNameFactory } from "@api/Styles";
-import { Flex } from "@components/Flex";
-import { openNotificationSettingsModal } from "@components/settings/tabs/vencord/NotificationSettings";
-import { closeModal, ModalCloseButton, ModalFooter, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
-import { useAwaiter } from "@utils/react";
-import { Alerts, Button, Forms, ListScrollerThin, React, Text, Timestamp, useEffect, useReducer, useState } from "@webpack/common";
-import { nanoid } from "nanoid";
-import type { DispatchWithoutAction } from "react";
+import {Settings} from "@api/Settings";
+import {classNameFactory} from "@api/Styles";
+import {Flex} from "@components/Flex";
+import {openNotificationSettingsModal} from "@components/settings/tabs/vencord/NotificationSettings";
+import {
+    closeModal,
+    ModalCloseButton,
+    ModalFooter,
+    ModalHeader,
+    ModalProps,
+    ModalRoot,
+    ModalSize,
+    openModal
+} from "@utils/modal";
+import {useAwaiter} from "@utils/react";
+import {
+    Alerts,
+    Button,
+    Forms,
+    ListScrollerThin,
+    React,
+    Text,
+    Timestamp,
+    useEffect,
+    useReducer,
+    useState
+} from "@webpack/common";
+import {nanoid} from "nanoid";
+import type {DispatchWithoutAction} from "react";
 
 import NotificationComponent from "./NotificationComponent";
-import type { NotificationData } from "./Notifications";
+import type {NotificationData} from "./Notifications";
 
 interface PersistentNotificationData extends Pick<NotificationData, "title" | "body" | "image" | "icon" | "color"> {
     timestamp: number;
@@ -91,11 +111,11 @@ export function useLogs() {
     return [log, pending] as const;
 }
 
-function NotificationEntry({ data }: { data: PersistentNotificationData; }) {
+function NotificationEntry({data}: { data: PersistentNotificationData; }) {
     const [removing, setRemoving] = useState(false);
 
     return (
-        <div className={cl("wrapper", { removing })}>
+        <div className={cl("wrapper", {removing})}>
             <NotificationComponent
                 {...data}
                 permanent={true}
@@ -109,20 +129,20 @@ function NotificationEntry({ data }: { data: PersistentNotificationData; }) {
                 richBody={
                     <div className={cl("body-wrapper")}>
                         <div className={cl("body")}>{data.body}</div>
-                        <Timestamp timestamp={new Date(data.timestamp)} className={cl("timestamp")} />
+                        <Timestamp timestamp={new Date(data.timestamp)} className={cl("timestamp")}/>
                     </div>
                 }
             />
-        </div >
+        </div>
     );
 }
 
-export function NotificationLog({ log, pending }: { log: PersistentNotificationData[], pending: boolean; }) {
+export function NotificationLog({log, pending}: { log: PersistentNotificationData[], pending: boolean; }) {
     if (!log.length && !pending)
         return (
             <div className={cl("container")}>
-                <div className={cl("empty")} />
-                <Forms.FormText style={{ textAlign: "center" }}>
+                <div className={cl("empty")}/>
+                <Forms.FormText style={{textAlign: "center"}}>
                     No notifications yet
                 </Forms.FormText>
             </div>
@@ -135,23 +155,23 @@ export function NotificationLog({ log, pending }: { log: PersistentNotificationD
             sectionHeight={0}
             rowHeight={120}
             renderSection={() => null}
-            renderRow={item => <NotificationEntry data={log[item.row]} key={log[item.row].id} />}
+            renderRow={item => <NotificationEntry data={log[item.row]} key={log[item.row].id}/>}
         />
     );
 }
 
-function LogModal({ modalProps, close }: { modalProps: ModalProps; close(): void; }) {
+function LogModal({modalProps, close}: { modalProps: ModalProps; close(): void; }) {
     const [log, pending] = useLogs();
 
     return (
         <ModalRoot {...modalProps} size={ModalSize.LARGE} className={cl("modal")}>
             <ModalHeader>
-                <Text variant="heading-lg/semibold" style={{ flexGrow: 1 }}>Notification Log</Text>
-                <ModalCloseButton onClick={close} />
+                <Text variant="heading-lg/semibold" style={{flexGrow: 1}}>Notification Log</Text>
+                <ModalCloseButton onClick={close}/>
             </ModalHeader>
 
-            <div style={{ width: "100%" }}>
-                <NotificationLog log={log} pending={pending} />
+            <div style={{width: "100%"}}>
+                <NotificationLog log={log} pending={pending}/>
             </div>
 
             <ModalFooter>

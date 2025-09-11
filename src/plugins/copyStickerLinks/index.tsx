@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
-import { Devs } from "@utils/constants";
-import { copyWithToast } from "@utils/misc";
+import {findGroupChildrenByChildId, NavContextMenuPatchCallback} from "@api/ContextMenu";
+import {Devs} from "@utils/constants";
+import {copyWithToast} from "@utils/misc";
 import definePlugin from "@utils/types";
-import { Message, Sticker } from "@vencord/discord-types";
-import { Menu, React, StickersStore } from "@webpack/common";
+import {Message, Sticker} from "@vencord/discord-types";
+import {Menu, React, StickersStore} from "@webpack/common";
 import ExpressionClonerPlugin from "plugins/expressionCloner";
 
 const StickerExt = [, "png", "png", "json", "gif"] as const;
@@ -43,14 +43,14 @@ function buildMenuItem(sticker: PartialSticker, addBottomSeparator: boolean) {
                     action={() => VencordNative.native.openExternal(getUrl(sticker))}
                 />
             </Menu.MenuGroup>
-            {addBottomSeparator && <Menu.MenuSeparator />}
+            {addBottomSeparator && <Menu.MenuSeparator/>}
         </>
     );
 }
 
 const messageContextMenuPatch: NavContextMenuPatchCallback = (
     children,
-    { favoriteableId, favoriteableType, message }: { favoriteableId: string; favoriteableType: string; message: Message; }
+    {favoriteableId, favoriteableType, message}: { favoriteableId: string; favoriteableType: string; message: Message; }
 ) => {
     if (!favoriteableId || favoriteableType !== "sticker") return;
 

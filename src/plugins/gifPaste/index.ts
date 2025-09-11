@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
-import { insertTextIntoChatInputBox } from "@utils/discord";
+import {Devs} from "@utils/constants";
+import {insertTextIntoChatInputBox} from "@utils/discord";
 import definePlugin from "@utils/types";
-import { ExpressionPickerStore } from "@webpack/common";
+import {ExpressionPickerStore} from "@webpack/common";
 
 export default definePlugin({
     name: "GifPaste",

@@ -6,19 +6,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { classNameFactory } from "@api/Styles";
-import { Guild, GuildMember, Role } from "@vencord/discord-types";
-import { findByPropsLazy } from "@webpack";
-import { GuildRoleStore } from "@webpack/common";
+import {classNameFactory} from "@api/Styles";
+import {Guild, GuildMember, Role} from "@vencord/discord-types";
+import {findByPropsLazy} from "@webpack";
+import {GuildRoleStore} from "@webpack/common";
 
-import { PermissionsSortOrder, settings } from ".";
-import { PermissionType } from "./components/RolesAndUsersPermissions";
+import {PermissionsSortOrder, settings} from ".";
+import {PermissionType} from "./components/RolesAndUsersPermissions";
 
-export const { getGuildPermissionSpecMap } = findByPropsLazy("getGuildPermissionSpecMap");
+export const {getGuildPermissionSpecMap} = findByPropsLazy("getGuildPermissionSpecMap");
 
 export const cl = classNameFactory("vc-permviewer-");
 
-export function getSortedRolesForMember({ id: guildId }: Guild, member: GuildMember) {
+export function getSortedRolesForMember({id: guildId}: Guild, member: GuildMember) {
     // The guild id is the @everyone role
     return GuildRoleStore
         .getSortedRoles(guildId)

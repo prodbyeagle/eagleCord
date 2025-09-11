@@ -6,19 +6,40 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { addMessagePreEditListener, addMessagePreSendListener, removeMessagePreEditListener, removeMessagePreSendListener } from "@api/MessageEvents";
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import { ApngBlendOp, ApngDisposeOp, importApngJs } from "@utils/dependencies";
-import { getCurrentGuild, getEmojiURL } from "@utils/discord";
-import { Logger } from "@utils/Logger";
-import definePlugin, { OptionType, Patch } from "@utils/types";
-import type { Emoji, Message } from "@vencord/discord-types";
-import { StickerFormatType } from "@vencord/discord-types/enums";
-import { findByCodeLazy, findByPropsLazy, findStoreLazy, proxyLazyWebpack } from "@webpack";
-import { Alerts, ChannelStore, DraftType, EmojiStore, FluxDispatcher, Forms, GuildMemberStore, lodash, Parser, PermissionsBits, PermissionStore, StickersStore, UploadHandler, UserSettingsActionCreators, UserStore } from "@webpack/common";
-import { applyPalette, GIFEncoder, quantize } from "gifenc";
-import type { ReactElement, ReactNode } from "react";
+import {
+    addMessagePreEditListener,
+    addMessagePreSendListener,
+    removeMessagePreEditListener,
+    removeMessagePreSendListener
+} from "@api/MessageEvents";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import {ApngBlendOp, ApngDisposeOp, importApngJs} from "@utils/dependencies";
+import {getCurrentGuild, getEmojiURL} from "@utils/discord";
+import {Logger} from "@utils/Logger";
+import definePlugin, {OptionType, Patch} from "@utils/types";
+import type {Emoji, Message} from "@vencord/discord-types";
+import {StickerFormatType} from "@vencord/discord-types/enums";
+import {findByCodeLazy, findByPropsLazy, findStoreLazy, proxyLazyWebpack} from "@webpack";
+import {
+    Alerts,
+    ChannelStore,
+    DraftType,
+    EmojiStore,
+    FluxDispatcher,
+    Forms,
+    GuildMemberStore,
+    lodash,
+    Parser,
+    PermissionsBits,
+    PermissionStore,
+    StickersStore,
+    UploadHandler,
+    UserSettingsActionCreators,
+    UserStore
+} from "@webpack/common";
+import {applyPalette, GIFEncoder, quantize} from "gifenc";
+import type {ReactElement, ReactNode} from "react";
 
 const UserSettingsProtoStore = findStoreLazy("UserSettingsProtoStore");
 
@@ -145,16 +166,16 @@ const hasAttachmentPerms = (channelId: string) => hasPermission(channelId, Permi
 
 function makeBypassPatches(): Omit<Patch, "plugin"> {
     const mapping: Array<{ func: string, predicate?: () => boolean; }> = [
-        { func: "canUseCustomStickersEverywhere", predicate: () => settings.store.enableStickerBypass },
-        { func: "canUseHighVideoUploadQuality", predicate: () => settings.store.enableStreamQualityBypass },
-        { func: "canStreamQuality", predicate: () => settings.store.enableStreamQualityBypass },
-        { func: "canUseClientThemes" },
-        { func: "canUsePremiumAppIcons" }
+        {func: "canUseCustomStickersEverywhere", predicate: () => settings.store.enableStickerBypass},
+        {func: "canUseHighVideoUploadQuality", predicate: () => settings.store.enableStreamQualityBypass},
+        {func: "canStreamQuality", predicate: () => settings.store.enableStreamQualityBypass},
+        {func: "canUseClientThemes"},
+        {func: "canUsePremiumAppIcons"}
     ];
 
     return {
         find: "canUseCustomStickersEverywhere:",
-        replacement: mapping.map(({ func, predicate }) => ({
+        replacement: mapping.map(({func, predicate}) => ({
             match: new RegExp(String.raw`(?<=${func}:)\i`),
             replace: "() => true",
             predicate
@@ -479,7 +500,8 @@ export default definePlugin({
                     let url: URL | null = null;
                     try {
                         url = new URL(child.props.href);
-                    } catch { }
+                    } catch {
+                    }
 
                     const emojiName = EmojiStore.getCustomEmojiById(fakeNitroMatch[1])?.name ?? url?.searchParams.get("name") ?? "FakeNitroEmoji";
 
@@ -489,7 +511,7 @@ export default definePlugin({
                         emojiId: fakeNitroMatch[1],
                         name: emojiName,
                         fake: true
-                    }, void 0, { key: String(nextIndex++) });
+                    }, void 0, {key: String(nextIndex++)});
                 }
             }
 
@@ -585,7 +607,8 @@ export default definePlugin({
                 let url: URL | null = null;
                 try {
                     url = new URL(item);
-                } catch { }
+                } catch {
+                }
 
                 const stickerName = StickersStore.getStickerById(imgMatch[1])?.name ?? url?.searchParams.get("name") ?? "FakeNitroSticker";
                 stickers.push({
@@ -695,9 +718,9 @@ export default definePlugin({
     },
 
     async sendAnimatedSticker(stickerLink: string, stickerId: string, channelId: string) {
-        const { parseURL } = importApngJs();
+        const {parseURL} = importApngJs();
 
-        const { frames, width, height } = await parseURL(stickerLink);
+        const {frames, width, height} = await parseURL(stickerLink);
 
         const gif = GIFEncoder();
         const resolution = settings.store.stickerSize;
@@ -716,7 +739,7 @@ export default definePlugin({
         let previousFrameData: ImageData;
 
         for (const frame of frames) {
-            const { left, top, width, height, img, delay, blendOp, disposeOp } = frame;
+            const {left, top, width, height, img, delay, blendOp, disposeOp} = frame;
 
             previousFrameData = ctx.getImageData(left, top, width, height);
 
@@ -726,7 +749,7 @@ export default definePlugin({
 
             ctx.drawImage(img, left, top, width, height);
 
-            const { data } = ctx.getImageData(0, 0, resolution, resolution);
+            const {data} = ctx.getImageData(0, 0, resolution, resolution);
 
             const palette = quantize(data, 256);
             const index = applyPalette(data, palette);
@@ -746,7 +769,7 @@ export default definePlugin({
 
         gif.finish();
 
-        const file = new File([gif.bytesView()], `${stickerId}.gif`, { type: "image/gif" });
+        const file = new File([gif.bytesView()], `${stickerId}.gif`, {type: "image/gif"});
         UploadHandler.promptToUpload([file], ChannelStore.getChannel(channelId), DraftType.ChannelMessage);
     },
 
@@ -807,7 +830,7 @@ export default definePlugin({
         }
 
         this.preSend = addMessagePreSendListener(async (channelId, messageObj, extra) => {
-            const { guildId } = this;
+            const {guildId} = this;
 
             let hasBypass = false;
 
@@ -843,7 +866,8 @@ export default definePlugin({
                             body: <div>
                                 <Forms.FormText>
                                     You cannot send this message because it contains an animated FakeNitro sticker,
-                                    and you do not have permissions to attach files in the current channel. Please remove the sticker to proceed.
+                                    and you do not have permissions to attach files in the current channel. Please
+                                    remove the sticker to proceed.
                                 </Forms.FormText>
                             </div>
                         });
@@ -851,7 +875,7 @@ export default definePlugin({
                         await this.sendAnimatedSticker(link, sticker.id, channelId);
                     }
 
-                    return { cancel: true };
+                    return {cancel: true};
                 } else {
                     hasBypass = true;
 
@@ -887,11 +911,11 @@ export default definePlugin({
 
             if (hasBypass && !s.disableEmbedPermissionCheck && !hasEmbedPerms(channelId)) {
                 if (!await cannotEmbedNotice()) {
-                    return { cancel: true };
+                    return {cancel: true};
                 }
             }
 
-            return { cancel: false };
+            return {cancel: false};
         });
 
         this.preEdit = addMessagePreEditListener(async (channelId, __, messageObj) => {
@@ -917,11 +941,11 @@ export default definePlugin({
 
             if (hasBypass && !s.disableEmbedPermissionCheck && !hasEmbedPerms(channelId)) {
                 if (!await cannotEmbedNotice()) {
-                    return { cancel: true };
+                    return {cancel: true};
                 }
             }
 
-            return { cancel: false };
+            return {cancel: false};
         });
     },
 

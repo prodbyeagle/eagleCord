@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
 
 export default definePlugin({
@@ -15,7 +15,8 @@ export default definePlugin({
     authors: [Devs.Ven],
     required: true,
 
-    noop: () => { },
+    noop: () => {
+    },
 
     patches: [{
         find: /\.openNativeAppModal\(.{0,50}?\.DEEP_LINK/,

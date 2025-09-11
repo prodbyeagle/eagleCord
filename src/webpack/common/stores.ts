@@ -7,9 +7,9 @@
  */
 
 import * as t from "@vencord/discord-types";
-import { findByCodeLazy, findByPropsLazy } from "@webpack";
+import {findByCodeLazy, findByPropsLazy} from "@webpack";
 
-import { waitForStore } from "./internal";
+import {waitForStore} from "./internal";
 
 export const Flux: t.Flux = findByPropsLazy("connectStores");
 

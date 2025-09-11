@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { hash as h64 } from "@intrnl/xxhash64";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { useMemo } from "@webpack/common";
+import {definePluginSettings} from "@api/Settings";
+import {hash as h64} from "@intrnl/xxhash64";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
+import {useMemo} from "@webpack/common";
 
 // Calculate a CSS color string based on the user ID
 function calculateNameColorForUser(id?: string) {
-    const { lightness } = settings.use(["lightness"]);
+    const {lightness} = settings.use(["lightness"]);
     const idHash = useMemo(() => id ? h64(id) : null, [id]);
 
     return idHash && `hsl(${idHash % 360n}, 100%, ${lightness}%)`;
@@ -71,7 +71,10 @@ export default definePlugin({
         }
     ],
 
-    wrapMessageColorProps(colorProps: { colorString: string, colorStrings?: Record<"primaryColor" | "secondaryColor" | "tertiaryColor", string>; }, context: any) {
+    wrapMessageColorProps(colorProps: {
+        colorString: string,
+        colorStrings?: Record<"primaryColor" | "secondaryColor" | "tertiaryColor", string>;
+    }, context: any) {
         try {
             const colorString = this.calculateNameColorForMessageContext(context);
             if (colorString === colorProps.colorString) {

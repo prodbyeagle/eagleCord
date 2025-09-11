@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { NativeSettings } from "@main/settings";
-import { IpcEvents } from "@shared/IpcEvents";
-import { dialog, ipcMain, IpcMainInvokeEvent } from "electron";
+import {NativeSettings} from "@main/settings";
+import {IpcEvents} from "@shared/IpcEvents";
+import {dialog, ipcMain, IpcMainInvokeEvent} from "electron";
 
-import { CspPolicies, ImageAndCssSrc } from ".";
+import {CspPolicies, ImageAndCssSrc} from ".";
 
 export type CspRequestResult = "invalid" | "cancelled" | "unchecked" | "ok" | "conflict";
 
@@ -22,7 +22,7 @@ export function registerCspIpcHandlers() {
 
 function validate(url: string, directives: string[]) {
     try {
-        const { host } = new URL(url);
+        const {host} = new URL(url);
 
         if (/[;'"\\]/.test(host)) return false;
     } catch {
@@ -45,7 +45,7 @@ function getMessage(url: string, directives: string[], callerName: string) {
         `You will have to fully close and restart ${IS_DISCORD_DESKTOP ? "Discord" : "Vesktop"} for the changes to take effect.`;
 
     if (directives.length === 1 && directives[0] === "connect-src") {
-        return { message, detail };
+        return {message, detail};
     }
 
     const contentTypes = directives
@@ -67,7 +67,7 @@ function getMessage(url: string, directives: string[], callerName: string) {
 
     detail = `The following types of content will be allowed to load from ${domain}:\n${contentTypes}\n\n${detail}`;
 
-    return { message, detail };
+    return {message, detail};
 }
 
 async function addCspRule(_: IpcMainInvokeEvent, url: string, directives: string[], callerName: string): Promise<CspRequestResult> {
@@ -81,7 +81,7 @@ async function addCspRule(_: IpcMainInvokeEvent, url: string, directives: string
         return "conflict";
     }
 
-    const { checkboxChecked, response } = await dialog.showMessageBox({
+    const {checkboxChecked, response} = await dialog.showMessageBox({
         ...getMessage(url, directives, callerName),
         type: callerName ? "info" : "warning",
         title: "Vencord Host Permissions",

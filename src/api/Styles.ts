@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { MapValue } from "type-fest/source/entry";
+import type {MapValue} from "type-fest/source/entry";
 
 export type Style = MapValue<typeof VencordStyles>;
 

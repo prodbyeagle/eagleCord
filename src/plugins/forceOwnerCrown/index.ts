@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Channel, User } from "@vencord/discord-types";
-import { GuildStore } from "@webpack/common";
+import {Channel, User} from "@vencord/discord-types";
+import {GuildStore} from "@webpack/common";
 
 export default definePlugin({
     name: "ForceOwnerCrown",

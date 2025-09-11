@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { findByPropsLazy } from "@webpack";
+import {findByPropsLazy} from "@webpack";
 
 const SpoilerClasses = findByPropsLazy("spoilerContent");
 const MessagesClasses = findByPropsLazy("messagesWrapper", "navigationDescription");
@@ -29,12 +29,14 @@ export default definePlugin({
     ],
 
     reveal(event: MouseEvent) {
-        const { ctrlKey, shiftKey, target } = event;
+        const {ctrlKey, shiftKey, target} = event;
 
-        if (!ctrlKey) { return; }
+        if (!ctrlKey) {
+            return;
+        }
 
-        const { spoilerContent, hidden } = SpoilerClasses;
-        const { messagesWrapper } = MessagesClasses;
+        const {spoilerContent, hidden} = SpoilerClasses;
+        const {messagesWrapper} = MessagesClasses;
 
         const parent = shiftKey
             ? document.querySelector(`div.${messagesWrapper}`)

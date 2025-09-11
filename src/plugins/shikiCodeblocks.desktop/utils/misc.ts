@@ -6,19 +6,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { classNameFactory } from "@api/Styles";
-import { hljs } from "@webpack/common";
+import {classNameFactory} from "@api/Styles";
+import {hljs} from "@webpack/common";
 
-import { resolveLang } from "../api/languages";
-import { HighlighterProps } from "../components/Highlighter";
-import { HljsSetting } from "../types";
+import {resolveLang} from "../api/languages";
+import {HighlighterProps} from "../components/Highlighter";
+import {HljsSetting} from "../types";
 
 export const cl = classNameFactory("vc-shiki-");
 
 export const shouldUseHljs = ({
-    lang,
-    tryHljs,
-}: {
+                                  lang,
+                                  tryHljs,
+                              }: {
     lang: HighlighterProps["lang"],
     tryHljs: HljsSetting,
 }) => {
@@ -35,6 +35,7 @@ export const shouldUseHljs = ({
             return !langName && !!hljsLang;
         case HljsSetting.Never:
             return false;
-        default: return false;
+        default:
+            return false;
     }
 };

@@ -6,19 +6,25 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { showNotification } from "@api/Notifications";
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import { Logger } from "@utils/Logger";
-import { closeAllModals } from "@utils/modal";
-import definePlugin, { OptionType } from "@utils/types";
-import { maybePromptToUpdate } from "@utils/updater";
-import { filters, findBulk, proxyLazyWebpack } from "@webpack";
-import { DraftType, ExpressionPickerStore, FluxDispatcher, NavigationRouter, SelectedChannelStore } from "@webpack/common";
+import {showNotification} from "@api/Notifications";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import {Logger} from "@utils/Logger";
+import {closeAllModals} from "@utils/modal";
+import definePlugin, {OptionType} from "@utils/types";
+import {maybePromptToUpdate} from "@utils/updater";
+import {filters, findBulk, proxyLazyWebpack} from "@webpack";
+import {
+    DraftType,
+    ExpressionPickerStore,
+    FluxDispatcher,
+    NavigationRouter,
+    SelectedChannelStore
+} from "@webpack/common";
 
 const CrashHandlerLogger = new Logger("CrashHandler");
 
-const { ModalStack, DraftManager } = proxyLazyWebpack(() => {
+const {ModalStack, DraftManager} = proxyLazyWebpack(() => {
     const [ModalStack, DraftManager] = findBulk(
         filters.byProps("pushLazy", "popAll"),
         filters.byProps("clearDraft", "saveDraft"),
@@ -84,7 +90,8 @@ export default definePlugin({
                             body: "Awn :( Discord has crashed two times rapidly, not attempting to recover.",
                             noPersist: true
                         });
-                    } catch { }
+                    } catch {
+                    }
 
                     return;
                 }
@@ -92,14 +99,16 @@ export default definePlugin({
                 shouldAttemptRecover = false;
                 // This is enough to avoid a crash loop
                 setTimeout(() => shouldAttemptRecover = true, 1000);
-            } catch { }
+            } catch {
+            }
 
             try {
                 if (!hasCrashedOnce) {
                     hasCrashedOnce = true;
                     maybePromptToUpdate("Uh oh, Discord has just crashed... but good news, there is a Vencord update available that might fix this issue! Would you like to update now?", true);
                 }
-            } catch { }
+            } catch {
+            }
 
             try {
                 if (settings.store.attemptToPreventCrashes) {
@@ -119,7 +128,8 @@ export default definePlugin({
                 body: "Attempting to recover...",
                 noPersist: true
             });
-        } catch { }
+        } catch {
+        }
 
         try {
             const channelId = SelectedChannelStore.getChannelId();
@@ -134,12 +144,11 @@ export default definePlugin({
         }
         try {
             ExpressionPickerStore.closeExpressionPicker();
-        }
-        catch (err) {
+        } catch (err) {
             CrashHandlerLogger.debug("Failed to close expression picker.", err);
         }
         try {
-            FluxDispatcher.dispatch({ type: "CONTEXT_MENU_CLOSE" });
+            FluxDispatcher.dispatch({type: "CONTEXT_MENU_CLOSE"});
         } catch (err) {
             CrashHandlerLogger.debug("Failed to close open context menu.", err);
         }
@@ -154,19 +163,19 @@ export default definePlugin({
             CrashHandlerLogger.debug("Failed to close all open modals.", err);
         }
         try {
-            FluxDispatcher.dispatch({ type: "USER_PROFILE_MODAL_CLOSE" });
+            FluxDispatcher.dispatch({type: "USER_PROFILE_MODAL_CLOSE"});
         } catch (err) {
             CrashHandlerLogger.debug("Failed to close user popout.", err);
         }
         try {
-            FluxDispatcher.dispatch({ type: "LAYER_POP_ALL" });
+            FluxDispatcher.dispatch({type: "LAYER_POP_ALL"});
         } catch (err) {
             CrashHandlerLogger.debug("Failed to pop all layers.", err);
         }
         try {
             FluxDispatcher.dispatch({
                 type: "DEV_TOOLS_SETTINGS_UPDATE",
-                settings: { displayTools: false, lastOpenTabId: "analytics" }
+                settings: {displayTools: false, lastOpenTabId: "analytics"}
             });
         } catch (err) {
             CrashHandlerLogger.debug("Failed to close DevTools.", err);
@@ -184,7 +193,7 @@ export default definePlugin({
         setImmediate(() => isRecovering = false);
 
         try {
-            _this.setState({ error: null, info: null });
+            _this.setState({error: null, info: null});
         } catch (err) {
             CrashHandlerLogger.debug("Failed to update crash handler component.", err);
         }

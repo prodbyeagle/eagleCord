@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { findStoreLazy } from "@webpack";
+import {findStoreLazy} from "@webpack";
 
 import * as t from "./types/stores";
 

@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
-import { Devs } from "@utils/constants";
+import {findGroupChildrenByChildId, NavContextMenuPatchCallback} from "@api/ContextMenu";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Guild } from "@vencord/discord-types";
-import { Menu } from "@webpack/common";
+import {Guild} from "@vencord/discord-types";
+import {Menu} from "@webpack/common";
 
-import { openGuildInfoModal } from "./GuildInfoModal";
+import {openGuildInfoModal} from "./GuildInfoModal";
 
-const Patch: NavContextMenuPatchCallback = (children, { guild }: { guild: Guild; }) => {
+const Patch: NavContextMenuPatchCallback = (children, {guild}: { guild: Guild; }) => {
     const group = findGroupChildrenByChildId("privacy", children);
 
     group?.push(

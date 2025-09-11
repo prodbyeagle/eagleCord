@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ErrorCard } from "@components/ErrorCard";
-import { UpdateLogger } from "@utils/updater";
-import { Alerts, Parser } from "@webpack/common";
+import {ErrorCard} from "@components/ErrorCard";
+import {UpdateLogger} from "@utils/updater";
+import {Alerts, Parser} from "@webpack/common";
 
 function getErrorMessage(e: any) {
     if (!e?.code || !e.cmd)
         return "An unknown error occurred.\nPlease try again or see the console for more info.";
 
-    const { code, path, cmd, stderr } = e;
+    const {code, path, cmd, stderr} = e;
 
     if (code === "ENOENT")
         return `Command \`${path}\` not found.\nPlease install it and try again.`;

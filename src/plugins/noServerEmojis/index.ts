@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
 
 const settings = definePluginSettings({
     shownEmojis: {
@@ -16,9 +16,9 @@ const settings = definePluginSettings({
         type: OptionType.SELECT,
         default: "onlyUnicode",
         options: [
-            { label: "Only unicode emojis", value: "onlyUnicode" },
-            { label: "Unicode emojis and server emojis from current server", value: "currentServer" },
-            { label: "Unicode emojis and all server emojis (Discord default)", value: "all" }
+            {label: "Only unicode emojis", value: "onlyUnicode"},
+            {label: "Unicode emojis and server emojis from current server", value: "currentServer"},
+            {label: "Unicode emojis and all server emojis (Discord default)", value: "all"}
         ]
     }
 });

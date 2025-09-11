@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import { Logger } from "@utils/Logger";
-import definePlugin, { OptionType, StartAt } from "@utils/types";
-import { WebpackRequire } from "@vencord/discord-types/webpack";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import {Logger} from "@utils/Logger";
+import definePlugin, {OptionType, StartAt} from "@utils/types";
+import {WebpackRequire} from "@vencord/discord-types/webpack";
 
 const settings = definePluginSettings({
     disableAnalytics: {
@@ -82,7 +82,7 @@ export default definePlugin({
 
                 // Ensure this is most likely the Sentry WebpackInstance.
                 // Function.g is a very generic property and is not uncommon for another WebpackInstance (or even a React component: <g></g>) to include it
-                const { stack } = new Error();
+                const {stack} = new Error();
                 if (this.c != null || !stack?.includes("http") || !String(this).includes("exports:{}")) {
                     return;
                 }

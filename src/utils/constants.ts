@@ -603,9 +603,9 @@ export const Devs = /* #__PURE__*/ Object.freeze({
 
 // iife so #__PURE__ works correctly
 export const DevsById = /* #__PURE__*/ (() =>
-    Object.freeze(Object.fromEntries(
-        Object.entries(Devs)
-            .filter(d => d[1].id !== 0n)
-            .map(([_, v]) => [v.id, v] as const)
-    ))
+        Object.freeze(Object.fromEntries(
+            Object.entries(Devs)
+                .filter(d => d[1].id !== 0n)
+                .map(([_, v]) => [v.id, v] as const)
+        ))
 )() as Record<string, Dev>;

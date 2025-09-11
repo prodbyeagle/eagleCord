@@ -7,14 +7,23 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs } from "@utils/constants";
-import { sleep } from "@utils/misc";
-import { Queue } from "@utils/Queue";
-import { useForceUpdater } from "@utils/react";
+import {Devs} from "@utils/constants";
+import {sleep} from "@utils/misc";
+import {Queue} from "@utils/Queue";
+import {useForceUpdater} from "@utils/react";
 import definePlugin from "@utils/types";
-import { CustomEmoji, Message, ReactionEmoji, User } from "@vencord/discord-types";
-import { findByPropsLazy } from "@webpack";
-import { ChannelStore, Constants, FluxDispatcher, React, RestAPI, useEffect, useLayoutEffect, UserSummaryItem } from "@webpack/common";
+import {CustomEmoji, Message, ReactionEmoji, User} from "@vencord/discord-types";
+import {findByPropsLazy} from "@webpack";
+import {
+    ChannelStore,
+    Constants,
+    FluxDispatcher,
+    React,
+    RestAPI,
+    useEffect,
+    useLayoutEffect,
+    UserSummaryItem
+} from "@webpack/common";
 
 const AvatarStyles = findByPropsLazy("moreUsers", "emptyUser", "avatarContainer", "clickableAvatar");
 let Scroll: any = null;
@@ -54,7 +63,7 @@ function fetchReactions(msg: Message, emoji: ReactionEmoji, type: number) {
 
 function getReactionsWithQueue(msg: Message, e: ReactionEmoji, type: number) {
     const key = `${msg.id}:${e.name}:${e.id ?? ""}:${type}`;
-    const cache = reactions[key] ??= { fetched: false, users: new Map() };
+    const cache = reactions[key] ??= {fetched: false, users: new Map()};
     if (!cache.fetched) {
         queue.unshift(() => fetchReactions(msg, e, type));
         cache.fetched = true;
@@ -109,7 +118,7 @@ export default definePlugin({
         );
     },
 
-    UsersComponent({ message, emoji, type }: RootObject) {
+    UsersComponent({message, emoji, type}: RootObject) {
         const forceUpdate = useForceUpdater();
 
         useLayoutEffect(() => { // bc need to prevent autoscrolling
@@ -133,7 +142,7 @@ export default definePlugin({
 
         return (
             <div
-                style={{ marginLeft: "0.5em", transform: "scale(0.9)" }}
+                style={{marginLeft: "0.5em", transform: "scale(0.9)"}}
             >
                 <div onClick={handleClickAvatar} onKeyDown={handleClickAvatar}>
                     <UserSummaryItem

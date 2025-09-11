@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { getIntlMessage } from "@utils/discord";
-import { findComponentByCodeLazy, findLazy } from "@webpack";
-import { useToken } from "@webpack/common";
+import {getIntlMessage} from "@utils/discord";
+import {findComponentByCodeLazy, findLazy} from "@webpack";
+import {useToken} from "@webpack/common";
 
 const ColorMap = findLazy(m => m.colors?.INTERACTIVE_MUTED?.css);
 const VerifiedIconComponent = findComponentByCodeLazy("#{intl::CONNECTIONS_ROLE_OFFICIAL_ICON_TOOLTIP}");

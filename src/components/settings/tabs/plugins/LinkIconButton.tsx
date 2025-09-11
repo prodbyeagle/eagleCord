@@ -8,18 +8,18 @@
 
 import "./LinkIconButton.css";
 
-import { GithubIcon, WebsiteIcon } from "@components/Icons";
-import { getTheme, Theme } from "@utils/discord";
-import { MaskedLink, Tooltip } from "@webpack/common";
+import {GithubIcon, WebsiteIcon} from "@components/Icons";
+import {getTheme, Theme} from "@utils/discord";
+import {MaskedLink, Tooltip} from "@webpack/common";
 
 export function GithubLinkIcon() {
     const theme = getTheme() === Theme.Light ? "#000000" : "#FFFFFF";
-    return <GithubIcon aria-hidden fill={theme} className={"vc-settings-modal-link-icon"} />;
+    return <GithubIcon aria-hidden fill={theme} className={"vc-settings-modal-link-icon"}/>;
 }
 
 export function WebsiteLinkIcon() {
     const theme = getTheme() === Theme.Light ? "#000000" : "#FFFFFF";
-    return <WebsiteIcon aria-hidden fill={theme} className={"vc-settings-modal-link-icon"} />;
+    return <WebsiteIcon aria-hidden fill={theme} className={"vc-settings-modal-link-icon"}/>;
 }
 
 interface Props {
@@ -27,17 +27,17 @@ interface Props {
     href: string;
 }
 
-function LinkIcon({ text, href, Icon }: Props & { Icon: React.ComponentType; }) {
+function LinkIcon({text, href, Icon}: Props & { Icon: React.ComponentType; }) {
     return (
         <Tooltip text={text}>
             {props => (
                 <MaskedLink {...props} href={href}>
-                    <Icon />
+                    <Icon/>
                 </MaskedLink>
             )}
         </Tooltip>
     );
 }
 
-export const WebsiteButton = (props: Props) => <LinkIcon {...props} Icon={WebsiteLinkIcon} />;
-export const GithubButton = (props: Props) => <LinkIcon {...props} Icon={GithubLinkIcon} />;
+export const WebsiteButton = (props: Props) => <LinkIcon {...props} Icon={WebsiteLinkIcon}/>;
+export const GithubButton = (props: Props) => <LinkIcon {...props} Icon={GithubLinkIcon}/>;

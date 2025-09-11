@@ -8,14 +8,33 @@
 
 import "./styles.css";
 
-import { classNameFactory } from "@api/Styles";
-import { getGuildAcronym, openImageModal, openUserProfile } from "@utils/discord";
-import { classes } from "@utils/misc";
-import { ModalRoot, ModalSize, openModal } from "@utils/modal";
-import { useAwaiter } from "@utils/react";
-import { Guild, User } from "@vencord/discord-types";
-import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
-import { FluxDispatcher, Forms, GuildChannelStore, GuildMemberStore, GuildRoleStore, IconUtils, Parser, PresenceStore, RelationshipStore, ScrollerThin, SnowflakeUtils, TabBar, Timestamp, useEffect, UserStore, UserUtils, useState, useStateFromStores } from "@webpack/common";
+import {classNameFactory} from "@api/Styles";
+import {getGuildAcronym, openImageModal, openUserProfile} from "@utils/discord";
+import {classes} from "@utils/misc";
+import {ModalRoot, ModalSize, openModal} from "@utils/modal";
+import {useAwaiter} from "@utils/react";
+import {Guild, User} from "@vencord/discord-types";
+import {findByPropsLazy, findComponentByCodeLazy} from "@webpack";
+import {
+    FluxDispatcher,
+    Forms,
+    GuildChannelStore,
+    GuildMemberStore,
+    GuildRoleStore,
+    IconUtils,
+    Parser,
+    PresenceStore,
+    RelationshipStore,
+    ScrollerThin,
+    SnowflakeUtils,
+    TabBar,
+    Timestamp,
+    useEffect,
+    UserStore,
+    UserUtils,
+    useState,
+    useStateFromStores
+} from "@webpack/common";
 
 const IconClasses = findByPropsLazy("icon", "acronym", "childWrapper");
 const FriendRow = findComponentByCodeLazy("discriminatorClass:", ".isMobileOnline", "getAvatarURL");
@@ -25,7 +44,7 @@ const cl = classNameFactory("vc-gp-");
 export function openGuildInfoModal(guild: Guild) {
     openModal(props =>
         <ModalRoot {...props} size={ModalSize.MEDIUM}>
-            <GuildInfoModal guild={guild} />
+            <GuildInfoModal guild={guild}/>
         </ModalRoot>
     );
 }
@@ -53,11 +72,11 @@ const fetched = {
 
 function renderTimestamp(timestamp: number) {
     return (
-        <Timestamp timestamp={new Date(timestamp)} />
+        <Timestamp timestamp={new Date(timestamp)}/>
     );
 }
 
-function GuildInfoModal({ guild }: GuildProps) {
+function GuildInfoModal({guild}: GuildProps) {
     const [friendCount, setFriendCount] = useState<number>();
     const [blockedCount, setBlockedCount] = useState<number>();
     const [ignoredCount, setIgnoredCount] = useState<number>();
@@ -105,7 +124,8 @@ function GuildInfoModal({ guild }: GuildProps) {
                             width: 512,
                         })}
                     />
-                    : <div aria-hidden className={classes(IconClasses.childWrapper, IconClasses.acronym)}>{getGuildAcronym(guild)}</div>
+                    : <div aria-hidden
+                           className={classes(IconClasses.childWrapper, IconClasses.acronym)}>{getGuildAcronym(guild)}</div>
                 }
 
                 <div className={cl("name-and-description")}>
@@ -122,25 +142,25 @@ function GuildInfoModal({ guild }: GuildProps) {
                 onItemSelect={setCurrentTab}
             >
                 <TabBar.Item
-                    className={cl("tab", { selected: currentTab === Tabs.ServerInfo })}
+                    className={cl("tab", {selected: currentTab === Tabs.ServerInfo})}
                     id={Tabs.ServerInfo}
                 >
                     Server Info
                 </TabBar.Item>
                 <TabBar.Item
-                    className={cl("tab", { selected: currentTab === Tabs.Friends })}
+                    className={cl("tab", {selected: currentTab === Tabs.Friends})}
                     id={Tabs.Friends}
                 >
                     Friends{friendCount !== undefined ? ` (${friendCount})` : ""}
                 </TabBar.Item>
                 <TabBar.Item
-                    className={cl("tab", { selected: currentTab === Tabs.BlockedUsers })}
+                    className={cl("tab", {selected: currentTab === Tabs.BlockedUsers})}
                     id={Tabs.BlockedUsers}
                 >
                     Blocked Users{blockedCount !== undefined ? ` (${blockedCount})` : ""}
                 </TabBar.Item>
                 <TabBar.Item
-                    className={cl("tab", { selected: currentTab === Tabs.IgnoredUsers })}
+                    className={cl("tab", {selected: currentTab === Tabs.IgnoredUsers})}
                     id={Tabs.IgnoredUsers}
                 >
                     Ignored Users{ignoredCount !== undefined ? ` (${ignoredCount})` : ""}
@@ -148,10 +168,10 @@ function GuildInfoModal({ guild }: GuildProps) {
             </TabBar>
 
             <div className={cl("tab-content")}>
-                {currentTab === Tabs.ServerInfo && <ServerInfoTab guild={guild} />}
-                {currentTab === Tabs.Friends && <FriendsTab guild={guild} setCount={setFriendCount} />}
-                {currentTab === Tabs.BlockedUsers && <BlockedUsersTab guild={guild} setCount={setBlockedCount} />}
-                {currentTab === Tabs.IgnoredUsers && <IgnoredUserTab guild={guild} setCount={setIgnoredCount} />}
+                {currentTab === Tabs.ServerInfo && <ServerInfoTab guild={guild}/>}
+                {currentTab === Tabs.Friends && <FriendsTab guild={guild} setCount={setFriendCount}/>}
+                {currentTab === Tabs.BlockedUsers && <BlockedUsersTab guild={guild} setCount={setBlockedCount}/>}
+                {currentTab === Tabs.IgnoredUsers && <IgnoredUserTab guild={guild} setCount={setIgnoredCount}/>}
             </div>
         </div>
     );
@@ -187,7 +207,7 @@ function Owner(guildId: string, owner: User) {
     );
 }
 
-function ServerInfoTab({ guild }: GuildProps) {
+function ServerInfoTab({guild}: GuildProps) {
     const [owner] = useAwaiter(() => UserUtils.getUser(guild.ownerId), {
         deps: [guild.ownerId],
         fallbackValue: null
@@ -217,16 +237,16 @@ function ServerInfoTab({ guild }: GuildProps) {
     );
 }
 
-function FriendsTab({ guild, setCount }: RelationshipProps) {
+function FriendsTab({guild, setCount}: RelationshipProps) {
     return UserList("friends", guild, RelationshipStore.getFriendIDs(), setCount);
 }
 
-function BlockedUsersTab({ guild, setCount }: RelationshipProps) {
+function BlockedUsersTab({guild, setCount}: RelationshipProps) {
     const blockedIds = RelationshipStore.getBlockedIDs();
     return UserList("blocked", guild, blockedIds, setCount);
 }
 
-function IgnoredUserTab({ guild, setCount }: RelationshipProps) {
+function IgnoredUserTab({guild, setCount}: RelationshipProps) {
     const ignoredIds = RelationshipStore.getIgnoredIDs();
     return UserList("ignored", guild, ignoredIds, setCount);
 }
@@ -272,7 +292,8 @@ function UserList(type: "friends" | "blocked" | "ignored", guild: Guild, ids: st
                     user={UserStore.getUser(id)}
                     status={PresenceStore.getStatus(id) || "offline"}
                     onSelect={() => openUserProfile(id)}
-                    onContextMenu={() => { }}
+                    onContextMenu={() => {
+                    }}
                 />
             )}
         </ScrollerThin>

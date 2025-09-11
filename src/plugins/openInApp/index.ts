@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType, PluginNative, SettingsDefinition } from "@utils/types";
-import { showToast, Toasts } from "@webpack/common";
-import type { MouseEvent } from "react";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType, PluginNative, SettingsDefinition} from "@utils/types";
+import {showToast, Toasts} from "@webpack/common";
+import type {MouseEvent} from "react";
 
 interface URLReplacementRule {
     match: RegExp;

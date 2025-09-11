@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { IpcMainInvokeEvent } from "electron";
-import { request } from "https";
+import {IpcMainInvokeEvent} from "electron";
+import {request} from "https";
 
 // These links don't support CORS, so this has to be native
 const validRedirectUrls = /^https:\/\/(spotify\.link|s\.team)\/.+$/;
 
 function getRedirect(url: string) {
     return new Promise<string>((resolve, reject) => {
-        const req = request(new URL(url), { method: "HEAD" }, res => {
+        const req = request(new URL(url), {method: "HEAD"}, res => {
             resolve(
                 res.headers.location
                     ? getRedirect(res.headers.location)

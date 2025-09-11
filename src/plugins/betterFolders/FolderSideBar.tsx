@@ -7,11 +7,11 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import { findComponentByCodeLazy, findStoreLazy } from "@webpack";
-import { Animations, useStateFromStores } from "@webpack/common";
-import type { CSSProperties } from "react";
+import {findComponentByCodeLazy, findStoreLazy} from "@webpack";
+import {Animations, useStateFromStores} from "@webpack/common";
+import type {CSSProperties} from "react";
 
-import { ExpandedGuildFolderStore, settings } from ".";
+import {ExpandedGuildFolderStore, settings} from ".";
 
 const ChannelRTCStore = findStoreLazy("ChannelRTCStore");
 const GuildsBar = findComponentByCodeLazy('("guildsnav")');
@@ -46,18 +46,19 @@ export default ErrorBoundary.wrap(guildsBarProps => {
     return (
         <Animations.Transition
             items={visible}
-            from={{ width: 0 }}
-            enter={{ width: guilds.getBoundingClientRect().width }}
-            leave={{ width: 0 }}
-            config={{ duration: 200 }}
+            from={{width: 0}}
+            enter={{width: guilds.getBoundingClientRect().width}}
+            leave={{width: 0}}
+            config={{duration: 200}}
         >
             {(animationStyle: any, show: any) =>
                 show && (
-                    <Animations.animated.div className="vc-betterFolders-sidebar" style={{ ...animationStyle, ...sidebarStyle }}>
+                    <Animations.animated.div className="vc-betterFolders-sidebar"
+                                             style={{...animationStyle, ...sidebarStyle}}>
                         {Sidebar}
                     </Animations.animated.div>
                 )
             }
         </Animations.Transition>
     );
-}, { noop: true });
+}, {noop: true});

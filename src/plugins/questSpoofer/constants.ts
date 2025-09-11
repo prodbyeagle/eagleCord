@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Logger } from "@utils/Logger";
-import { findByPropsLazy } from "@webpack";
+import {Logger} from "@utils/Logger";
+import {findByPropsLazy} from "@webpack";
 
 // Lazy-loaded stores
 export const ApplicationStreamingStore = findByPropsLazy("getStreamerActiveStreamMetadata");

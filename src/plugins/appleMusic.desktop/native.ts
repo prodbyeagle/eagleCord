@@ -6,16 +6,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { canonicalizeMatch } from "@utils/patches";
-import { execFile } from "child_process";
-import { promisify } from "util";
+import {canonicalizeMatch} from "@utils/patches";
+import {execFile} from "child_process";
+import {promisify} from "util";
 
-import type { TrackData } from ".";
+import type {TrackData} from ".";
 
 const exec = promisify(execFile);
 
 async function applescript(cmds: string[]) {
-    const { stdout } = await exec("osascript", cmds.map(c => ["-e", c]).flat());
+    const {stdout} = await exec("osascript", cmds.map(c => ["-e", c]).flat());
     return stdout;
 }
 
@@ -46,7 +46,12 @@ const getToken = async () => {
     return token;
 };
 
-async function fetchRemoteData({ id, name, artist, album }: { id: string, name: string, artist: string, album: string; }) {
+async function fetchRemoteData({id, name, artist, album}: {
+    id: string,
+    name: string,
+    artist: string,
+    album: string;
+}) {
     if (id === cachedRemoteData?.id) {
         if ("data" in cachedRemoteData) return cachedRemoteData.data;
         if ("failures" in cachedRemoteData && cachedRemoteData.failures >= 5) return null;
@@ -127,7 +132,7 @@ export async function fetchTrackData(): Promise<TrackData | null> {
     const [id, name, album, artist, durationStr] = stdout.split("\n").filter(k => !!k);
     const duration = Number.parseFloat(durationStr);
 
-    const remoteData = await fetchRemoteData({ id, name, artist, album });
+    const remoteData = await fetchRemoteData({id, name, artist, album});
 
-    return { name, album, artist, playerPosition, duration, ...remoteData };
+    return {name, album, artist, playerPosition, duration, ...remoteData};
 }

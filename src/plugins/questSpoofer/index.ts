@@ -6,16 +6,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { showToast, Toasts } from "@webpack/common";
+import {showToast, Toasts} from "@webpack/common";
 
-import { QuestSpooferLogger, QuestTasks, randomPid } from "./constants";
-import { fetchQuests } from "./helpers";
-import { spoofDesktopPlayQuest } from "./tasks/desktopPlay";
-import { spoofPlayActivityQuest } from "./tasks/playActivity";
-import { spoofStreamDesktopQuest } from "./tasks/streamDesktop";
-import { spoofVideoQuest } from "./tasks/video";
+import {QuestSpooferLogger, QuestTasks, randomPid} from "./constants";
+import {fetchQuests} from "./helpers";
+import {spoofDesktopPlayQuest} from "./tasks/desktopPlay";
+import {spoofPlayActivityQuest} from "./tasks/playActivity";
+import {spoofStreamDesktopQuest} from "./tasks/streamDesktop";
+import {spoofVideoQuest} from "./tasks/video";
 
 
 export default definePlugin({

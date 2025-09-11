@@ -8,28 +8,40 @@
 
 import "./PluginModal.css";
 
-import { generateId } from "@api/Commands";
-import { useSettings } from "@api/Settings";
-import { classNameFactory } from "@api/Styles";
+import {generateId} from "@api/Commands";
+import {useSettings} from "@api/Settings";
+import {classNameFactory} from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Flex } from "@components/Flex";
-import { debounce } from "@shared/debounce";
-import { gitRemote } from "@shared/vencordUserAgent";
-import { proxyLazy } from "@utils/lazy";
-import { Margins } from "@utils/margins";
-import { classes, isObjectEmpty } from "@utils/misc";
-import { ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
-import { OptionType, Plugin } from "@utils/types";
-import { User } from "@vencord/discord-types";
-import { findByPropsLazy } from "@webpack";
-import { Clickable, FluxDispatcher, Forms, React, Text, Tooltip, useEffect, UserStore, UserSummaryItem, UserUtils, useState } from "@webpack/common";
-import { Constructor } from "type-fest";
+import {Flex} from "@components/Flex";
+import {debounce} from "@shared/debounce";
+import {gitRemote} from "@shared/vencordUserAgent";
+import {proxyLazy} from "@utils/lazy";
+import {Margins} from "@utils/margins";
+import {classes, isObjectEmpty} from "@utils/misc";
+import {ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal} from "@utils/modal";
+import {OptionType, Plugin} from "@utils/types";
+import {User} from "@vencord/discord-types";
+import {findByPropsLazy} from "@webpack";
+import {
+    Clickable,
+    FluxDispatcher,
+    Forms,
+    React,
+    Text,
+    Tooltip,
+    useEffect,
+    UserStore,
+    UserSummaryItem,
+    UserUtils,
+    useState
+} from "@webpack/common";
+import {Constructor} from "type-fest";
 
-import { PluginMeta } from "~plugins";
+import {PluginMeta} from "~plugins";
 
-import { OptionComponentMap } from "./components";
-import { openContributorModal } from "./ContributorModal";
-import { GithubButton, WebsiteButton } from "./LinkIconButton";
+import {OptionComponentMap} from "./components";
+import {openContributorModal} from "./ContributorModal";
+import {GithubButton, WebsiteButton} from "./LinkIconButton";
 
 const cl = classNameFactory("vc-plugin-modal-");
 
@@ -38,6 +50,7 @@ const UserRecord: Constructor<Partial<User>> = proxyLazy(() => UserStore.getCurr
 
 interface PluginModalProps extends ModalProps {
     plugin: Plugin;
+
     onRestartNeeded(key: string): void;
 }
 
@@ -58,7 +71,7 @@ function makeDummyUser(user: { username: string; id?: string; avatar?: string; }
     return newUser;
 }
 
-export default function PluginModal({ plugin, onRestartNeeded, onClose, transitionState }: PluginModalProps) {
+export default function PluginModal({plugin, onRestartNeeded, onClose, transitionState}: PluginModalProps) {
     const pluginSettings = useSettings().plugins[plugin.name];
     const hasSettings = Boolean(pluginSettings && plugin.options && !isObjectEmpty(plugin.options));
 
@@ -69,8 +82,8 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
             for (const user of plugin.authors.slice(0, 6)) {
                 const author = user.id
                     ? await UserUtils.getUser(`${user.id}`)
-                        .catch(() => makeDummyUser({ username: user.name }))
-                    : makeDummyUser({ username: user.name });
+                        .catch(() => makeDummyUser({username: user.name}))
+                    : makeDummyUser({username: user.name});
 
                 setAuthors(a => [...a, author]);
             }
@@ -120,7 +133,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
 
         return (
             <Tooltip text={plugin.authors.slice(sliceStart, sliceEnd).map(u => u.name).join(", ")}>
-                {({ onMouseEnter, onMouseLeave }) => (
+                {({onMouseEnter, onMouseLeave}) => (
                     <div
                         className={AvatarStyles.moreUsers}
                         onMouseEnter={onMouseEnter}
@@ -138,8 +151,8 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
     return (
         <ModalRoot transitionState={transitionState} size={ModalSize.MEDIUM}>
             <ModalHeader separator={false} className={Margins.bottom8}>
-                <Text variant="heading-xl/bold" style={{ flexGrow: 1 }}>{plugin.name}</Text>
-                <ModalCloseButton onClick={onClose} />
+                <Text variant="heading-xl/bold" style={{flexGrow: 1}}>{plugin.name}</Text>
+                <ModalCloseButton onClick={onClose}/>
             </ModalHeader>
 
             <ModalContent className={Margins.bottom16}>
@@ -159,8 +172,9 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                             </div>
                         )}
                     </Flex>
-                    <Text variant="heading-lg/semibold" className={classes(Margins.top8, Margins.bottom8)}>Authors</Text>
-                    <div style={{ width: "fit-content" }}>
+                    <Text variant="heading-lg/semibold"
+                          className={classes(Margins.top8, Margins.bottom8)}>Authors</Text>
+                    <div style={{width: "fit-content"}}>
                         <UserSummaryItem
                             users={authors}
                             guildId={undefined}
@@ -188,15 +202,17 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                 {!!plugin.settingsAboutComponent && (
                     <div className={Margins.top16}>
                         <Forms.FormSection>
-                            <ErrorBoundary message="An error occurred while rendering this plugin's custom Info Component">
-                                <plugin.settingsAboutComponent />
+                            <ErrorBoundary
+                                message="An error occurred while rendering this plugin's custom Info Component">
+                                <plugin.settingsAboutComponent/>
                             </ErrorBoundary>
                         </Forms.FormSection>
                     </div>
                 )}
 
                 <Forms.FormSection>
-                    <Text variant="heading-lg/semibold" className={classes(Margins.top16, Margins.bottom8)}>Settings</Text>
+                    <Text variant="heading-lg/semibold"
+                          className={classes(Margins.top16, Margins.bottom8)}>Settings</Text>
                     {renderSettings()}
                 </Forms.FormSection>
             </ModalContent>

@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { getCurrentChannel } from "@utils/discord";
-import { UserProfileStore, useStateFromStores } from "@webpack/common";
+import {getCurrentChannel} from "@utils/discord";
+import {UserProfileStore, useStateFromStores} from "@webpack/common";
 
-import { PronounsFormat, settings } from "./settings";
+import {PronounsFormat, settings} from "./settings";
 
 function useDiscordPronouns(id: string, useGlobalProfile: boolean = false): string | undefined {
     const globalPronouns: string | undefined = useStateFromStores([UserProfileStore], () => UserProfileStore.getUserProfile(id)?.pronouns);

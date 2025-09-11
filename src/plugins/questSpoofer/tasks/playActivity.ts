@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ChannelStore, GuildChannelStore, RestAPI, showToast, Toasts } from "@webpack/common";
+import {ChannelStore, GuildChannelStore, RestAPI, showToast, Toasts} from "@webpack/common";
 
-import { QuestSpooferLogger } from "../constants";
+import {QuestSpooferLogger} from "../constants";
 
 export async function spoofPlayActivityQuest(quest: any, secondsNeeded: number) {
     const guilds = GuildChannelStore.getAllGuilds() as Record<string, { VOCAL?: { channel: { id: string; }; }[]; }>;
@@ -31,7 +31,7 @@ export async function spoofPlayActivityQuest(quest: any, secondsNeeded: number) 
         while (true) {
             const res = await RestAPI.post({
                 url: `/quests/${quest.id}/heartbeat`,
-                body: { stream_key: streamKey, terminal: false }
+                body: {stream_key: streamKey, terminal: false}
             });
 
             const progress = res.body.progress.PLAY_ACTIVITY.value;
@@ -40,7 +40,7 @@ export async function spoofPlayActivityQuest(quest: any, secondsNeeded: number) 
             if (progress >= secondsNeeded) {
                 await RestAPI.post({
                     url: `/quests/${quest.id}/heartbeat`,
-                    body: { stream_key: streamKey, terminal: true }
+                    body: {stream_key: streamKey, terminal: true}
                 });
 
                 showToast("✅ Activity quest completed!", Toasts.Type.SUCCESS);

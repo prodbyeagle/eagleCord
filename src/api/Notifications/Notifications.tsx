@@ -7,12 +7,12 @@
  */
 
 import NotificationComponent from "@api/Notifications/NotificationComponent";
-import { persistNotification } from "@api/Notifications/notificationLog";
-import { Settings } from "@api/Settings";
-import { Queue } from "@utils/Queue";
-import { createRoot } from "@webpack/common";
-import type { ReactNode } from "react";
-import type { Root } from "react-dom/client";
+import {persistNotification} from "@api/Notifications/notificationLog";
+import {Settings} from "@api/Settings";
+import {Queue} from "@utils/Queue";
+import {createRoot} from "@webpack/common";
+import type {ReactNode} from "react";
+import type {Root} from "react-dom/client";
 
 const NotificationQueue = new Queue();
 
@@ -41,8 +41,11 @@ export interface NotificationData {
     icon?: string;
     /** Large image. Optimally, this should be around 16x9 but it doesn't matter much. Desktop Notifications might not support this */
     image?: string;
+
     onClick?(): void;
+
     onClose?(): void;
+
     color?: string;
     /** Whether this notification should not have a timeout */
     permanent?: boolean;
@@ -60,7 +63,7 @@ function _showNotification(notification: NotificationData, id: number) {
                 notification.onClose?.();
                 root.render(null);
                 resolve();
-            }} />,
+            }}/>,
         );
     });
 }
@@ -68,7 +71,7 @@ function _showNotification(notification: NotificationData, id: number) {
 function shouldBeNative() {
     if (typeof Notification === "undefined") return false;
 
-    const { useNative } = Settings.notifications;
+    const {useNative} = Settings.notifications;
     if (useNative === "always") return true;
     if (useNative === "not-focused") return !document.hasFocus();
     return false;
@@ -85,7 +88,7 @@ export async function showNotification(data: NotificationData) {
     persistNotification(data);
 
     if (shouldBeNative() && await requestPermission()) {
-        const { title, body, icon, image, onClick = null, onClose = null } = data;
+        const {title, body, icon, image, onClick = null, onClose = null} = data;
         const n = new Notification(title, {
             body,
             icon,

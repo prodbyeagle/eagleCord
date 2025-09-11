@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Settings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import { copyWithToast } from "@utils/misc";
-import definePlugin, { OptionType } from "@utils/types";
+import {Settings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import {copyWithToast} from "@utils/misc";
+import definePlugin, {OptionType} from "@utils/types";
 
 export default definePlugin({
     name: "BetterRoleDot",

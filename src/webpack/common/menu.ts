@@ -7,7 +7,7 @@
  */
 
 import type * as t from "@vencord/discord-types";
-import { filters, mapMangledModuleLazy, waitFor, wreq } from "@webpack";
+import {filters, mapMangledModuleLazy, waitFor, wreq} from "@webpack";
 
 export const Menu = {} as t.Menu;
 

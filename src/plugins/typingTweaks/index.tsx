@@ -6,16 +6,25 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
+import {definePluginSettings} from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs } from "@utils/constants";
-import { openUserProfile } from "@utils/discord";
-import { isNonNullish } from "@utils/guards";
-import { Logger } from "@utils/Logger";
-import definePlugin, { OptionType } from "@utils/types";
-import { Channel, User } from "@vencord/discord-types";
-import { AuthenticationStore, Avatar, GuildMemberStore, React, RelationshipStore, TypingStore, UserStore, useStateFromStores } from "@webpack/common";
-import { PropsWithChildren } from "react";
+import {Devs} from "@utils/constants";
+import {openUserProfile} from "@utils/discord";
+import {isNonNullish} from "@utils/guards";
+import {Logger} from "@utils/Logger";
+import definePlugin, {OptionType} from "@utils/types";
+import {Channel, User} from "@vencord/discord-types";
+import {
+    AuthenticationStore,
+    Avatar,
+    GuildMemberStore,
+    React,
+    RelationshipStore,
+    TypingStore,
+    UserStore,
+    useStateFromStores
+} from "@webpack/common";
+import {PropsWithChildren} from "react";
 
 import managedStyle from "./style.css?managed";
 
@@ -37,26 +46,30 @@ const settings = definePluginSettings({
     }
 });
 
-export const buildSeveralUsers = ErrorBoundary.wrap(function buildSeveralUsers({ users, count, guildId }: { users: User[], count: number; guildId: string; }) {
+export const buildSeveralUsers = ErrorBoundary.wrap(function buildSeveralUsers({users, count, guildId}: {
+    users: User[],
+    count: number;
+    guildId: string;
+}) {
     return (
         <>
             {users.slice(0, count).map(user => (
                 <React.Fragment key={user.id}>
-                    <TypingUser user={user} guildId={guildId} />
+                    <TypingUser user={user} guildId={guildId}/>
                     {", "}
                 </React.Fragment>
             ))}
             and {count} others are typing...
         </>
     );
-}, { noop: true });
+}, {noop: true});
 
 interface TypingUserProps {
     user: User;
     guildId: string;
 }
 
-const TypingUser = ErrorBoundary.wrap(function TypingUser({ user, guildId }: TypingUserProps) {
+const TypingUser = ErrorBoundary.wrap(function TypingUser({user, guildId}: TypingUserProps) {
     return (
         <strong
             className="vc-typing-user"
@@ -71,7 +84,7 @@ const TypingUser = ErrorBoundary.wrap(function TypingUser({ user, guildId }: Typ
             {settings.store.showAvatars && (
                 <Avatar
                     size="SIZE_16"
-                    src={user.getAvatarURL(guildId, 128)} />
+                    src={user.getAvatarURL(guildId, 128)}/>
             )}
             {GuildMemberStore.getNick(guildId!, user.id)
                 || (!guildId && RelationshipStore.getNickname(user.id))
@@ -80,7 +93,7 @@ const TypingUser = ErrorBoundary.wrap(function TypingUser({ user, guildId }: Typ
             }
         </strong>
     );
-}, { noop: true });
+}, {noop: true});
 
 export default definePlugin({
     name: "TypingTweaks",
@@ -143,7 +156,10 @@ export default definePlugin({
 
     buildSeveralUsers,
 
-    renderTypingUsers: ErrorBoundary.wrap(({ guildId, users, children }: PropsWithChildren<{ guildId: string, users: User[]; }>) => {
+    renderTypingUsers: ErrorBoundary.wrap(({guildId, users, children}: PropsWithChildren<{
+        guildId: string,
+        users: User[];
+    }>) => {
         try {
             if (!Array.isArray(children)) {
                 return children;
@@ -156,12 +172,12 @@ export default definePlugin({
                     return c;
 
                 const user = users[element++];
-                return <TypingUser key={user.id} guildId={guildId} user={user} />;
+                return <TypingUser key={user.id} guildId={guildId} user={user}/>;
             });
         } catch (e) {
             new Logger("TypingTweaks").error("Failed to render typing users:", e);
         }
 
         return children;
-    }, { noop: true })
+    }, {noop: true})
 });

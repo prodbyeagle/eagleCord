@@ -9,11 +9,11 @@
 import "./ChatButton.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Logger } from "@utils/Logger";
-import { Channel } from "@vencord/discord-types";
-import { waitFor } from "@webpack";
-import { Button, ButtonWrapperClasses, Tooltip } from "@webpack/common";
-import { HTMLProps, JSX, MouseEventHandler, ReactNode } from "react";
+import {Logger} from "@utils/Logger";
+import {Channel} from "@vencord/discord-types";
+import {waitFor} from "@webpack";
+import {Button, ButtonWrapperClasses, Tooltip} from "@webpack/common";
+import {HTMLProps, JSX, MouseEventHandler, ReactNode} from "react";
 
 let ChannelTextAreaClasses: Record<"button" | "buttonContainer", string>;
 waitFor(["buttonContainer", "channelTextArea"], m => ChannelTextAreaClasses = m);
@@ -87,7 +87,7 @@ export function _injectButtons(buttons: ReactNode[], props: ChatBarProps) {
     for (const [key, Button] of buttonFactories) {
         buttons.push(
             <ErrorBoundary noop key={key} onError={e => logger.error(`Failed to render ${key}`, e.error)}>
-                <Button {...props} isMainChat={props.type.analyticsName === "normal"} />
+                <Button {...props} isMainChat={props.type.analyticsName === "normal"}/>
             </ErrorBoundary>
         );
     }
@@ -104,11 +104,13 @@ export interface ChatBarButtonProps {
     onAuxClick?: MouseEventHandler<HTMLButtonElement>;
     buttonProps?: Omit<HTMLProps<HTMLButtonElement>, "size" | "onClick" | "onContextMenu" | "onAuxClick">;
 }
+
 export const ChatBarButton = ErrorBoundary.wrap((props: ChatBarButtonProps) => {
     return (
         <Tooltip text={props.tooltip}>
-            {({ onMouseEnter, onMouseLeave }) => (
-                <div className={`expression-picker-chat-input-button ${ChannelTextAreaClasses?.buttonContainer ?? ""} vc-chatbar-button`}>
+            {({onMouseEnter, onMouseLeave}) => (
+                <div
+                    className={`expression-picker-chat-input-button ${ChannelTextAreaClasses?.buttonContainer ?? ""} vc-chatbar-button`}>
                     <Button
                         aria-label={props.tooltip}
                         size=""
@@ -129,4 +131,4 @@ export const ChatBarButton = ErrorBoundary.wrap((props: ChatBarButtonProps) => {
             )}
         </Tooltip>
     );
-}, { noop: true });
+}, {noop: true});

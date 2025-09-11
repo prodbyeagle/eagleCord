@@ -6,16 +6,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { getUserSettingLazy } from "@api/UserSettings";
+import {getUserSettingLazy} from "@api/UserSettings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { getIntlMessage } from "@utils/discord";
-import { classes } from "@utils/misc";
-import { Message } from "@vencord/discord-types";
-import { findByPropsLazy } from "@webpack";
-import { Tooltip, UserStore } from "@webpack/common";
+import {getIntlMessage} from "@utils/discord";
+import {classes} from "@utils/misc";
+import {Message} from "@vencord/discord-types";
+import {findByPropsLazy} from "@webpack";
+import {Tooltip, UserStore} from "@webpack/common";
 
-import { settings } from "./settings";
-import { useFormattedPronouns } from "./utils";
+import {settings} from "./settings";
+import {useFormattedPronouns} from "./utils";
 
 const styles: Record<string, string> = findByPropsLazy("timestampInline");
 const MessageDisplayCompact = getUserSettingLazy("textAndImages", "messageDisplayCompact")!;
@@ -31,7 +31,7 @@ function shouldShow(message: Message): boolean {
     return true;
 }
 
-function PronounsChatComponent({ message }: { message: Message; }) {
+function PronounsChatComponent({message}: { message: Message; }) {
     const pronouns = useFormattedPronouns(message.author.id);
 
     return pronouns && (
@@ -46,18 +46,18 @@ function PronounsChatComponent({ message }: { message: Message; }) {
     );
 }
 
-export const PronounsChatComponentWrapper = ErrorBoundary.wrap(({ message }: { message: Message; }) => {
+export const PronounsChatComponentWrapper = ErrorBoundary.wrap(({message}: { message: Message; }) => {
     return shouldShow(message)
-        ? <PronounsChatComponent message={message} />
+        ? <PronounsChatComponent message={message}/>
         : null;
-}, { noop: true });
+}, {noop: true});
 
-export const CompactPronounsChatComponentWrapper = ErrorBoundary.wrap(({ message }: { message: Message; }) => {
+export const CompactPronounsChatComponentWrapper = ErrorBoundary.wrap(({message}: { message: Message; }) => {
     const compact = MessageDisplayCompact.useSetting();
 
     if (!compact || !shouldShow(message)) {
         return null;
     }
 
-    return <PronounsChatComponent message={message} />;
-}, { noop: true });
+    return <PronounsChatComponent message={message}/>;
+}, {noop: true});

@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { FluxStore } from "@vencord/discord-types";
+import {FluxStore} from "@vencord/discord-types";
 
 export interface ApplicationStreamPreviewStore extends FluxStore {
     getIsPreviewLoading: (guildId: string | bigint | null, channelId: string | bigint, ownerId: string | bigint) => boolean;

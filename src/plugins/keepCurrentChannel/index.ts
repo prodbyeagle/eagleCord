@@ -7,9 +7,9 @@
  */
 
 import * as DataStore from "@api/DataStore";
-import { Devs } from "@utils/constants";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { ChannelRouter, ChannelStore, NavigationRouter, SelectedChannelStore, SelectedGuildStore } from "@webpack/common";
+import {ChannelRouter, ChannelStore, NavigationRouter, SelectedChannelStore, SelectedGuildStore} from "@webpack/common";
 
 export interface LogoutEvent {
     type: "LOGOUT";
@@ -47,7 +47,7 @@ export default definePlugin({
 
     flux: {
         LOGOUT(e: LogoutEvent) {
-            ({ isSwitchingAccount } = e);
+            ({isSwitchingAccount} = e);
         },
 
         CONNECTION_OPEN() {
@@ -63,7 +63,7 @@ export default definePlugin({
             }
         },
 
-        async CHANNEL_SELECT({ guildId, channelId }: ChannelSelectEvent) {
+        async CHANNEL_SELECT({guildId, channelId}: ChannelSelectEvent) {
             if (isSwitchingAccount) return;
 
             previousCache = {

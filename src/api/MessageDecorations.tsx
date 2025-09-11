@@ -7,8 +7,8 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Channel, Message } from "@vencord/discord-types";
-import { JSX } from "react";
+import {Channel, Message} from "@vencord/discord-types";
+import {JSX} from "react";
 
 export interface MessageDecorationProps {
     author: {
@@ -34,8 +34,10 @@ export interface MessageDecorationProps {
         1: JSX.Element[];
     };
     message: Message;
+
     [key: string]: any;
 }
+
 export type MessageDecorationFactory = (props: MessageDecorationProps) => JSX.Element | null;
 
 export const decorationsFactories = new Map<string, MessageDecorationFactory>();

@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import { Logger } from "@utils/Logger";
-import definePlugin, { OptionType, PluginSettingDef } from "@utils/types";
-import { GuildMember, Role } from "@vencord/discord-types";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import {Logger} from "@utils/Logger";
+import definePlugin, {OptionType, PluginSettingDef} from "@utils/types";
+import {GuildMember, Role} from "@vencord/discord-types";
 
 const opt = (description: string) => ({
     type: OptionType.BOOLEAN,
@@ -77,7 +77,7 @@ export default definePlugin({
         }
     ],
 
-    getHighestRole({ member }: { member: GuildMember; }, roles: Role[]): Role | undefined {
+    getHighestRole({member}: { member: GuildMember; }, roles: Role[]): Role | undefined {
         try {
             return roles.find(role => role.id === member.highestRoleId);
         } catch (e) {

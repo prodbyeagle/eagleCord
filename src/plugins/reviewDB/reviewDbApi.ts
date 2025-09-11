@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Toasts } from "@webpack/common";
+import {Toasts} from "@webpack/common";
 
-import { Auth, authorize, getToken, updateAuth } from "./auth";
-import { Review, ReviewDBCurrentUser, ReviewDBUser, ReviewType } from "./entities";
-import { settings } from "./settings";
-import { showToast } from "./utils";
+import {Auth, authorize, getToken, updateAuth} from "./auth";
+import {Review, ReviewDBCurrentUser, ReviewDBUser, ReviewType} from "./entities";
+import {settings} from "./settings";
+import {showToast} from "./utils";
 
 const API_URL = "https://manti.vendicated.dev/api/reviewdb";
 
@@ -159,7 +159,7 @@ async function patchBlock(action: "block" | "unblock", userId: string) {
             const newBlockedUsers = action === "block"
                 ? [...Auth.user.blockedUsers, userId]
                 : Auth.user.blockedUsers.filter(id => id !== userId);
-            updateAuth({ user: { ...Auth.user, blockedUsers: newBlockedUsers } });
+            updateAuth({user: {...Auth.user, blockedUsers: newBlockedUsers}});
         }
     }
 }

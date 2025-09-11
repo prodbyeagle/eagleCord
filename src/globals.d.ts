@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { LoDashStatic } from "lodash";
+import {LoDashStatic} from "lodash";
 
 declare global {
     /**
@@ -60,4 +60,4 @@ declare global {
     }
 }
 
-export { };
+export {};

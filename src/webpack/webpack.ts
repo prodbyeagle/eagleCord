@@ -6,16 +6,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { makeLazy, proxyLazy } from "@utils/lazy";
-import { LazyComponent } from "@utils/lazyReact";
-import { Logger } from "@utils/Logger";
-import { canonicalizeMatch } from "@utils/patches";
-import { FluxStore } from "@vencord/discord-types";
-import { ModuleExports, WebpackRequire } from "@vencord/discord-types/webpack";
+import {makeLazy, proxyLazy} from "@utils/lazy";
+import {LazyComponent} from "@utils/lazyReact";
+import {Logger} from "@utils/Logger";
+import {canonicalizeMatch} from "@utils/patches";
+import {FluxStore} from "@vencord/discord-types";
+import {ModuleExports, WebpackRequire} from "@vencord/discord-types/webpack";
 
-import { traceFunction } from "../debug/Tracer";
-import { Flux } from "./common";
-import { AnyModuleFactory, AnyWebpackRequire } from "./types";
+import {traceFunction} from "../debug/Tracer";
+import {Flux} from "./common";
+import {AnyModuleFactory, AnyWebpackRequire} from "./types";
 
 const logger = new Logger("Webpack");
 
@@ -107,6 +107,7 @@ export function _initWebpack(webpackRequire: WebpackRequire) {
 const TypedArray = Object.getPrototypeOf(Int8Array);
 
 const PROXY_CHECK = "is this a proxy that returns values for any key?";
+
 function shouldIgnoreValue(value: any) {
     if (value == null) return true;
     if (value === window) return true;
@@ -200,7 +201,10 @@ export function handleModuleNotFound(method: string, ...filter: unknown[]) {
 /**
  * Find the first module that matches the filter
  */
-export const find = traceFunction("find", function find(filter: FilterFn, { isIndirect = false, isWaitFor = false }: { isIndirect?: boolean; isWaitFor?: boolean; } = {}) {
+export const find = traceFunction("find", function find(filter: FilterFn, {isIndirect = false, isWaitFor = false}: {
+    isIndirect?: boolean;
+    isWaitFor?: boolean;
+} = {}) {
     if (typeof filter !== "function")
         throw new Error("Invalid filter. Expected a function got " + typeof filter);
 
@@ -263,7 +267,7 @@ export const findBulk = traceFunction("findBulk", function findBulk(...filterFns
     if (!Array.isArray(filterFns))
         throw new Error("Invalid filters. Expected function[] got " + typeof filterFns);
 
-    const { length } = filterFns;
+    const {length} = filterFns;
 
     if (length === 0)
         throw new Error("Expected at least two filters.");
@@ -281,36 +285,36 @@ export const findBulk = traceFunction("findBulk", function findBulk(...filterFns
     const results = Array(length);
 
     outer:
-    for (const key in cache) {
-        const mod = cache[key];
-        if (!mod?.loaded || mod.exports == null) continue;
+        for (const key in cache) {
+            const mod = cache[key];
+            if (!mod?.loaded || mod.exports == null) continue;
 
-        for (let j = 0; j < length; j++) {
-            const filter = filters[j];
-            // Already done
-            if (filter === undefined) continue;
+            for (let j = 0; j < length; j++) {
+                const filter = filters[j];
+                // Already done
+                if (filter === undefined) continue;
 
-            if (filter(mod.exports)) {
-                results[j] = mod.exports;
-                filters[j] = undefined;
-                if (++found === length) break outer;
-                break;
-            }
-
-            if (typeof mod.exports !== "object")
-                continue;
-
-            for (const nestedMod in mod.exports) {
-                const nested = mod.exports[nestedMod];
-                if (nested && filter(nested)) {
-                    results[j] = nested;
+                if (filter(mod.exports)) {
+                    results[j] = mod.exports;
                     filters[j] = undefined;
                     if (++found === length) break outer;
-                    continue outer;
+                    break;
+                }
+
+                if (typeof mod.exports !== "object")
+                    continue;
+
+                for (const nestedMod in mod.exports) {
+                    const nested = mod.exports[nestedMod];
+                    if (nested && filter(nested)) {
+                        results[j] = nested;
+                        filters[j] = undefined;
+                        if (++found === length) break outer;
+                        continue outer;
+                    }
                 }
             }
         }
-    }
 
     if (found !== length) {
         const err = new Error(`Got ${length} filters, but only found ${found} modules!`);
@@ -407,7 +411,7 @@ export function findLazy(filter: FilterFn) {
  * Find the first module that has the specified properties
  */
 export function findByProps(...props: PropsFilter) {
-    const res = find(filters.byProps(...props), { isIndirect: true });
+    const res = find(filters.byProps(...props), {isIndirect: true});
     if (!res)
         handleModuleNotFound("findByProps", ...props);
     return res;
@@ -426,7 +430,7 @@ export function findByPropsLazy(...props: PropsFilter) {
  * Find the first function that includes all the given code
  */
 export function findByCode(...code: CodeFilter) {
-    const res = find(filters.byCode(...code), { isIndirect: true });
+    const res = find(filters.byCode(...code), {isIndirect: true});
     if (!res)
         handleModuleNotFound("findByCode", ...code);
     return res;
@@ -480,10 +484,11 @@ export function findStore(name: StoreNameFilter) {
                 }
             }
 
-        } catch { }
+        } catch {
+        }
 
         if (res == null) {
-            res = find(filters.byStoreName(name), { isIndirect: true });
+            res = find(filters.byStoreName(name), {isIndirect: true});
         }
     }
 
@@ -505,7 +510,7 @@ export function findStoreLazy(name: StoreNameFilter) {
  * Finds the component which includes all the given code. Checks for plain components, memos and forwardRefs
  */
 export function findComponentByCode(...code: CodeFilter) {
-    const res = find(filters.componentByCode(...code), { isIndirect: true });
+    const res = find(filters.componentByCode(...code), {isIndirect: true});
     if (!res)
         handleModuleNotFound("findComponentByCode", ...code);
     return res;
@@ -519,7 +524,7 @@ export function findComponentLazy<T extends object = any>(filter: FilterFn) {
 
 
     return LazyComponent<T>(() => {
-        const res = find(filter, { isIndirect: true });
+        const res = find(filter, {isIndirect: true});
         if (!res)
             handleModuleNotFound("findComponent", filter);
         return res;
@@ -533,7 +538,7 @@ export function findComponentByCodeLazy<T extends object = any>(...code: CodeFil
     if (IS_REPORTER) lazyWebpackSearchHistory.push(["findComponentByCode", code]);
 
     return LazyComponent<T>(() => {
-        const res = find(filters.componentByCode(...code), { isIndirect: true });
+        const res = find(filters.componentByCode(...code), {isIndirect: true});
         if (!res)
             handleModuleNotFound("findComponentByCode", ...code);
         return res;
@@ -547,7 +552,7 @@ export function findExportedComponentLazy<T extends object = any>(...props: Prop
     if (IS_REPORTER) lazyWebpackSearchHistory.push(["findExportedComponent", props]);
 
     return LazyComponent<T>(() => {
-        const res = find(filters.byProps(...props), { isIndirect: true });
+        const res = find(filters.byProps(...props), {isIndirect: true});
         if (!res)
             handleModuleNotFound("findExportedComponent", ...props);
         return res[props[0]];
@@ -592,22 +597,22 @@ export const mapMangledModule = traceFunction("mapMangledModule", function mapMa
     const mod = wreq(id as any);
     const keys = getAllPropertyNames(mod, includeBlacklistedExports);
     outer:
-    for (const key of keys) {
-        const member = mod[key];
-        for (const newName in mappers) {
-            // if the current mapper matches this module
-            if (mappers[newName](member)) {
-                exports[newName] = member;
-                continue outer;
+        for (const key of keys) {
+            const member = mod[key];
+            for (const newName in mappers) {
+                // if the current mapper matches this module
+                if (mappers[newName](member)) {
+                    exports[newName] = member;
+                    continue outer;
+                }
             }
         }
-    }
     return exports;
 });
 
 /**
  * lazy mapMangledModule
-  * @see {@link mapMangledModule}
+ * @see {@link mapMangledModule}
  */
 export function mapMangledModuleLazy<S extends string>(code: string | RegExp | CodeFilter, mappers: Record<S, FilterFn>, includeBlacklistedExports = false): Record<S, any> {
     if (IS_REPORTER) lazyWebpackSearchHistory.push(["mapMangledModule", [code, mappers, includeBlacklistedExports]]);
@@ -707,7 +712,9 @@ export function extractAndLoadChunksLazy(code: CodeFilter, matcher = DefaultExtr
  * Wait for a module that matches the provided filter to be registered,
  * then call the callback with the module as the first argument
  */
-export function waitFor(filter: string | PropsFilter | FilterFn, callback: CallbackFn, { isIndirect = false }: { isIndirect?: boolean; } = {}) {
+export function waitFor(filter: string | PropsFilter | FilterFn, callback: CallbackFn, {isIndirect = false}: {
+    isIndirect?: boolean;
+} = {}) {
     if (IS_REPORTER && !isIndirect) lazyWebpackSearchHistory.push(["waitFor", Array.isArray(filter) ? filter : [filter]]);
 
     if (typeof filter === "string")
@@ -718,7 +725,7 @@ export function waitFor(filter: string | PropsFilter | FilterFn, callback: Callb
         throw new Error("filter must be a string, string[] or function, got " + typeof filter);
 
     if (cache != null) {
-        const [existing, id] = find(filter, { isIndirect: true, isWaitFor: true });
+        const [existing, id] = find(filter, {isIndirect: true, isWaitFor: true});
         if (existing) return void callback(existing, id);
     }
 

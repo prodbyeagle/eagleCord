@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { hexToHSL } from "./colorUtils";
+import {hexToHSL} from "./colorUtils";
 
 const VARS_STYLE_ID = "vc-clientTheme-vars";
 const OVERRIDES_STYLE_ID = "vc-clientTheme-overrides";
 
 export function createOrUpdateThemeColorVars(color: string) {
-    const { hue, saturation, lightness } = hexToHSL(color);
+    const {hue, saturation, lightness} = hexToHSL(color);
 
     createOrUpdateStyle(VARS_STYLE_ID, `:root {
         --theme-h: ${hue};

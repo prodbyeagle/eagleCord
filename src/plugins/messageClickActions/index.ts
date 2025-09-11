@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { findByPropsLazy } from "@webpack";
-import { FluxDispatcher, PermissionsBits, PermissionStore, UserStore, WindowStore } from "@webpack/common";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
+import {findByPropsLazy} from "@webpack";
+import {FluxDispatcher, PermissionsBits, PermissionStore, UserStore, WindowStore} from "@webpack/common";
 import NoReplyMentionPlugin from "plugins/noReplyMention";
 
 const MessageActions = findByPropsLazy("deleteMessage", "startEditMessage");

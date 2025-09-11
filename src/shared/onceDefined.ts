@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { LiteralUnion } from "type-fest";
+import type {LiteralUnion} from "type-fest";
 
 /**
  * Wait for a property to be defined on the target, then call the callback with

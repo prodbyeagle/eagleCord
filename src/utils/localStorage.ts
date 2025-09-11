@@ -6,4 +6,4 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-export const { localStorage } = window;
+export const {localStorage} = window;

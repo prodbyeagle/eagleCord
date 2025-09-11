@@ -8,15 +8,15 @@
 
 import "./styles.css";
 
-import { get, set } from "@api/DataStore";
-import { updateMessage } from "@api/MessageUpdater";
-import { migratePluginSettings } from "@api/Settings";
-import { ImageInvisible, ImageVisible } from "@components/Icons";
-import { Devs } from "@utils/constants";
-import { classes } from "@utils/misc";
+import {get, set} from "@api/DataStore";
+import {updateMessage} from "@api/MessageUpdater";
+import {migratePluginSettings} from "@api/Settings";
+import {ImageInvisible, ImageVisible} from "@components/Icons";
+import {Devs} from "@utils/constants";
+import {classes} from "@utils/misc";
 import definePlugin from "@utils/types";
-import { Message } from "@vencord/discord-types";
-import { ChannelStore } from "@webpack/common";
+import {Message} from "@vencord/discord-types";
+import {ChannelStore} from "@webpack/common";
 
 const KEY = "HideAttachments_HiddenIds";
 
@@ -61,11 +61,12 @@ export default definePlugin({
         };
     },
 
-    renderMessageAccessory({ message }) {
+    renderMessageAccessory({message}) {
         if (!this.shouldHide(message.id)) return null;
 
         return (
-            <span className={classes("vc-hideAttachments-accessory", !message.content && "vc-hideAttachments-no-content")}>
+            <span
+                className={classes("vc-hideAttachments-accessory", !message.content && "vc-hideAttachments-no-content")}>
                 Media Hidden
             </span>
         );

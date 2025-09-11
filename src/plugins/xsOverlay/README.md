@@ -1,6 +1,7 @@
 # XSOverlay Notifier
 
-Sends Discord messages to [XSOverlay](https://store.steampowered.com/app/1173510/XSOverlay/) for easier viewing while using VR.
+Sends Discord messages to [XSOverlay](https://store.steampowered.com/app/1173510/XSOverlay/) for easier viewing while
+using VR.
 
 ## Preview
 
@@ -10,6 +11,6 @@ Sends Discord messages to [XSOverlay](https://store.steampowered.com/app/1173510
 
 ## Usage
 
--   Enable this plugin
--   Set port and plugin settings as desired (defaults should work fine)
--   Open SteamVR and XSOverlay
+- Enable this plugin
+- Set port and plugin settings as desired (defaults should work fine)
+- Open SteamVR and XSOverlay

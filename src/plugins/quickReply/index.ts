@@ -6,11 +6,21 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { Devs, IS_MAC } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { Message } from "@vencord/discord-types";
-import { ChannelStore, ComponentDispatch, FluxDispatcher as Dispatcher, MessageActions, MessageStore, PermissionsBits, PermissionStore, SelectedChannelStore, UserStore } from "@webpack/common";
+import {definePluginSettings} from "@api/Settings";
+import {Devs, IS_MAC} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
+import {Message} from "@vencord/discord-types";
+import {
+    ChannelStore,
+    ComponentDispatch,
+    FluxDispatcher as Dispatcher,
+    MessageActions,
+    MessageStore,
+    PermissionsBits,
+    PermissionStore,
+    SelectedChannelStore,
+    UserStore
+} from "@webpack/common";
 import NoBlockedMessagesPlugin from "plugins/noBlockedMessages";
 import NoReplyMentionPlugin from "plugins/noReplyMention";
 
@@ -33,8 +43,8 @@ const settings = definePluginSettings({
                 value: MentionOptions.NO_REPLY_MENTION_PLUGIN,
                 default: true
             },
-            { label: "Enabled", value: MentionOptions.ENABLED },
-            { label: "Disabled", value: MentionOptions.DISABLED },
+            {label: "Enabled", value: MentionOptions.ENABLED},
+            {label: "Disabled", value: MentionOptions.DISABLED},
         ]
     }
 });
@@ -69,12 +79,12 @@ export default definePlugin({
     }
 });
 
-function onStartEdit({ messageId, _isQuickEdit }: any) {
+function onStartEdit({messageId, _isQuickEdit}: any) {
     if (_isQuickEdit) return;
     currentlyEditingId = messageId;
 }
 
-function onCreatePendingReply({ message, _isQuickReply }: { message: Message; _isQuickReply: boolean; }) {
+function onCreatePendingReply({message, _isQuickReply}: { message: Message; _isQuickReply: boolean; }) {
     if (_isQuickReply) return;
 
     currentlyReplyingId = message.id;
@@ -115,7 +125,9 @@ function jumpIfOffScreen(channelId: string, messageId: string) {
 }
 
 function getNextMessage(isUp: boolean, isReply: boolean) {
-    let messages: Array<Message & { deleted?: boolean; }> = MessageStore.getMessages(SelectedChannelStore.getChannelId())._array;
+    let messages: Array<Message & {
+        deleted?: boolean;
+    }> = MessageStore.getMessages(SelectedChannelStore.getChannelId())._array;
 
     const meId = UserStore.getCurrentUser().id;
     const hasNoBlockedMessages = Vencord.Plugins.isPluginEnabled(NoBlockedMessagesPlugin.name);

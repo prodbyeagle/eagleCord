@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants.js";
+import {Devs} from "@utils/constants.js";
 import definePlugin from "@utils/types";
 
 export default definePlugin({

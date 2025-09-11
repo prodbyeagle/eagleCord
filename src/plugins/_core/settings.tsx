@@ -6,12 +6,21 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Settings } from "@api/Settings";
-import { BackupAndRestoreTab, CloudTab, EagleCordTab, PatchHelperTab, PluginsTab, ThemesTab, UpdaterTab, VencordTab } from "@components/settings/tabs";
-import { Devs } from "@utils/constants";
-import { getIntlMessage } from "@utils/discord";
-import definePlugin, { OptionType } from "@utils/types";
-import { React } from "@webpack/common";
+import {Settings} from "@api/Settings";
+import {
+    BackupAndRestoreTab,
+    CloudTab,
+    EagleCordTab,
+    PatchHelperTab,
+    PluginsTab,
+    ThemesTab,
+    UpdaterTab,
+    VencordTab
+} from "@components/settings/tabs";
+import {Devs} from "@utils/constants";
+import {getIntlMessage} from "@utils/discord";
+import definePlugin, {OptionType} from "@utils/types";
+import {React} from "@webpack/common";
 
 import gitHash from "~git-hash";
 
@@ -126,12 +135,12 @@ export default definePlugin({
         ].filter(Boolean);
     },
 
-    isRightSpot({ header, settings }: { header?: string; settings?: string[]; }) {
+    isRightSpot({header, settings}: { header?: string; settings?: string[]; }) {
         const firstChild = settings?.[0];
         // lowest two elements... sanity backup
         if (firstChild === "LOGOUT" || firstChild === "SOCIAL_LINKS") return true;
 
-        const { settingsLocation } = Settings.plugins.Settings;
+        const {settingsLocation} = Settings.plugins.Settings;
 
         if (settingsLocation === "bottom") return firstChild === "LOGOUT";
         if (settingsLocation === "belowActivity") return firstChild === "CHANGELOG";
@@ -184,12 +193,12 @@ export default definePlugin({
             type: OptionType.SELECT,
             description: "Where to put the EagleCord settings section",
             options: [
-                { label: "At the very top", value: "top" },
-                { label: "Above the Nitro section", value: "aboveNitro", default: true },
-                { label: "Below the Nitro section", value: "belowNitro" },
-                { label: "Above Activity Settings", value: "aboveActivity" },
-                { label: "Below Activity Settings", value: "belowActivity" },
-                { label: "At the very bottom", value: "bottom" },
+                {label: "At the very top", value: "top"},
+                {label: "Above the Nitro section", value: "aboveNitro", default: true},
+                {label: "Below the Nitro section", value: "belowNitro"},
+                {label: "Above Activity Settings", value: "aboveActivity"},
+                {label: "Below Activity Settings", value: "belowActivity"},
+                {label: "At the very bottom", value: "bottom"},
             ]
         },
     },
@@ -218,7 +227,7 @@ export default definePlugin({
     },
 
     getInfoRows() {
-        const { electronVersion, chromiumVersion, additionalInfo } = this;
+        const {electronVersion, chromiumVersion, additionalInfo} = this;
 
         const rows = [`EagleCord ${gitHash}${additionalInfo}`];
 

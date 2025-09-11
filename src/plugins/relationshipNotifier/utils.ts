@@ -6,16 +6,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { DataStore, Notices } from "@api/index";
-import { showNotification } from "@api/Notifications";
-import { getUniqueUsername, openUserProfile } from "@utils/discord";
-import { FluxStore } from "@vencord/discord-types";
-import { ChannelType } from "@vencord/discord-types/enums";
-import { findStoreLazy } from "@webpack";
-import { ChannelStore, GuildMemberStore, GuildStore, RelationshipStore, UserStore, UserUtils } from "@webpack/common";
+import {DataStore, Notices} from "@api/index";
+import {showNotification} from "@api/Notifications";
+import {getUniqueUsername, openUserProfile} from "@utils/discord";
+import {FluxStore} from "@vencord/discord-types";
+import {ChannelType} from "@vencord/discord-types/enums";
+import {findStoreLazy} from "@webpack";
+import {ChannelStore, GuildMemberStore, GuildStore, RelationshipStore, UserStore, UserUtils} from "@webpack/common";
 
 import settings from "./settings";
-import { RelationshipType, SimpleGroupChannel, SimpleGuild } from "./types";
+import {RelationshipType, SimpleGroupChannel, SimpleGuild} from "./types";
 
 export const GuildAvailabilityStore = findStoreLazy("GuildAvailabilityStore") as FluxStore & {
     totalGuilds: number;
@@ -124,7 +124,7 @@ export async function syncGuilds() {
     guilds.clear();
 
     const me = UserStore.getCurrentUser().id;
-    for (const [id, { name, icon }] of Object.entries(GuildStore.getGuilds())) {
+    for (const [id, {name, icon}] of Object.entries(GuildStore.getGuilds())) {
         if (GuildMemberStore.isMember(id, me))
             guilds.set(id, {
                 id,
@@ -147,7 +147,7 @@ export function deleteGroup(id: string) {
 export async function syncGroups() {
     groups.clear();
 
-    for (const { type, id, name, rawRecipients, icon } of ChannelStore.getSortedPrivateChannels()) {
+    for (const {type, id, name, rawRecipients, icon} of ChannelStore.getSortedPrivateChannels()) {
         if (type === ChannelType.GROUP_DM)
             groups.set(id, {
                 id,

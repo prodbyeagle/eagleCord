@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { showToast, Toasts } from "@webpack/common";
+import {showToast, Toasts} from "@webpack/common";
 
-import { QuestSpooferLogger } from "../constants";
-import { postVideoProgress } from "../helpers";
+import {QuestSpooferLogger} from "../constants";
+import {postVideoProgress} from "../helpers";
 
 export async function spoofVideoQuest(quest: any, secondsNeeded: number, secondsDone: number) {
     const enrolledAt = new Date(quest.userStatus.enrolledAt).getTime();

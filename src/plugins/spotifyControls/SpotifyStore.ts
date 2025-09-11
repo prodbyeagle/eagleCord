@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Settings } from "@api/Settings";
-import { findByProps, findByPropsLazy, proxyLazyWebpack } from "@webpack";
-import { Flux, FluxDispatcher } from "@webpack/common";
+import {Settings} from "@api/Settings";
+import {findByProps, findByPropsLazy, proxyLazyWebpack} from "@webpack";
+import {Flux, FluxDispatcher} from "@webpack/common";
 
 export interface Track {
     id: string;
@@ -58,7 +58,7 @@ type Repeat = "off" | "track" | "context";
 // Don't wanna run before Flux and Dispatcher are ready!
 export const SpotifyStore = proxyLazyWebpack(() => {
     // For some reason ts hates extends Flux.Store
-    const { Store } = Flux;
+    const {Store} = Flux;
 
     const SpotifySocket = findByProps("getActiveSocketAndDevice");
     const SpotifyAPI = findByPropsLazy("vcSpotifyMarker");
@@ -126,13 +126,13 @@ export const SpotifyStore = proxyLazyWebpack(() => {
 
         setRepeat(state: Repeat) {
             this._req("put", "/repeat", {
-                query: { state }
+                query: {state}
             });
         }
 
         setShuffle(state: boolean) {
             this._req("put", "/shuffle", {
-                query: { state }
+                query: {state}
             }).then(() => {
                 this.shuffle = state;
                 this.emitChange();
@@ -158,7 +158,7 @@ export const SpotifyStore = proxyLazyWebpack(() => {
             if (this.device?.is_active)
                 (data.query ??= {}).device_id = this.device.id;
 
-            const { socket } = SpotifySocket.getActiveSocketAndDevice();
+            const {socket} = SpotifySocket.getActiveSocketAndDevice();
             return SpotifyAPI[method](socket.accountId, socket.accessToken, {
                 url: API_BASE + route,
                 ...data
@@ -178,7 +178,7 @@ export const SpotifyStore = proxyLazyWebpack(() => {
             store.isSettingPosition = false;
             store.emitChange();
         },
-        SPOTIFY_SET_DEVICES({ devices }: { devices: Device[]; }) {
+        SPOTIFY_SET_DEVICES({devices}: { devices: Device[]; }) {
             store.device = devices.find(d => d.is_active) ?? devices[0] ?? null;
             store.emitChange();
         }

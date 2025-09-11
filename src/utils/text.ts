@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { moment } from "@webpack/common";
+import {moment} from "@webpack/common";
 
 // Utils for readable text transformations eg: `toTitle(fromKebab())`
 
@@ -46,22 +46,22 @@ function getUnitStr(unit: Units, isOne: boolean, short: boolean) {
 export function formatDuration(time: number, unit: Units, short: boolean = false) {
     const dur = moment.duration(time, unit);
 
-    let unitsAmounts = units.map(unit => ({ amount: dur[unit](), unit }));
+    let unitsAmounts = units.map(unit => ({amount: dur[unit](), unit}));
 
     let amountsToBeRemoved = 0;
 
     outer:
-    for (let i = 0; i < unitsAmounts.length; i++) {
-        if (unitsAmounts[i].amount === 0 || !(i + 1 < unitsAmounts.length)) continue;
-        for (let v = i + 1; v < unitsAmounts.length; v++) {
-            if (unitsAmounts[v].amount !== 0) continue outer;
-        }
+        for (let i = 0; i < unitsAmounts.length; i++) {
+            if (unitsAmounts[i].amount === 0 || !(i + 1 < unitsAmounts.length)) continue;
+            for (let v = i + 1; v < unitsAmounts.length; v++) {
+                if (unitsAmounts[v].amount !== 0) continue outer;
+            }
 
-        amountsToBeRemoved = unitsAmounts.length - (i + 1);
-    }
+            amountsToBeRemoved = unitsAmounts.length - (i + 1);
+        }
     unitsAmounts = amountsToBeRemoved === 0 ? unitsAmounts : unitsAmounts.slice(0, -amountsToBeRemoved);
 
-    const daysAmountIndex = unitsAmounts.findIndex(({ unit }) => unit === "days");
+    const daysAmountIndex = unitsAmounts.findIndex(({unit}) => unit === "days");
     if (daysAmountIndex !== -1) {
         const daysAmount = unitsAmounts[daysAmountIndex];
 
@@ -72,7 +72,7 @@ export function formatDuration(time: number, unit: Units, short: boolean = false
 
     let res: string = "";
     while (unitsAmounts.length) {
-        const { amount, unit } = unitsAmounts.shift()!;
+        const {amount, unit} = unitsAmounts.shift()!;
 
         if (res.length) res += unitsAmounts.length ? ", " : " and ";
 
@@ -96,7 +96,7 @@ export function humanFriendlyJoin(elements: string[]): string;
  */
 export function humanFriendlyJoin<T>(elements: T[], mapper: (e: T) => string): string;
 export function humanFriendlyJoin(elements: any[], mapper: (e: any) => string = s => s): string {
-    const { length } = elements;
+    const {length} = elements;
     if (length === 0)
         return "";
     if (length === 1)
@@ -124,7 +124,7 @@ export function makeCodeblock(text: string, language?: string) {
 }
 
 export function stripIndent(strings: TemplateStringsArray, ...values: any[]) {
-    const string = String.raw({ raw: strings }, ...values);
+    const string = String.raw({raw: strings}, ...values);
 
     const match = string.match(/^[ \t]*(?=\S)/gm);
     if (!match) return string.trim();
@@ -134,6 +134,7 @@ export function stripIndent(strings: TemplateStringsArray, ...values: any[]) {
 }
 
 export const ZWSP = "\u200b";
+
 export function toInlineCode(s: string) {
     return "``" + ZWSP + s.replaceAll("`", ZWSP + "`" + ZWSP) + ZWSP + "``";
 }

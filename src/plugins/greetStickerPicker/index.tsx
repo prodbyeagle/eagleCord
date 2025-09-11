@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { Channel, Message } from "@vencord/discord-types";
-import { findLazy } from "@webpack";
-import { ContextMenuApi, FluxDispatcher, Menu, MessageActions } from "@webpack/common";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
+import {Channel, Message} from "@vencord/discord-types";
+import {findLazy} from "@webpack";
+import {ContextMenuApi, FluxDispatcher, Menu, MessageActions} from "@webpack/common";
 
 enum GreetMode {
     Greet = "Greet",
@@ -22,8 +22,8 @@ const settings = definePluginSettings({
     greetMode: {
         type: OptionType.SELECT,
         options: [
-            { label: "Greet (you can only greet 3 times)", value: GreetMode.Greet, default: true },
-            { label: "Normal Message (you can greet spam)", value: GreetMode.NormalMessage }
+            {label: "Greet (you can only greet 3 times)", value: GreetMode.Greet, default: true},
+            {label: "Normal Message (you can greet spam)", value: GreetMode.NormalMessage}
         ],
         description: "Choose the greet mode"
     }
@@ -58,14 +58,14 @@ function greet(channel: Channel, message: Message, stickers: string[]) {
 }
 
 
-function GreetMenu({ channel, message }: { message: Message, channel: Channel; }) {
+function GreetMenu({channel, message}: { message: Message, channel: Channel; }) {
     const s = settings.use(["greetMode", "multiGreetChoices"]);
-    const { greetMode, multiGreetChoices = [] } = s;
+    const {greetMode, multiGreetChoices = []} = s;
 
     return (
         <Menu.Menu
             navId="greet-sticker-picker"
-            onClose={() => FluxDispatcher.dispatch({ type: "CONTEXT_MENU_CLOSE" })}
+            onClose={() => FluxDispatcher.dispatch({type: "CONTEXT_MENU_CLOSE"})}
             aria-label="Greet Sticker Picker"
         >
             <Menu.MenuGroup
@@ -83,7 +83,7 @@ function GreetMenu({ channel, message }: { message: Message, channel: Channel; }
                 ))}
             </Menu.MenuGroup>
 
-            <Menu.MenuSeparator />
+            <Menu.MenuSeparator/>
 
             <Menu.MenuGroup
                 label="Greet Stickers"
@@ -100,7 +100,7 @@ function GreetMenu({ channel, message }: { message: Message, channel: Channel; }
 
             {!settings.store.unholyMultiGreetEnabled ? null : (
                 <>
-                    <Menu.MenuSeparator />
+                    <Menu.MenuSeparator/>
 
                     <Menu.MenuItem
                         label="Unholy Multi-Greet"
@@ -125,7 +125,7 @@ function GreetMenu({ channel, message }: { message: Message, channel: Channel; }
                             );
                         })}
 
-                        <Menu.MenuSeparator />
+                        <Menu.MenuSeparator/>
                         <Menu.MenuItem
                             id="multi-greet-submit"
                             label="Send Greets"

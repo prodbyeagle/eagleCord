@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
-import { Flex } from "@components/Flex";
-import { OpenExternalIcon } from "@components/Icons";
-import { Devs } from "@utils/constants";
+import {findGroupChildrenByChildId, NavContextMenuPatchCallback} from "@api/ContextMenu";
+import {Flex} from "@components/Flex";
+import {OpenExternalIcon} from "@components/Icons";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Menu } from "@webpack/common";
+import {Menu} from "@webpack/common";
 
 const Engines = {
     Google: "https://lens.google.com/uploadbyurl?url=",
@@ -41,7 +41,7 @@ function makeSearchItem(src: string) {
                         key={key}
                         id={key}
                         label={
-                            <Flex style={{ alignItems: "center", gap: "0.5em" }}>
+                            <Flex style={{alignItems: "center", gap: "0.5em"}}>
                                 <img
                                     style={{
                                         borderRadius: "50%",
@@ -62,8 +62,8 @@ function makeSearchItem(src: string) {
                 key="search-image-all"
                 id="search-image-all"
                 label={
-                    <Flex style={{ alignItems: "center", gap: "0.5em" }}>
-                        <OpenExternalIcon height={16} width={16} />
+                    <Flex style={{alignItems: "center", gap: "0.5em"}}>
+                        <OpenExternalIcon height={16} width={16}/>
                         All
                     </Flex>
                 }

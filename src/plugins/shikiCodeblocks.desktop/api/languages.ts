@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ILanguageRegistration } from "@vap/shiki";
+import {ILanguageRegistration} from "@vap/shiki";
 
 export const VPC_REPO = "Vap0r1ze/vapcord";
 export const VPC_REPO_COMMIT = "4d0e4b420fb1e4358852bbd18c804a6f5e54c0d7";
@@ -24,6 +24,7 @@ export interface Language {
     aliases?: string[];
     custom?: boolean;
 }
+
 export interface LanguageJson {
     name: string;
     id: string;
@@ -52,6 +53,7 @@ export const getGrammar = (lang: Language): Promise<NonNullable<ILanguageRegistr
 };
 
 const aliasCache = new Map<string, Language>();
+
 export function resolveLang(idOrAlias: string) {
     if (Object.prototype.hasOwnProperty.call(languages, idOrAlias)) return languages[idOrAlias];
 

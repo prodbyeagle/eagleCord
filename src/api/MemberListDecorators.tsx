@@ -7,8 +7,8 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Channel, User } from "@vencord/discord-types";
-import { JSX } from "react";
+import {Channel, User} from "@vencord/discord-types";
+import {JSX} from "react";
 
 interface DecoratorProps {
     type: "guild" | "dm";
@@ -25,7 +25,7 @@ type OnlyIn = "guilds" | "dms";
 export const decoratorsFactories = new Map<string, { render: MemberListDecoratorFactory, onlyIn?: OnlyIn; }>();
 
 export function addMemberListDecorator(identifier: string, render: MemberListDecoratorFactory, onlyIn?: OnlyIn) {
-    decoratorsFactories.set(identifier, { render, onlyIn });
+    decoratorsFactories.set(identifier, {render, onlyIn});
 }
 
 export function removeMemberListDecorator(identifier: string) {
@@ -35,13 +35,13 @@ export function removeMemberListDecorator(identifier: string) {
 export function __getDecorators(props: DecoratorProps, type: "guild" | "dm"): JSX.Element {
     const decorators = Array.from(
         decoratorsFactories.entries(),
-        ([key, { render: Decorator, onlyIn }]) => {
+        ([key, {render: Decorator, onlyIn}]) => {
             if ((onlyIn === "guilds" && type !== "guild") || (onlyIn === "dms" && type !== "dm"))
                 return null;
 
             return (
                 <ErrorBoundary noop key={key} message={`Failed to render ${key} Member List Decorator`}>
-                    <Decorator {...props} type={type} />
+                    <Decorator {...props} type={type}/>
                 </ErrorBoundary>
             );
         }

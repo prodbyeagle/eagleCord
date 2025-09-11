@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Channel, Message, User } from "@vencord/discord-types";
-import { findByCodeLazy } from "@webpack";
-import { FluxDispatcher, RestAPI } from "@webpack/common";
+import {Channel, Message, User} from "@vencord/discord-types";
+import {findByCodeLazy} from "@webpack";
+import {FluxDispatcher, RestAPI} from "@webpack/common";
 
 const enum ReferencedMessageState {
     Loaded,
@@ -58,7 +58,7 @@ export default definePlugin({
     },
 
     async fetchReply(reply: Reply) {
-        const { channel_id: channelId, message_id: messageId } = reply.baseMessage.messageReference!;
+        const {channel_id: channelId, message_id: messageId} = reply.baseMessage.messageReference!;
 
         if (fetching.has(messageId)) {
             return;
@@ -99,7 +99,8 @@ export default definePlugin({
                     });
                 }
             })
-            .catch(() => { })
+            .catch(() => {
+            })
             .finally(() => {
                 fetching.delete(messageId);
             });

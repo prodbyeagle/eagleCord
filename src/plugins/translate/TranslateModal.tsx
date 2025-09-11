@@ -6,21 +6,24 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Margins } from "@utils/margins";
-import { ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot } from "@utils/modal";
-import { Forms, SearchableSelect, Switch, useMemo } from "@webpack/common";
+import {Margins} from "@utils/margins";
+import {ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot} from "@utils/modal";
+import {Forms, SearchableSelect, Switch, useMemo} from "@webpack/common";
 
-import { settings } from "./settings";
-import { cl, getLanguages } from "./utils";
+import {settings} from "./settings";
+import {cl, getLanguages} from "./utils";
 
 const LanguageSettingKeys = ["receivedInput", "receivedOutput", "sentInput", "sentOutput"] as const;
 
-function LanguageSelect({ settingsKey, includeAuto }: { settingsKey: typeof LanguageSettingKeys[number]; includeAuto: boolean; }) {
+function LanguageSelect({settingsKey, includeAuto}: {
+    settingsKey: typeof LanguageSettingKeys[number];
+    includeAuto: boolean;
+}) {
     const currentValue = settings.use([settingsKey])[settingsKey];
 
     const options = useMemo(
         () => {
-            const options = Object.entries(getLanguages()).map(([value, label]) => ({ value, label }));
+            const options = Object.entries(getLanguages()).map(([value, label]) => ({value, label}));
             if (!includeAuto)
                 options.shift();
 
@@ -62,14 +65,14 @@ function AutoTranslateToggle() {
 }
 
 
-export function TranslateModal({ rootProps }: { rootProps: ModalProps; }) {
+export function TranslateModal({rootProps}: { rootProps: ModalProps; }) {
     return (
         <ModalRoot {...rootProps}>
             <ModalHeader className={cl("modal-header")}>
                 <Forms.FormTitle tag="h2" className={cl("modal-title")}>
                     Translate
                 </Forms.FormTitle>
-                <ModalCloseButton onClick={rootProps.onClose} />
+                <ModalCloseButton onClick={rootProps.onClose}/>
             </ModalHeader>
 
             <ModalContent className={cl("modal-content")}>
@@ -81,9 +84,9 @@ export function TranslateModal({ rootProps }: { rootProps: ModalProps; }) {
                     />
                 ))}
 
-                <Forms.FormDivider className={Margins.bottom16} />
+                <Forms.FormDivider className={Margins.bottom16}/>
 
-                <AutoTranslateToggle />
+                <AutoTranslateToggle/>
             </ModalContent>
         </ModalRoot>
     );

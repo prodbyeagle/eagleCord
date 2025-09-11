@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { IShikiTheme } from "@vap/shiki";
+import {IShikiTheme} from "@vap/shiki";
 
 export const SHIKI_REPO = "shikijs/textmate-grammars-themes";
 export const SHIKI_REPO_COMMIT = "2d87559c7601a928b9f7e0f0dda243d2fb6d4499";

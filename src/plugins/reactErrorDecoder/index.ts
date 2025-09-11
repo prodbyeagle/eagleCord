@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { React } from "@webpack/common";
+import {React} from "@webpack/common";
 
 let ERROR_CODES: Record<string, string> | undefined;
 

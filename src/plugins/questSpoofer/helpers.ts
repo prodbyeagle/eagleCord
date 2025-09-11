@@ -6,27 +6,27 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { RestAPI } from "@webpack/common";
+import {RestAPI} from "@webpack/common";
 
-import { QuestSpooferLogger } from "./constants";
+import {QuestSpooferLogger} from "./constants";
 
 export async function postVideoProgress(questId: string, timestamp: number) {
     return RestAPI.post({
         url: `/quests/${questId}/video-progress`,
-        body: { timestamp },
+        body: {timestamp},
     });
 }
 
 export async function postActivityHeartbeat(questId: string, streamKey: string, terminal = false) {
     return RestAPI.post({
         url: `/quests/${questId}/heartbeat`,
-        body: { stream_key: streamKey, terminal }
+        body: {stream_key: streamKey, terminal}
     });
 }
 
 export async function fetchQuests() {
     try {
-        const res = await RestAPI.get({ url: "/quests/@me" });
+        const res = await RestAPI.get({url: "/quests/@me"});
         const quests = res.body?.quests ?? [];
 
         return quests.filter(q => {

@@ -6,23 +6,23 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ErrorCard } from "@components/ErrorCard";
-import { Flex } from "@components/Flex";
-import { Link } from "@components/Link";
-import { Margins } from "@utils/margins";
-import { classes } from "@utils/misc";
-import { relaunch } from "@utils/native";
-import { changes, checkForUpdates, update, updateError } from "@utils/updater";
-import { Alerts, Button, Card, Forms, React, Toasts, useState } from "@webpack/common";
+import {ErrorCard} from "@components/ErrorCard";
+import {Flex} from "@components/Flex";
+import {Link} from "@components/Link";
+import {Margins} from "@utils/margins";
+import {classes} from "@utils/misc";
+import {relaunch} from "@utils/native";
+import {changes, checkForUpdates, update, updateError} from "@utils/updater";
+import {Alerts, Button, Card, Forms, React, Toasts, useState} from "@webpack/common";
 
-import { runWithDispatch } from "./runWithDispatch";
+import {runWithDispatch} from "./runWithDispatch";
 
 export interface CommonProps {
     repo: string;
     repoPending: boolean;
 }
 
-export function HashLink({ repo, hash, disabled = false }: { repo: string, hash: string, disabled?: boolean; }) {
+export function HashLink({repo, hash, disabled = false}: { repo: string, hash: string, disabled?: boolean; }) {
     return (
         <Link href={`${repo}/commit/${hash}`} disabled={disabled}>
             {hash}
@@ -30,10 +30,10 @@ export function HashLink({ repo, hash, disabled = false }: { repo: string, hash:
     );
 }
 
-export function Changes({ updates, repo, repoPending }: CommonProps & { updates: typeof changes; }) {
+export function Changes({updates, repo, repoPending}: CommonProps & { updates: typeof changes; }) {
     return (
-        <Card style={{ padding: "0 0.5em" }}>
-            {updates.map(({ hash, author, message }) => (
+        <Card style={{padding: "0 0.5em"}}>
+            {updates.map(({hash, author, message}) => (
                 <div
                     key={hash}
                     style={{
@@ -42,7 +42,7 @@ export function Changes({ updates, repo, repoPending }: CommonProps & { updates:
                     }}
                 >
                     <code>
-                        <HashLink {...{ repo, hash }} disabled={repoPending} />
+                        <HashLink {...{repo, hash}} disabled={repoPending}/>
                     </code>
 
                     <span style={{
@@ -63,7 +63,7 @@ export function Newer(props: CommonProps) {
             <Forms.FormText className={Margins.bottom8}>
                 Your local copy has more recent commits. Please stash or reset them.
             </Forms.FormText>
-            <Changes {...props} updates={changes} />
+            <Changes {...props} updates={changes}/>
         </>
     );
 }
@@ -80,7 +80,7 @@ export function Updatable(props: CommonProps) {
             {!updates && updateError ? (
                 <>
                     <Forms.FormText>Failed to check updates. Check the console for more info</Forms.FormText>
-                    <ErrorCard style={{ padding: "1em" }}>
+                    <ErrorCard style={{padding: "1em"}}>
                         <p>{updateError.stderr || updateError.stdout || "An unknown error occurred"}</p>
                     </ErrorCard>
                 </>

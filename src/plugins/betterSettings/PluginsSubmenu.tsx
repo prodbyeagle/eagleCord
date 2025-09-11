@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { openPluginModal } from "@components/settings/tabs";
-import { getIntlMessage } from "@utils/discord";
-import { isObjectEmpty } from "@utils/misc";
-import { Alerts, Menu, useMemo, useState } from "@webpack/common";
+import {openPluginModal} from "@components/settings/tabs";
+import {getIntlMessage} from "@utils/discord";
+import {isObjectEmpty} from "@utils/misc";
+import {Alerts, Menu, useMemo, useState} from "@webpack/common";
 
 import Plugins from "~plugins";
 
@@ -56,7 +56,7 @@ export default function PluginsSubmenu() {
                 )}
             />
 
-            {!!plugins.length && <Menu.MenuSeparator />}
+            {!!plugins.length && <Menu.MenuSeparator/>}
 
             {plugins.map(p => (
                 <Menu.MenuItem

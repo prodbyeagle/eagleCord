@@ -8,13 +8,13 @@
 
 import "./style.css";
 
-import { addMemberListDecorator, removeMemberListDecorator } from "@api/MemberListDecorators";
-import { addMessageDecoration, removeMessageDecoration } from "@api/MessageDecorations";
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
+import {addMemberListDecorator, removeMemberListDecorator} from "@api/MemberListDecorators";
+import {addMessageDecoration, removeMessageDecoration} from "@api/MessageDecorations";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
 
-import { VoiceChannelIndicator } from "./components";
+import {VoiceChannelIndicator} from "./components";
 
 const settings = definePluginSettings({
     showInUserProfileModal: {
@@ -86,10 +86,12 @@ export default definePlugin({
 
     start() {
         if (settings.store.showInMemberList) {
-            addMemberListDecorator("UserVoiceShow", ({ user }) => user == null ? null : <VoiceChannelIndicator userId={user.id} />);
+            addMemberListDecorator("UserVoiceShow", ({user}) => user == null ? null :
+                <VoiceChannelIndicator userId={user.id}/>);
         }
         if (settings.store.showInMessages) {
-            addMessageDecoration("UserVoiceShow", ({ message }) => message?.author == null ? null : <VoiceChannelIndicator userId={message.author.id} />);
+            addMessageDecoration("UserVoiceShow", ({message}) => message?.author == null ? null :
+                <VoiceChannelIndicator userId={message.author.id}/>);
         }
     },
 

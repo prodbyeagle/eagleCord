@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { LazyComponent } from "@utils/react";
-import { filters, findByCodeLazy, mapMangledModuleLazy } from "@webpack";
-import type { ComponentType, PropsWithChildren, ReactNode, Ref } from "react";
+import {LazyComponent} from "@utils/react";
+import {filters, findByCodeLazy, mapMangledModuleLazy} from "@webpack";
+import type {ComponentType, PropsWithChildren, ReactNode, Ref} from "react";
 
 export const enum ModalSize {
     SMALL = "small",
@@ -27,6 +27,7 @@ const enum ModalTransitionState {
 
 export interface ModalProps {
     transitionState: ModalTransitionState;
+
     onClose(): void;
 }
 
@@ -138,7 +139,9 @@ interface ModalAPI {
      * This is equivalent to render().then(openModal)
      * You should use the Modal components exported by this file
      */
-    openModalLazy: (render: () => Promise<RenderFunction>, options?: ModalOptions & { contextKey?: string; }) => Promise<string>;
+    openModalLazy: (render: () => Promise<RenderFunction>, options?: ModalOptions & {
+        contextKey?: string;
+    }) => Promise<string>;
     /**
      * Open a Modal with the given render function.
      * You should use the Modal components exported by this file
@@ -161,4 +164,4 @@ export const ModalAPI: ModalAPI = mapMangledModuleLazy(".modalKey?", {
     closeAllModals: filters.byCode(".getState();for")
 });
 
-export const { openModalLazy, openModal, closeModal, closeAllModals } = ModalAPI;
+export const {openModalLazy, openModal, closeModal, closeAllModals} = ModalAPI;

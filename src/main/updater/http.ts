@@ -6,17 +6,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { fetchBuffer, fetchJson } from "@main/utils/http";
-import { IpcEvents } from "@shared/IpcEvents";
-import { VENCORD_USER_AGENT } from "@shared/vencordUserAgent";
-import { ipcMain } from "electron";
-import { writeFile } from "fs/promises";
-import { join } from "path";
+import {fetchBuffer, fetchJson} from "@main/utils/http";
+import {IpcEvents} from "@shared/IpcEvents";
+import {VENCORD_USER_AGENT} from "@shared/vencordUserAgent";
+import {ipcMain} from "electron";
+import {writeFile} from "fs/promises";
+import {join} from "path";
 
 import gitHash from "~git-hash";
 import gitRemote from "~git-remote";
 
-import { serializeErrors, VENCORD_FILES } from "./common";
+import {serializeErrors, VENCORD_FILES} from "./common";
 
 const API_BASE = `https://api.github.com/repos/${gitRemote}`;
 let PendingUpdates = [] as [string, string][];
@@ -53,7 +53,7 @@ async function fetchUpdates() {
     if (hash === gitHash)
         return false;
 
-    data.assets.forEach(({ name, browser_download_url }) => {
+    data.assets.forEach(({name, browser_download_url}) => {
         if (VENCORD_FILES.some(s => name.startsWith(s))) {
             PendingUpdates.push([name, browser_download_url]);
         }

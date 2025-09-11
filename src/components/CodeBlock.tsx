@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { findByPropsLazy } from "@webpack";
-import { Parser } from "@webpack/common";
+import {findByPropsLazy} from "@webpack";
+import {Parser} from "@webpack/common";
 
 const CodeContainerClasses = findByPropsLazy("markup", "codeContainer");
 

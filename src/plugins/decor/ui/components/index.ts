@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { findComponentByCode, LazyComponentWebpack } from "@webpack";
-import { React } from "@webpack/common";
-import type { ComponentType, HTMLProps, PropsWithChildren } from "react";
+import {findComponentByCode, LazyComponentWebpack} from "@webpack";
+import {React} from "@webpack/common";
+import type {ComponentType, HTMLProps, PropsWithChildren} from "react";
 
-import { AvatarDecoration } from "../..";
+import {AvatarDecoration} from "../..";
 
 type DecorationGridItemComponent = ComponentType<PropsWithChildren<HTMLProps<HTMLDivElement>> & {
     onSelect: () => void,

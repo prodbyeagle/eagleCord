@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { classNameFactory } from "@api/Styles";
-import { Toasts, UserStore } from "@webpack/common";
+import {classNameFactory} from "@api/Styles";
+import {Toasts, UserStore} from "@webpack/common";
 
-import { Auth } from "./auth";
-import { Review, UserType } from "./entities";
+import {Auth} from "./auth";
+import {Review, UserType} from "./entities";
 
 export const cl = classNameFactory("vc-rdb-");
 

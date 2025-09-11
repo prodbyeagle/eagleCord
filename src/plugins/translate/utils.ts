@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { classNameFactory } from "@api/Styles";
-import { onlyOnce } from "@utils/onlyOnce";
-import { PluginNative } from "@utils/types";
-import { showToast, Toasts } from "@webpack/common";
+import {classNameFactory} from "@api/Styles";
+import {onlyOnce} from "@utils/onlyOnce";
+import {PluginNative} from "@utils/types";
+import {showToast, Toasts} from "@webpack/common";
 
-import { DeeplLanguages, deeplLanguageToGoogleLanguage, GoogleLanguages } from "./languages";
-import { resetLanguageDefaults, settings } from "./settings";
+import {DeeplLanguages, deeplLanguageToGoogleLanguage, GoogleLanguages} from "./languages";
+import {resetLanguageDefaults, settings} from "./settings";
 
 export const cl = classNameFactory("vc-trans-");
 
@@ -80,7 +80,7 @@ async function googleTranslate(text: string, sourceLang: string, targetLang: str
             + `\n${res.status} ${res.statusText}`
         );
 
-    const { sourceLanguage, translation }: GoogleData = await res.json();
+    const {sourceLanguage, translation}: GoogleData = await res.json();
 
     return {
         sourceLanguage: GoogleLanguages[sourceLanguage] ?? sourceLanguage,
@@ -111,7 +111,7 @@ async function deeplTranslate(text: string, sourceLang: string, targetLang: stri
     }
 
     // CORS jumpscare
-    const { status, data } = await Native.makeDeeplTranslateRequest(
+    const {status, data} = await Native.makeDeeplTranslateRequest(
         settings.store.service === "deepl-pro",
         settings.store.deeplApiKey,
         JSON.stringify({
@@ -135,7 +135,7 @@ async function deeplTranslate(text: string, sourceLang: string, targetLang: stri
             throw new Error(`Failed to translate "${text}" (${sourceLang} -> ${targetLang})\n${status} ${data}`);
     }
 
-    const { translations }: DeeplData = JSON.parse(data);
+    const {translations}: DeeplData = JSON.parse(data);
     const src = translations[0].detected_source_language;
 
     return {

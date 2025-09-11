@@ -7,13 +7,13 @@
  */
 
 import * as DataStore from "@api/DataStore";
-import { showNotification } from "@api/Notifications";
-import { Settings } from "@api/Settings";
-import { Alerts, OAuth2AuthorizeModal, UserStore } from "@webpack/common";
+import {showNotification} from "@api/Notifications";
+import {Settings} from "@api/Settings";
+import {Alerts, OAuth2AuthorizeModal, UserStore} from "@webpack/common";
 
-import { Logger } from "./Logger";
-import { openModal } from "./modal";
-import { relaunch } from "./native";
+import {Logger} from "./Logger";
+import {openModal} from "./modal";
+import {relaunch} from "./native";
 
 export const cloudLogger = new Logger("Cloud", "#39b7e0");
 
@@ -23,7 +23,7 @@ const getCloudUrlOrigin = () => getCloudUrl().origin;
 export async function checkCloudUrlCsp() {
     if (IS_WEB) return true;
 
-    const { host } = getCloudUrl();
+    const {host} = getCloudUrl();
     if (host === "api.vencord.dev") return true;
 
     if (await VencordNative.csp.isDomainAllowed(Settings.cloud.url, ["connect-src"])) {
@@ -97,7 +97,7 @@ export async function authorizeCloud() {
 
     try {
         const oauthConfiguration = await fetch(new URL("/v1/oauth/settings", getCloudUrl()));
-        var { clientId, redirectUri } = await oauthConfiguration.json();
+        var {clientId, redirectUri} = await oauthConfiguration.json();
     } catch {
         showNotification({
             title: "Cloud Integration",
@@ -115,7 +115,7 @@ export async function authorizeCloud() {
         permissions={0n}
         clientId={clientId}
         cancelCompletesFlow={false}
-        callback={async ({ location }: any) => {
+        callback={async ({location}: any) => {
             if (!location) {
                 Settings.cloud.authenticated = false;
                 return;
@@ -123,9 +123,9 @@ export async function authorizeCloud() {
 
             try {
                 const res = await fetch(location, {
-                    headers: { Accept: "application/json" }
+                    headers: {Accept: "application/json"}
                 });
-                const { secret } = await res.json();
+                const {secret} = await res.json();
                 if (secret) {
                     cloudLogger.info("Authorized with secret");
                     await setAuthorization(secret);

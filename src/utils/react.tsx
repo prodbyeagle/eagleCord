@@ -6,13 +6,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { checkIntersecting } from "@utils/misc";
-import { React, useEffect, useMemo, useReducer, useState } from "@webpack/common";
-import { ActionDispatch } from "react";
+import {React, useEffect, useMemo, useReducer, useState} from "@webpack/common";
+import {ActionDispatch, ReactNode} from "react";
+
+import {checkIntersecting} from "./misc";
 
 export * from "./lazyReact";
 
 export const NoopComponent = () => null;
+
+/**
+ * Check if a React node is a primitive (string, number, bigint, boolean, undefined)
+ */
+export function isPrimitiveReactNode(node: ReactNode): boolean {
+    const t = typeof node;
+    return t === "string" || t === "number" || t === "bigint" || t === "boolean" || t === "undefined";
+}
 
 /**
  * Check if an element is on screen
@@ -56,12 +65,16 @@ export const useIntersection = (intersectOnly = false): [
 };
 
 type AwaiterRes<T> = [T, any, boolean];
+
 interface AwaiterOpts<T> {
     fallbackValue: T;
     deps?: unknown[];
+
     onError?(e: any): void;
+
     onSuccess?(value: T): void;
 }
+
 /**
  * Await a promise
  * @param factory Factory
@@ -84,17 +97,17 @@ export function useAwaiter<T>(factory: () => Promise<T>, providedOpts?: AwaiterO
 
     useEffect(() => {
         let isAlive = true;
-        if (!state.pending) setState({ ...state, pending: true });
+        if (!state.pending) setState({...state, pending: true});
 
         factory()
             .then(value => {
                 if (!isAlive) return;
-                setState({ value, error: null, pending: false });
+                setState({value, error: null, pending: false});
                 opts.onSuccess?.(value);
             })
             .catch(error => {
                 if (!isAlive) return;
-                setState({ value: null, error, pending: false });
+                setState({value: null, error, pending: false});
                 opts.onError?.(error);
             });
 
@@ -119,7 +132,7 @@ interface TimerOpts {
     deps?: unknown[];
 }
 
-export function useTimer({ interval = 1000, deps = [] }: TimerOpts) {
+export function useTimer({interval = 1000, deps = []}: TimerOpts) {
     const [time, setTime] = useState(0);
     const start = useMemo(() => Date.now(), deps);
 

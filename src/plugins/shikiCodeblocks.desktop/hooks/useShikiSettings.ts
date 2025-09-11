@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { React } from "@webpack/common";
+import {React} from "@webpack/common";
 
-import { shiki } from "../api/shiki";
-import { settings as pluginSettings, ShikiSettings } from "../settings";
+import {shiki} from "../api/shiki";
+import {settings as pluginSettings, ShikiSettings} from "../settings";
 
 export function useShikiSettings<F extends keyof ShikiSettings>(settingKeys: F[]) {
     const settings = pluginSettings.use([...settingKeys, "customTheme", "theme"]);

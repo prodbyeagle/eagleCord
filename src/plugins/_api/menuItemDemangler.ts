@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
-import { canonicalizeMatch } from "@utils/patches";
+import {Devs} from "@utils/constants";
+import {canonicalizeMatch} from "@utils/patches";
 import definePlugin from "@utils/types";
 
 // duplicate values have multiple branches with different types. Just include all to be safe

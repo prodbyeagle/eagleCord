@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { useAwaiter, useForceUpdater } from "@utils/react";
-import { findByCodeLazy, findByPropsLazy, findComponentByCodeLazy } from "@webpack";
-import { Forms, React, RelationshipStore, useRef, UserStore } from "@webpack/common";
+import {useAwaiter, useForceUpdater} from "@utils/react";
+import {findByCodeLazy, findByPropsLazy, findComponentByCodeLazy} from "@webpack";
+import {Forms, React, RelationshipStore, useRef, UserStore} from "@webpack/common";
 
-import { Auth, authorize } from "../auth";
-import { Review, ReviewType } from "../entities";
-import { addReview, getReviews, Response, REVIEWS_PER_PAGE } from "../reviewDbApi";
-import { settings } from "../settings";
-import { cl, showToast } from "../utils";
+import {Auth, authorize} from "../auth";
+import {Review, ReviewType} from "../entities";
+import {addReview, getReviews, Response, REVIEWS_PER_PAGE} from "../reviewDbApi";
+import {settings} from "../settings";
+import {cl, showToast} from "../utils";
 import ReviewComponent from "./ReviewComponent";
 
 const Transforms = findByPropsLazy("insertNodes", "textToText");
@@ -30,25 +30,28 @@ interface UserProps {
 
 interface Props extends UserProps {
     onFetchReviews(data: Response): void;
+
     refetchSignal?: unknown;
     showInput?: boolean;
     page?: number;
+
     scrollToTop?(): void;
+
     hideOwnReview?: boolean;
     type: ReviewType;
 }
 
 export default function ReviewsView({
-    discordId,
-    name,
-    onFetchReviews,
-    refetchSignal,
-    scrollToTop,
-    page = 1,
-    showInput = false,
-    hideOwnReview = false,
-    type,
-}: Props) {
+                                        discordId,
+                                        name,
+                                        onFetchReviews,
+                                        refetchSignal,
+                                        scrollToTop,
+                                        page = 1,
+                                        showInput = false,
+                                        hideOwnReview = false,
+                                        type,
+                                    }: Props) {
     const [signal, refetch] = useForceUpdater(true);
 
     const [reviewData] = useAwaiter(() => getReviews(discordId, (page - 1) * REVIEWS_PER_PAGE), {
@@ -87,7 +90,13 @@ export default function ReviewsView({
     );
 }
 
-function ReviewList({ refetch, reviews, hideOwnReview, profileId, type }: { refetch(): void; reviews: Review[]; hideOwnReview: boolean; profileId: string; type: ReviewType; }) {
+function ReviewList({refetch, reviews, hideOwnReview, profileId, type}: {
+    refetch(): void;
+    reviews: Review[];
+    hideOwnReview: boolean;
+    profileId: string;
+    type: ReviewType;
+}) {
     const myId = UserStore.getCurrentUser().id;
 
     return (
@@ -104,7 +113,8 @@ function ReviewList({ refetch, reviews, hideOwnReview, profileId, type }: { refe
 
             {reviews?.length === 0 && (
                 <Forms.FormText className={cl("placeholder")}>
-                    Looks like nobody reviewed this {type === ReviewType.User ? "user" : "server"} yet. You could be the first!
+                    Looks like nobody reviewed this {type === ReviewType.User ? "user" : "server"} yet. You could be the
+                    first!
                 </Forms.FormText>
             )}
         </div>
@@ -113,14 +123,20 @@ function ReviewList({ refetch, reviews, hideOwnReview, profileId, type }: { refe
 
 
 export function ReviewsInputComponent(
-    { discordId, isAuthor, refetch, name, modalKey }: { discordId: string, name: string; isAuthor: boolean; refetch(): void; modalKey?: string; }
+    {discordId, isAuthor, refetch, name, modalKey}: {
+        discordId: string,
+        name: string;
+        isAuthor: boolean;
+        refetch(): void;
+        modalKey?: string;
+    }
 ) {
-    const { token } = Auth;
+    const {token} = Auth;
     const editorRef = useRef<any>(null);
     const inputType = ChatInputTypes.USER_PROFILE_REPLY;
     inputType.disableAutoFocus = true;
 
-    const channel = createChannelRecordFromServer({ id: "0", type: 1 });
+    const channel = createChannelRecordFromServer({id: "0", type: 1});
 
     return (
         <>

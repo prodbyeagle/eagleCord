@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { useSettings } from "@api/Settings";
-import { Margins } from "@utils/margins";
-import { identity } from "@utils/misc";
-import { Forms, Select } from "@webpack/common";
+import {useSettings} from "@api/Settings";
+import {Margins} from "@utils/margins";
+import {identity} from "@utils/misc";
+import {Forms, Select} from "@webpack/common";
 
 export function VibrancySettings() {
     const settings = useSettings(["macosVibrancyStyle"]);
@@ -76,7 +76,7 @@ export function VibrancySettings() {
                 ]}
                 select={v => settings.macosVibrancyStyle = v}
                 isSelected={v => settings.macosVibrancyStyle === v}
-                serialize={identity} />
+                serialize={identity}/>
         </>
     );
 }

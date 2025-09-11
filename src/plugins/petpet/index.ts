@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ApplicationCommandInputType, ApplicationCommandOptionType, findOption, sendBotMessage } from "@api/Commands";
-import { Devs } from "@utils/constants";
-import { makeLazy } from "@utils/lazy";
+import {ApplicationCommandInputType, ApplicationCommandOptionType, findOption, sendBotMessage} from "@api/Commands";
+import {Devs} from "@utils/constants";
+import {makeLazy} from "@utils/lazy";
 import definePlugin from "@utils/types";
-import { CommandArgument, CommandContext } from "@vencord/discord-types";
-import { findByPropsLazy } from "@webpack";
-import { DraftType, UploadHandler, UploadManager, UserUtils } from "@webpack/common";
-import { applyPalette, GIFEncoder, quantize } from "gifenc";
+import {CommandArgument, CommandContext} from "@vencord/discord-types";
+import {findByPropsLazy} from "@webpack";
+import {DraftType, UploadHandler, UploadManager, UserUtils} from "@webpack/common";
+import {applyPalette, GIFEncoder, quantize} from "gifenc";
 
 const DEFAULT_DELAY = 20;
 const DEFAULT_RESOLUTION = 128;
@@ -21,7 +21,7 @@ const FRAMES = 10;
 
 const getFrames = makeLazy(() => Promise.all(
     Array.from(
-        { length: FRAMES },
+        {length: FRAMES},
         (_, i) => loadImage(`https://raw.githubusercontent.com/VenPlugs/petpet/main/frames/pet${i}.gif`)
     ))
 );
@@ -156,7 +156,7 @@ export default definePlugin({
                     ctx.drawImage(avatar, offsetX * resolution, offsetY * resolution, width * resolution, height * resolution);
                     ctx.drawImage(frames[i], 0, 0, resolution, resolution);
 
-                    const { data } = ctx.getImageData(0, 0, resolution, resolution);
+                    const {data} = ctx.getImageData(0, 0, resolution, resolution);
                     const palette = quantize(data, 256);
                     const index = applyPalette(data, palette);
 
@@ -170,7 +170,7 @@ export default definePlugin({
                 gif.finish();
                 // @ts-ignore This causes a type error on *only some* typescript versions.
                 // usage adheres to mdn https://developer.mozilla.org/en-US/docs/Web/API/File/File#parameters
-                const file = new File([gif.bytesView()], "petpet.gif", { type: "image/gif" });
+                const file = new File([gif.bytesView()], "petpet.gif", {type: "image/gif"});
                 // Immediately after the command finishes, Discord clears all input, including pending attachments.
                 // Thus, setTimeout is needed to make this execute after Discord cleared the input
                 setTimeout(() => UploadHandler.promptToUpload([file], cmdCtx.channel, DraftType.ChannelMessage), 10);

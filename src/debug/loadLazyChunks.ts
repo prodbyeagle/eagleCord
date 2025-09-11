@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Logger } from "@utils/Logger";
-import { canonicalizeMatch } from "@utils/patches";
-import { ModuleFactory } from "@vencord/discord-types/webpack";
+import {Logger} from "@utils/Logger";
+import {canonicalizeMatch} from "@utils/patches";
+import {ModuleFactory} from "@vencord/discord-types/webpack";
 import * as Webpack from "@webpack";
-import { wreq } from "@webpack";
-import { AnyModuleFactory } from "webpack";
+import {wreq} from "@webpack";
+import {AnyModuleFactory} from "webpack";
 
 export async function loadLazyChunks() {
     const LazyChunkLoaderLogger = new Logger("LazyChunkLoader");
@@ -23,7 +23,7 @@ export async function loadLazyChunks() {
         const invalidChunks = new Set<PropertyKey>();
         const deferredRequires = new Set<PropertyKey>();
 
-        const { promise: chunksSearchingDone, resolve: chunksSearchingResolve } = Promise.withResolvers<void>();
+        const {promise: chunksSearchingDone, resolve: chunksSearchingResolve} = Promise.withResolvers<void>();
 
         // True if resolved, false otherwise
         const chunksSearchPromises = [] as Array<() => boolean>;

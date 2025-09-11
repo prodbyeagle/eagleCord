@@ -8,11 +8,11 @@
 
 import "./AddonCard.css";
 
-import { classNameFactory } from "@api/Styles";
-import { AddonBadge } from "@components/settings/PluginBadge";
-import { Switch } from "@components/settings/Switch";
-import { Text, useRef } from "@webpack/common";
-import type { MouseEventHandler, ReactNode } from "react";
+import {classNameFactory} from "@api/Styles";
+import {AddonBadge} from "@components/settings/PluginBadge";
+import {Switch} from "@components/settings/Switch";
+import {Text, useRef} from "@webpack/common";
+import type {MouseEventHandler, ReactNode} from "react";
 
 const cl = classNameFactory("vc-addon-");
 
@@ -32,13 +32,26 @@ interface Props {
     author?: ReactNode;
 }
 
-export function AddonCard({ disabled, isNew, isEagleCord, name, infoButton, footer, author, enabled, setEnabled, description, onMouseEnter, onMouseLeave }: Props) {
+export function AddonCard({
+                              disabled,
+                              isNew,
+                              isEagleCord,
+                              name,
+                              infoButton,
+                              footer,
+                              author,
+                              enabled,
+                              setEnabled,
+                              description,
+                              onMouseEnter,
+                              onMouseLeave
+                          }: Props) {
     const titleRef = useRef<HTMLDivElement>(null);
     const titleContainerRef = useRef<HTMLDivElement>(null);
 
     return (
         <div
-            className={cl("card", { "card-disabled": disabled })}
+            className={cl("card", {"card-disabled": disabled})}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
         >
@@ -60,8 +73,8 @@ export function AddonCard({ disabled, isNew, isEagleCord, name, infoButton, foot
                                 {name}
                             </div>
                         </div>
-                        {isEagleCord && <AddonBadge text="🦅" color="#bf7e74" />}
-                        {isNew && <AddonBadge text="NEW" color="#ED4245" />}
+                        {isEagleCord && <AddonBadge text="🦅" color="#bf7e74"/>}
+                        {isNew && <AddonBadge text="NEW" color="#ED4245"/>}
                     </Text>
 
                     {!!author && (

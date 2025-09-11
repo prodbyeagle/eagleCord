@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Settings } from "@api/Settings";
-import { disableStyle, enableStyle } from "@api/Styles";
+import {Settings} from "@api/Settings";
+import {disableStyle, enableStyle} from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
 
 import hoverOnlyStyle from "./hoverOnly.css?managed";
-import { Player } from "./PlayerComponent";
+import {Player} from "./PlayerComponent";
 
 function toggleHoverControls(value: boolean) {
     (value ? enableStyle : disableStyle)(hoverOnlyStyle);
@@ -58,12 +58,12 @@ export default definePlugin({
                 match: /get:(\i)\.bind\(null,(\i\.\i)\.get\)/,
                 replace: "post:$1.bind(null,$2.post),vcSpotifyMarker:1,$&"
             },
-            {
-                // Spotify Connect API returns status 202 instead of 204 when skipping tracks.
-                // Discord rejects 202 which causes the request to send twice. This patch prevents this.
-                match: /202===\i\.status/,
-                replace: "false",
-            }]
+                {
+                    // Spotify Connect API returns status 202 instead of 204 when skipping tracks.
+                    // Discord rejects 202 which causes the request to send twice. This patch prevents this.
+                    match: /202===\i\.status/,
+                    replace: "false",
+                }]
         },
         {
             find: 'repeat:"off"!==',
@@ -83,18 +83,18 @@ export default definePlugin({
 
     start: () => toggleHoverControls(Settings.plugins.SpotifyControls.hoverControls),
 
-    PanelWrapper({ VencordOriginal, ...props }) {
+    PanelWrapper({VencordOriginal, ...props}) {
         return (
             <>
                 <ErrorBoundary
                     fallback={() => (
                         <div className="vc-spotify-fallback">
                             <p>Failed to render Spotify Modal :(</p>
-                            <p >Check the console for errors</p>
+                            <p>Check the console for errors</p>
                         </div>
                     )}
                 >
-                    <Player />
+                    <Player/>
                 </ErrorBoundary>
 
                 <VencordOriginal {...props} />

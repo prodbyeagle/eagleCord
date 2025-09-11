@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Flex } from "@components/Flex";
-import { DeleteIcon } from "@components/Icons";
-import { Link } from "@components/Link";
-import { AddonCard } from "@components/settings/AddonCard";
-import { UserThemeHeader } from "@main/themes";
-import { openInviteModal } from "@utils/discord";
-import { showToast } from "@webpack/common";
+import {Flex} from "@components/Flex";
+import {DeleteIcon} from "@components/Icons";
+import {Link} from "@components/Link";
+import {AddonCard} from "@components/settings/AddonCard";
+import {UserThemeHeader} from "@main/themes";
+import {openInviteModal} from "@utils/discord";
+import {showToast} from "@webpack/common";
 
 interface ThemeCardProps {
     theme: UserThemeHeader;
@@ -21,7 +21,7 @@ interface ThemeCardProps {
     onDelete: () => void;
 }
 
-export function ThemeCard({ theme, enabled, onChange, onDelete }: ThemeCardProps) {
+export function ThemeCard({theme, enabled, onChange, onDelete}: ThemeCardProps) {
     return (
         <AddonCard
             name={theme.name}
@@ -31,13 +31,13 @@ export function ThemeCard({ theme, enabled, onChange, onDelete }: ThemeCardProps
             setEnabled={onChange}
             infoButton={
                 IS_WEB && (
-                    <div style={{ cursor: "pointer", color: "var(--status-danger" }} onClick={onDelete}>
-                        <DeleteIcon />
+                    <div style={{cursor: "pointer", color: "var(--status-danger"}} onClick={onDelete}>
+                        <DeleteIcon/>
                     </div>
                 )
             }
             footer={
-                <Flex flexDirection="row" style={{ gap: "0.2em" }}>
+                <Flex flexDirection="row" style={{gap: "0.2em"}}>
                     {!!theme.website && <Link href={theme.website}>Website</Link>}
                     {!!(theme.website && theme.invite) && " • "}
                     {!!theme.invite && (

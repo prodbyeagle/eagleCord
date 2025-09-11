@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { Devs, IS_MAC } from "@utils/constants";
-import definePlugin, { OptionType, PluginNative, ReporterTestable } from "@utils/types";
-import { ApplicationAssetUtils, FluxDispatcher, Forms } from "@webpack/common";
+import {definePluginSettings} from "@api/Settings";
+import {Devs, IS_MAC} from "@utils/constants";
+import definePlugin, {OptionType, PluginNative, ReporterTestable} from "@utils/types";
+import {ApplicationAssetUtils, FluxDispatcher, Forms} from "@webpack/common";
 
 const Native = VencordNative.pluginHelpers.AppleMusicRichPresence as PluginNative<typeof import("./native")>;
 
@@ -88,8 +88,8 @@ const settings = definePluginSettings({
         type: OptionType.SELECT,
         description: "Which type of activity",
         options: [
-            { label: "Playing", value: ActivityType.PLAYING, default: true },
-            { label: "Listening", value: ActivityType.LISTENING }
+            {label: "Playing", value: ActivityType.PLAYING, default: true},
+            {label: "Listening", value: ActivityType.LISTENING}
         ],
     },
     refreshInterval: {
@@ -128,9 +128,9 @@ const settings = definePluginSettings({
         type: OptionType.SELECT,
         description: "Activity assets large image type",
         options: [
-            { label: "Album artwork", value: AssetImageType.Album, default: true },
-            { label: "Artist artwork", value: AssetImageType.Artist },
-            { label: "Disabled", value: AssetImageType.Disabled }
+            {label: "Album artwork", value: AssetImageType.Album, default: true},
+            {label: "Artist artwork", value: AssetImageType.Artist},
+            {label: "Disabled", value: AssetImageType.Disabled}
         ],
     },
     largeTextString: {
@@ -142,9 +142,9 @@ const settings = definePluginSettings({
         type: OptionType.SELECT,
         description: "Activity assets small image type",
         options: [
-            { label: "Album artwork", value: AssetImageType.Album },
-            { label: "Artist artwork", value: AssetImageType.Artist, default: true },
-            { label: "Disabled", value: AssetImageType.Disabled }
+            {label: "Album artwork", value: AssetImageType.Album},
+            {label: "Artist artwork", value: AssetImageType.Artist, default: true},
+            {label: "Disabled", value: AssetImageType.Disabled}
         ],
     },
     smallTextString: {
@@ -181,8 +181,10 @@ export default definePlugin({
     settingsAboutComponent() {
         return <>
             <Forms.FormText>
-                For the customizable activity format strings, you can use several special strings to include track data in activities!{" "}
-                <code>{"{name}"}</code> is replaced with the track name; <code>{"{artist}"}</code> is replaced with the artist(s)' name(s); and <code>{"{album}"}</code> is replaced with the album name.
+                For the customizable activity format strings, you can use several special strings to include track data
+                in activities!{" "}
+                <code>{"{name}"}</code> is replaced with the track name; <code>{"{artist}"}</code> is replaced with the
+                artist(s)' name(s); and <code>{"{album}"}</code> is replaced with the album name.
             </Forms.FormText>
         </>;
     },
@@ -191,16 +193,20 @@ export default definePlugin({
 
     start() {
         this.updatePresence();
-        this.updateInterval = setInterval(() => { this.updatePresence(); }, settings.store.refreshInterval * 1000);
+        this.updateInterval = setInterval(() => {
+            this.updatePresence();
+        }, settings.store.refreshInterval * 1000);
     },
 
     stop() {
         clearInterval(this.updateInterval);
-        FluxDispatcher.dispatch({ type: "LOCAL_ACTIVITY_UPDATE", activity: null });
+        FluxDispatcher.dispatch({type: "LOCAL_ACTIVITY_UPDATE", activity: null});
     },
 
     updatePresence() {
-        this.getActivity().then(activity => { setActivity(activity); });
+        this.getActivity().then(activity => {
+            setActivity(activity);
+        });
     },
 
     async getActivity(): Promise<Activity | null> {
@@ -257,7 +263,7 @@ export default definePlugin({
             assets,
 
             buttons: !isRadio && buttons.length ? buttons.map(v => v.label) : undefined,
-            metadata: !isRadio && buttons.length ? { button_urls: buttons.map(v => v.url) } : undefined,
+            metadata: !isRadio && buttons.length ? {button_urls: buttons.map(v => v.url)} : undefined,
 
             type: settings.store.activityType,
             flags: ActivityFlag.INSTANCE,

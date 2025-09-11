@@ -6,19 +6,23 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot } from "@utils/modal";
-import { Button, Forms, React, TextInput } from "@webpack/common";
-import { KeyboardEvent } from "react";
+import {ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot} from "@utils/modal";
+import {Button, Forms, React, TextInput} from "@webpack/common";
+import {KeyboardEvent} from "react";
 
-import { SessionInfo } from "../types";
-import { getDefaultName, savedSessionsCache, saveSessionsToDataStore } from "../utils";
+import {SessionInfo} from "../types";
+import {getDefaultName, savedSessionsCache, saveSessionsToDataStore} from "../utils";
 
-export function RenameModal({ props, session, state }: { props: ModalProps, session: SessionInfo["session"], state: [string, React.Dispatch<React.SetStateAction<string>>]; }) {
+export function RenameModal({props, session, state}: {
+    props: ModalProps,
+    session: SessionInfo["session"],
+    state: [string, React.Dispatch<React.SetStateAction<string>>];
+}) {
     const [title, setTitle] = state;
     const [value, setValue] = React.useState(savedSessionsCache.get(session.id_hash)?.name ?? "");
 
     function onSaveClick() {
-        savedSessionsCache.set(session.id_hash, { name: value, isNew: false });
+        savedSessionsCache.set(session.id_hash, {name: value, isNew: false});
         if (value !== "") {
             setTitle(`${value}*`);
         } else {
@@ -36,9 +40,9 @@ export function RenameModal({ props, session, state }: { props: ModalProps, sess
             </ModalHeader>
 
             <ModalContent>
-                <Forms.FormTitle tag="h5" style={{ marginTop: "10px" }}>New device name</Forms.FormTitle>
+                <Forms.FormTitle tag="h5" style={{marginTop: "10px"}}>New device name</Forms.FormTitle>
                 <TextInput
-                    style={{ marginBottom: "10px" }}
+                    style={{marginBottom: "10px"}}
                     placeholder={getDefaultName(session.client_info)}
                     value={value}
                     onChange={setValue}
@@ -79,6 +83,6 @@ export function RenameModal({ props, session, state }: { props: ModalProps, sess
                     Cancel
                 </Button>
             </ModalFooter>
-        </ModalRoot >
+        </ModalRoot>
     );
 }

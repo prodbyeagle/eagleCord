@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { OptionType } from "@utils/types";
-import { Button } from "@webpack/common";
+import {definePluginSettings} from "@api/Settings";
+import {OptionType} from "@utils/types";
+import {Button} from "@webpack/common";
 
-import { authorize, getToken } from "./auth";
-import { openBlockModal } from "./components/BlockedUserModal";
-import { cl } from "./utils";
+import {authorize, getToken} from "./auth";
+import {openBlockModal} from "./components/BlockedUserModal";
+import {cl} from "./utils";
 
 export const settings = definePluginSettings({
     authorize: {
@@ -46,7 +46,7 @@ export const settings = definePluginSettings({
     buttons: {
         type: OptionType.COMPONENT,
         component: () => (
-            <div className={cl("button-grid")} >
+            <div className={cl("button-grid")}>
                 <Button onClick={openBlockModal}>Manage Blocked Users</Button>
 
                 <Button
@@ -75,7 +75,7 @@ export const settings = definePluginSettings({
                 }}>
                     ReviewDB Support Server
                 </Button>
-            </div >
+            </div>
         )
     }
 }).withPrivateSettings<{

@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { runtimeHashMessageKey } from "@utils/intlHash";
-import { Patch, PatchReplacement, ReplaceFn } from "@utils/types";
+import {runtimeHashMessageKey} from "@utils/intlHash";
+import {Patch, PatchReplacement, ReplaceFn} from "@utils/types";
 
 export function canonicalizeMatch<T extends RegExp | string>(match: T): T {
     let partialCanon = typeof match === "string" ? match : match.source;

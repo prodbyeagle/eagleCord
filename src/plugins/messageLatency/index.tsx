@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
+import {definePluginSettings} from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs } from "@utils/constants";
-import { isNonNullish } from "@utils/guards";
-import definePlugin, { OptionType } from "@utils/types";
-import { Message } from "@vencord/discord-types";
-import { findComponentByCodeLazy } from "@webpack";
-import { SnowflakeUtils, Tooltip } from "@webpack/common";
+import {Devs} from "@utils/constants";
+import {isNonNullish} from "@utils/guards";
+import definePlugin, {OptionType} from "@utils/types";
+import {Message} from "@vencord/discord-types";
+import {findComponentByCodeLazy} from "@webpack";
+import {SnowflakeUtils, Tooltip} from "@webpack/common";
 
 type FillValue = ("status-danger" | "status-warning" | "status-positive" | "text-muted");
 type Fill = [FillValue, FillValue, FillValue];
@@ -81,10 +81,10 @@ export default definePlugin({
             return prev + (
                 isNonNullish(s)
                     ? (prev !== ""
-                        ? (showMillis ? k === "milliseconds" : k === "seconds")
-                            ? " and "
-                            : " "
-                        : "") + s
+                    ? (showMillis ? k === "milliseconds" : k === "seconds")
+                        ? " and "
+                        : " "
+                    : "") + s
                     : ""
             );
         }, "");
@@ -93,8 +93,8 @@ export default definePlugin({
     },
 
     latencyTooltipData(message: Message) {
-        const { latency, detectDiscordKotlin, showMillis } = this.settings.store;
-        const { id, nonce } = message;
+        const {latency, detectDiscordKotlin, showMillis} = this.settings.store;
+        const {id, nonce} = message;
 
         // Message wasn't received through gateway
         if (!isNonNullish(nonce)) return null;
@@ -136,11 +136,11 @@ export default definePlugin({
                     ? ["status-danger", "text-muted", "text-muted"]
                     : ["status-warning", "status-warning", "text-muted"];
 
-        return (abs >= latencyMillis || isDiscordKotlin) ? { delta: stringDelta, ahead, fill, isDiscordKotlin } : null;
+        return (abs >= latencyMillis || isDiscordKotlin) ? {delta: stringDelta, ahead, fill, isDiscordKotlin} : null;
     },
 
     Tooltip() {
-        return ErrorBoundary.wrap(({ message }: { message: Message; }) => {
+        return ErrorBoundary.wrap(({message}: { message: Message; }) => {
             const d = this.latencyTooltipData(message);
 
             if (!isNonNullish(d)) return null;
@@ -158,16 +158,16 @@ export default definePlugin({
             >
                 {
                     props => <>
-                        {<this.Icon delta={d.delta} fill={d.fill} props={props} />}
+                        {<this.Icon delta={d.delta} fill={d.fill} props={props}/>}
                         {/* Time Out indicator uses this, I think this is for a11y */}
                         <HiddenVisually>Delayed Message</HiddenVisually>
                     </>
                 }
             </Tooltip>;
-        }, { noop: true });
+        }, {noop: true});
     },
 
-    Icon({ delta, fill, props }: {
+    Icon({delta, fill, props}: {
         delta: string | null;
         fill: Fill,
         props: {
@@ -187,7 +187,7 @@ export default definePlugin({
             height="12"
             role="img"
             fill="none"
-            style={{ marginRight: "8px", verticalAlign: -1 }}
+            style={{marginRight: "8px", verticalAlign: -1}}
             aria-label={delta ?? "Old Discord Android client"}
             aria-hidden="false"
             {...props}

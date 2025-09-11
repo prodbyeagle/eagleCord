@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Logger } from "@utils/Logger";
-import { relaunch } from "@utils/native";
-import { IpcRes } from "@utils/types";
+import {Logger} from "@utils/Logger";
+import {relaunch} from "@utils/native";
+import {IpcRes} from "@utils/types";
 
 import gitHash from "~git-hash";
 

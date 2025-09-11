@@ -6,17 +6,24 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { showNotification } from "@api/Notifications";
-import { definePluginSettings } from "@api/Settings";
+import {showNotification} from "@api/Notifications";
+import {definePluginSettings} from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { findByPropsLazy, findComponentByCodeLazy, findStoreLazy } from "@webpack";
-import { Constants, React, RestAPI, Tooltip } from "@webpack/common";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
+import {findByPropsLazy, findComponentByCodeLazy, findStoreLazy} from "@webpack";
+import {Constants, React, RestAPI, Tooltip} from "@webpack/common";
 
-import { RenameButton } from "./components/RenameButton";
-import { Session, SessionInfo } from "./types";
-import { fetchNamesFromDataStore, getDefaultName, GetOsColor, GetPlatformIcon, savedSessionsCache, saveSessionsToDataStore } from "./utils";
+import {RenameButton} from "./components/RenameButton";
+import {Session, SessionInfo} from "./types";
+import {
+    fetchNamesFromDataStore,
+    getDefaultName,
+    GetOsColor,
+    GetPlatformIcon,
+    savedSessionsCache,
+    saveSessionsToDataStore
+} from "./utils";
 
 const AuthSessionsStore = findStoreLazy("AuthSessionsStore");
 const UserSettingsModal = findByPropsLazy("saveAccountChanges", "open");
@@ -70,7 +77,7 @@ export default definePlugin({
         }
     ],
 
-    renderName: ErrorBoundary.wrap(({ session }: SessionInfo) => {
+    renderName: ErrorBoundary.wrap(({session}: SessionInfo) => {
         const savedSession = savedSessionsCache.get(session.id_hash);
 
         const state = React.useState(savedSession?.name ? `${savedSession.name}*` : getDefaultName(session.client_info));
@@ -91,14 +98,15 @@ export default definePlugin({
                         NEW
                     </div>
                 )}
-                <RenameButton session={session} state={state} />
+                <RenameButton session={session} state={state}/>
             </>
         );
-    }, { noop: true }),
+    }, {noop: true}),
 
-    renderTimestamp: ErrorBoundary.wrap(({ session, timeLabel }: { session: Session, timeLabel: string; }) => {
+    renderTimestamp: ErrorBoundary.wrap(({session, timeLabel}: { session: Session, timeLabel: string; }) => {
         return (
-            <Tooltip text={session.approx_last_used_time.toLocaleString()} tooltipClassName={TimestampClasses.timestampTooltip}>
+            <Tooltip text={session.approx_last_used_time.toLocaleString()}
+                     tooltipClassName={TimestampClasses.timestampTooltip}>
                 {props => (
                     <span {...props} className={TimestampClasses.timestamp}>
                         {timeLabel}
@@ -106,15 +114,18 @@ export default definePlugin({
                 )}
             </Tooltip>
         );
-    }, { noop: true }),
+    }, {noop: true}),
 
-    renderIcon: ErrorBoundary.wrap(({ session, DeviceIcon }: { session: Session, DeviceIcon: React.ComponentType<any>; }) => {
+    renderIcon: ErrorBoundary.wrap(({session, DeviceIcon}: {
+        session: Session,
+        DeviceIcon: React.ComponentType<any>;
+    }) => {
         const PlatformIcon = GetPlatformIcon(session.client_info.platform);
 
         return (
             <BlobMask
                 isFolder
-                style={{ cursor: "unset" }}
+                style={{cursor: "unset"}}
                 selected={false}
                 lowerBadge={
                     <div
@@ -132,7 +143,7 @@ export default definePlugin({
                             color: "var(--background-base-lower)",
                         }}
                     >
-                        <PlatformIcon width={14} height={14} />
+                        <PlatformIcon width={14} height={14}/>
                     </div>
                 }
                 lowerBadgeSize={{
@@ -142,13 +153,13 @@ export default definePlugin({
             >
                 <div
                     className={SessionIconClasses.sessionIcon}
-                    style={{ backgroundColor: GetOsColor(session.client_info.os) }}
+                    style={{backgroundColor: GetOsColor(session.client_info.os)}}
                 >
-                    <DeviceIcon size="md" color="currentColor" />
+                    <DeviceIcon size="md" color="currentColor"/>
                 </div>
             </BlobMask>
         );
-    }, { noop: true }),
+    }, {noop: true}),
 
     async checkNewSessions() {
         const data = await RestAPI.get({
@@ -158,7 +169,7 @@ export default definePlugin({
         for (const session of data.body.user_sessions) {
             if (savedSessionsCache.has(session.id_hash)) continue;
 
-            savedSessionsCache.set(session.id_hash, { name: "", isNew: true });
+            savedSessionsCache.set(session.id_hash, {name: "", isNew: true});
             showNotification({
                 title: "BetterSessions",
                 body: `New session:\n${session.client_info.os} · ${session.client_info.platform} · ${session.client_info.location}`,
@@ -176,7 +187,7 @@ export default definePlugin({
 
             // Add new sessions to cache
             lastFetchedHashes.forEach(idHash => {
-                if (!savedSessionsCache.has(idHash)) savedSessionsCache.set(idHash, { name: "", isNew: false });
+                if (!savedSessionsCache.has(idHash)) savedSessionsCache.set(idHash, {name: "", isNew: false});
             });
 
             // Delete removed sessions from cache

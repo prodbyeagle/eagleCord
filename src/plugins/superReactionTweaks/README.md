@@ -6,6 +6,7 @@ This plugin applies configurable various tweaks to super reactions.
 
 ## Features:
 
-**Super React By Default** -  The reaction picker will default to super reactions instead of normal reactions.
+**Super React By Default** - The reaction picker will default to super reactions instead of normal reactions.
 
-**Super Reaction Play Limit** - Allows you to decide how many super reaction animations can play at once, including removing the limit entirely.
+**Super Reaction Play Limit** - Allows you to decide how many super reaction animations can play at once, including
+removing the limit entirely.

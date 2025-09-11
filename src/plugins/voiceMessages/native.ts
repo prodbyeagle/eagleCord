@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { app } from "electron";
-import { readFile } from "fs/promises";
-import { basename, normalize } from "path";
+import {app} from "electron";
+import {readFile} from "fs/promises";
+import {basename, normalize} from "path";
 
 export async function readRecording(_, filePath: string) {
     filePath = normalize(filePath);

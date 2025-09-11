@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { FluxDispatcher, UserStore } from "@webpack/common";
+import {FluxDispatcher, UserStore} from "@webpack/common";
 
 interface StreamEvent {
     streamKey: string;
 }
 
-function toggleStreamerMode({ streamKey }: StreamEvent, value: boolean) {
+function toggleStreamerMode({streamKey}: StreamEvent, value: boolean) {
     if (!streamKey.endsWith(UserStore.getCurrentUser().id)) return;
 
     FluxDispatcher.dispatch({

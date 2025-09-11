@@ -6,12 +6,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
 
-import { onChannelDelete, onGuildDelete, onRelationshipRemove, removeFriend, removeGroup, removeGuild } from "./functions";
+import {
+    onChannelDelete,
+    onGuildDelete,
+    onRelationshipRemove,
+    removeFriend,
+    removeGroup,
+    removeGuild
+} from "./functions";
 import settings from "./settings";
-import { syncAndRunChecks, syncFriends, syncGroups, syncGuilds } from "./utils";
+import {syncAndRunChecks, syncFriends, syncGroups, syncGuilds} from "./utils";
 
 export default definePlugin({
     name: "RelationshipNotifier",

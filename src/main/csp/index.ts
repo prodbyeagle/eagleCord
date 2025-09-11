@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { NativeSettings } from "@main/settings";
-import { session } from "electron";
+import {NativeSettings} from "@main/settings";
+import {session} from "electron";
 
 type PolicyMap = Record<string, string[]>;
 
@@ -132,7 +132,7 @@ const patchCsp = (headers: PolicyMap) => {
 };
 
 export function initCsp() {
-    session.defaultSession.webRequest.onHeadersReceived(({ responseHeaders, resourceType }, cb) => {
+    session.defaultSession.webRequest.onHeadersReceived(({responseHeaders, resourceType}, cb) => {
         if (responseHeaders) {
             if (resourceType === "mainFrame")
                 patchCsp(responseHeaders);
@@ -146,11 +146,12 @@ export function initCsp() {
             }
         }
 
-        cb({ cancel: false, responseHeaders });
+        cb({cancel: false, responseHeaders});
     });
 
     // assign a noop to onHeadersReceived to prevent other mods from adding their own incompatible ones.
     // For instance, OpenAsar adds their own that doesn't fix content-type for stylesheets which makes it
     // impossible to load css from github raw despite our fix above
-    session.defaultSession.webRequest.onHeadersReceived = () => { };
+    session.defaultSession.webRequest.onHeadersReceived = () => {
+    };
 }

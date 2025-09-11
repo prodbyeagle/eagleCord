@@ -6,16 +6,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { addMessageAccessory, removeMessageAccessory } from "@api/MessageAccessories";
-import { updateMessage } from "@api/MessageUpdater";
-import { definePluginSettings } from "@api/Settings";
-import { getUserSettingLazy } from "@api/UserSettings";
-import { Devs } from "@utils/constants.js";
-import { classes } from "@utils/misc";
-import { Queue } from "@utils/Queue";
-import definePlugin, { OptionType } from "@utils/types";
-import { Channel, Message } from "@vencord/discord-types";
-import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
+import {addMessageAccessory, removeMessageAccessory} from "@api/MessageAccessories";
+import {updateMessage} from "@api/MessageUpdater";
+import {definePluginSettings} from "@api/Settings";
+import {getUserSettingLazy} from "@api/UserSettings";
+import {Devs} from "@utils/constants.js";
+import {classes} from "@utils/misc";
+import {Queue} from "@utils/Queue";
+import definePlugin, {OptionType} from "@utils/types";
+import {Channel, Message} from "@vencord/discord-types";
+import {findByPropsLazy, findComponentByCodeLazy} from "@webpack";
 import {
     Button,
     ChannelStore,
@@ -30,7 +30,7 @@ import {
     Text,
     UserStore
 } from "@webpack/common";
-import { JSX } from "react";
+import {JSX} from "react";
 
 const messageCache = new Map<string, {
     message?: Message;
@@ -122,7 +122,7 @@ async function fetchMessage(channelID: string, messageID: string) {
     const cached = messageCache.get(messageID);
     if (cached) return cached.message;
 
-    messageCache.set(messageID, { fetched: false });
+    messageCache.set(messageID, {fetched: false});
 
     const res = await RestAPI.get({
         url: Constants.Endpoints.MESSAGES(channelID),
@@ -151,7 +151,7 @@ async function fetchMessage(channelID: string, messageID: string) {
 function getImages(message: Message): Attachment[] {
     const attachments: Attachment[] = [];
 
-    for (const { content_type, height, width, url, proxy_url } of message.attachments ?? []) {
+    for (const {content_type, height, width, url, proxy_url} of message.attachments ?? []) {
         if (content_type?.startsWith("image/"))
             attachments.push({
                 height: height!,
@@ -161,9 +161,9 @@ function getImages(message: Message): Attachment[] {
             });
     }
 
-    for (const { type, image, thumbnail, url } of message.embeds ?? []) {
+    for (const {type, image, thumbnail, url} of message.embeds ?? []) {
         if (type === "image")
-            attachments.push({ ...(image ?? thumbnail!) });
+            attachments.push({...(image ?? thumbnail!)});
         else if (url && type === "gifv" && !tenorRegex.test(url))
             attachments.push({
                 height: thumbnail!.height,
@@ -196,11 +196,11 @@ function computeWidthAndHeight(width: number, height: number) {
 
     if (width > height) {
         const adjustedWidth = Math.min(width, maxWidth);
-        return { width: adjustedWidth, height: Math.round(height / (width / adjustedWidth)) };
+        return {width: adjustedWidth, height: Math.round(height / (width / adjustedWidth))};
     }
 
     const adjustedHeight = Math.min(height, maxHeight);
-    return { width: Math.round(width / (height / adjustedHeight)), height: adjustedHeight };
+    return {width: Math.round(width / (height / adjustedHeight)), height: adjustedHeight};
 }
 
 function withEmbeddedBy(message: Message, embeddedBy: string[]) {
@@ -214,7 +214,7 @@ function withEmbeddedBy(message: Message, embeddedBy: string[]) {
 }
 
 
-function MessageEmbedAccessory({ message }: { message: Message; }) {
+function MessageEmbedAccessory({message}: { message: Message; }) {
     // @ts-expect-error
     const embeddedBy: string[] = message.vencordEmbeddedBy ?? [];
 
@@ -230,7 +230,7 @@ function MessageEmbedAccessory({ message }: { message: Message; }) {
             continue;
         }
 
-        const { listMode, idList } = settings.store;
+        const {listMode, idList} = settings.store;
 
         const isListed = [linkedChannel.guild_id, channelID, message.author.id].some(id => id && idList.includes(id));
 
@@ -241,7 +241,7 @@ function MessageEmbedAccessory({ message }: { message: Message; }) {
         if (!linkedMessage) {
             linkedMessage ??= MessageStore.getMessage(channelID, messageID);
             if (linkedMessage) {
-                messageCache.set(messageID, { message: linkedMessage, fetched: true });
+                messageCache.set(messageID, {message: linkedMessage, fetched: true});
             } else {
 
                 messageFetchQueue.unshift(() => fetchMessage(channelID, messageID)
@@ -273,7 +273,7 @@ function getChannelLabelAndIconUrl(channel: Channel) {
     return ["Server", IconUtils.getGuildIconURL(GuildStore.getGuild(channel.guild_id))];
 }
 
-function ChannelMessageEmbedAccessory({ message, channel }: MessageEmbedProps): JSX.Element | null {
+function ChannelMessageEmbedAccessory({message, channel}: MessageEmbedProps): JSX.Element | null {
     const compact = MessageDisplayCompact.useSetting();
 
     const dmReceiver = UserStore.getUser(ChannelStore.getChannel(channel.id).recipients?.[0]);
@@ -294,7 +294,8 @@ function ChannelMessageEmbedAccessory({ message, channel }: MessageEmbedProps): 
                 }
             }}
             renderDescription={() => (
-                <div key={message.id} className={classes(SearchResultClasses.message, settings.store.messageBackgroundColor && SearchResultClasses.searchResult)}>
+                <div key={message.id}
+                     className={classes(SearchResultClasses.message, settings.store.messageBackgroundColor && SearchResultClasses.searchResult)}>
                     <ChannelMessage
                         id={`message-link-embeds-${message.id}`}
                         message={message}
@@ -309,18 +310,19 @@ function ChannelMessageEmbedAccessory({ message, channel }: MessageEmbedProps): 
 }
 
 function AutomodEmbedAccessory(props: MessageEmbedProps): JSX.Element | null {
-    const { message, channel } = props;
+    const {message, channel} = props;
     const compact = MessageDisplayCompact.useSetting();
     const images = getImages(message);
-    const { parse } = Parser;
+    const {parse} = Parser;
 
     const [channelLabel, iconUrl] = getChannelLabelAndIconUrl(channel);
 
     return <AutoModEmbed
         channel={channel}
         childrenAccessories={
-            <Text color="text-muted" variant="text-xs/medium" tag="span" className={`${EmbedClasses.embedAuthor} ${EmbedClasses.embedMargin}`}>
-                {iconUrl && <img src={iconUrl} className={EmbedClasses.embedAuthorIcon} alt="" />}
+            <Text color="text-muted" variant="text-xs/medium" tag="span"
+                  className={`${EmbedClasses.embedAuthor} ${EmbedClasses.embedMargin}`}>
+                {iconUrl && <img src={iconUrl} className={EmbedClasses.embedAuthorIcon} alt=""/>}
                 <span>
                     <span>{channelLabel} - </span>
                     {channel.isDM()
@@ -338,10 +340,10 @@ function AutomodEmbedAccessory(props: MessageEmbedProps): JSX.Element | null {
                     : [noContent(message.attachments.length, message.embeds.length)]
                 }
                 {images.map((a, idx) => {
-                    const { width, height } = computeWidthAndHeight(a.width, a.height);
+                    const {width, height} = computeWidthAndHeight(a.width, a.height);
                     return (
                         <div key={idx}>
-                            <img src={a.url} width={width} height={height} />
+                            <img src={a.url} width={width} height={height}/>
                         </div>
                     );
                 })}

@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { useSettings } from "@api/Settings";
-import { Margins } from "@utils/margins";
-import { classes } from "@utils/misc";
-import { Card, Forms, TextArea, useState } from "@webpack/common";
+import {useSettings} from "@api/Settings";
+import {Margins} from "@utils/margins";
+import {classes} from "@utils/misc";
+import {Card, Forms, TextArea, useState} from "@webpack/common";
 
 export function OnlineThemesTab() {
     const settings = useSettings(["themeLinks"]);
@@ -38,7 +38,8 @@ export function OnlineThemesTab() {
             <Card className="vc-settings-card">
                 <Forms.FormTitle tag="h5">Paste links to css files here</Forms.FormTitle>
                 <Forms.FormText>One link per line</Forms.FormText>
-                <Forms.FormText>You can prefix lines with @light or @dark to toggle them based on your Discord theme</Forms.FormText>
+                <Forms.FormText>You can prefix lines with @light or @dark to toggle them based on your Discord
+                    theme</Forms.FormText>
                 <Forms.FormText>Make sure to use direct links to files (raw or github.io)!</Forms.FormText>
             </Card>
 

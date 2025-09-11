@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { FluxDispatcher, RestAPI, showToast, Toasts } from "@webpack/common";
+import {FluxDispatcher, RestAPI, showToast, Toasts} from "@webpack/common";
 
-import { QuestSpooferLogger, RunningGameStore } from "../constants";
+import {QuestSpooferLogger, RunningGameStore} from "../constants";
 
 
 export async function spoofDesktopPlayQuest(quest: any, appId: string, appName: string, pid: number, secondsNeeded: number) {
@@ -18,7 +18,7 @@ export async function spoofDesktopPlayQuest(quest: any, appId: string, appName: 
     }
 
     try {
-        const res = await RestAPI.get({ url: `/applications/public?application_ids=${appId}` });
+        const res = await RestAPI.get({url: `/applications/public?application_ids=${appId}`});
         const app = res.body[0];
         const exeName = app.executables.find(x => x.os === "win32")?.name.replace(">", "");
 

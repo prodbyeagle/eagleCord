@@ -6,12 +6,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Logger } from "@utils/Logger";
-import { makeCodeblock } from "@utils/text";
-import { CommandArgument, CommandContext, CommandOption } from "@vencord/discord-types";
+import {Logger} from "@utils/Logger";
+import {makeCodeblock} from "@utils/text";
+import {CommandArgument, CommandContext, CommandOption} from "@vencord/discord-types";
 
-import { sendBotMessage } from "./commandHelpers";
-import { ApplicationCommandInputType, ApplicationCommandOptionType, ApplicationCommandType, VencordCommand } from "./types";
+import {sendBotMessage} from "./commandHelpers";
+import {
+    ApplicationCommandInputType,
+    ApplicationCommandOptionType,
+    ApplicationCommandType,
+    VencordCommand
+} from "./types";
 
 export * from "./commandHelpers";
 export * from "./types";

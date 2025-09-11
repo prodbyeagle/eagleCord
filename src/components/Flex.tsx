@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { React } from "@webpack/common";
+import type {React} from "@webpack/common";
 
 export function Flex(props: React.PropsWithChildren<{
     flexDirection?: React.CSSProperties["flexDirection"];

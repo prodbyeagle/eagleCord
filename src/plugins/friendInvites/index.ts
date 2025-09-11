@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ApplicationCommandInputType, sendBotMessage } from "@api/Commands";
-import { Devs } from "@utils/constants";
+import {ApplicationCommandInputType, sendBotMessage} from "@api/Commands";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { findByPropsLazy } from "@webpack";
+import {findByPropsLazy} from "@webpack";
 
 const FriendInvites = findByPropsLazy("createFriendInvite");
 

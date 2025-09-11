@@ -81,7 +81,8 @@ export function proxyLazy<T>(factory: () => T, attempts = 5, isChild = false): T
         setTimeout(() => isSameTick = false, 0);
 
     let tries = 0;
-    const proxyDummy = Object.assign(function () { }, {
+    const proxyDummy = Object.assign(function () {
+    }, {
         [SYM_LAZY_CACHED]: void 0 as T | undefined,
         [SYM_LAZY_GET]() {
             if (!proxyDummy[SYM_LAZY_CACHED] && attempts > tries++) {

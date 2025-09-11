@@ -6,13 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {
-    MessageObject
-} from "@api/MessageEvents";
-import { Devs } from "@utils/constants";
+import {MessageObject} from "@api/MessageEvents";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
 
-import { defaultRules } from "./defaultRules";
+import {defaultRules} from "./defaultRules";
 
 // From lodash
 const reRegExpChar = /[\\^$.*+?()[\]{}|]/g;

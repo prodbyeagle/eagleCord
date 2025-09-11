@@ -8,13 +8,13 @@
 
 import "./styles.css";
 
-import { definePluginSettings } from "@api/Settings";
+import {definePluginSettings} from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs } from "@utils/constants";
-import { Logger } from "@utils/Logger";
-import definePlugin, { OptionType } from "@utils/types";
-import { Tooltip } from "@webpack/common";
-import type { Component } from "react";
+import {Devs} from "@utils/constants";
+import {Logger} from "@utils/Logger";
+import definePlugin, {OptionType} from "@utils/types";
+import {Tooltip} from "@webpack/common";
+import type {Component} from "react";
 
 interface Props {
     embed: {
@@ -47,8 +47,8 @@ const embedUrlRe = /https:\/\/www\.youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/;
 
 async function embedDidMount(this: Component<Props>) {
     try {
-        const { embed } = this.props;
-        const { replaceElements, dearrowByDefault } = settings.store;
+        const {embed} = this.props;
+        const {replaceElements, dearrowByDefault} = settings.store;
 
         if (!embed || embed.dearrow || embed.provider?.name !== "YouTube" || !embed.video?.url) return;
 
@@ -58,7 +58,7 @@ async function embedDidMount(this: Component<Props>) {
         const res = await fetch(`https://sponsor.ajay.app/api/branding?videoID=${videoId}`);
         if (!res.ok) return;
 
-        const { titles, thumbnails } = await res.json();
+        const {titles, thumbnails} = await res.json();
 
         const hasTitle = titles[0]?.votes >= 0;
         const hasThumb = thumbnails[0]?.votes >= 0 && !thumbnails[0].original;
@@ -89,19 +89,19 @@ async function embedDidMount(this: Component<Props>) {
     }
 }
 
-function DearrowButton({ component }: { component: Component<Props>; }) {
-    const { embed } = component.props;
+function DearrowButton({component}: { component: Component<Props>; }) {
+    const {embed} = component.props;
     if (!embed?.dearrow) return null;
 
     return (
         <Tooltip text={embed.dearrow.enabled ? "This embed has been dearrowed, click to restore" : "Click to dearrow"}>
-            {({ onMouseEnter, onMouseLeave }) => (
+            {({onMouseEnter, onMouseLeave}) => (
                 <button
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
                     className={"vc-dearrow-toggle-" + (embed.dearrow.enabled ? "on" : "off")}
                     onClick={() => {
-                        const { enabled, oldThumb, oldTitle } = embed.dearrow;
+                        const {enabled, oldThumb, oldTitle} = embed.dearrow;
                         settings.store.dearrowByDefault = !enabled;
                         embed.dearrow.enabled = !enabled;
                         if (oldTitle) {
@@ -157,9 +157,9 @@ const settings = definePluginSettings({
         type: OptionType.SELECT,
         restartNeeded: true,
         options: [
-            { label: "Everything (Titles & Thumbnails)", value: ReplaceElements.ReplaceAllElements, default: true },
-            { label: "Titles", value: ReplaceElements.ReplaceTitlesOnly },
-            { label: "Thumbnails", value: ReplaceElements.ReplaceThumbnailsOnly },
+            {label: "Everything (Titles & Thumbnails)", value: ReplaceElements.ReplaceAllElements, default: true},
+            {label: "Titles", value: ReplaceElements.ReplaceTitlesOnly},
+            {label: "Thumbnails", value: ReplaceElements.ReplaceThumbnailsOnly},
         ],
     },
     dearrowByDefault: {
@@ -180,7 +180,7 @@ export default definePlugin({
     renderButton(component: Component<Props>) {
         return (
             <ErrorBoundary noop>
-                <DearrowButton component={component} />
+                <DearrowButton component={component}/>
             </ErrorBoundary>
         );
     },

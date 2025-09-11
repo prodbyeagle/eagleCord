@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { copyToClipboard } from "@utils/clipboard";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { saveFile } from "@utils/web";
-import { filters, mapMangledModuleLazy } from "@webpack";
-import { ComponentDispatch } from "@webpack/common";
+import {definePluginSettings} from "@api/Settings";
+import {copyToClipboard} from "@utils/clipboard";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
+import {saveFile} from "@utils/web";
+import {filters, mapMangledModuleLazy} from "@webpack";
+import {ComponentDispatch} from "@webpack/common";
 
 const ctxMenuCallbacks = mapMangledModuleLazy('.tagName)==="TEXTAREA"||', {
     contextMenuCallbackWeb: filters.byCode('.tagName)==="INPUT"||'),
@@ -233,10 +233,10 @@ export default definePlugin({
         {
             find: '("interactionUsernameProfile',
             replacement:
-            {
-                match: /\i\.isPlatformEmbedded(?=.{0,50}\.tagName)/,
-                replace: "true"
-            },
+                {
+                    match: /\i\.isPlatformEmbedded(?=.{0,50}\.tagName)/,
+                    replace: "true"
+                },
         }
     ],
 
@@ -279,7 +279,7 @@ export default definePlugin({
         if (!data) return;
 
         const name = new URL(url).pathname.split("/").pop()!;
-        const file = new File([data], name, { type: data.type });
+        const file = new File([data], name, {type: data.type});
 
         saveFile(file);
     },
@@ -293,7 +293,7 @@ export default definePlugin({
 
     cut() {
         this.copy();
-        ComponentDispatch.dispatch("INSERT_TEXT", { rawText: "" });
+        ComponentDispatch.dispatch("INSERT_TEXT", {rawText: ""});
     },
 
     async paste() {
@@ -303,7 +303,7 @@ export default definePlugin({
         const data = new DataTransfer();
         for (const type of clip.types) {
             if (type === "image/png") {
-                const file = new File([await clip.getType(type)], "unknown.png", { type });
+                const file = new File([await clip.getType(type)], "unknown.png", {type});
                 data.items.add(file);
             } else if (type === "text/plain") {
                 const blob = await clip.getType(type);

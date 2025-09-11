@@ -6,16 +6,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { showNotification } from "@api/Notifications";
-import { Settings, useSettings } from "@api/Settings";
-import { CheckedTextInput } from "@components/CheckedTextInput";
-import { Grid } from "@components/Grid";
-import { Link } from "@components/Link";
-import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
-import { authorizeCloud, checkCloudUrlCsp, cloudLogger, deauthorizeCloud, getCloudAuth, getCloudUrl } from "@utils/cloud";
-import { Margins } from "@utils/margins";
-import { deleteCloudSettings, getCloudSettings, putCloudSettings } from "@utils/settingsSync";
-import { Alerts, Button, Forms, Switch, Tooltip } from "@webpack/common";
+import {showNotification} from "@api/Notifications";
+import {Settings, useSettings} from "@api/Settings";
+import {CheckedTextInput} from "@components/CheckedTextInput";
+import {Grid} from "@components/Grid";
+import {Link} from "@components/Link";
+import {SettingsTab, wrapTab} from "@components/settings/tabs/BaseTab";
+import {authorizeCloud, checkCloudUrlCsp, cloudLogger, deauthorizeCloud, getCloudAuth, getCloudUrl} from "@utils/cloud";
+import {Margins} from "@utils/margins";
+import {deleteCloudSettings, getCloudSettings, putCloudSettings} from "@utils/settingsSync";
+import {Alerts, Button, Forms, Switch, Tooltip} from "@webpack/common";
 
 function validateUrl(url: string) {
     try {
@@ -31,7 +31,7 @@ async function eraseAllData() {
 
     const res = await fetch(new URL("/v1/", getCloudUrl()), {
         method: "DELETE",
-        headers: { Authorization: await getCloudAuth() }
+        headers: {Authorization: await getCloudAuth()}
     });
 
     if (!res.ok) {
@@ -55,7 +55,7 @@ async function eraseAllData() {
 }
 
 function SettingsSyncSection() {
-    const { cloud } = useSettings(["cloud.authenticated", "cloud.settingsSync"]);
+    const {cloud} = useSettings(["cloud.authenticated", "cloud.settingsSync"]);
     const sectionEnabled = cloud.authenticated && cloud.settingsSync;
 
     return (
@@ -68,7 +68,9 @@ function SettingsSyncSection() {
                 key="cloud-sync"
                 disabled={!cloud.authenticated}
                 value={cloud.settingsSync}
-                onChange={v => { cloud.settingsSync = v; }}
+                onChange={v => {
+                    cloud.settingsSync = v;
+                }}
             >
                 Settings Sync
             </Switch>
@@ -81,7 +83,7 @@ function SettingsSyncSection() {
                     Sync to Cloud
                 </Button>
                 <Tooltip text="This will overwrite your local settings with the ones on the cloud. Use wisely!">
-                    {({ onMouseLeave, onMouseEnter }) => (
+                    {({onMouseLeave, onMouseEnter}) => (
                         <Button
                             onMouseLeave={onMouseLeave}
                             onMouseEnter={onMouseEnter}
@@ -177,9 +179,9 @@ function CloudTab() {
                     </Button>
                 </Grid>
 
-                <Forms.FormDivider className={Margins.top16} />
-            </Forms.FormSection >
-            <SettingsSyncSection />
+                <Forms.FormDivider className={Margins.top16}/>
+            </Forms.FormSection>
+            <SettingsSyncSection/>
         </SettingsTab>
     );
 }

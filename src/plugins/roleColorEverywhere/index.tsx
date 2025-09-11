@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
+import {definePluginSettings} from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs } from "@utils/constants";
-import { Logger } from "@utils/Logger";
-import definePlugin, { makeRange, OptionType } from "@utils/types";
-import { findByCodeLazy } from "@webpack";
-import { ChannelStore, GuildMemberStore, GuildRoleStore, GuildStore } from "@webpack/common";
+import {Devs} from "@utils/constants";
+import {Logger} from "@utils/Logger";
+import definePlugin, {makeRange, OptionType} from "@utils/types";
+import {findByCodeLazy} from "@webpack";
+import {ChannelStore, GuildMemberStore, GuildRoleStore, GuildStore} from "@webpack/common";
 
 const useMessageAuthor = findByCodeLazy('"Result cannot be null because the message is not null"');
 
@@ -179,7 +179,7 @@ export default definePlugin({
 
     useMessageColorsStyle(message: any) {
         try {
-            const { messageSaturation } = settings.use(["messageSaturation"]);
+            const {messageSaturation} = settings.use(["messageSaturation"]);
             const author = useMessageAuthor(message);
 
             if (author.colorString != null && messageSaturation !== 0) {
@@ -198,7 +198,13 @@ export default definePlugin({
         return null;
     },
 
-    RoleGroupColor: ErrorBoundary.wrap(({ id, count, title, guildId, label }: { id: string; count: number; title: string; guildId: string; label: string; }) => {
+    RoleGroupColor: ErrorBoundary.wrap(({id, count, title, guildId, label}: {
+        id: string;
+        count: number;
+        title: string;
+        guildId: string;
+        label: string;
+    }) => {
         const role = GuildRoleStore.getRole(guildId, id);
 
         return (
@@ -210,5 +216,5 @@ export default definePlugin({
                 {title ?? label} &mdash; {count}
             </span>
         );
-    }, { noop: true })
+    }, {noop: true})
 });

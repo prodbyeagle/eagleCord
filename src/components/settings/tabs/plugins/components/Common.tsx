@@ -6,18 +6,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { classNameFactory } from "@api/Styles";
-import { classes } from "@utils/misc";
-import { wordsFromCamel, wordsToTitle } from "@utils/text";
-import { DefinedSettings, PluginOptionBase } from "@utils/types";
-import { Text } from "@webpack/common";
-import { PropsWithChildren } from "react";
+import {classNameFactory} from "@api/Styles";
+import {classes} from "@utils/misc";
+import {wordsFromCamel, wordsToTitle} from "@utils/text";
+import {DefinedSettings, PluginOptionBase} from "@utils/types";
+import {Text} from "@webpack/common";
+import {PropsWithChildren} from "react";
 
 export const cl = classNameFactory("vc-plugins-setting-");
 
 interface SettingBaseProps<T> {
     option: T;
+
     onChange(newValue: any): void;
+
     pluginSettings: {
         [setting: string]: any;
         enabled: boolean;
@@ -42,12 +44,13 @@ interface SettingsSectionProps extends PropsWithChildren {
     inlineSetting?: boolean;
 }
 
-export function SettingsSection({ name, description, error, inlineSetting, children }: SettingsSectionProps) {
+export function SettingsSection({name, description, error, inlineSetting, children}: SettingsSectionProps) {
     return (
         <div className={cl("section")}>
             <div className={classes(cl("content"), inlineSetting && cl("inline"))}>
                 <div className={cl("label")}>
-                    {name && <Text className={cl("title")} variant="text-md/medium">{wordsToTitle(wordsFromCamel(name))}</Text>}
+                    {name && <Text className={cl("title")}
+                                   variant="text-md/medium">{wordsToTitle(wordsFromCamel(name))}</Text>}
                     {description && <Text className={cl("description")} variant="text-sm/normal">{description}</Text>}
                 </div>
                 {children}

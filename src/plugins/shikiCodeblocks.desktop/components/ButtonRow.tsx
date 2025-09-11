@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { cl } from "../utils/misc";
-import { CopyButton } from "./CopyButton";
+import {cl} from "../utils/misc";
+import {CopyButton} from "./CopyButton";
 
 export interface ButtonRowProps {
     theme: import("./Highlighter").ThemeBase;
     content: string;
 }
 
-export function ButtonRow({ content, theme }: ButtonRowProps) {
+export function ButtonRow({content, theme}: ButtonRowProps) {
     return <div className={cl("btns")}>
         <CopyButton
             content={content}

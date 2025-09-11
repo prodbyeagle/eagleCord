@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings, Settings } from "@api/Settings";
-import { getUserSettingLazy } from "@api/UserSettings";
+import {definePluginSettings, Settings} from "@api/Settings";
+import {getUserSettingLazy} from "@api/UserSettings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Flex } from "@components/Flex";
-import { Devs } from "@utils/constants";
-import { Margins } from "@utils/margins";
-import definePlugin, { OptionType } from "@utils/types";
-import { findStoreLazy } from "@webpack";
-import { Button, Forms, showToast, TextInput, Toasts, Tooltip, useEffect, useState } from "@webpack/common";
+import {Flex} from "@components/Flex";
+import {Devs} from "@utils/constants";
+import {Margins} from "@utils/margins";
+import definePlugin, {OptionType} from "@utils/types";
+import {findStoreLazy} from "@webpack";
+import {Button, Forms, showToast, TextInput, Toasts, Tooltip, useEffect, useState} from "@webpack/common";
 
 const enum ActivitiesTypes {
     Game,
@@ -43,14 +43,20 @@ function ToggleIcon(activity: IgnoredActivity, tooltipText: string, path: string
                 <button
                     {...tooltipProps}
                     onClick={e => handleActivityToggle(e, activity)}
-                    style={{ all: "unset", cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}
+                    style={{
+                        all: "unset",
+                        cursor: "pointer",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}
                 >
                     <svg
                         width="24"
                         height="24"
                         viewBox="0 -960 960 960"
                     >
-                        <path fill={fill} d={path} />
+                        <path fill={fill} d={path}/>
                     </svg>
                 </button>
             )}
@@ -63,7 +69,7 @@ const ToggleIconOff = (activity: IgnoredActivity, fill: string) => ToggleIcon(ac
 
 function ToggleActivityComponent(activity: IgnoredActivity, isPlaying = false) {
     const s = settings.use(["ignoredActivities"]);
-    const { ignoredActivities } = s;
+    const {ignoredActivities} = s;
 
     if (ignoredActivities.some(act => act.id === activity.id)) return ToggleIconOff(activity, "var(--status-danger)");
     return ToggleIconOn(activity, isPlaying ? "var(--green-300)" : "var(--interactive-normal)");
@@ -135,7 +141,8 @@ function IdsListComponent(props: { setValue: (value: string) => void; }) {
     return (
         <Forms.FormSection>
             <Forms.FormTitle tag="h3">Filter List</Forms.FormTitle>
-            <Forms.FormText className={Margins.bottom8}>Comma separated list of activity IDs to filter (Useful for filtering specific RPC activities and CustomRPC</Forms.FormText>
+            <Forms.FormText className={Margins.bottom8}>Comma separated list of activity IDs to filter (Useful for
+                filtering specific RPC activities and CustomRPC</Forms.FormText>
             <TextInput
                 type="text"
                 value={idsList}
@@ -175,7 +182,7 @@ const settings = definePluginSettings({
             settings.store.idsList = Array.from(ids).join(", ");
             recalculateActivities();
         },
-        component: props => <IdsListComponent setValue={props.setValue} />
+        component: props => <IdsListComponent setValue={props.setValue}/>
     },
     ignorePlaying: {
         type: OptionType.BOOLEAN,
@@ -220,11 +227,16 @@ function isActivityTypeIgnored(type: number, id?: string) {
     }
 
     switch (type) {
-        case 0: return settings.store.ignorePlaying;
-        case 1: return settings.store.ignoreStreaming;
-        case 2: return settings.store.ignoreListening;
-        case 3: return settings.store.ignoreWatching;
-        case 5: return settings.store.ignoreCompeting;
+        case 0:
+            return settings.store.ignorePlaying;
+        case 1:
+            return settings.store.ignoreStreaming;
+        case 2:
+            return settings.store.ignoreListening;
+        case 3:
+            return settings.store.ignoreWatching;
+        case 5:
+            return settings.store.ignoreCompeting;
     }
 
     return false;
@@ -320,8 +332,12 @@ export default definePlugin({
     renderToggleGameActivityButton(props: { id?: string; name: string, exePath: string; }, nowPlaying: boolean) {
         return (
             <ErrorBoundary noop>
-                <div style={{ marginLeft: 12, zIndex: 0 }}>
-                    {ToggleActivityComponent({ id: props.id ?? props.exePath, name: props.name, type: ActivitiesTypes.Game }, nowPlaying)}
+                <div style={{marginLeft: 12, zIndex: 0}}>
+                    {ToggleActivityComponent({
+                        id: props.id ?? props.exePath,
+                        name: props.name,
+                        type: ActivitiesTypes.Game
+                    }, nowPlaying)}
                 </div>
             </ErrorBoundary>
         );
@@ -330,7 +346,7 @@ export default definePlugin({
     renderToggleActivityButton(props: { id: string; name: string; }) {
         return (
             <ErrorBoundary noop>
-                {ToggleActivityComponent({ id: props.id, name: props.name, type: ActivitiesTypes.Embedded })}
+                {ToggleActivityComponent({id: props.id, name: props.name, type: ActivitiesTypes.Embedded})}
             </ErrorBoundary>
         );
     }

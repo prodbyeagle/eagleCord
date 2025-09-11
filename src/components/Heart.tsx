@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { classes } from "@utils/misc";
-import { SVGProps } from "react";
+import {classes} from "@utils/misc";
+import {SVGProps} from "react";
 
 export function Heart(props: SVGProps<SVGSVGElement>) {
     return (

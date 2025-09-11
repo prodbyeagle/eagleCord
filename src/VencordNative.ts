@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { Settings } from "@api/Settings";
-import { CspRequestResult } from "@main/csp/manager";
-import { PluginIpcMappings } from "@main/ipcPlugins";
-import type { UserThemeHeader } from "@main/themes";
-import { IpcEvents } from "@shared/IpcEvents";
-import { IpcRes } from "@utils/types";
-import { ipcRenderer } from "electron";
+import type {Settings} from "@api/Settings";
+import {CspRequestResult} from "@main/csp/manager";
+import {PluginIpcMappings} from "@main/ipcPlugins";
+import type {UserThemeHeader} from "@main/themes";
+import {IpcEvents} from "@shared/IpcEvents";
+import {IpcRes} from "@utils/types";
+import {ipcRenderer} from "electron";
 
 function invoke<T = any>(event: IpcEvents, ...args: any[]) {
     return ipcRenderer.invoke(event, ...args) as Promise<T>;

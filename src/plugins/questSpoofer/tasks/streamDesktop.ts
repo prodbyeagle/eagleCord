@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { FluxDispatcher, showToast, Toasts } from "@webpack/common";
+import {FluxDispatcher, showToast, Toasts} from "@webpack/common";
 
-import { ApplicationStreamingStore, QuestSpooferLogger } from "../constants";
+import {ApplicationStreamingStore, QuestSpooferLogger} from "../constants";
 
 export function spoofStreamDesktopQuest(quest: any, appId: string, appName: string, pid: number, secondsNeeded: number) {
     if (!IS_DISCORD_DESKTOP) {

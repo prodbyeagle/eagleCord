@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { maybePromptToUpdate } from "@utils/updater";
+import {maybePromptToUpdate} from "@utils/updater";
 
 export function handleComponentFailed() {
     maybePromptToUpdate(

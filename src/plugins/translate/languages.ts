@@ -200,10 +200,14 @@ export const DeeplLanguages = {
 
 export function deeplLanguageToGoogleLanguage(language: string) {
     switch (language) {
-        case "": return "auto";
-        case "nb": return "no";
-        case "zh-hans": return "zh-CN";
-        case "zh-hant": return "zh-TW";
+        case "":
+            return "auto";
+        case "nb":
+            return "no";
+        case "zh-hans":
+            return "zh-CN";
+        case "zh-hant":
+            return "zh-TW";
         case "en-us":
         case "en-gb":
             return "en";

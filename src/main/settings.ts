@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { Settings } from "@api/Settings";
-import { NATIVE_SETTINGS_FILE, SETTINGS_DIR, SETTINGS_FILE } from "@main/utils/constants";
-import { IpcEvents } from "@shared/IpcEvents";
-import { SettingsStore } from "@shared/SettingsStore";
-import { mergeDefaults } from "@utils/mergeDefaults";
-import { ipcMain } from "electron";
-import { mkdirSync, readFileSync, writeFileSync } from "fs";
+import type {Settings} from "@api/Settings";
+import {NATIVE_SETTINGS_FILE, SETTINGS_DIR, SETTINGS_FILE} from "@main/utils/constants";
+import {IpcEvents} from "@shared/IpcEvents";
+import {SettingsStore} from "@shared/SettingsStore";
+import {mergeDefaults} from "@utils/mergeDefaults";
+import {ipcMain} from "electron";
+import {mkdirSync, readFileSync, writeFileSync} from "fs";
 
-mkdirSync(SETTINGS_DIR, { recursive: true });
+mkdirSync(SETTINGS_DIR, {recursive: true});
 
 function readSettings<T = object>(name: string, file: string): Partial<T> {
     try {

@@ -12,7 +12,7 @@ export let EXTENSION_VERSION: string;
 if (IS_EXTENSION) {
     const listener = (e: MessageEvent) => {
         if (e.data?.type === "vencord:meta") {
-            ({ EXTENSION_BASE_URL, EXTENSION_VERSION } = e.data.meta);
+            ({EXTENSION_BASE_URL, EXTENSION_VERSION} = e.data.meta);
             window.removeEventListener("message", listener);
         }
     };

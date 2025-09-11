@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Logger } from "@utils/Logger";
+import {Logger} from "@utils/Logger";
 import * as Webpack from "@webpack";
-import { getBuildNumber, patchTimings } from "@webpack/patcher";
+import {getBuildNumber, patchTimings} from "@webpack/patcher";
 
-import { addPatch, patches } from "../plugins";
-import { loadLazyChunks } from "./loadLazyChunks";
+import {addPatch, patches} from "../plugins";
+import {loadLazyChunks} from "./loadLazyChunks";
 
 async function runReporter() {
     const ReporterLogger = new Logger("Reporter");
@@ -19,7 +19,7 @@ async function runReporter() {
     try {
         ReporterLogger.log("Starting test...");
 
-        const { promise: loadLazyChunksDone, resolve: loadLazyChunksResolve } = Promise.withResolvers<void>();
+        const {promise: loadLazyChunksDone, resolve: loadLazyChunksResolve} = Promise.withResolvers<void>();
 
         // The main patch for starting the reporter chunk loading
         addPatch({

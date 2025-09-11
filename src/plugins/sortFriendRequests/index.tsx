@@ -8,14 +8,14 @@
 
 import "./styles.css";
 
-import { definePluginSettings } from "@api/Settings";
-import { classNameFactory } from "@api/Styles";
+import {definePluginSettings} from "@api/Settings";
+import {classNameFactory} from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { User } from "@vencord/discord-types";
-import { DateUtils, RelationshipStore, Text, TooltipContainer } from "@webpack/common";
-import { PropsWithChildren } from "react";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
+import {User} from "@vencord/discord-types";
+import {DateUtils, RelationshipStore, Text, TooltipContainer} from "@webpack/common";
+import {PropsWithChildren} from "react";
 
 const formatter = new Intl.DateTimeFormat(undefined, {
     month: "numeric",
@@ -65,7 +65,7 @@ export default definePlugin({
             : comparator(row);
     },
 
-    WrapperDateComponent: ErrorBoundary.wrap(({ user, children }: PropsWithChildren<{ user: User; }>) => {
+    WrapperDateComponent: ErrorBoundary.wrap(({user, children}: PropsWithChildren<{ user: User; }>) => {
         const since = getSince(user);
 
         return <div className={cl("wrapper")}>
@@ -76,5 +76,5 @@ export default definePlugin({
                 </TooltipContainer>
             )}
         </div>;
-    }, { noop: true })
+    }, {noop: true})
 });

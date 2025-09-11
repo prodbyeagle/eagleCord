@@ -8,6 +8,23 @@
 
 // DO NOT REMOVE UNLESS YOU WISH TO FACE THE WRATH OF THE CIRCULAR DEPENDENCY DEMON!!!!!!!
 import "~plugins";
+import "./utils/quickCss";
+import "./webpack/patchWebpack";
+
+import {openUpdaterModal} from "@components/settings/tabs/updater";
+import {IS_WINDOWS} from "@utils/constants";
+import {StartAt} from "@utils/types";
+
+import {get as dsGet} from "./api/DataStore";
+import {NotificationData, showNotification} from "./api/Notifications";
+import {PlainSettings, Settings} from "./api/Settings";
+import {patches, PMLogger, startAllPlugins} from "./plugins";
+import {localStorage} from "./utils/localStorage";
+import {relaunch} from "./utils/native";
+import {getCloudSettings, putCloudSettings} from "./utils/settingsSync";
+import {checkForUpdates, update, UpdateLogger} from "./utils/updater";
+import {onceReady} from "./webpack";
+import {SettingsRouter} from "./webpack/common";
 
 export * as Api from "./api";
 export * as Components from "./components";
@@ -17,25 +34,7 @@ export * as QuickCss from "./utils/quickCss";
 export * as Updater from "./utils/updater";
 export * as Webpack from "./webpack";
 export * as WebpackPatcher from "./webpack/patchWebpack";
-export { PlainSettings, Settings };
-
-import "./utils/quickCss";
-import "./webpack/patchWebpack";
-
-import { openUpdaterModal } from "@components/settings/tabs/updater";
-import { IS_WINDOWS } from "@utils/constants";
-import { StartAt } from "@utils/types";
-
-import { get as dsGet } from "./api/DataStore";
-import { NotificationData, showNotification } from "./api/Notifications";
-import { PlainSettings, Settings } from "./api/Settings";
-import { patches, PMLogger, startAllPlugins } from "./plugins";
-import { localStorage } from "./utils/localStorage";
-import { relaunch } from "./utils/native";
-import { getCloudSettings, putCloudSettings } from "./utils/settingsSync";
-import { checkForUpdates, update, UpdateLogger } from "./utils/updater";
-import { onceReady } from "./webpack";
-import { SettingsRouter } from "./webpack/common";
+export {PlainSettings, Settings};
 
 if (IS_REPORTER) {
     require("./debug/runReporter");
@@ -161,4 +160,4 @@ document.addEventListener("DOMContentLoaded", () => {
             textContent: "[class*=titleBar]{display: none!important}"
         }));
     }
-}, { once: true });
+}, {once: true});

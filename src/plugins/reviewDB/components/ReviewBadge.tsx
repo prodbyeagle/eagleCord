@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MaskedLink, React, Tooltip } from "@webpack/common";
-import { HTMLAttributes } from "react";
+import {MaskedLink, React, Tooltip} from "@webpack/common";
+import {HTMLAttributes} from "react";
 
-import { Badge } from "../entities";
-import { cl } from "../utils";
+import {Badge} from "../entities";
+import {cl} from "../utils";
 
 export default function ReviewBadge(badge: Badge & { onClick?(): void; }) {
     const Wrapper = badge.redirectURL
@@ -22,7 +22,7 @@ export default function ReviewBadge(badge: Badge & { onClick?(): void; }) {
     return (
         <Tooltip
             text={badge.name}>
-            {({ onMouseEnter, onMouseLeave }) => (
+            {({onMouseEnter, onMouseLeave}) => (
                 <Wrapper className={cl("blocked-badge")} href={badge.redirectURL!} onClick={badge.onClick}>
                     <img
                         className={cl("badge")}

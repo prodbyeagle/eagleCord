@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { mergeDefaults } from "@utils/mergeDefaults";
-import { CommandArgument, Message } from "@vencord/discord-types";
-import { findByCodeLazy } from "@webpack";
-import { MessageActions, SnowflakeUtils } from "@webpack/common";
-import type { PartialDeep } from "type-fest";
+import {mergeDefaults} from "@utils/mergeDefaults";
+import {CommandArgument, Message} from "@vencord/discord-types";
+import {findByCodeLazy} from "@webpack";
+import {MessageActions, SnowflakeUtils} from "@webpack/common";
+import type {PartialDeep} from "type-fest";
 
 const createBotMessage = findByCodeLazy('username:"Clyde"');
 
@@ -25,7 +25,7 @@ export function generateId() {
  * @returns {Message}
  */
 export function sendBotMessage(channelId: string, message: PartialDeep<Message>): Message {
-    const botMessage = createBotMessage({ channelId, content: "", embeds: [] });
+    const botMessage = createBotMessage({channelId, content: "", embeds: []});
 
     MessageActions.receiveMessage(channelId, mergeDefaults(message, botMessage));
 

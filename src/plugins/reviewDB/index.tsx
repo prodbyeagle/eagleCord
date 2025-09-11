@@ -8,26 +8,26 @@
 
 import "./style.css";
 
-import { NavContextMenuPatchCallback } from "@api/ContextMenu";
+import {NavContextMenuPatchCallback} from "@api/ContextMenu";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { NotesIcon, OpenExternalIcon } from "@components/Icons";
-import { Devs } from "@utils/constants";
-import { classes } from "@utils/misc";
+import {NotesIcon, OpenExternalIcon} from "@components/Icons";
+import {Devs} from "@utils/constants";
+import {classes} from "@utils/misc";
 import definePlugin from "@utils/types";
-import { Guild, User } from "@vencord/discord-types";
-import { findByPropsLazy } from "@webpack";
-import { Alerts, Button, Menu, Parser, TooltipContainer } from "@webpack/common";
+import {Guild, User} from "@vencord/discord-types";
+import {findByPropsLazy} from "@webpack";
+import {Alerts, Button, Menu, Parser, TooltipContainer} from "@webpack/common";
 
-import { Auth, initAuth, updateAuth } from "./auth";
-import { openReviewsModal } from "./components/ReviewModal";
-import { NotificationType, ReviewType } from "./entities";
-import { getCurrentUserInfo, readNotification } from "./reviewDbApi";
-import { settings } from "./settings";
-import { showToast } from "./utils";
+import {Auth, initAuth, updateAuth} from "./auth";
+import {openReviewsModal} from "./components/ReviewModal";
+import {NotificationType, ReviewType} from "./entities";
+import {getCurrentUserInfo, readNotification} from "./reviewDbApi";
+import {settings} from "./settings";
+import {showToast} from "./utils";
 
 const RoleButtonClasses = findByPropsLazy("button", "buttonInner", "icon", "banner");
 
-const guildPopoutPatch: NavContextMenuPatchCallback = (children, { guild }: { guild: Guild, onClose(): void; }) => {
+const guildPopoutPatch: NavContextMenuPatchCallback = (children, {guild}: { guild: Guild, onClose(): void; }) => {
     if (!guild) return;
     children.push(
         <Menu.MenuItem
@@ -39,7 +39,7 @@ const guildPopoutPatch: NavContextMenuPatchCallback = (children, { guild }: { gu
     );
 };
 
-const userContextPatch: NavContextMenuPatchCallback = (children, { user }: { user?: User, onClose(): void; }) => {
+const userContextPatch: NavContextMenuPatchCallback = (children, {user}: { user?: User, onClose(): void; }) => {
     if (!user) return;
     children.push(
         <Menu.MenuItem
@@ -88,7 +88,7 @@ export default definePlugin({
 
     async start() {
         const s = settings.store;
-        const { lastReviewId, notifyReviews } = s;
+        const {lastReviewId, notifyReviews} = s;
 
         await initAuth();
 
@@ -96,7 +96,7 @@ export default definePlugin({
             if (!Auth.token) return;
 
             const user = await getCurrentUserInfo(Auth.token);
-            updateAuth({ user });
+            updateAuth({user});
 
             if (notifyReviews) {
                 if (lastReviewId && lastReviewId < user.lastReviewID) {
@@ -136,7 +136,7 @@ export default definePlugin({
         }, 4000);
     },
 
-    BiteSizeReviewsButton: ErrorBoundary.wrap(({ user }: { user: User; }) => {
+    BiteSizeReviewsButton: ErrorBoundary.wrap(({user}: { user: User; }) => {
         return (
             <TooltipContainer text="View Reviews">
                 <Button
@@ -147,9 +147,9 @@ export default definePlugin({
                     className={classes(RoleButtonClasses.button, RoleButtonClasses.icon, RoleButtonClasses.banner)}
                     innerClassName={classes(RoleButtonClasses.buttonInner, RoleButtonClasses.icon, RoleButtonClasses.banner)}
                 >
-                    <NotesIcon height={16} width={16} />
+                    <NotesIcon height={16} width={16}/>
                 </Button>
             </TooltipContainer>
         );
-    }, { noop: true })
+    }, {noop: true})
 });

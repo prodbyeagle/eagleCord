@@ -8,7 +8,7 @@
 
 export * from "./CheckedTextInput";
 export * from "./CodeBlock";
-export { default as ErrorBoundary } from "./ErrorBoundary";
+export {default as ErrorBoundary} from "./ErrorBoundary";
 export * from "./ErrorCard";
 export * from "./Flex";
 export * from "./Grid";

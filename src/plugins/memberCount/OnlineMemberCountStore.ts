@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { proxyLazy } from "@utils/lazy";
-import { sleep } from "@utils/misc";
-import { Queue } from "@utils/Queue";
-import { ChannelActionCreators, Flux, FluxDispatcher, GuildChannelStore } from "@webpack/common";
+import {proxyLazy} from "@utils/lazy";
+import {sleep} from "@utils/misc";
+import {Queue} from "@utils/Queue";
+import {ChannelActionCreators, Flux, FluxDispatcher, GuildChannelStore} from "@webpack/common";
 
 export const OnlineMemberCountStore = proxyLazy(() => {
     const preloadQueue = new Queue();
@@ -41,13 +41,13 @@ export const OnlineMemberCountStore = proxyLazy(() => {
     }
 
     return new OnlineMemberCountStore(FluxDispatcher, {
-        GUILD_MEMBER_LIST_UPDATE({ guildId, groups }: { guildId: string, groups: { count: number; id: string; }[]; }) {
+        GUILD_MEMBER_LIST_UPDATE({guildId, groups}: { guildId: string, groups: { count: number; id: string; }[]; }) {
             onlineMemberMap.set(
                 guildId,
                 groups.reduce((total, curr) => total + (curr.id === "offline" ? 0 : curr.count), 0)
             );
         },
-        ONLINE_GUILD_MEMBER_COUNT_UPDATE({ guildId, count }) {
+        ONLINE_GUILD_MEMBER_COUNT_UPDATE({guildId, count}) {
             onlineMemberMap.set(guildId, count);
         }
     });

@@ -50,7 +50,7 @@ export function hexToHSL(hexCode: string) {
     saturation *= 100;
     lightness *= 100;
 
-    return { hue, saturation, lightness };
+    return {hue, saturation, lightness};
 }
 
 // https://www.w3.org/TR/WCAG21/#dfn-relative-luminance

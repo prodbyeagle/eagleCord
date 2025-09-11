@@ -8,23 +8,23 @@
 
 import "./ContributorModal.css";
 
-import { ProfileBadge } from "@api/Badges";
-import { useSettings } from "@api/Settings";
-import { classNameFactory } from "@api/Styles";
+import {ProfileBadge} from "@api/Badges";
+import {useSettings} from "@api/Settings";
+import {classNameFactory} from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Link } from "@components/Link";
-import { DevsById } from "@utils/constants";
-import { fetchUserProfile } from "@utils/discord";
-import { Margins } from "@utils/margins";
-import { classes, pluralise } from "@utils/misc";
-import { ModalContent, ModalHeader, ModalRoot, openModal } from "@utils/modal";
-import { User } from "@vencord/discord-types";
-import { Flex, Forms, showToast, useEffect, useMemo, UserProfileStore, useStateFromStores } from "@webpack/common";
+import {Link} from "@components/Link";
+import {DevsById} from "@utils/constants";
+import {fetchUserProfile} from "@utils/discord";
+import {Margins} from "@utils/margins";
+import {classes, pluralise} from "@utils/misc";
+import {ModalContent, ModalHeader, ModalRoot, openModal} from "@utils/modal";
+import {User} from "@vencord/discord-types";
+import {Flex, Forms, showToast, useEffect, useMemo, UserProfileStore, useStateFromStores} from "@webpack/common";
 
 import Plugins from "~plugins";
 
-import { GithubButton, WebsiteButton } from "./LinkIconButton";
-import { PluginCard } from "./PluginCard";
+import {GithubButton, WebsiteButton} from "./LinkIconButton";
+import {PluginCard} from "./PluginCard";
 
 const cl = classNameFactory("vc-author-modal-");
 
@@ -33,7 +33,7 @@ export function openStaffModal(badge: ProfileBadge) {
         <ModalRoot {...modalProps}>
             <ErrorBoundary>
                 <ModalContent className={cl("root")}>
-                    <StaffModal badge={badge} />
+                    <StaffModal badge={badge}/>
                 </ModalContent>
             </ErrorBoundary>
         </ModalRoot>
@@ -45,18 +45,18 @@ export function openContributorModal(user: User) {
         <ModalRoot {...modalProps}>
             <ErrorBoundary>
                 <ModalContent className={cl("root")}>
-                    <ContributorModal user={user} />
+                    <ContributorModal user={user}/>
                 </ModalContent>
             </ErrorBoundary>
         </ModalRoot>
     );
 }
 
-function StaffModal({ badge }: { badge: ProfileBadge; }) {
+function StaffModal({badge}: { badge: ProfileBadge; }) {
     return (
         <>
             <ModalHeader>
-                <Flex style={{ width: "100%", justifyContent: "center", gap: "1rem" }}>
+                <Flex style={{width: "100%", justifyContent: "center", gap: "1rem"}}>
                     <Forms.FormTitle
                         style={{
                             width: "100%",
@@ -70,7 +70,7 @@ function StaffModal({ badge }: { badge: ProfileBadge; }) {
             </ModalHeader>
 
             <ModalContent>
-                <Flex style={{ justifyContent: "center", gap: "1rem" }}>
+                <Flex style={{justifyContent: "center", gap: "1rem"}}>
                     <img
                         src={badge.image}
                         alt="EagleCord Former Staff Badge"
@@ -81,10 +81,11 @@ function StaffModal({ badge }: { badge: ProfileBadge; }) {
                         }}
                     />
                 </Flex>
-                <div style={{ padding: "1em", textAlign: "center", gap: "1rem" }}>
+                <div style={{padding: "1em", textAlign: "center", gap: "1rem"}}>
                     <Forms.FormText>{badge.description}</Forms.FormText>
                     <Forms.FormText className={Margins.top20}>
-                        This user is a former staff member of EagleCord. I want to honor and remember my former colleagues.
+                        This user is a former staff member of EagleCord. I want to honor and remember my former
+                        colleagues.
                     </Forms.FormText>
                 </div>
             </ModalContent>
@@ -92,7 +93,7 @@ function StaffModal({ badge }: { badge: ProfileBadge; }) {
     );
 }
 
-function ContributorModal({ user }: { user: User; }) {
+function ContributorModal({user}: { user: User; }) {
     useSettings();
 
     const profile = useStateFromStores([UserProfileStore], () => UserProfileStore.getUserProfile(user.id));

@@ -6,16 +6,26 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ErrorCard } from "@components/ErrorCard";
-import { Devs, IS_LINUX } from "@utils/constants";
-import { Logger } from "@utils/Logger";
-import { Margins } from "@utils/margins";
-import { wordsToTitle } from "@utils/text";
-import definePlugin, { ReporterTestable } from "@utils/types";
-import { Button, ChannelStore, Forms, GuildMemberStore, SelectedChannelStore, SelectedGuildStore, useMemo, UserStore, VoiceStateStore } from "@webpack/common";
-import { ReactElement } from "react";
+import {ErrorCard} from "@components/ErrorCard";
+import {Devs, IS_LINUX} from "@utils/constants";
+import {Logger} from "@utils/Logger";
+import {Margins} from "@utils/margins";
+import {wordsToTitle} from "@utils/text";
+import definePlugin, {ReporterTestable} from "@utils/types";
+import {
+    Button,
+    ChannelStore,
+    Forms,
+    GuildMemberStore,
+    SelectedChannelStore,
+    SelectedGuildStore,
+    useMemo,
+    UserStore,
+    VoiceStateStore
+} from "@webpack/common";
+import {ReactElement} from "react";
 
-import { getCurrentVoice, settings } from "./settings";
+import {getCurrentVoice, settings} from "./settings";
 
 interface VoiceStateChangeEvent {
     userId: string;
@@ -34,7 +44,7 @@ interface VoiceStateChangeEvent {
 function speak(text: string) {
     if (!text) return;
 
-    const { volume, rate } = settings.store;
+    const {volume, rate} = settings.store;
 
     const speech = new SpeechSynthesisUtterance(text);
     const voice = getCurrentVoice();
@@ -75,7 +85,7 @@ let StatusMap = {} as Record<string, {
 // for some ungodly reason
 let myLastChannelId: string | undefined;
 
-function getTypeAndChannelId({ channelId, oldChannelId }: VoiceStateChangeEvent, isMe: boolean) {
+function getTypeAndChannelId({channelId, oldChannelId}: VoiceStateChangeEvent, isMe: boolean) {
     if (isMe && channelId !== myLastChannelId) {
         oldChannelId = myLastChannelId;
         myLastChannelId = channelId;
@@ -150,7 +160,7 @@ export default definePlugin({
     settings,
 
     flux: {
-        VOICE_STATE_UPDATES({ voiceStates }: { voiceStates: VoiceStateChangeEvent[]; }) {
+        VOICE_STATE_UPDATES({voiceStates}: { voiceStates: VoiceStateChangeEvent[]; }) {
             const myGuildId = SelectedGuildStore.getGuildId();
             const myChanId = SelectedChannelStore.getVoiceChannelId();
             const myId = UserStore.getCurrentUser().id;
@@ -158,7 +168,7 @@ export default definePlugin({
             if (ChannelStore.getChannel(myChanId!)?.type === 13 /* Stage Channel */) return;
 
             for (const state of voiceStates) {
-                const { userId, channelId, oldChannelId } = state;
+                const {userId, channelId, oldChannelId} = state;
                 const isMe = userId === myId;
                 if (!isMe) {
                     if (!myChanId) continue;
@@ -228,17 +238,21 @@ export default definePlugin({
                 : "Try installing some in the Narrator settings of your Operating System";
             errorComponent = <ErrorCard>{error}</ErrorCard>;
         } else if (!hasEnglishVoices) {
-            errorComponent = <ErrorCard>You don't have any English voices installed, so the narrator might sound weird</ErrorCard>;
+            errorComponent =
+                <ErrorCard>You don't have any English voices installed, so the narrator might sound weird</ErrorCard>;
         }
 
         return (
             <Forms.FormSection>
                 <Forms.FormText>
-                    You can customise the spoken messages below. You can disable specific messages by setting them to nothing
+                    You can customise the spoken messages below. You can disable specific messages by setting them to
+                    nothing
                 </Forms.FormText>
                 <Forms.FormText>
-                    The special placeholders <code>{"{{USER}}"}</code>, <code>{"{{DISPLAY_NAME}}"}</code>, <code>{"{{NICKNAME}}"}</code> and <code>{"{{CHANNEL}}"}</code>{" "}
-                    will be replaced with the user's name (nothing if it's yourself), the user's display name, the user's nickname on current server and the channel's name respectively
+                    The special
+                    placeholders <code>{"{{USER}}"}</code>, <code>{"{{DISPLAY_NAME}}"}</code>, <code>{"{{NICKNAME}}"}</code> and <code>{"{{CHANNEL}}"}</code>{" "}
+                    will be replaced with the user's name (nothing if it's yourself), the user's display name, the
+                    user's nickname on current server and the channel's name respectively
                 </Forms.FormText>
                 {hasEnglishVoices && (
                     <>

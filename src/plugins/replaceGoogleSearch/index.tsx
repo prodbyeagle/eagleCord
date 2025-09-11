@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { Flex, Menu } from "@webpack/common";
+import {findGroupChildrenByChildId, NavContextMenuPatchCallback} from "@api/ContextMenu";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
+import {Flex, Menu} from "@webpack/common";
 
 const DefaultEngines = {
     Google: "https://www.google.com/search?q=",
@@ -48,7 +48,7 @@ function makeSearchItem(src: string) {
         Engines[settings.store.customEngineName] = settings.store.customEngineURL;
     }
 
-    Engines = { ...Engines, ...DefaultEngines };
+    Engines = {...Engines, ...DefaultEngines};
 
     return (
         <Menu.MenuItem
@@ -63,7 +63,7 @@ function makeSearchItem(src: string) {
                         key={key}
                         id={key}
                         label={
-                            <Flex style={{ alignItems: "center", gap: "0.5em" }}>
+                            <Flex style={{alignItems: "center", gap: "0.5em"}}>
                                 <img
                                     style={{
                                         borderRadius: "50%"

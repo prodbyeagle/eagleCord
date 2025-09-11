@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { popNotice, showNotice } from "@api/Notices";
-import { Link } from "@components/Link";
-import { Devs } from "@utils/constants";
-import definePlugin, { ReporterTestable } from "@utils/types";
-import { findByCodeLazy } from "@webpack";
-import { ApplicationAssetUtils, FluxDispatcher, Forms, Toasts } from "@webpack/common";
+import {popNotice, showNotice} from "@api/Notices";
+import {Link} from "@components/Link";
+import {Devs} from "@utils/constants";
+import definePlugin, {ReporterTestable} from "@utils/types";
+import {findByCodeLazy} from "@webpack";
+import {ApplicationAssetUtils, FluxDispatcher, Forms, Toasts} from "@webpack/common";
 
 const fetchApplicationsRPC = findByCodeLazy('"Invalid Origin"', ".application");
 
@@ -20,6 +20,7 @@ async function lookupAsset(applicationId: string, key: string): Promise<string> 
 }
 
 const apps: any = {};
+
 async function lookupApp(applicationId: string): Promise<string> {
     const socket: any = {};
     await fetchApplicationsRPC(socket, applicationId);
@@ -38,7 +39,8 @@ export default definePlugin({
         <>
             <Forms.FormTitle tag="h3">How to use arRPC</Forms.FormTitle>
             <Forms.FormText>
-                <Link href="https://github.com/OpenAsar/arrpc/tree/main#server">Follow the instructions in the GitHub repo</Link> to get the server running, and then enable the plugin.
+                <Link href="https://github.com/OpenAsar/arrpc/tree/main#server">Follow the instructions in the GitHub
+                    repo</Link> to get the server running, and then enable the plugin.
             </Forms.FormText>
         </>
     ),
@@ -46,7 +48,7 @@ export default definePlugin({
     async handleEvent(e: MessageEvent<any>) {
         const data = JSON.parse(e.data);
 
-        const { activity } = data;
+        const {activity} = data;
         const assets = activity?.assets;
 
         if (assets?.large_image) assets.large_image = await lookupAsset(activity.application_id, assets.large_image);
@@ -60,7 +62,7 @@ export default definePlugin({
             activity.name ||= app.name;
         }
 
-        FluxDispatcher.dispatch({ type: "LOCAL_ACTIVITY_UPDATE", ...data });
+        FluxDispatcher.dispatch({type: "LOCAL_ACTIVITY_UPDATE", ...data});
     },
 
     async start() {
@@ -90,7 +92,7 @@ export default definePlugin({
     },
 
     stop() {
-        FluxDispatcher.dispatch({ type: "LOCAL_ACTIVITY_UPDATE", activity: null }); // clear status
+        FluxDispatcher.dispatch({type: "LOCAL_ACTIVITY_UPDATE", activity: null}); // clear status
         ws?.close(); // close WebSocket
     }
 });

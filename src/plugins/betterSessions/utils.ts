@@ -6,11 +6,21 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { DataStore } from "@api/index";
-import { UserStore } from "@webpack/common";
+import {DataStore} from "@api/index";
+import {UserStore} from "@webpack/common";
 
-import { ChromeIcon, DiscordIcon, EdgeIcon, FirefoxIcon, IEIcon, MobileIcon, OperaIcon, SafariIcon, UnknownIcon } from "./components/icons";
-import { SessionInfo } from "./types";
+import {
+    ChromeIcon,
+    DiscordIcon,
+    EdgeIcon,
+    FirefoxIcon,
+    IEIcon,
+    MobileIcon,
+    OperaIcon,
+    SafariIcon,
+    UnknownIcon
+} from "./components/icons";
+import {SessionInfo} from "./types";
 
 const getDataKey = () => `BetterSessions_savedSessions_${UserStore.getCurrentUser().id}`;
 
@@ -25,7 +35,10 @@ export function saveSessionsToDataStore() {
 }
 
 export async function fetchNamesFromDataStore() {
-    const savedSessions = await DataStore.get<Map<string, { name: string, isNew: boolean; }>>(getDataKey()) || new Map();
+    const savedSessions = await DataStore.get<Map<string, {
+        name: string,
+        isNew: boolean;
+    }>>(getDataKey()) || new Map();
     savedSessions.forEach((data, idHash) => {
         savedSessionsCache.set(idHash, data);
     });

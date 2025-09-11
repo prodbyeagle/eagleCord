@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { findStoreLazy } from "@webpack";
-import { Constants, FluxDispatcher, GuildStore, RelationshipStore, SnowflakeUtils, UserStore } from "@webpack/common";
-import { Settings } from "Vencord";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
+import {findStoreLazy} from "@webpack";
+import {Constants, FluxDispatcher, GuildStore, RelationshipStore, SnowflakeUtils, UserStore} from "@webpack/common";
+import {Settings} from "Vencord";
 
 const UserAffinitiesStore = findStoreLazy("UserAffinitiesV2Store");
 
@@ -132,7 +132,7 @@ export default definePlugin({
         // Note: As we are using OP 8 here, implicit relationships who we do not share a guild
         // with will not be fetched; so, if they're not otherwise cached, they will not be shown
         // This should not be a big deal as these should be rare
-        const callback = ({ chunks }) => {
+        const callback = ({chunks}) => {
             const chunkCount = chunks.filter(chunk => chunk.nonce === sentNonce).length;
             if (chunkCount === 0) return;
 

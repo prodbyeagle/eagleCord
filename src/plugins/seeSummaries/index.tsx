@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { DataStore } from "@api/index";
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import { hasGuildFeature } from "@utils/discord";
-import definePlugin, { OptionType } from "@utils/types";
-import { findByCodeLazy, findByPropsLazy } from "@webpack";
-import { ChannelStore, GuildStore } from "@webpack/common";
+import {DataStore} from "@api/index";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import {hasGuildFeature} from "@utils/discord";
+import definePlugin, {OptionType} from "@utils/types";
+import {findByCodeLazy, findByPropsLazy} from "@webpack";
+import {ChannelStore, GuildStore} from "@webpack/common";
 
 const SummaryStore = findByPropsLazy("allSummaries", "findSummary");
 const createSummaryFromServer = findByCodeLazy(".people)),startId:", ".type}");
@@ -74,7 +74,10 @@ export default definePlugin({
     ],
     flux: {
         CONVERSATION_SUMMARY_UPDATE(data) {
-            const incomingSummaries: ChannelSummaries[] = data.summaries.map((summary: any) => ({ ...createSummaryFromServer(summary), time: Date.now() }));
+            const incomingSummaries: ChannelSummaries[] = data.summaries.map((summary: any) => ({
+                ...createSummaryFromServer(summary),
+                time: Date.now()
+            }));
 
             // idk if this is good for performance but it doesnt seem to be a problem in my experience
             DataStore.update("summaries-data", summaries => {

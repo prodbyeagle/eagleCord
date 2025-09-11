@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { LiteralUnion } from "type-fest";
+import {LiteralUnion} from "type-fest";
 
 export const SYM_IS_PROXY = Symbol("SettingsStore.isProxy");
 export const SYM_GET_RAW_TARGET = Symbol("SettingsStore.getRawTarget");
@@ -14,11 +14,11 @@ export const SYM_GET_RAW_TARGET = Symbol("SettingsStore.getRawTarget");
 // Resolves a possibly nested prop in the form of "some.nested.prop" to type of T.some.nested.prop
 type ResolvePropDeep<T, P> = P extends `${infer Pre}.${infer Suf}`
     ? Pre extends keyof T
-    ? ResolvePropDeep<T[Pre], Suf>
-    : any
+        ? ResolvePropDeep<T[Pre], Suf>
+        : any
     : P extends keyof T
-    ? T[P]
-    : any;
+        ? T[P]
+        : any;
 
 interface SettingsStoreOptions {
     readOnly?: boolean;
@@ -31,7 +31,8 @@ interface SettingsStoreOptions {
 }
 
 // merges the SettingsStoreOptions type into the class
-export interface SettingsStore<T extends object> extends SettingsStoreOptions { }
+export interface SettingsStore<T extends object> extends SettingsStoreOptions {
+}
 
 interface ProxyContext<T extends object = any> {
     root: T;
@@ -67,7 +68,7 @@ export class SettingsStore<T extends object> {
                     return v;
                 }
 
-                const { root, path } = proxyContext;
+                const {root, path} = proxyContext;
 
                 if (!(key in target) && self.getDefaultValue != null) {
                     v = self.getDefaultValue({
@@ -103,7 +104,7 @@ export class SettingsStore<T extends object> {
                     return true;
                 }
 
-                const { root, path } = proxyContext;
+                const {root, path} = proxyContext;
 
                 const setPath = `${path}${path && "."}${key}`;
                 self.notifyListeners(setPath, value, root);
@@ -120,7 +121,7 @@ export class SettingsStore<T extends object> {
                     return true;
                 }
 
-                const { root, path } = proxyContext;
+                const {root, path} = proxyContext;
 
                 const deletePath = `${path}${path && "."}${key}`;
                 self.notifyListeners(deletePath, undefined, root);

@@ -19,7 +19,8 @@ export class Logger {
         return ["%c %c %s ", "", `background: ${color}; color: black; font-weight: bold; border-radius: 5px;`, title];
     }
 
-    constructor(public name: string, public color: string = "white") { }
+    constructor(public name: string, public color: string = "white") {
+    }
 
     private _log(level: "log" | "error" | "warn" | "info" | "debug", levelColor: string, args: any[], customFmt = "") {
         if (IS_REPORTER && IS_WEB && !IS_VESKTOP) {

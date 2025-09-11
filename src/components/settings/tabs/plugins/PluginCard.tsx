@@ -6,32 +6,39 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { showNotice } from "@api/Notices";
-import { CogWheel, InfoIcon } from "@components/Icons";
-import { AddonCard } from "@components/settings/AddonCard";
-import { proxyLazy } from "@utils/lazy";
-import { classes, isObjectEmpty } from "@utils/misc";
-import { Plugin } from "@utils/types";
-import { findByPropsLazy } from "@webpack";
-import { React, showToast, Toasts } from "@webpack/common";
-import { Settings } from "Vencord";
+import {showNotice} from "@api/Notices";
+import {CogWheel, InfoIcon} from "@components/Icons";
+import {AddonCard} from "@components/settings/AddonCard";
+import {proxyLazy} from "@utils/lazy";
+import {classes, isObjectEmpty} from "@utils/misc";
+import {Plugin} from "@utils/types";
+import {findByPropsLazy} from "@webpack";
+import {React, showToast, Toasts} from "@webpack/common";
+import {Settings} from "Vencord";
 
-import { cl, logger } from ".";
-import { openPluginModal } from "./PluginModal";
+import {cl, logger} from ".";
+import {openPluginModal} from "./PluginModal";
 
 // Avoid circular dependency
-const { startDependenciesRecursive, startPlugin, stopPlugin, isPluginEnabled } = proxyLazy(() => require("plugins") as typeof import("plugins"));
+const {
+    startDependenciesRecursive,
+    startPlugin,
+    stopPlugin,
+    isPluginEnabled
+} = proxyLazy(() => require("plugins") as typeof import("plugins"));
 
 export const ButtonClasses = findByPropsLazy("button", "disabled", "enabled");
 
 interface PluginCardProps extends React.HTMLProps<HTMLDivElement> {
     plugin: Plugin;
     disabled: boolean;
+
     onRestartNeeded(name: string, key: string): void;
+
     isNew?: boolean;
 }
 
-export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, onMouseLeave, isNew }: PluginCardProps) {
+export function PluginCard({plugin, disabled, onRestartNeeded, onMouseEnter, onMouseLeave, isNew}: PluginCardProps) {
     const settings = Settings.plugins[plugin.name];
 
     const isEnabled = () => isPluginEnabled(plugin.name);
@@ -41,7 +48,7 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
 
         // If we're enabling a plugin, make sure all deps are enabled recursively.
         if (!wasEnabled) {
-            const { restartNeeded, failures } = startDependenciesRecursive(plugin);
+            const {restartNeeded, failures} = startDependenciesRecursive(plugin);
 
             if (failures.length) {
                 logger.error(`Failed to start dependencies for ${plugin.name}: ${failures.join(", ")}`);
@@ -104,10 +111,10 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
                     className={classes(ButtonClasses.button, cl("info-button"))}
                 >
                     {plugin.options && !isObjectEmpty(plugin.options)
-                        ? <CogWheel className={cl("info-icon")} />
-                        : <InfoIcon className={cl("info-icon")} />
+                        ? <CogWheel className={cl("info-icon")}/>
+                        : <InfoIcon className={cl("info-icon")}/>
                     }
                 </button>
-            } />
+            }/>
     );
 }

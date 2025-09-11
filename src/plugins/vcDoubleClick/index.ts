@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { ChannelStore, SelectedChannelStore } from "@webpack/common";
+import {ChannelStore, SelectedChannelStore} from "@webpack/common";
 
 const timers = {} as Record<string, {
     timeout?: NodeJS.Timeout;
@@ -47,7 +47,7 @@ export default definePlugin({
         }
     ],
 
-    shouldRunOnClick(e: MouseEvent, { channelId }) {
+    shouldRunOnClick(e: MouseEvent, {channelId}) {
         const channel = ChannelStore.getChannel(channelId);
         if (!channel || ![2, 13].includes(channel.type)) return true;
         return e.detail >= 2;
@@ -60,7 +60,7 @@ export default definePlugin({
             return;
         }
         // use a different counter for each channel
-        const data = (timers[id] ??= { timeout: void 0, i: 0 });
+        const data = (timers[id] ??= {timeout: void 0, i: 0});
         // clear any existing timer
         clearTimeout(data.timeout);
 

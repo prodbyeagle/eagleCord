@@ -8,17 +8,17 @@
 
 import "./shiki.css";
 
-import { enableStyle } from "@api/Styles";
-import { Devs } from "@utils/constants";
-import definePlugin, { ReporterTestable } from "@utils/types";
+import {enableStyle} from "@api/Styles";
+import {Devs} from "@utils/constants";
+import definePlugin, {ReporterTestable} from "@utils/types";
 import previewExampleText from "file://previewExample.tsx";
 
-import { shiki } from "./api/shiki";
-import { createHighlighter } from "./components/Highlighter";
+import {shiki} from "./api/shiki";
+import {createHighlighter} from "./components/Highlighter";
 import deviconStyle from "./devicon.css?managed";
-import { settings } from "./settings";
-import { DeviconSetting } from "./types";
-import { clearStyles } from "./utils/createStyle";
+import {settings} from "./settings";
+import {DeviconSetting} from "./types";
+import {clearStyles} from "./utils/createStyle";
 
 export default definePlugin({
     name: "ShikiCodeblocks",
@@ -62,7 +62,7 @@ export default definePlugin({
     // exports
     shiki,
     createHighlighter,
-    renderHighlighter: ({ lang, content }: { lang: string; content: string; }) => {
+    renderHighlighter: ({lang, content}: { lang: string; content: string; }) => {
         return createHighlighter({
             lang: lang?.toLowerCase(),
             content,

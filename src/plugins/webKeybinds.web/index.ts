@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs, IS_MAC } from "@utils/constants";
+import {Devs, IS_MAC} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { findByPropsLazy } from "@webpack";
-import { ComponentDispatch, FluxDispatcher, NavigationRouter, SelectedGuildStore, SettingsRouter } from "@webpack/common";
+import {findByPropsLazy} from "@webpack";
+import {ComponentDispatch, FluxDispatcher, NavigationRouter, SelectedGuildStore, SettingsRouter} from "@webpack/common";
 
 const KeyBinds = findByPropsLazy("JUMP_TO_GUILD", "SERVER_NEXT");
 

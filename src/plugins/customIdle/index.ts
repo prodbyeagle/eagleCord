@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Notices } from "@api/index";
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import definePlugin, { makeRange, OptionType } from "@utils/types";
-import { FluxDispatcher } from "@webpack/common";
+import {Notices} from "@api/index";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import definePlugin, {makeRange, OptionType} from "@utils/types";
+import {FluxDispatcher} from "@webpack/common";
 
 const settings = definePluginSettings({
     idleTimeout: {
@@ -78,7 +78,7 @@ export default definePlugin({
     },
 
     getIdleTimeout() { // milliseconds, default is 6e5
-        const { idleTimeout } = settings.store;
+        const {idleTimeout} = settings.store;
         return idleTimeout === 0 ? Infinity : idleTimeout * 60000;
     }
 });

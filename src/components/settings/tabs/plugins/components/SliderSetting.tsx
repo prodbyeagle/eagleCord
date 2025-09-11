@@ -6,12 +6,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { PluginOptionSlider } from "@utils/types";
-import { React, Slider, useState } from "@webpack/common";
+import {PluginOptionSlider} from "@utils/types";
+import {React, Slider, useState} from "@webpack/common";
 
-import { resolveError, SettingProps, SettingsSection } from "./Common";
+import {resolveError, SettingProps, SettingsSection} from "./Common";
 
-export function SliderSetting({ option, pluginSettings, definedSettings, id, onChange }: SettingProps<PluginOptionSlider>) {
+export function SliderSetting({
+                                  option,
+                                  pluginSettings,
+                                  definedSettings,
+                                  id,
+                                  onChange
+                              }: SettingProps<PluginOptionSlider>) {
     const def = pluginSettings[id] ?? option.default;
 
     const [error, setError] = useState<string | null>(null);

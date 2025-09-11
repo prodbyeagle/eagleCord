@@ -8,13 +8,13 @@
 
 import "./style.css";
 
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import { getIntlMessage } from "@utils/discord";
-import definePlugin, { OptionType } from "@utils/types";
-import { findByPropsLazy, findLazy, findStoreLazy } from "@webpack";
-import { FluxDispatcher } from "@webpack/common";
-import { ReactNode } from "react";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import {getIntlMessage} from "@utils/discord";
+import definePlugin, {OptionType} from "@utils/types";
+import {findByPropsLazy, findLazy, findStoreLazy} from "@webpack";
+import {FluxDispatcher} from "@webpack/common";
+import {ReactNode} from "react";
 
 import FolderSideBar from "./FolderSideBar";
 
@@ -112,9 +112,9 @@ export const settings = definePluginSettings({
         type: OptionType.SELECT,
         description: "Show the folder icon above the folder guilds in the BetterFolders sidebar",
         options: [
-            { label: "Never", value: FolderIconDisplay.Never },
-            { label: "Always", value: FolderIconDisplay.Always, default: true },
-            { label: "When more than one folder is expanded", value: FolderIconDisplay.MoreThanOneFolderExpanded }
+            {label: "Never", value: FolderIconDisplay.Never},
+            {label: "Always", value: FolderIconDisplay.Always, default: true},
+            {label: "When more than one folder is expanded", value: FolderIconDisplay.MoreThanOneFolderExpanded}
         ],
         restartNeeded: true
     }
@@ -319,7 +319,7 @@ export default definePlugin({
         }
 
         return (
-            <div style={{ display: "none" }}>
+            <div style={{display: "none"}}>
                 {originalComponent()}
             </div>
         );

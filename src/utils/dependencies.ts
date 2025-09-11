@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { makeLazy } from "@utils/lazy";
+import {makeLazy} from "@utils/lazy";
 
 /*
     Add dynamically loaded dependencies for plugins here.
@@ -38,6 +38,7 @@ export const enum ApngBlendOp {
     SOURCE,
     OVER
 }
+
 export interface ApngFrame {
     left: number;
     top: number;

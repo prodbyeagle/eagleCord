@@ -6,12 +6,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
-import { Menu } from "@webpack/common";
+import {findGroupChildrenByChildId, NavContextMenuPatchCallback} from "@api/ContextMenu";
+import {Menu} from "@webpack/common";
 
-import { addChannelToCategory, canMoveChannelInDirection, currentUserCategories, isPinned, moveChannel, removeChannelFromCategory } from "../data";
-import { PinOrder, settings } from "../index";
-import { openCategoryModal } from "./CreateCategoryModal";
+import {
+    addChannelToCategory,
+    canMoveChannelInDirection,
+    currentUserCategories,
+    isPinned,
+    moveChannel,
+    removeChannelFromCategory
+} from "../data";
+import {PinOrder, settings} from "../index";
+import {openCategoryModal} from "./CreateCategoryModal";
 
 function createPinMenuItem(channelId: string) {
     const pinned = isPinned(channelId);
@@ -30,7 +37,7 @@ function createPinMenuItem(channelId: string) {
                         color="brand"
                         action={() => openCategoryModal(null, channelId)}
                     />
-                    <Menu.MenuSeparator />
+                    <Menu.MenuSeparator/>
 
                     {
                         currentUserCategories.map(category => (

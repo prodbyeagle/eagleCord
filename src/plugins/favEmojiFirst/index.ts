@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Emoji } from "@vencord/discord-types";
-import { EmojiStore } from "@webpack/common";
+import {Emoji} from "@vencord/discord-types";
+import {EmojiStore} from "@webpack/common";
 
 interface EmojiAutocompleteState {
     query?: {
@@ -55,7 +55,7 @@ export default definePlugin({
         }
     ],
 
-    sortEmojis({ query }: EmojiAutocompleteState) {
+    sortEmojis({query}: EmojiAutocompleteState) {
         if (
             query?.type !== "EMOJIS_AND_STICKERS"
             || query.typeInfo?.sentinel !== ":"

@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { LazyComponent } from "@utils/lazyReact";
+import {LazyComponent} from "@utils/lazyReact";
 import * as t from "@vencord/discord-types";
-import { filters, mapMangledModuleLazy, waitFor } from "@webpack";
+import {filters, mapMangledModuleLazy, waitFor} from "@webpack";
 
-import { FormText } from "./FormText";
-import { waitForComponent } from "./internal";
+import {FormText} from "./FormText";
+import {waitForComponent} from "./internal";
 
 
 const FormTitle = waitForComponent<t.FormTitle>("FormTitle", filters.componentByCode('["defaultMargin".concat', '="h5"'));
@@ -77,7 +77,7 @@ export const ListScrollerNone = LazyComponent(() => createListScroller(listScrol
 export const ListScrollerThin = LazyComponent(() => createListScroller(listScrollerClasses.thin, listScrollerClasses.fade, "", ResizeObserver));
 export const ListScrollerAuto = LazyComponent(() => createListScroller(listScrollerClasses.auto, listScrollerClasses.fade, "", ResizeObserver));
 
-const { FocusLock_ } = mapMangledModuleLazy('document.getElementById("app-mount"))', {
+const {FocusLock_} = mapMangledModuleLazy('document.getElementById("app-mount"))', {
     FocusLock_: filters.componentByCode(".containerRef")
 }) as {
     FocusLock_: t.FocusLock;

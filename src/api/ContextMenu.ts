@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Logger } from "@utils/Logger";
-import { Menu, React } from "@webpack/common";
-import type { ReactElement } from "react";
+import {Logger} from "@utils/Logger";
+import {Menu, React} from "@webpack/common";
+import type {ReactElement} from "react";
 
 /**
  * @param children The rendered context menu elements

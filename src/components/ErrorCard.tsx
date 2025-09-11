@@ -8,8 +8,8 @@
 
 import "./ErrorCard.css";
 
-import { classes } from "@utils/misc";
-import type { HTMLProps } from "react";
+import {classes} from "@utils/misc";
+import type {HTMLProps} from "react";
 
 export function ErrorCard(props: React.PropsWithChildren<HTMLProps<HTMLDivElement>>) {
     return (

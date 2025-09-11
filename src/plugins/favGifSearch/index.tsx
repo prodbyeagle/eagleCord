@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
+import {definePluginSettings} from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { findByPropsLazy } from "@webpack";
-import { useCallback, useEffect, useRef, useState } from "@webpack/common";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
+import {findByPropsLazy} from "@webpack";
+import {useCallback, useEffect, useRef, useState} from "@webpack/common";
 
 interface SearchBarComponentProps {
     ref?: React.MutableRefObject<any>;
@@ -109,14 +109,14 @@ export default definePlugin({
         this.instance = instance;
         return (
             <ErrorBoundary noop>
-                <SearchBar instance={instance} SearchBarComponent={SearchBarComponent} />
+                <SearchBar instance={instance} SearchBarComponent={SearchBarComponent}/>
             </ErrorBoundary>
         );
     },
 
     getFav(favorites: Gif[]) {
         if (!this.instance || this.instance.dead) return favorites;
-        const { favorites: filteredFavorites } = this.instance.props;
+        const {favorites: filteredFavorites} = this.instance.props;
 
         return filteredFavorites != null && filteredFavorites?.length !== favorites.length ? filteredFavorites : favorites;
 
@@ -124,13 +124,13 @@ export default definePlugin({
 });
 
 
-function SearchBar({ instance, SearchBarComponent }: { instance: Instance; SearchBarComponent: TSearchBarComponent; }) {
+function SearchBar({instance, SearchBarComponent}: { instance: Instance; SearchBarComponent: TSearchBarComponent; }) {
     const [query, setQuery] = useState("");
     const ref = useRef<{ containerRef?: React.MutableRefObject<HTMLDivElement>; } | null>(null);
 
     const onChange = useCallback((searchQuery: string) => {
         setQuery(searchQuery);
-        const { props } = instance;
+        const {props} = instance;
 
         // return early
         if (searchQuery === "") {
@@ -186,7 +186,6 @@ function SearchBar({ instance, SearchBarComponent }: { instance: Instance; Searc
         />
     );
 }
-
 
 
 export function getTargetString(urlStr: string) {

@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { OptionType } from "@utils/types";
+import {definePluginSettings} from "@api/Settings";
+import {OptionType} from "@utils/types";
 
 export const settings = definePluginSettings({
     receivedInput: {
@@ -45,9 +45,9 @@ export const settings = definePluginSettings({
         description: IS_WEB ? "Translation service (Not supported on Web!)" : "Translation service",
         disabled: () => IS_WEB,
         options: [
-            { label: "Google Translate", value: "google", default: true },
-            { label: "DeepL Free", value: "deepl" },
-            { label: "DeepL Pro", value: "deepl-pro" }
+            {label: "Google Translate", value: "google", default: true},
+            {label: "DeepL Free", value: "deepl"},
+            {label: "DeepL Pro", value: "deepl-pro"}
         ] as const,
         onChange: resetLanguageDefaults
     },

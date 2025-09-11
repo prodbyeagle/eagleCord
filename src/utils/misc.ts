@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { copyToClipboard } from "@utils/clipboard";
-import { DevsById } from "@utils/constants";
-import { Toasts } from "@webpack/common";
+import {copyToClipboard} from "@utils/clipboard";
+import {DevsById} from "@utils/constants";
+import {Toasts} from "@webpack/common";
 
 /**
  * Calls .join(" ") on the arguments
@@ -89,7 +89,7 @@ export function pluralise(amount: number, singular: string, plural = singular + 
 
 export function interpolateIfDefined(strings: TemplateStringsArray, ...args: any[]) {
     if (args.some(arg => arg == null)) return "";
-    return String.raw({ raw: strings }, ...args);
+    return String.raw({raw: strings}, ...args);
 }
 
 export function tryOrElse<T>(func: () => T, fallback: T): T {

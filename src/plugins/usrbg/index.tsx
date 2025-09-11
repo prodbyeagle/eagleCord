@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings, SettingsStore } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import { Logger } from "@utils/Logger";
-import definePlugin, { OptionType } from "@utils/types";
-import { Toasts } from "@webpack/common";
+import {definePluginSettings, SettingsStore} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import {Logger} from "@utils/Logger";
+import definePlugin, {OptionType} from "@utils/types";
+import {Toasts} from "@webpack/common";
 
 const log = new Logger("USRBG (eagleCord)", "#139375");
 
@@ -24,8 +24,8 @@ const settings = definePluginSettings({
         description: "Banner to use if both Nitro and GitHub banners are present",
         type: OptionType.SELECT,
         options: [
-            { label: "Nitro banner", value: true, default: true },
-            { label: "GitHub banner", value: false }
+            {label: "Nitro banner", value: true, default: true},
+            {label: "GitHub banner", value: false}
         ]
     },
     voiceBackground: {
@@ -72,7 +72,9 @@ export default definePlugin({
         async "Refetch Banners"() {
             const success = await reloadBanners({
                 log,
-                setData: data => { data = data; }
+                setData: data => {
+                    data = data;
+                }
             });
 
             if (success) {
@@ -111,8 +113,8 @@ export default definePlugin({
         }
     ],
 
-    getVoiceBackgroundStyles({ className, participantUserId }: any) {
-        log.debug("getVoiceBackgroundStyles called with:", { className, participantUserId });
+    getVoiceBackgroundStyles({className, participantUserId}: any) {
+        log.debug("getVoiceBackgroundStyles called with:", {className, participantUserId});
 
         if (!participantUserId) {
             log.warn("Missing participantUserId in getVoiceBackgroundStyles");
@@ -134,7 +136,7 @@ export default definePlugin({
         log.debug("No background applied for user:", participantUserId);
     },
 
-    patchBannerUrl({ displayProfile }: any) {
+    patchBannerUrl({displayProfile}: any) {
         log.debug("patchBannerUrl called with:", displayProfile);
 
         if (!displayProfile) {
@@ -181,7 +183,9 @@ export default definePlugin({
         if (SettingsStore.store.eaglecord?.showBanner) {
             await reloadBanners({
                 log,
-                setData: data => { this.data = data; }
+                setData: data => {
+                    this.data = data;
+                }
             });
         } else {
             this.data = null;
@@ -196,7 +200,9 @@ export default definePlugin({
                 });
                 await reloadBanners({
                     log,
-                    setData: data => { this.data = data; }
+                    setData: data => {
+                        this.data = data;
+                    }
                 });
             } else {
                 Toasts.show({

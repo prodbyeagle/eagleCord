@@ -6,18 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { insertTextIntoChatInputBox } from "@utils/discord";
-import {
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalProps,
-    ModalRoot,
-    openModal,
-} from "@utils/modal";
-import { Button, Forms, React, Switch, TextInput } from "@webpack/common";
+import {insertTextIntoChatInputBox} from "@utils/discord";
+import {ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, openModal,} from "@utils/modal";
+import {Button, Forms, React, Switch, TextInput} from "@webpack/common";
 
-import { encrypt } from "../index";
+import {encrypt} from "../index";
 
 function EncModal(props: ModalProps) {
     const [secret, setSecret] = React.useState("");
@@ -34,22 +27,22 @@ function EncModal(props: ModalProps) {
             </ModalHeader>
 
             <ModalContent>
-                <Forms.FormTitle tag="h5" style={{ marginTop: "10px" }}>Secret</Forms.FormTitle>
+                <Forms.FormTitle tag="h5" style={{marginTop: "10px"}}>Secret</Forms.FormTitle>
                 <TextInput
                     onChange={(e: string) => {
                         setSecret(e);
                     }}
                 />
-                <Forms.FormTitle tag="h5" style={{ marginTop: "10px" }}>Cover (2 or more Words!!)</Forms.FormTitle>
+                <Forms.FormTitle tag="h5" style={{marginTop: "10px"}}>Cover (2 or more Words!!)</Forms.FormTitle>
                 <TextInput
                     disabled={noCover}
                     onChange={(e: string) => {
                         setCover(e);
                     }}
                 />
-                <Forms.FormTitle tag="h5" style={{ marginTop: "10px" }}>Password</Forms.FormTitle>
+                <Forms.FormTitle tag="h5" style={{marginTop: "10px"}}>Password</Forms.FormTitle>
                 <TextInput
-                    style={{ marginBottom: "20px" }}
+                    style={{marginBottom: "20px"}}
                     defaultValue={"password"}
                     onChange={(e: string) => {
                         setPassword(e);
@@ -85,7 +78,7 @@ function EncModal(props: ModalProps) {
                 <Button
                     color={Button.Colors.TRANSPARENT}
                     look={Button.Looks.LINK}
-                    style={{ left: 15, position: "absolute" }}
+                    style={{left: 15, position: "absolute"}}
                     onClick={() => {
                         props.onClose();
                     }}

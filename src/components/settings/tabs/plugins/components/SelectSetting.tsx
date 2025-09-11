@@ -6,12 +6,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { PluginOptionSelect } from "@utils/types";
-import { React, Select, useState } from "@webpack/common";
+import {PluginOptionSelect} from "@utils/types";
+import {React, Select, useState} from "@webpack/common";
 
-import { resolveError, SettingProps, SettingsSection } from "./Common";
+import {resolveError, SettingProps, SettingsSection} from "./Common";
 
-export function SelectSetting({ option, pluginSettings, definedSettings, onChange, id }: SettingProps<PluginOptionSelect>) {
+export function SelectSetting({
+                                  option,
+                                  pluginSettings,
+                                  definedSettings,
+                                  onChange,
+                                  id
+                              }: SettingProps<PluginOptionSelect>) {
     const def = pluginSettings[id] ?? option.options?.find(o => o.default)?.value;
 
     const [state, setState] = useState<any>(def ?? null);

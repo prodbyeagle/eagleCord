@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { Logger } from "@utils/Logger";
-import { OptionType } from "@utils/types";
+import {definePluginSettings} from "@api/Settings";
+import {Logger} from "@utils/Logger";
+import {OptionType} from "@utils/types";
 
-import { VoiceSettingSection } from "./VoiceSetting";
+import {VoiceSettingSection} from "./VoiceSetting";
 
 export const getDefaultVoice = () => window.speechSynthesis?.getVoices().find(v => v.default);
 

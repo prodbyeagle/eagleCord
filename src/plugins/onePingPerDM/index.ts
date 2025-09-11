@@ -6,21 +6,21 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { MessageJSON } from "@vencord/discord-types";
-import { ChannelType } from "@vencord/discord-types/enums";
-import { ChannelStore, ReadStateStore, UserStore } from "@webpack/common";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
+import {MessageJSON} from "@vencord/discord-types";
+import {ChannelType} from "@vencord/discord-types/enums";
+import {ChannelStore, ReadStateStore, UserStore} from "@webpack/common";
 
 const settings = definePluginSettings({
     channelToAffect: {
         type: OptionType.SELECT,
         description: "Select the type of DM for the plugin to affect",
         options: [
-            { label: "Both", value: "both_dms", default: true },
-            { label: "User DMs", value: "user_dm" },
-            { label: "Group DMs", value: "group_dm" },
+            {label: "Both", value: "both_dms", default: true},
+            {label: "User DMs", value: "user_dm"},
+            {label: "Group DMs", value: "group_dm"},
         ]
     },
     allowMentions: {

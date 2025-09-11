@@ -6,9 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { React } from "@webpack/common";
+import {React} from "@webpack/common";
 
 type Shiki = typeof import("../api/shiki").shiki;
+
 interface ThemeState {
     id: Shiki["currentThemeUrl"],
     theme: Shiki["currentTheme"],

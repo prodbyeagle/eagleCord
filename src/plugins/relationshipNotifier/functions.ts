@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { getUniqueUsername, openUserProfile } from "@utils/discord";
-import { ChannelType } from "@vencord/discord-types/enums";
-import { UserUtils } from "@webpack/common";
+import {getUniqueUsername, openUserProfile} from "@utils/discord";
+import {ChannelType} from "@vencord/discord-types/enums";
+import {UserUtils} from "@webpack/common";
 
 import settings from "./settings";
-import { ChannelDelete, GuildDelete, RelationshipRemove, RelationshipType } from "./types";
-import { deleteGroup, deleteGuild, getGroup, getGuild, GuildAvailabilityStore, notify } from "./utils";
+import {ChannelDelete, GuildDelete, RelationshipRemove, RelationshipType} from "./types";
+import {deleteGroup, deleteGuild, getGroup, getGuild, GuildAvailabilityStore, notify} from "./utils";
 
 let manuallyRemovedFriend: string | undefined;
 let manuallyRemovedGuild: string | undefined;
@@ -22,7 +22,7 @@ export const removeFriend = (id: string) => manuallyRemovedFriend = id;
 export const removeGuild = (id: string) => manuallyRemovedGuild = id;
 export const removeGroup = (id: string) => manuallyRemovedGroup = id;
 
-export async function onRelationshipRemove({ relationship: { type, id } }: RelationshipRemove) {
+export async function onRelationshipRemove({relationship: {type, id}}: RelationshipRemove) {
     if (manuallyRemovedFriend === id) {
         manuallyRemovedFriend = undefined;
         return;
@@ -52,7 +52,7 @@ export async function onRelationshipRemove({ relationship: { type, id } }: Relat
     }
 }
 
-export function onGuildDelete({ guild: { id, unavailable } }: GuildDelete) {
+export function onGuildDelete({guild: {id, unavailable}}: GuildDelete) {
     if (!settings.store.servers) return;
     if (unavailable || GuildAvailabilityStore.isUnavailable(id)) return;
 
@@ -69,7 +69,7 @@ export function onGuildDelete({ guild: { id, unavailable } }: GuildDelete) {
     }
 }
 
-export function onChannelDelete({ channel: { id, type } }: ChannelDelete) {
+export function onChannelDelete({channel: {id, type}}: ChannelDelete) {
     if (!settings.store.groups) return;
     if (type !== ChannelType.GROUP_DM) return;
 

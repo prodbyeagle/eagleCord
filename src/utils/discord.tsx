@@ -6,14 +6,32 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { MessageObject } from "@api/MessageEvents";
-import { Channel, Guild, GuildFeatures, Message, User } from "@vencord/discord-types";
-import { ChannelActionCreators, ChannelStore, ComponentDispatch, Constants, FluxDispatcher, GuildStore, i18n, IconUtils, InviteActions, MessageActions, RestAPI, SelectedChannelStore, SelectedGuildStore, UserProfileActions, UserProfileStore, UserSettingsActionCreators, UserUtils } from "@webpack/common";
-import { Except } from "type-fest";
+import {MessageObject} from "@api/MessageEvents";
+import {Channel, CloudUpload, Guild, GuildFeatures, Message, User} from "@vencord/discord-types";
+import {
+    ChannelActionCreators,
+    ChannelStore,
+    ComponentDispatch,
+    Constants,
+    FluxDispatcher,
+    GuildStore,
+    i18n,
+    IconUtils,
+    InviteActions,
+    MessageActions,
+    RestAPI,
+    SelectedChannelStore,
+    SelectedGuildStore,
+    UserProfileActions,
+    UserProfileStore,
+    UserSettingsActionCreators,
+    UserUtils
+} from "@webpack/common";
+import {Except} from "type-fest";
 
-import { runtimeHashMessageKey } from "./intlHash";
-import { Logger } from "./Logger";
-import { MediaModalItem, MediaModalProps, openMediaModal } from "./modal";
+import {runtimeHashMessageKey} from "./intlHash";
+import {Logger} from "./Logger";
+import {MediaModalItem, MediaModalProps, openMediaModal} from "./modal";
 
 const IntlManagerLogger = new Logger("IntlManager");
 
@@ -46,7 +64,7 @@ export function getIntlMessageFromHash(hashedKey: string, values?: Record<Proper
  * @returns Whether the invite was accepted
  */
 export async function openInviteModal(code: string) {
-    const { invite } = await InviteActions.resolveInvite(code, "Desktop Modal");
+    const {invite} = await InviteActions.resolveInvite(code, "Desktop Modal");
     if (!invite) throw new Error("Invalid invite: " + code);
 
     FluxDispatcher.dispatch({
@@ -100,20 +118,34 @@ export function insertTextIntoChatInputBox(text: string) {
     });
 }
 
-interface MessageExtra {
+interface MessageOptions {
     messageReference: Message["messageReference"];
     allowedMentions: {
         parse: string[];
         replied_user: boolean;
     };
     stickerIds: string[];
+    attachmentsToUpload: CloudUpload[];
+    poll: {
+        allow_multiselect: boolean;
+        answers: Array<{
+            poll_media: {
+                text: string;
+                attachment_ids?: unknown;
+                emoji?: { name: string; id?: string; };
+            };
+        }>;
+        duration: number;
+        layout_type: number;
+        question: { text: string; };
+    };
 }
 
 export function sendMessage(
     channelId: string,
     data: Partial<MessageObject>,
-    waitForChannelReady?: boolean,
-    extra?: Partial<MessageExtra>
+    waitForChannelReady = true,
+    options: Partial<MessageOptions> = {}
 ) {
     const messageData = {
         content: "",
@@ -123,7 +155,7 @@ export function sendMessage(
         ...data
     };
 
-    return MessageActions.sendMessage(channelId, messageData, waitForChannelReady, extra);
+    return MessageActions.sendMessage(channelId, messageData, waitForChannelReady, options);
 }
 
 /**
@@ -171,9 +203,9 @@ export async function fetchUserProfile(id: string, options?: FetchUserProfileOpt
     const cached = UserProfileStore.getUserProfile(id);
     if (cached) return cached;
 
-    FluxDispatcher.dispatch({ type: "USER_PROFILE_FETCH_START", userId: id });
+    FluxDispatcher.dispatch({type: "USER_PROFILE_FETCH_START", userId: id});
 
-    const { body } = await RestAPI.get({
+    const {body} = await RestAPI.get({
         url: Constants.Endpoints.USER_PROFILE(id),
         query: {
             with_mutual_guilds: false,
@@ -183,10 +215,14 @@ export async function fetchUserProfile(id: string, options?: FetchUserProfileOpt
         oldFormErrors: true,
     });
 
-    FluxDispatcher.dispatch({ type: "USER_UPDATE", user: body.user });
-    await FluxDispatcher.dispatch({ type: "USER_PROFILE_FETCH_SUCCESS", userProfile: body });
+    FluxDispatcher.dispatch({type: "USER_UPDATE", user: body.user});
+    await FluxDispatcher.dispatch({type: "USER_PROFILE_FETCH_SUCCESS", userProfile: body});
     if (options?.guild_id && body.guild_member)
-        FluxDispatcher.dispatch({ type: "GUILD_MEMBER_PROFILE_UPDATE", guildId: options.guild_id, guildMember: body.guild_member });
+        FluxDispatcher.dispatch({
+            type: "GUILD_MEMBER_PROFILE_UPDATE",
+            guildId: options.guild_id,
+            guildMember: body.guild_member
+        });
 
     return UserProfileStore.getUserProfile(id);
 }
@@ -205,7 +241,7 @@ export function getUniqueUsername(user: User) {
  * @param size The size for the emoji
  */
 export function getEmojiURL(id: string, animated: boolean, size: number) {
-    const url = IconUtils.getEmojiURL({ id, animated, size });
+    const url = IconUtils.getEmojiURL({id, animated, size});
     return animated ? url.replace(".webp", ".gif") : url;
 }
 

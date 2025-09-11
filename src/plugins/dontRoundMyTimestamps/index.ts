@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Devs } from "@utils/constants";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
-import { moment } from "@webpack/common";
+import {moment} from "@webpack/common";
 
 export default definePlugin({
     name: "DontRoundMyTimestamps",

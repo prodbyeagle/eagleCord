@@ -7,33 +7,60 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Flex } from "@components/Flex";
-import { openInviteModal } from "@utils/discord";
-import { Margins } from "@utils/margins";
-import { classes, copyWithToast } from "@utils/misc";
-import { closeAllModals, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
-import { Queue } from "@utils/Queue";
-import { User } from "@vencord/discord-types";
-import { Alerts, Button, FluxDispatcher, Forms, GuildStore, NavigationRouter, Parser, Text, Tooltip, useEffect, UserStore, UserSummaryItem, UserUtils, useState } from "@webpack/common";
+import {Flex} from "@components/Flex";
+import {openInviteModal} from "@utils/discord";
+import {Margins} from "@utils/margins";
+import {classes, copyWithToast} from "@utils/misc";
+import {
+    closeAllModals,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalProps,
+    ModalRoot,
+    ModalSize,
+    openModal
+} from "@utils/modal";
+import {Queue} from "@utils/Queue";
+import {User} from "@vencord/discord-types";
+import {
+    Alerts,
+    Button,
+    FluxDispatcher,
+    Forms,
+    GuildStore,
+    NavigationRouter,
+    Parser,
+    Text,
+    Tooltip,
+    useEffect,
+    UserStore,
+    UserSummaryItem,
+    UserUtils,
+    useState
+} from "@webpack/common";
 
-import { Decoration, getPresets, Preset } from "../../lib/api";
-import { GUILD_ID, INVITE_KEY } from "../../lib/constants";
-import { useAuthorizationStore } from "../../lib/stores/AuthorizationStore";
-import { useCurrentUserDecorationsStore } from "../../lib/stores/CurrentUserDecorationsStore";
-import { decorationToAvatarDecoration } from "../../lib/utils/decoration";
-import { settings } from "../../settings";
-import { cl, DecorationModalStyles, requireAvatarDecorationModal } from "../";
-import { AvatarDecorationModalPreview } from "../components";
+import {Decoration, getPresets, Preset} from "../../lib/api";
+import {GUILD_ID, INVITE_KEY} from "../../lib/constants";
+import {useAuthorizationStore} from "../../lib/stores/AuthorizationStore";
+import {useCurrentUserDecorationsStore} from "../../lib/stores/CurrentUserDecorationsStore";
+import {decorationToAvatarDecoration} from "../../lib/utils/decoration";
+import {settings} from "../../settings";
+import {cl, DecorationModalStyles, requireAvatarDecorationModal} from "../";
+import {AvatarDecorationModalPreview} from "../components";
 import DecorationGridCreate from "../components/DecorationGridCreate";
 import DecorationGridNone from "../components/DecorationGridNone";
 import DecorDecorationGridDecoration from "../components/DecorDecorationGridDecoration";
 import SectionedGridList from "../components/SectionedGridList";
-import { openCreateDecorationModal } from "./CreateDecorationModal";
-import { openGuidelinesModal } from "./GuidelinesModal";
+import {openCreateDecorationModal} from "./CreateDecorationModal";
+import {openGuidelinesModal} from "./GuidelinesModal";
 
 function usePresets() {
     const [presets, setPresets] = useState<Preset[]>([]);
-    useEffect(() => { getPresets().then(setPresets); }, []);
+    useEffect(() => {
+        getPresets().then(setPresets);
+    }, []);
     return presets;
 }
 
@@ -51,7 +78,7 @@ interface SectionHeaderProps {
 
 const fetchAuthorsQueue = new Queue();
 
-function SectionHeader({ section }: SectionHeaderProps) {
+function SectionHeader({section}: SectionHeaderProps) {
     const hasSubtitle = typeof section.subtitle !== "undefined";
     const hasAuthorIds = typeof section.authorIds !== "undefined";
 
@@ -72,7 +99,7 @@ function SectionHeader({ section }: SectionHeaderProps) {
 
     return <div>
         <Flex>
-            <Forms.FormTitle style={{ flexGrow: 1 }}>{section.title}</Forms.FormTitle>
+            <Forms.FormTitle style={{flexGrow: 1}}>{section.title}</Forms.FormTitle>
             {hasAuthorIds && <UserSummaryItem
                 users={authors}
                 guildId={undefined}
@@ -148,11 +175,11 @@ function ChangeDecorationModal(props: ModalProps) {
                 color="header-primary"
                 variant="heading-lg/semibold"
                 tag="h1"
-                style={{ flexGrow: 1 }}
+                style={{flexGrow: 1}}
             >
                 Change Decoration
             </Text>
-            <ModalCloseButton onClick={props.onClose} />
+            <ModalCloseButton onClick={props.onClose}/>
         </ModalHeader>
         <ModalContent
             className={cl("change-decoration-modal-content")}
@@ -170,11 +197,13 @@ function ChangeDecorationModal(props: ModalProps) {
                                         onSelect={() => setTryingDecoration(null)}
                                     />;
                                 case "create":
-                                    return <Tooltip text="You already have a decoration pending review" shouldShow={hasDecorationPendingReview}>
+                                    return <Tooltip text="You already have a decoration pending review"
+                                                    shouldShow={hasDecorationPendingReview}>
                                         {tooltipProps => <DecorationGridCreate
                                             className={cl("change-decoration-modal-decoration")}
                                             {...tooltipProps}
-                                            onSelect={!hasDecorationPendingReview ? (settings.store.agreedToGuidelines ? openCreateDecorationModal : openGuidelinesModal) : () => { }}
+                                            onSelect={!hasDecorationPendingReview ? (settings.store.agreedToGuidelines ? openCreateDecorationModal : openGuidelinesModal) : () => {
+                                            }}
                                         />}
                                     </Tooltip>;
                             }
@@ -184,7 +213,8 @@ function ChangeDecorationModal(props: ModalProps) {
                                     <DecorDecorationGridDecoration
                                         {...tooltipProps}
                                         className={cl("change-decoration-modal-decoration")}
-                                        onSelect={item.reviewed !== false ? () => setTryingDecoration(item) : () => { }}
+                                        onSelect={item.reviewed !== false ? () => setTryingDecoration(item) : () => {
+                                        }}
                                         isSelected={activeSelectedDecoration?.hash === item.hash}
                                         decoration={item}
                                     />
@@ -194,7 +224,7 @@ function ChangeDecorationModal(props: ModalProps) {
                     }}
                     getItemKey={item => typeof item === "string" ? item : item.hash}
                     getSectionKey={section => section.sectionKey}
-                    renderSectionHeader={section => <SectionHeader section={section} />}
+                    renderSectionHeader={section => <SectionHeader section={section}/>}
                     sections={data}
                 />
                 <div className={cl("change-decoration-modal-preview")}>
@@ -202,7 +232,8 @@ function ChangeDecorationModal(props: ModalProps) {
                         avatarDecorationOverride={avatarDecorationOverride}
                         user={UserStore.getCurrentUser()}
                     />
-                    {isActiveDecorationPreset && <Forms.FormTitle className="">Part of the {activeDecorationPreset.name} Preset</Forms.FormTitle>}
+                    {isActiveDecorationPreset && <Forms.FormTitle className="">Part of
+                        the {activeDecorationPreset.name} Preset</Forms.FormTitle>}
                     {typeof activeSelectedDecoration === "object" &&
                         <Text
                             variant="text-sm/semibold"
@@ -260,7 +291,8 @@ function ChangeDecorationModal(props: ModalProps) {
                 >
                     Log Out
                 </Button>
-                <Tooltip text="Join Decor's Discord Server for notifications on your decoration's review, and when new presets are released">
+                <Tooltip
+                    text="Join Decor's Discord Server for notifications on your decoration's review, and when new presets are released">
                     {tooltipProps => <Button
                         {...tooltipProps}
                         onClick={async () => {
@@ -268,11 +300,11 @@ function ChangeDecorationModal(props: ModalProps) {
                                 const inviteAccepted = await openInviteModal(INVITE_KEY);
                                 if (inviteAccepted) {
                                     closeAllModals();
-                                    FluxDispatcher.dispatch({ type: "LAYER_POP_ALL" });
+                                    FluxDispatcher.dispatch({type: "LAYER_POP_ALL"});
                                 }
                             } else {
                                 props.onClose();
-                                FluxDispatcher.dispatch({ type: "LAYER_POP_ALL" });
+                                FluxDispatcher.dispatch({type: "LAYER_POP_ALL"});
                                 NavigationRouter.transitionToGuild(GUILD_ID);
                             }
                         }}

@@ -6,10 +6,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ApplicationCommandInputType, ApplicationCommandOptionType, findOption, registerCommand, sendBotMessage, unregisterCommand } from "@api/Commands";
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
+import {
+    ApplicationCommandInputType,
+    ApplicationCommandOptionType,
+    findOption,
+    registerCommand,
+    sendBotMessage,
+    unregisterCommand
+} from "@api/Commands";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
 
 const EMOTE = "<:luna:1035316192220553236>";
 const DATA_KEY = "MessageTags_TAGS";
@@ -46,13 +53,13 @@ function createTagCommand(tag: Tag) {
                 sendBotMessage(ctx.channel.id, {
                     content: `${EMOTE} The tag **${tag.name}** does not exist anymore! Please reload ur Discord to fix :)`
                 });
-                return { content: `/${tag.name}` };
+                return {content: `/${tag.name}`};
             }
 
             if (settings.store.clyde) sendBotMessage(ctx.channel.id, {
                 content: `${EMOTE} The tag **${tag.name}** has been sent!`
             });
-            return { content: tag.message.replaceAll("\\n", "\n") };
+            return {content: tag.message.replaceAll("\\n", "\n")};
         },
         [MessageTagsMarker]: true,
     }, "CustomTags");

@@ -6,33 +6,40 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { addProfileBadge, removeProfileBadge } from "@api/Badges";
-import { addChatBarButton, removeChatBarButton } from "@api/ChatButtons";
-import { registerCommand, unregisterCommand } from "@api/Commands";
-import { addContextMenuPatch, removeContextMenuPatch } from "@api/ContextMenu";
-import { addMemberListDecorator, removeMemberListDecorator } from "@api/MemberListDecorators";
-import { addMessageAccessory, removeMessageAccessory } from "@api/MessageAccessories";
-import { addMessageDecoration, removeMessageDecoration } from "@api/MessageDecorations";
-import { addMessageClickListener, addMessagePreEditListener, addMessagePreSendListener, removeMessageClickListener, removeMessagePreEditListener, removeMessagePreSendListener } from "@api/MessageEvents";
-import { addMessagePopoverButton, removeMessagePopoverButton } from "@api/MessagePopover";
-import { Settings, SettingsStore } from "@api/Settings";
-import { disableStyle, enableStyle } from "@api/Styles";
-import { Logger } from "@utils/Logger";
-import { canonicalizeFind, canonicalizeReplacement } from "@utils/patches";
-import { Patch, Plugin, PluginDef, ReporterTestable, StartAt } from "@utils/types";
-import { FluxEvents } from "@vencord/discord-types";
-import { FluxDispatcher } from "@webpack/common";
-import { patches } from "@webpack/patcher";
+import {addProfileBadge, removeProfileBadge} from "@api/Badges";
+import {addChatBarButton, removeChatBarButton} from "@api/ChatButtons";
+import {registerCommand, unregisterCommand} from "@api/Commands";
+import {addContextMenuPatch, removeContextMenuPatch} from "@api/ContextMenu";
+import {addMemberListDecorator, removeMemberListDecorator} from "@api/MemberListDecorators";
+import {addMessageAccessory, removeMessageAccessory} from "@api/MessageAccessories";
+import {addMessageDecoration, removeMessageDecoration} from "@api/MessageDecorations";
+import {
+    addMessageClickListener,
+    addMessagePreEditListener,
+    addMessagePreSendListener,
+    removeMessageClickListener,
+    removeMessagePreEditListener,
+    removeMessagePreSendListener
+} from "@api/MessageEvents";
+import {addMessagePopoverButton, removeMessagePopoverButton} from "@api/MessagePopover";
+import {Settings, SettingsStore} from "@api/Settings";
+import {disableStyle, enableStyle} from "@api/Styles";
+import {Logger} from "@utils/Logger";
+import {canonicalizeFind, canonicalizeReplacement} from "@utils/patches";
+import {Patch, Plugin, PluginDef, ReporterTestable, StartAt} from "@utils/types";
+import {FluxEvents} from "@vencord/discord-types";
+import {FluxDispatcher} from "@webpack/common";
+import {patches} from "@webpack/patcher";
 
 import Plugins from "~plugins";
 
-import { traceFunction } from "../debug/Tracer";
+import {traceFunction} from "../debug/Tracer";
 
 const logger = new Logger("PluginManager", "#a6d189");
 
 export const PMLogger = logger;
 export const plugins = Plugins;
-export { patches };
+export {patches};
 
 /** Whether we have subscribed to flux events of all the enabled plugins when FluxDispatcher was ready */
 let enabledPluginsSubscribedFlux = false;
@@ -73,7 +80,7 @@ export function addPatch(newPatch: Omit<Patch, "plugin">, pluginName: string, pl
         }
     }
 
-    patch.replacement = patch.replacement.filter(({ predicate }) => !predicate || predicate());
+    patch.replacement = patch.replacement.filter(({predicate}) => !predicate || predicate());
 
     patches.push(patch);
 }
@@ -142,7 +149,7 @@ for (const p of pluginsValues) {
         for (const name in p.settings.def) {
             const def = p.settings.def[name];
             const checks = p.settings.checks?.[name];
-            p.options[name] = { ...def, ...checks };
+            p.options[name] = {...def, ...checks};
         }
     }
 
@@ -202,7 +209,7 @@ export function startDependenciesRecursive(p: Plugin) {
         }
     });
 
-    return { restartNeeded, failures };
+    return {restartNeeded, failures};
 }
 
 export function subscribePluginFluxEvents(p: Plugin, fluxDispatcher: typeof FluxDispatcher) {
@@ -249,10 +256,20 @@ export function subscribeAllPluginsFluxEvents(fluxDispatcher: typeof FluxDispatc
 
 export const startPlugin = traceFunction("startPlugin", function startPlugin(p: Plugin) {
     const {
-        name, commands, contextMenus, managedStyle, userProfileBadge,
+        name,
+        commands,
+        contextMenus,
+        managedStyle,
+        userProfileBadge,
         EagleBadge,
-        onBeforeMessageEdit, onBeforeMessageSend, onMessageClick,
-        renderChatBarButton, renderMemberListDecorator, renderMessageAccessory, renderMessageDecoration, renderMessagePopoverButton
+        onBeforeMessageEdit,
+        onBeforeMessageSend,
+        onMessageClick,
+        renderChatBarButton,
+        renderMemberListDecorator,
+        renderMessageAccessory,
+        renderMessageDecoration,
+        renderMessagePopoverButton
     } = p;
 
     if (p.start) {
@@ -314,10 +331,20 @@ export const startPlugin = traceFunction("startPlugin", function startPlugin(p: 
 
 export const stopPlugin = traceFunction("stopPlugin", function stopPlugin(p: Plugin) {
     const {
-        name, commands, contextMenus, managedStyle, userProfileBadge,
+        name,
+        commands,
+        contextMenus,
+        managedStyle,
+        userProfileBadge,
         EagleBadge,
-        onBeforeMessageEdit, onBeforeMessageSend, onMessageClick,
-        renderChatBarButton, renderMemberListDecorator, renderMessageAccessory, renderMessageDecoration, renderMessagePopoverButton
+        onBeforeMessageEdit,
+        onBeforeMessageSend,
+        onMessageClick,
+        renderChatBarButton,
+        renderMemberListDecorator,
+        renderMessageAccessory,
+        renderMessageDecoration,
+        renderMessagePopoverButton
     } = p;
 
     if (p.stop) {

@@ -6,17 +6,25 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Settings } from "@api/Settings";
-import { makeLazy } from "@utils/lazy";
-import { Logger } from "@utils/Logger";
-import { interpolateIfDefined } from "@utils/misc";
-import { canonicalizeReplacement } from "@utils/patches";
-import { Patch, PatchReplacement } from "@utils/types";
-import { WebpackRequire } from "@vencord/discord-types/webpack";
+import {Settings} from "@api/Settings";
+import {makeLazy} from "@utils/lazy";
+import {Logger} from "@utils/Logger";
+import {interpolateIfDefined} from "@utils/misc";
+import {canonicalizeReplacement} from "@utils/patches";
+import {Patch, PatchReplacement} from "@utils/types";
+import {WebpackRequire} from "@vencord/discord-types/webpack";
 
-import { traceFunctionWithResults } from "../debug/Tracer";
-import { AnyModuleFactory, AnyWebpackRequire, MaybePatchedModuleFactory, PatchedModuleFactory } from "./types";
-import { _blacklistBadModules, _initWebpack, factoryListeners, findModuleFactory, moduleListeners, waitForSubscriptions, wreq } from "./webpack";
+import {traceFunctionWithResults} from "../debug/Tracer";
+import {AnyModuleFactory, AnyWebpackRequire, MaybePatchedModuleFactory, PatchedModuleFactory} from "./types";
+import {
+    _blacklistBadModules,
+    _initWebpack,
+    factoryListeners,
+    findModuleFactory,
+    moduleListeners,
+    waitForSubscriptions,
+    wreq
+} from "./webpack";
 
 export const patches = [] as Patch[];
 
@@ -98,11 +106,11 @@ define(Function.prototype, "m", {
     enumerable: false,
 
     set(this: AnyWebpackRequire, originalModules: AnyWebpackRequire["m"]) {
-        define(this, "m", { value: originalModules });
+        define(this, "m", {value: originalModules});
 
         // Ensure this is likely one of Discord main Webpack instances.
         // We may catch Discord bundled libs, React Devtools or other extensions Webpack instances here.
-        const { stack } = new Error();
+        const {stack} = new Error();
         if (!stack?.includes("http") || stack.match(/at \d+? \(/) || !String(this).includes("exports:{}")) {
             return;
         }
@@ -123,7 +131,7 @@ define(Function.prototype, "m", {
             enumerable: false,
 
             set(this: AnyWebpackRequire, bundlePath: NonNullable<AnyWebpackRequire["p"]>) {
-                define(this, "p", { value: bundlePath });
+                define(this, "p", {value: bundlePath});
                 clearTimeout(bundlePathTimeout);
 
                 // libdiscore init Webpack instance always returns a constant string for the js filename of a chunk.
@@ -154,7 +162,7 @@ define(Function.prototype, "m", {
             enumerable: false,
 
             set(this: AnyWebpackRequire, onChunksLoaded: NonNullable<AnyWebpackRequire["O"]>) {
-                define(this, "O", { value: onChunksLoaded });
+                define(this, "O", {value: onChunksLoaded});
                 clearTimeout(onChunksLoadedTimeout);
 
                 const wreq = this;
@@ -162,7 +170,7 @@ define(Function.prototype, "m", {
                     enumerable: false,
 
                     set(this: NonNullable<AnyWebpackRequire["O"]>, j: NonNullable<AnyWebpackRequire["O"]>["j"]) {
-                        define(this, "j", { value: j });
+                        define(this, "j", {value: j});
 
                         if (wreq.p == null) {
                             patchThisInstance();
@@ -200,7 +208,7 @@ define(Function.prototype, "m", {
             Reflect.setPrototypeOf(originalModules, new Proxy(originalModules, moduleFactoriesHandler));
             */
 
-            define(this, "m", { value: proxiedModuleFactories });
+            define(this, "m", {value: proxiedModuleFactories});
 
             // Overwrite Webpack's defineExports function to define the export descriptors configurable.
             // This is needed so we can later blacklist specific exports from Webpack search by making them non-enumerable
@@ -343,7 +351,7 @@ function updateExistingFactory(moduleFactories: AnyWebpackRequire["m"], moduleId
  */
 function defineInWebpackInstances(moduleId: PropertyKey, factory: AnyModuleFactory) {
     for (const wreq of allWebpackInstances) {
-        define(wreq.m, moduleId, { value: factory });
+        define(wreq.m, moduleId, {value: factory});
     }
 }
 
@@ -389,7 +397,7 @@ function runFactoryWithWrap(patchedFactory: PatchedModuleFactory, thisArg: unkno
 
             // Make sure the require argument is actually the WebpackRequire function
             if (typeof require === "function" && require.m != null && require.c != null) {
-                const { stack } = new Error();
+                const {stack} = new Error();
                 const webpackInstanceFileName = stack?.match(/\/assets\/(.+?\.js)/)?.[1];
 
                 logger.warn(

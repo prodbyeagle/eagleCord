@@ -9,17 +9,17 @@
 // This plugin is a port from Alyxia's Vendetta plugin
 import "./index.css";
 
-import { definePluginSettings } from "@api/Settings";
+import {definePluginSettings} from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs } from "@utils/constants";
-import { fetchUserProfile } from "@utils/discord";
-import { Margins } from "@utils/margins";
-import { classes, copyWithToast } from "@utils/misc";
-import { useAwaiter } from "@utils/react";
-import definePlugin, { OptionType } from "@utils/types";
-import { User, UserProfile } from "@vencord/discord-types";
-import { findComponentByCodeLazy } from "@webpack";
-import { Button, ColorPicker, Flex, Forms, React, Text, UserProfileStore, UserStore, useState } from "@webpack/common";
+import {Devs} from "@utils/constants";
+import {fetchUserProfile} from "@utils/discord";
+import {Margins} from "@utils/margins";
+import {classes, copyWithToast} from "@utils/misc";
+import {useAwaiter} from "@utils/react";
+import definePlugin, {OptionType} from "@utils/types";
+import {User, UserProfile} from "@vencord/discord-types";
+import {findComponentByCodeLazy} from "@webpack";
+import {Button, ColorPicker, Flex, Forms, React, Text, UserProfileStore, UserStore, useState} from "@webpack/common";
 import virtualMerge from "virtual-merge";
 
 interface Colors {
@@ -66,8 +66,8 @@ const settings = definePluginSettings({
         description: "Default color source if both are present",
         type: OptionType.SELECT,
         options: [
-            { label: "Nitro colors", value: true, default: true },
-            { label: "Fake colors", value: false },
+            {label: "Nitro colors", value: true, default: true},
+            {label: "Fake colors", value: false},
         ]
     }
 });
@@ -92,7 +92,7 @@ const ProfileModal = findComponentByCodeLazy<ProfileModalProps>("isTryItOutFlow:
 function SettingsAboutComponentWrapper() {
     const [, , userProfileLoading] = useAwaiter(() => fetchUserProfile(UserStore.getCurrentUser().id));
 
-    return !userProfileLoading && <SettingsAboutComponent />;
+    return !userProfileLoading && <SettingsAboutComponent/>;
 }
 
 function SettingsAboutComponent() {
@@ -108,7 +108,7 @@ function SettingsAboutComponent() {
             <Forms.FormText>
                 After enabling this plugin, you will see custom colors in
                 the profiles of other people using compatible plugins.{" "}
-                <br />
+                <br/>
                 To set your own colors:
                 <ul>
                     <li>
@@ -116,21 +116,21 @@ function SettingsAboutComponent() {
                     </li>
                     <li>• click the "Copy 3y3" button</li>
                     <li>• paste the invisible text anywhere in your bio</li>
-                </ul><br />
+                </ul><br/>
                 <Forms.FormDivider
                     className={classes(Margins.top8, Margins.bottom8)}
                 />
                 <Forms.FormTitle tag="h3">Color pickers</Forms.FormTitle>
                 <Flex
                     direction={Flex.Direction.HORIZONTAL}
-                    style={{ gap: "1rem" }}
+                    style={{gap: "1rem"}}
                 >
                     <ColorPicker
                         color={color1}
                         label={
                             <Text
                                 variant={"text-xs/normal"}
-                                style={{ marginTop: "4px" }}
+                                style={{marginTop: "4px"}}
                             >
                                 Primary
                             </Text>
@@ -144,7 +144,7 @@ function SettingsAboutComponent() {
                         label={
                             <Text
                                 variant={"text-xs/normal"}
-                                style={{ marginTop: "4px" }}
+                                style={{marginTop: "4px"}}
                             >
                                 Accent
                             </Text>
@@ -172,8 +172,10 @@ function SettingsAboutComponent() {
                     <ProfileModal
                         user={UserStore.getCurrentUser()}
                         pendingThemeColors={[color1, color2]}
-                        onAvatarChange={() => { }}
-                        onBannerChange={() => { }}
+                        onAvatarChange={() => {
+                        }}
+                        onBannerChange={() => {
+                        }}
                         canUsePremiumCustomization={true}
                         hideExampleButton={true}
                         hideFakeActivity={true}
@@ -222,7 +224,7 @@ export default definePlugin({
         }
         return user;
     },
-    addCopy3y3Button: ErrorBoundary.wrap(function ({ primary, accent }: Colors) {
+    addCopy3y3Button: ErrorBoundary.wrap(function ({primary, accent}: Colors) {
         return <Button
             onClick={() => {
                 const colorString = encode(primary, accent);
@@ -232,6 +234,6 @@ export default definePlugin({
             size={Button.Sizes.XLARGE}
             className={Margins.left16}
         >Copy 3y3
-        </Button >;
-    }, { noop: true }),
+        </Button>;
+    }, {noop: true}),
 });

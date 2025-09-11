@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { migratePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
+import {migratePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
 import definePlugin from "@utils/types";
 
-import { CompactPronounsChatComponentWrapper, PronounsChatComponentWrapper } from "./PronounsChatComponent";
-import { settings } from "./settings";
+import {CompactPronounsChatComponentWrapper, PronounsChatComponentWrapper} from "./PronounsChatComponent";
+import {settings} from "./settings";
 
 migratePluginSettings("UserMessagesPronouns", "PronounDB");
 export default definePlugin({

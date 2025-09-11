@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { UserStore } from "@webpack/common";
+import {definePluginSettings} from "@api/Settings";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
+import {UserStore} from "@webpack/common";
 
 export const settings = definePluginSettings({
     superReactByDefault: {
@@ -32,7 +32,9 @@ export const settings = definePluginSettings({
     },
 }, {
     superReactionPlayingLimit: {
-        disabled() { return this.store.unlimitedSuperReactionPlaying; },
+        disabled() {
+            return this.store.unlimitedSuperReactionPlaying;
+        },
     }
 });
 

@@ -8,12 +8,12 @@
 
 import "./styles.css";
 
-import { definePluginSettings } from "@api/Settings";
+import {definePluginSettings} from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
-import { User } from "@vencord/discord-types";
-import { GuildRoleStore, SelectedGuildStore, useState } from "@webpack/common";
+import {Devs} from "@utils/constants";
+import definePlugin, {OptionType} from "@utils/types";
+import {User} from "@vencord/discord-types";
+import {GuildRoleStore, SelectedGuildStore, useState} from "@webpack/common";
 
 const settings = definePluginSettings({
     showAtSymbol: {
@@ -56,18 +56,18 @@ export default definePlugin({
             replace: "children:$self.renderUsername({username:$1,user:$2})"
         }
     },
-    {
-        find: ".ROLE_MENTION)",
-        replacement: {
-            match: /children:\[\i&&.{0,100}className:\i.roleDot,.{0,200},\i(?=\])/,
-            replace: "$&,$self.renderRoleIcon(arguments[0])"
-        }
-    }],
+        {
+            find: ".ROLE_MENTION)",
+            replacement: {
+                match: /children:\[\i&&.{0,100}className:\i.roleDot,.{0,200},\i(?=\])/,
+                replace: "$&,$self.renderRoleIcon(arguments[0])"
+            }
+        }],
 
     settings,
 
     renderUsername: ErrorBoundary.wrap((props: { user: User, username: string; }) => {
-        const { user, username } = props;
+        const {user, username} = props;
         const [isHovering, setIsHovering] = useState(false);
 
         if (!user) return <>{getUsernameString(username)}</>;
@@ -80,20 +80,20 @@ export default definePlugin({
                 <img
                     src={user.getAvatarURL(SelectedGuildStore.getGuildId(), 16, isHovering)}
                     className="vc-mentionAvatars-icon"
-                    style={{ borderRadius: "50%" }}
+                    style={{borderRadius: "50%"}}
                 />
                 {getUsernameString(username)}
             </span>
         );
-    }, { noop: true }),
+    }, {noop: true}),
 
-    renderRoleIcon: ErrorBoundary.wrap(({ roleId, guildId }: { roleId: string, guildId: string; }) => {
+    renderRoleIcon: ErrorBoundary.wrap(({roleId, guildId}: { roleId: string, guildId: string; }) => {
         // Discord uses Role Mentions for uncached users because .... idk
         if (!roleId) return null;
 
         const role = GuildRoleStore.getRole(guildId, roleId);
 
-        if (!role?.icon) return <DefaultRoleIcon />;
+        if (!role?.icon) return <DefaultRoleIcon/>;
 
         return (
             <img
@@ -101,7 +101,7 @@ export default definePlugin({
                 src={`${location.protocol}//${window.GLOBAL_ENV.CDN_HOST}/role-icons/${roleId}/${role.icon}.webp?size=24&quality=lossless`}
             />
         );
-    }, { noop: true }),
+    }, {noop: true}),
 });
 
 function getUsernameString(username: string) {

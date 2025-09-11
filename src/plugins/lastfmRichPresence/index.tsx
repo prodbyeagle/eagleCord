@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { definePluginSettings } from "@api/Settings";
-import { Link } from "@components/Link";
-import { Devs } from "@utils/constants";
-import { Logger } from "@utils/Logger";
-import definePlugin, { OptionType } from "@utils/types";
-import { findByPropsLazy } from "@webpack";
-import { ApplicationAssetUtils, FluxDispatcher, Forms } from "@webpack/common";
+import {definePluginSettings} from "@api/Settings";
+import {Link} from "@components/Link";
+import {Devs} from "@utils/constants";
+import {Logger} from "@utils/Logger";
+import definePlugin, {OptionType} from "@utils/types";
+import {findByPropsLazy} from "@webpack";
+import {ApplicationAssetUtils, FluxDispatcher, Forms} from "@webpack/common";
 
 interface ActivityAssets {
     large_image?: string;
@@ -213,10 +213,10 @@ export default definePlugin({
             <Forms.FormText>
                 An API key is required to fetch your current track. To get one, you can
                 visit <Link href="https://www.last.fm/api/account/create">this page</Link> and
-                fill in the following information: <br /> <br />
+                fill in the following information: <br/> <br/>
 
-                Application name: Discord Rich Presence <br />
-                Application description: (personal use) <br /> <br />
+                Application name: Discord Rich Presence <br/>
+                Application description: (personal use) <br/> <br/>
 
                 And copy the API key (not the shared secret!)
             </Forms.FormText>
@@ -227,7 +227,9 @@ export default definePlugin({
 
     start() {
         this.updatePresence();
-        this.updateInterval = setInterval(() => { this.updatePresence(); }, 16000);
+        this.updateInterval = setInterval(() => {
+            this.updatePresence();
+        }, 16000);
     },
 
     stop() {
@@ -290,13 +292,18 @@ export default definePlugin({
 
     async getActivity(): Promise<Activity | null> {
         if (settings.store.hideWithActivity) {
-            if (PresenceStore.getActivities().some((a: { application_id: string; }) => a.application_id !== applicationId)) {
+            if (PresenceStore.getActivities().some((a: {
+                application_id: string;
+            }) => a.application_id !== applicationId)) {
                 return null;
             }
         }
 
         if (settings.store.hideWithSpotify) {
-            if (PresenceStore.getActivities().some((a: { type: ActivityType; application_id: string; }) => a.type === ActivityType.LISTENING && a.application_id !== applicationId)) {
+            if (PresenceStore.getActivities().some((a: {
+                type: ActivityType;
+                application_id: string;
+            }) => a.type === ActivityType.LISTENING && a.application_id !== applicationId)) {
                 // there is already music status because of Spotify or richerCider (probably more)
                 return null;
             }

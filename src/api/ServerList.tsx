@@ -7,7 +7,7 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import { ComponentType } from "react";
+import {ComponentType} from "react";
 
 export const enum ServerListRenderPosition {
     Above,
@@ -34,7 +34,7 @@ export const renderAll = (position: ServerListRenderPosition) => {
         getRenderFunctions(position),
         (Component, i) => (
             <ErrorBoundary noop key={i}>
-                <Component />
+                <Component/>
             </ErrorBoundary>
         )
     );
