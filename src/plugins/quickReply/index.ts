@@ -144,7 +144,7 @@ function getNextMessage(isUp: boolean, isReply: boolean) {
         NoBlockedMessagesPlugin.name,
     );
 
-    messages = messages.filter((m) => {
+    messages = messages.filter(m => {
         if (m.deleted) return false;
         if (!isReply && m.author.id !== meId) return false; // editing only own messages
         if (
@@ -159,7 +159,7 @@ function getNextMessage(isUp: boolean, isReply: boolean) {
     const findNextNonDeleted = (id: string | null) => {
         if (id === null) return messages[messages.length - 1];
 
-        const idx = messages.findIndex((m) => m.id === id);
+        const idx = messages.findIndex(m => m.id === id);
         if (idx === -1) return messages[messages.length - 1];
 
         const i = isUp ? idx - 1 : idx + 1;

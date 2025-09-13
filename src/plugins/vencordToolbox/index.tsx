@@ -8,19 +8,19 @@
 
 import "./index.css";
 
-import {openNotificationLogModal} from "@api/Notifications/notificationLog";
-import {Settings, useSettings} from "@api/Settings";
+import { openNotificationLogModal } from "@api/Notifications/notificationLog";
+import { Settings, useSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import {findComponentByCodeLazy} from "@webpack";
-import {Menu, Popout, useRef, useState} from "@webpack/common";
-import type {ReactNode} from "react";
+import { findComponentByCodeLazy } from "@webpack";
+import { Menu, Popout, useRef, useState } from "@webpack/common";
+import type { ReactNode } from "react";
 
 const HeaderBarIcon = findComponentByCodeLazy(".HEADER_BAR_BADGE_TOP:", '.iconBadge,"top"');
 
 function VencordPopout(onClose: () => void) {
-    const {useQuickCss} = useSettings(["useQuickCss"]);
+    const { useQuickCss } = useSettings(["useQuickCss"]);
 
     const pluginEntries = [] as ReactNode[];
 
@@ -85,7 +85,7 @@ function VencordPopoutIcon(isShown: boolean) {
     );
 }
 
-function VencordPopoutButton({buttonClass}: { buttonClass: string; }) {
+function VencordPopoutButton({ buttonClass }: { buttonClass: string; }) {
     const buttonRef = useRef(null);
     const [show, setShow] = useState(false);
 
@@ -99,7 +99,7 @@ function VencordPopoutButton({buttonClass}: { buttonClass: string; }) {
             targetElementRef={buttonRef}
             renderPopout={() => VencordPopout(() => setShow(false))}
         >
-            {(_, {isShown}) => (
+            {(_, { isShown }) => (
                 <HeaderBarIcon
                     ref={buttonRef}
                     className={`vc-toolbox-btn ${buttonClass}`}

@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Heart} from "@components/Heart";
-import {ButtonProps} from "@vencord/discord-types";
-import {Button} from "@webpack/common";
+import { Heart } from "@components/Heart";
+import { ButtonProps } from "@vencord/discord-types";
+import { Button } from "@webpack/common";
 
 export default function DonateButton({
                                          look = Button.Looks.LINK,

@@ -29,12 +29,12 @@ export const shiki = {
     loadedThemes: new Set<string>(),
     loadedLangs: new Set<string>(),
     clientPromise: new Promise<WorkerClient<ShikiSpec>>(
-        (resolve) => (resolveClient = resolve),
+        resolve => (resolveClient = resolve),
     ),
 
     init: async (initThemeUrl: string | undefined) => {
         /** https://stackoverflow.com/q/58098143 */
-        const workerBlob = await fetch(shikiWorkerSrc).then((res) =>
+        const workerBlob = await fetch(shikiWorkerSrc).then(res =>
             res.blob(),
         );
 

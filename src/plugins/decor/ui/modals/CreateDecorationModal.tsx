@@ -7,9 +7,9 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Link} from "@components/Link";
-import {openInviteModal} from "@utils/discord";
-import {Margins} from "@utils/margins";
+import { Link } from "@components/Link";
+import { openInviteModal } from "@utils/discord";
+import { Margins } from "@utils/margins";
 import {
     closeAllModals,
     ModalCloseButton,
@@ -21,7 +21,7 @@ import {
     ModalSize,
     openModal
 } from "@utils/modal";
-import {filters, findComponentByCodeLazy, mapMangledModuleLazy} from "@webpack";
+import { filters, findComponentByCodeLazy, mapMangledModuleLazy } from "@webpack";
 import {
     Button,
     FluxDispatcher,
@@ -36,14 +36,14 @@ import {
     useState
 } from "@webpack/common";
 
-import {GUILD_ID, INVITE_KEY, RAW_SKU_ID} from "../../lib/constants";
-import {useCurrentUserDecorationsStore} from "../../lib/stores/CurrentUserDecorationsStore";
-import {cl, DecorationModalStyles, requireAvatarDecorationModal, requireCreateStickerModal} from "../";
-import {AvatarDecorationModalPreview} from "../components";
+import { GUILD_ID, INVITE_KEY, RAW_SKU_ID } from "../../lib/constants";
+import { useCurrentUserDecorationsStore } from "../../lib/stores/CurrentUserDecorationsStore";
+import { cl, DecorationModalStyles, requireAvatarDecorationModal, requireCreateStickerModal } from "../";
+import { AvatarDecorationModalPreview } from "../components";
 
 const FileUpload = findComponentByCodeLazy(".fileUpload),");
 
-const {HelpMessage, HelpMessageTypes} = mapMangledModuleLazy('POSITIVE="positive', {
+const { HelpMessage, HelpMessageTypes } = mapMangledModuleLazy('POSITIVE="positive', {
     HelpMessageTypes: filters.byProps("POSITIVE", "WARNING", "INFO"),
     HelpMessage: filters.byCode(".iconDiv")
 });
@@ -76,11 +76,11 @@ function CreateDecorationModal(props: ModalProps) {
         if (error) setError(null);
     }, [file]);
 
-    const {create: createDecoration} = useCurrentUserDecorationsStore();
+    const { create: createDecoration } = useCurrentUserDecorationsStore();
 
     const fileUrl = useObjectURL(file);
 
-    const decoration = useMemo(() => fileUrl ? {asset: fileUrl, skuId: RAW_SKU_ID} : null, [fileUrl]);
+    const decoration = useMemo(() => fileUrl ? { asset: fileUrl, skuId: RAW_SKU_ID } : null, [fileUrl]);
 
     return <ModalRoot
         {...props}
@@ -92,7 +92,7 @@ function CreateDecorationModal(props: ModalProps) {
                 color="header-primary"
                 variant="heading-lg/semibold"
                 tag="h1"
-                style={{flexGrow: 1}}
+                style={{ flexGrow: 1 }}
             >
                 Create Decoration
             </Text>
@@ -118,7 +118,7 @@ function CreateDecorationModal(props: ModalProps) {
                                 filename={file?.name}
                                 placeholder="Choose a file"
                                 buttonText="Browse"
-                                filters={[{name: "Decoration file", extensions: ["png", "apng"]}]}
+                                filters={[{ name: "Decoration file", extensions: ["png", "apng"] }]}
                                 onFileSelect={setFile}
                             />
                             <Forms.FormText className={Margins.top8}>
@@ -152,11 +152,11 @@ function CreateDecorationModal(props: ModalProps) {
                             const inviteAccepted = await openInviteModal(INVITE_KEY);
                             if (inviteAccepted) {
                                 closeAllModals();
-                                FluxDispatcher.dispatch({type: "LAYER_POP_ALL"});
+                                FluxDispatcher.dispatch({ type: "LAYER_POP_ALL" });
                             }
                         } else {
                             closeAllModals();
-                            FluxDispatcher.dispatch({type: "LAYER_POP_ALL"});
+                            FluxDispatcher.dispatch({ type: "LAYER_POP_ALL" });
                             NavigationRouter.transitionToGuild(GUILD_ID);
                         }
                     }}
@@ -170,7 +170,7 @@ function CreateDecorationModal(props: ModalProps) {
             <Button
                 onClick={() => {
                     setSubmitting(true);
-                    createDecoration({alt: name, file: file!})
+                    createDecoration({ alt: name, file: file! })
                         .then(props.onClose).catch(e => {
                         setSubmitting(false);
                         setError(e);

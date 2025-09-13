@@ -141,7 +141,7 @@ export function useUserDecorAvatarDecoration(
         useEffect(() => {
             const destructor = (() => {
                 try {
-                    return useUsersDecorationsStore.subscribe((state) => {
+                    return useUsersDecorationsStore.subscribe(state => {
                         if (!user) return;
                         const newDecorAvatarDecoration = state.getAsset(
                             user.id,

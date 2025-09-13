@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings, migratePluginSettings} from "@api/Settings";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
+import { definePluginSettings, migratePluginSettings } from "@api/Settings";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
 
 import hash from "~git-hash";
 

@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Flex} from "@components/Flex";
-import {SettingsTab, wrapTab} from "@components/settings/tabs/BaseTab";
-import {Margins} from "@utils/margins";
-import {classes} from "@utils/misc";
-import {downloadSettingsBackup, uploadSettingsBackup} from "@utils/settingsSync";
-import {Button, Card, Text} from "@webpack/common";
+import { Flex } from "@components/Flex";
+import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
+import { Margins } from "@utils/margins";
+import { classes } from "@utils/misc";
+import { downloadSettingsBackup, uploadSettingsBackup } from "@utils/settingsSync";
+import { Button, Card, Text } from "@webpack/common";
 
 function BackupAndRestoreTab() {
     return (

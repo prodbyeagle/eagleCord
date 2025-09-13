@@ -79,7 +79,7 @@ export default definePlugin({
             },
             retries: 2,
         })
-            .then((res) => {
+            .then(res => {
                 const reply: Message | undefined = res?.body?.[0];
                 if (!reply) return;
 

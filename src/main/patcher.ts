@@ -135,7 +135,7 @@ if (!IS_VANILLA) {
     };
 
     // Patch appSettings to force enable devtools
-    onceDefined(global, "appSettings", (s) => {
+    onceDefined(global, "appSettings", s => {
         s.set(
             "DANGEROUS_ENABLE_DEVTOOLS_ONLY_ENABLE_IF_YOU_KNOW_WHAT_YOURE_DOING",
             true,

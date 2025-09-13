@@ -48,7 +48,7 @@ export async function spoofVideoQuest(
             }
 
             if (timestamp >= secondsNeeded) break;
-            await new Promise((r) => setTimeout(r, interval * 1000));
+            await new Promise(r => setTimeout(r, interval * 1000));
         }
 
         await postVideoProgress(quest.id, secondsNeeded);

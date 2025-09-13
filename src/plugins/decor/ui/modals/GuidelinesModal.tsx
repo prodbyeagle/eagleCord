@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Link} from "@components/Link";
+import { Link } from "@components/Link";
 import {
     ModalCloseButton,
     ModalContent,
@@ -17,11 +17,11 @@ import {
     ModalSize,
     openModal
 } from "@utils/modal";
-import {Button, Forms, Text} from "@webpack/common";
+import { Button, Forms, Text } from "@webpack/common";
 
-import {settings} from "../../settings";
-import {cl, DecorationModalStyles, requireAvatarDecorationModal} from "../";
-import {openCreateDecorationModal} from "./CreateDecorationModal";
+import { settings } from "../../settings";
+import { cl, DecorationModalStyles, requireAvatarDecorationModal } from "../";
+import { openCreateDecorationModal } from "./CreateDecorationModal";
 
 function GuidelinesModal(props: ModalProps) {
     return <ModalRoot
@@ -34,7 +34,7 @@ function GuidelinesModal(props: ModalProps) {
                 color="header-primary"
                 variant="heading-lg/semibold"
                 tag="h1"
-                style={{flexGrow: 1}}
+                style={{ flexGrow: 1 }}
             >
                 Hold on
             </Text>

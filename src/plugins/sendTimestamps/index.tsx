@@ -8,12 +8,12 @@
 
 import "./styles.css";
 
-import {ChatBarButton, ChatBarButtonFactory} from "@api/ChatButtons";
-import {definePluginSettings} from "@api/Settings";
-import {classNameFactory} from "@api/Styles";
-import {Devs} from "@utils/constants";
-import {getTheme, insertTextIntoChatInputBox, Theme} from "@utils/discord";
-import {Margins} from "@utils/margins";
+import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
+import { definePluginSettings } from "@api/Settings";
+import { classNameFactory } from "@api/Styles";
+import { Devs } from "@utils/constants";
+import { getTheme, insertTextIntoChatInputBox, Theme } from "@utils/discord";
+import { Margins } from "@utils/margins";
 import {
     closeModal,
     ModalCloseButton,
@@ -24,8 +24,8 @@ import {
     ModalRoot,
     openModal
 } from "@utils/modal";
-import definePlugin, {OptionType} from "@utils/types";
-import {Button, Forms, Parser, Select, useMemo, useState} from "@webpack/common";
+import definePlugin, { OptionType } from "@utils/types";
+import { Button, Forms, Parser, Select, useMemo, useState } from "@webpack/common";
 
 const settings = definePluginSettings({
     replaceMessageContents: {
@@ -52,7 +52,7 @@ type Format = typeof Formats[number];
 
 const cl = classNameFactory("vc-st-");
 
-function PickerModal({rootProps, close}: { rootProps: ModalProps, close(): void; }) {
+function PickerModal({ rootProps, close }: { rootProps: ModalProps, close(): void; }) {
     const [value, setValue] = useState<string>();
     const [format, setFormat] = useState<Format>("");
     const time = Math.round((new Date(value!).getTime() || Date.now()) / 1000);
@@ -124,7 +124,7 @@ function PickerModal({rootProps, close}: { rootProps: ModalProps, close(): void;
     );
 }
 
-const ChatBarIcon: ChatBarButtonFactory = ({isMainChat}) => {
+const ChatBarIcon: ChatBarButtonFactory = ({ isMainChat }) => {
     if (!isMainChat) return null;
 
     return (
@@ -138,7 +138,7 @@ const ChatBarIcon: ChatBarButtonFactory = ({isMainChat}) => {
                     />
                 ));
             }}
-            buttonProps={{"aria-haspopup": "dialog"}}
+            buttonProps={{ "aria-haspopup": "dialog" }}
         >
             <svg
                 aria-hidden="true"
@@ -146,7 +146,7 @@ const ChatBarIcon: ChatBarButtonFactory = ({isMainChat}) => {
                 width="20"
                 height="20"
                 viewBox="0 0 24 24"
-                style={{scale: "1.2"}}
+                style={{ scale: "1.2" }}
             >
                 <g fill="none" fillRule="evenodd">
                     <path fill="currentColor"

@@ -90,12 +90,12 @@ function makeShortcuts() {
     }
 
     let fakeRenderWin: WeakRef<Window> | undefined;
-    const find = newFindWrapper((f) => f);
+    const find = newFindWrapper(f => f);
     const findByProps = newFindWrapper(filters.byProps);
 
     return {
         ...Object.fromEntries(
-            Object.keys(Common).map((key) => [
+            Object.keys(Common).map(key => [
                 key,
                 { getter: () => Common[key] },
             ]),
@@ -161,7 +161,7 @@ function makeShortcuts() {
                 [
                     ...document.querySelectorAll("style"),
                     ...document.querySelectorAll("link[rel=stylesheet]"),
-                ].forEach((s) => {
+                ].forEach(s => {
                     const n = s.cloneNode(true) as
                         | HTMLStyleElement
                         | HTMLLinkElement;

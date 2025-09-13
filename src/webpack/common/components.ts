@@ -151,16 +151,16 @@ export let listScrollerClasses: Record<string, string>;
 
 waitFor(
     filters.byCode('="ltr",orientation:', "customTheme:", "forwardRef"),
-    (m) => (createScroller = m),
+    m => (createScroller = m),
 );
 waitFor(
     filters.byCode("getScrollerNode:", "resizeObserver:", "sectionHeight:"),
-    (m) => (createListScroller = m),
+    m => (createListScroller = m),
 );
-waitFor(["thin", "auto", "customTheme"], (m) => (scrollerClasses = m));
+waitFor(["thin", "auto", "customTheme"], m => (scrollerClasses = m));
 waitFor(
-    (m) => m.thin && m.auto && !m.customTheme,
-    (m) => (listScrollerClasses = m),
+    m => m.thin && m.auto && !m.customTheme,
+    m => (listScrollerClasses = m),
 );
 
 export const ScrollerNone = LazyComponent(() =>
@@ -223,7 +223,7 @@ export const FocusLock = LazyComponent(() => FocusLock_);
 
 export let useToken: t.useToken;
 waitFor(
-    (m) => {
+    m => {
         if (typeof m !== "function") {
             return false;
         }
@@ -231,7 +231,7 @@ waitFor(
         const str = String(m);
         return str.includes(".resolve({theme:null") && !str.includes("useMemo");
     },
-    (m) => (useToken = m),
+    m => (useToken = m),
 );
 
 export const MaskedLink = waitForComponent<t.MaskedLink>(

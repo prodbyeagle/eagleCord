@@ -8,8 +8,8 @@
 
 import "./Switch.css";
 
-import {classes} from "@utils/misc";
-import {findByPropsLazy} from "@webpack";
+import { classes } from "@utils/misc";
+import { findByPropsLazy } from "@webpack";
 
 interface SwitchProps {
     checked: boolean;
@@ -21,7 +21,7 @@ const SWITCH_ON = "var(--brand-500)";
 const SWITCH_OFF = "var(--primary-400)";
 const SwitchClasses = findByPropsLazy("slider", "input", "container");
 
-export function Switch({checked, onChange, disabled}: SwitchProps) {
+export function Switch({ checked, onChange, disabled }: SwitchProps) {
     return (
         <div>
             <div

@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {PluginOptionSlider} from "@utils/types";
-import {React, Slider, useState} from "@webpack/common";
+import { PluginOptionSlider } from "@utils/types";
+import { React, Slider, useState } from "@webpack/common";
 
-import {resolveError, SettingProps, SettingsSection} from "./Common";
+import { resolveError, SettingProps, SettingsSection } from "./Common";
 
 export function SliderSetting({
                                   option,

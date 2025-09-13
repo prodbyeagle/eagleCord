@@ -53,14 +53,14 @@ export const _init = function (cmds: VencordCommand[]) {
     try {
         BUILT_IN = cmds;
         OptionalMessageOption = cmds.find(
-            (c) => (c.untranslatedName || c.displayName) === "shrug",
+            c => (c.untranslatedName || c.displayName) === "shrug",
         )!.options![0];
         RequiredMessageOption = cmds.find(
-            (c) => (c.untranslatedName || c.displayName) === "me",
+            c => (c.untranslatedName || c.displayName) === "me",
         )!.options![0];
         commandIdOffset =
             Math.abs(
-                BUILT_IN.map((x) => Number(x.id)).sort((x, y) => x - y)[0],
+                BUILT_IN.map(x => Number(x.id)).sort((x, y) => x - y)[0],
             ) - BUILT_IN.length;
     } catch (e) {
         new Logger("CommandsAPI").error(
@@ -116,7 +116,7 @@ export function prepareOption<O extends CommandOption | VencordCommand>(
         // See comment above Placeholders
         if (opt === OptPlaceholder) opts[i] = OptionalMessageOption;
         else if (opt === ReqPlaceholder) opts[i] = RequiredMessageOption;
-        opt.choices?.forEach((x) => (x.displayName ||= x.name));
+        opt.choices?.forEach(x => (x.displayName ||= x.name));
 
         prepareOption(opts[i]);
     });
@@ -127,7 +127,7 @@ export function prepareOption<O extends CommandOption | VencordCommand>(
 // TODO: This probably doesn't support nested subcommands. If that is ever needed,
 // investigate
 function registerSubCommands(cmd: VencordCommand, plugin: string) {
-    cmd.options?.forEach((o) => {
+    cmd.options?.forEach(o => {
         if (o.type !== ApplicationCommandOptionType.SUB_COMMAND)
             throw new Error(
                 "When specifying sub-command options, all options must be sub-commands.",
@@ -166,7 +166,7 @@ export function registerCommand<C extends VencordCommand>(
         return;
     }
 
-    if (BUILT_IN.some((c) => c.name === command.name))
+    if (BUILT_IN.some(c => c.name === command.name))
         throw new Error(`Command '${command.name}' already exists.`);
 
     command.isVencordCommand = true;
@@ -192,7 +192,7 @@ export function registerCommand<C extends VencordCommand>(
 }
 
 export function unregisterCommand(name: string) {
-    const idx = BUILT_IN.findIndex((c) => c.name === name);
+    const idx = BUILT_IN.findIndex(c => c.name === name);
     if (idx === -1) return false;
 
     BUILT_IN.splice(idx, 1);

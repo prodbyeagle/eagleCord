@@ -8,18 +8,18 @@
 
 import "./styles.css";
 
-import {definePluginSettings} from "@api/Settings";
+import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import {classes} from "@utils/misc";
-import definePlugin, {OptionType, StartAt} from "@utils/types";
-import {Channel} from "@vencord/discord-types";
-import {findByPropsLazy, findStoreLazy} from "@webpack";
-import {Clickable, ContextMenuApi, FluxDispatcher, Menu, React} from "@webpack/common";
+import { Devs } from "@utils/constants";
+import { classes } from "@utils/misc";
+import definePlugin, { OptionType, StartAt } from "@utils/types";
+import { Channel } from "@vencord/discord-types";
+import { findByPropsLazy, findStoreLazy } from "@webpack";
+import { Clickable, ContextMenuApi, FluxDispatcher, Menu, React } from "@webpack/common";
 
-import {contextMenus} from "./components/contextMenu";
-import {openCategoryModal, requireSettingsMenu} from "./components/CreateCategoryModal";
-import {DEFAULT_CHUNK_SIZE} from "./constants";
+import { contextMenus } from "./components/contextMenu";
+import { openCategoryModal, requireSettingsMenu } from "./components/CreateCategoryModal";
+import { DEFAULT_CHUNK_SIZE } from "./constants";
 import {
     canMoveCategory,
     canMoveCategoryInDirection,
@@ -60,8 +60,8 @@ export const settings = definePluginSettings({
         type: OptionType.SELECT,
         description: "Which order should pinned DMs be displayed in?",
         options: [
-            {label: "Most recent message", value: PinOrder.LastMessage, default: true},
-            {label: "Custom (right click channels to reorder)", value: PinOrder.Custom}
+            { label: "Most recent message", value: PinOrder.LastMessage, default: true },
+            { label: "Custom (right click channels to reorder)", value: PinOrder.Custom }
         ]
     },
     canCollapseDmSection: {
@@ -193,7 +193,7 @@ export default definePlugin({
     getAllUncollapsedChannels,
     requireSettingsMenu,
 
-    makeProps(instance, {sections}: { sections: number[]; }) {
+    makeProps(instance, { sections }: { sections: number[]; }) {
         this._instance = instance;
         this.sections = sections;
 
@@ -214,7 +214,7 @@ export default definePlugin({
         return settings.store.canCollapseDmSection ? {
             onClick: () => this.collapseDMList(),
             role: "button",
-            style: {cursor: "pointer"}
+            style: { cursor: "pointer" }
         } : undefined;
     },
 
@@ -272,7 +272,7 @@ export default definePlugin({
         return rowHeight * (this.getAllUncollapsedChannels().indexOf(channelId) + preRenderedChildren) + padding;
     },
 
-    renderCategory: ErrorBoundary.wrap(({section}: { section: number; }) => {
+    renderCategory: ErrorBoundary.wrap(({ section }: { section: number; }) => {
         const category = getCategoryByIndex(section - 1);
         if (!category) return null;
 
@@ -283,7 +283,7 @@ export default definePlugin({
                     ContextMenuApi.openContextMenu(e, () => (
                         <Menu.Menu
                             navId="vc-pindms-header-menu"
-                            onClose={() => FluxDispatcher.dispatch({type: "CONTEXT_MENU_CLOSE"})}
+                            onClose={() => FluxDispatcher.dispatch({ type: "CONTEXT_MENU_CLOSE" })}
                             color="danger"
                             aria-label="Pin DMs Category Menu"
                         >
@@ -330,7 +330,7 @@ export default definePlugin({
             >
                 <h2
                     className={classes(headerClasses.privateChannelsHeaderContainer, "vc-pindms-section-container", category.collapsed ? "vc-pindms-collapsed" : "")}
-                    style={{color: `#${category.color.toString(16).padStart(6, "0")}`}}
+                    style={{ color: `#${category.color.toString(16).padStart(6, "0")}` }}
                 >
                     <span className={headerClasses.headerText}>
                         {category?.name ?? "uh oh"}
@@ -343,11 +343,11 @@ export default definePlugin({
                 </h2>
             </Clickable>
         );
-    }, {noop: true}),
+    }, { noop: true }),
 
     renderChannel(sectionIndex: number, index: number, ChannelComponent: React.ComponentType<ChannelComponentProps>) {
         return ErrorBoundary.wrap(() => {
-            const {channel, category} = this.getChannel(sectionIndex, index, this.instance.props.channels);
+            const { channel, category } = this.getChannel(sectionIndex, index, this.instance.props.channels);
 
             if (!channel || !category) return null;
             if (this.isChannelHidden(sectionIndex, index)) return null;
@@ -360,16 +360,16 @@ export default definePlugin({
                     {channel.id}
                 </ChannelComponent>
             );
-        }, {noop: true});
+        }, { noop: true });
     },
 
     getChannel(sectionIndex: number, index: number, channels: Record<string, Channel>) {
         const category = getCategoryByIndex(sectionIndex - 1);
-        if (!category) return {channel: null, category: null};
+        if (!category) return { channel: null, category: null };
 
         const channelId = this.getCategoryChannels(category)[index];
 
-        return {channel: channels[channelId], category};
+        return { channel: channels[channelId], category };
     },
 
     getCategoryChannels(category: Category) {

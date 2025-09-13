@@ -7,18 +7,18 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalRoot, ModalSize, openModal} from "@utils/modal";
-import {useForceUpdater} from "@utils/react";
-import {Paginator, Text, useRef, useState} from "@webpack/common";
+import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalRoot, ModalSize, openModal } from "@utils/modal";
+import { useForceUpdater } from "@utils/react";
+import { Paginator, Text, useRef, useState } from "@webpack/common";
 
-import {Auth} from "../auth";
-import {ReviewType} from "../entities";
-import {Response, REVIEWS_PER_PAGE} from "../reviewDbApi";
-import {cl} from "../utils";
+import { Auth } from "../auth";
+import { ReviewType } from "../entities";
+import { Response, REVIEWS_PER_PAGE } from "../reviewDbApi";
+import { cl } from "../utils";
 import ReviewComponent from "./ReviewComponent";
-import ReviewsView, {ReviewsInputComponent} from "./ReviewsView";
+import ReviewsView, { ReviewsInputComponent } from "./ReviewsView";
 
-function Modal({modalProps, modalKey, discordId, name, type}: {
+function Modal({ modalProps, modalKey, discordId, name, type }: {
     modalProps: any;
     modalKey: string,
     discordId: string;
@@ -53,7 +53,7 @@ function Modal({modalProps, modalKey, discordId, name, type}: {
                             page={page}
                             refetchSignal={signal}
                             onFetchReviews={setData}
-                            scrollToTop={() => ref.current?.scrollTo({top: 0, behavior: "smooth"})}
+                            scrollToTop={() => ref.current?.scrollTo({ top: 0, behavior: "smooth" })}
                             hideOwnReview
                             type={type}
                         />
@@ -104,5 +104,5 @@ export function openReviewsModal(discordId: string, name: string, type: ReviewTy
             name={name}
             type={type}
         />
-    ), {modalKey});
+    ), { modalKey });
 }

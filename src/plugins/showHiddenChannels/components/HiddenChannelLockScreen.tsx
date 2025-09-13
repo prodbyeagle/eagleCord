@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Settings} from "@api/Settings";
+import { Settings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {classes} from "@utils/misc";
-import {formatDuration} from "@utils/text";
-import type {Channel} from "@vencord/discord-types";
-import {findByPropsLazy, findComponentByCodeLazy} from "@webpack";
+import { classes } from "@utils/misc";
+import { formatDuration } from "@utils/text";
+import type { Channel } from "@vencord/discord-types";
+import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import {
     EmojiStore,
     FluxDispatcher,
@@ -32,8 +32,8 @@ import openRolesAndUsersPermissionsModal, {
     PermissionType,
     RoleOrUserPermission
 } from "../../permissionsViewer/components/RolesAndUsersPermissions";
-import {sortPermissionOverwrites} from "../../permissionsViewer/utils";
-import {cl, settings} from "..";
+import { sortPermissionOverwrites } from "../../permissionsViewer/utils";
+import { cl, settings } from "..";
 
 const enum SortOrderTypes {
     LATEST_ACTIVITY = 0,
@@ -121,8 +121,8 @@ const VideoQualityModesToNames = {
 // Icon from the modal when clicking a message link you don't have access to view
 const HiddenChannelLogo = "/assets/433e3ec4319a9d11b0cbe39342614982.svg";
 
-function HiddenChannelLockScreen({channel}: { channel: ExtendedChannel; }) {
-    const {defaultAllowedUsersAndRolesDropdownState} = settings.use(["defaultAllowedUsersAndRolesDropdownState"]);
+function HiddenChannelLockScreen({ channel }: { channel: ExtendedChannel; }) {
+    const { defaultAllowedUsersAndRolesDropdownState } = settings.use(["defaultAllowedUsersAndRolesDropdownState"]);
     const [permissions, setPermissions] = useState<RoleOrUserPermission[]>([]);
 
     const {
@@ -151,7 +151,7 @@ function HiddenChannelLockScreen({channel}: { channel: ExtendedChannel; }) {
         const guildOwnerId = GuildStore.getGuild(guild_id).ownerId;
         if (!GuildMemberStore.getMember(guild_id, guildOwnerId)) membersToFetch.push(guildOwnerId);
 
-        Object.values(permissionOverwrites).forEach(({type, id: userId}) => {
+        Object.values(permissionOverwrites).forEach(({ type, id: userId }) => {
             if (type === 1 && !GuildMemberStore.getMember(guild_id, userId)) {
                 membersToFetch.push(userId);
             }
@@ -186,7 +186,7 @@ function HiddenChannelLockScreen({channel}: { channel: ExtendedChannel; }) {
                         a {!PermissionStore.can(PermissionsBits.VIEW_CHANNEL, channel) ? "hidden" : "locked"} {ChannelTypesToChannelNames[type]} channel</Text>
                     {channel.isNSFW() &&
                         <Tooltip text="NSFW">
-                            {({onMouseLeave, onMouseEnter}) => (
+                            {({ onMouseLeave, onMouseEnter }) => (
                                 <svg
                                     onMouseLeave={onMouseLeave}
                                     onMouseEnter={onMouseEnter}
@@ -214,7 +214,7 @@ function HiddenChannelLockScreen({channel}: { channel: ExtendedChannel; }) {
 
                 {channel.isForumChannel() && topic && topic.length > 0 && (
                     <div className={cl("topic-container")}>
-                        {Parser.parseTopic(topic, false, {channelId})}
+                        {Parser.parseTopic(topic, false, { channelId })}
                     </div>
                 )}
 
@@ -269,7 +269,7 @@ function HiddenChannelLockScreen({channel}: { channel: ExtendedChannel; }) {
                             src: defaultReactionEmoji.emojiName
                                 ? EmojiUtils.getURL(defaultReactionEmoji.emojiName)
                                 : void 0
-                        }, void 0, {key: 0})}
+                        }, void 0, { key: 0 })}
                     </div>
                 }
                 {channel.hasFlag(ChannelFlags.REQUIRE_TAG) &&
@@ -287,7 +287,7 @@ function HiddenChannelLockScreen({channel}: { channel: ExtendedChannel; }) {
                     <div className={cl("allowed-users-and-roles-container-title")}>
                         {Vencord.Plugins.isPluginEnabled("PermissionsViewer") && (
                             <Tooltip text="Permission Details">
-                                {({onMouseLeave, onMouseEnter}) => (
+                                {({ onMouseLeave, onMouseEnter }) => (
                                     <button
                                         onMouseLeave={onMouseLeave}
                                         onMouseEnter={onMouseEnter}
@@ -309,7 +309,7 @@ function HiddenChannelLockScreen({channel}: { channel: ExtendedChannel; }) {
                         <Text variant="text-lg/bold">Allowed users and roles:</Text>
                         <Tooltip
                             text={defaultAllowedUsersAndRolesDropdownState ? "Hide Allowed Users and Roles" : "View Allowed Users and Roles"}>
-                            {({onMouseLeave, onMouseEnter}) => (
+                            {({ onMouseLeave, onMouseEnter }) => (
                                 <button
                                     onMouseLeave={onMouseLeave}
                                     onMouseEnter={onMouseEnter}

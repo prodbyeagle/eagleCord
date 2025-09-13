@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {classes} from "@utils/misc";
-import {findByPropsLazy} from "@webpack";
-import {React} from "@webpack/common";
-import {JSX} from "react";
+import { classes } from "@utils/misc";
+import { findByPropsLazy } from "@webpack";
+import { React } from "@webpack/common";
+import { JSX } from "react";
 
-import {cl} from "../";
-import Grid, {GridProps} from "./Grid";
+import { cl } from "../";
+import Grid, { GridProps } from "./Grid";
 
 const ScrollerClasses = findByPropsLazy("managedReactiveScroller");
 

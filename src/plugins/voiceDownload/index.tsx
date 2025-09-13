@@ -8,7 +8,7 @@
 
 import "./style.css";
 
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
 
 export default definePlugin({
@@ -33,8 +33,8 @@ export default definePlugin({
                 onClick={e => e.stopPropagation()}
                 aria-label="Download voice message"
                 {...IS_DISCORD_DESKTOP
-                    ? {target: "_blank"} // open externally
-                    : {download: "voice-message.ogg"} // download directly (not supported on discord desktop)
+                    ? { target: "_blank" } // open externally
+                    : { download: "voice-message.ogg" } // download directly (not supported on discord desktop)
                 }
             >
                 <this.Icon/>

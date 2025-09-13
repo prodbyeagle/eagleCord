@@ -6,19 +6,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings, Settings} from "@api/Settings";
-import {getUserSettingLazy} from "@api/UserSettings";
-import {ErrorCard} from "@components/ErrorCard";
-import {Flex} from "@components/Flex";
-import {Link} from "@components/Link";
-import {Devs} from "@utils/constants";
-import {isTruthy} from "@utils/guards";
-import {Margins} from "@utils/margins";
-import {classes} from "@utils/misc";
-import {useAwaiter} from "@utils/react";
-import definePlugin, {OptionType} from "@utils/types";
-import {findByCodeLazy, findComponentByCodeLazy} from "@webpack";
-import {ApplicationAssetUtils, Button, FluxDispatcher, Forms, React, UserStore} from "@webpack/common";
+import { definePluginSettings, Settings } from "@api/Settings";
+import { getUserSettingLazy } from "@api/UserSettings";
+import { ErrorCard } from "@components/ErrorCard";
+import { Flex } from "@components/Flex";
+import { Link } from "@components/Link";
+import { Devs } from "@utils/constants";
+import { isTruthy } from "@utils/guards";
+import { Margins } from "@utils/margins";
+import { classes } from "@utils/misc";
+import { useAwaiter } from "@utils/react";
+import definePlugin, { OptionType } from "@utils/types";
+import { findByCodeLazy, findComponentByCodeLazy } from "@webpack";
+import { ApplicationAssetUtils, Button, FluxDispatcher, Forms, React, UserStore } from "@webpack/common";
 
 const useProfileThemeStyle = findByCodeLazy("profileThemeStyle:", "--profile-gradient-primary-color");
 const ActivityView = findComponentByCodeLazy(".party?(0", ".card");
@@ -403,14 +403,14 @@ export default definePlugin({
     settingsAboutComponent: () => {
         const activity = useAwaiter(createActivity);
         const gameActivityEnabled = ShowCurrentGame.useSetting();
-        const {profileThemeStyle} = useProfileThemeStyle({});
+        const { profileThemeStyle } = useProfileThemeStyle({});
 
         return (
             <>
                 {!gameActivityEnabled && (
                     <ErrorCard
                         className={classes(Margins.top16, Margins.bottom16)}
-                        style={{padding: "1em"}}
+                        style={{ padding: "1em" }}
                     >
                         <Forms.FormTitle>Notice</Forms.FormTitle>
                         <Forms.FormText>Activity Sharing isn't enabled, people won't be able to see your custom rich
@@ -426,7 +426,7 @@ export default definePlugin({
                     </ErrorCard>
                 )}
 
-                <Flex flexDirection="column" style={{gap: ".5em"}} className={Margins.top16}>
+                <Flex flexDirection="column" style={{ gap: ".5em" }} className={Margins.top16}>
                     <Forms.FormText>
                         Go to the <Link href="https://discord.com/developers/applications">Discord Developer
                         Portal</Link> to create an application and

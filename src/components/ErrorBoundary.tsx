@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {LazyComponent, LazyComponentWrapper} from "@utils/lazyReact";
-import {Logger} from "@utils/Logger";
-import {Margins} from "@utils/margins";
-import type {React} from "@webpack/common";
+import { LazyComponent, LazyComponentWrapper } from "@utils/lazyReact";
+import { Logger } from "@utils/Logger";
+import { Margins } from "@utils/margins";
+import type { React } from "@webpack/common";
 
-import {ErrorCard} from "./ErrorCard";
+import { ErrorCard } from "./ErrorCard";
 
 interface Props<T = any> {
     /** Render nothing if an error occurs */
@@ -64,11 +64,11 @@ const ErrorBoundary = LazyComponent(() => {
                 }
             }
 
-            return {error, stack, message};
+            return { error, stack, message };
         }
 
         componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-            this.props.onError?.({error, errorInfo, props: this.props.wrappedProps});
+            this.props.onError?.({ error, errorInfo, props: this.props.wrappedProps });
             logger.error(`${this.props.message || "A component threw an Error"}\n`, error, errorInfo.componentStack);
         }
 
@@ -95,7 +95,7 @@ const ErrorBoundary = LazyComponent(() => {
             const msg = this.props.message || "An error occurred while rendering this Component. More info can be found below and in your console.";
 
             return (
-                <ErrorCard style={{overflow: "hidden"}}>
+                <ErrorCard style={{ overflow: "hidden" }}>
                     <h1>Oh no!</h1>
                     <p>{msg}</p>
                     <code>

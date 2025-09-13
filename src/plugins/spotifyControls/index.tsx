@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Settings} from "@api/Settings";
-import {disableStyle, enableStyle} from "@api/Styles";
+import { Settings } from "@api/Settings";
+import { disableStyle, enableStyle } from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
 
 import hoverOnlyStyle from "./hoverOnly.css?managed";
-import {Player} from "./PlayerComponent";
+import { Player } from "./PlayerComponent";
 
 function toggleHoverControls(value: boolean) {
     (value ? enableStyle : disableStyle)(hoverOnlyStyle);
@@ -83,7 +83,7 @@ export default definePlugin({
 
     start: () => toggleHoverControls(Settings.plugins.SpotifyControls.hoverControls),
 
-    PanelWrapper({VencordOriginal, ...props}) {
+    PanelWrapper({ VencordOriginal, ...props }) {
         return (
             <>
                 <ErrorBoundary

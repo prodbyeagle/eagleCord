@@ -9,17 +9,17 @@
 // This plugin is a port from Alyxia's Vendetta plugin
 import "./index.css";
 
-import {definePluginSettings} from "@api/Settings";
+import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import {fetchUserProfile} from "@utils/discord";
-import {Margins} from "@utils/margins";
-import {classes, copyWithToast} from "@utils/misc";
-import {useAwaiter} from "@utils/react";
-import definePlugin, {OptionType} from "@utils/types";
-import {User, UserProfile} from "@vencord/discord-types";
-import {findComponentByCodeLazy} from "@webpack";
-import {Button, ColorPicker, Flex, Forms, React, Text, UserProfileStore, UserStore, useState} from "@webpack/common";
+import { Devs } from "@utils/constants";
+import { fetchUserProfile } from "@utils/discord";
+import { Margins } from "@utils/margins";
+import { classes, copyWithToast } from "@utils/misc";
+import { useAwaiter } from "@utils/react";
+import definePlugin, { OptionType } from "@utils/types";
+import { User, UserProfile } from "@vencord/discord-types";
+import { findComponentByCodeLazy } from "@webpack";
+import { Button, ColorPicker, Flex, Forms, React, Text, UserProfileStore, UserStore, useState } from "@webpack/common";
 import virtualMerge from "virtual-merge";
 
 interface Colors {
@@ -66,8 +66,8 @@ const settings = definePluginSettings({
         description: "Default color source if both are present",
         type: OptionType.SELECT,
         options: [
-            {label: "Nitro colors", value: true, default: true},
-            {label: "Fake colors", value: false},
+            { label: "Nitro colors", value: true, default: true },
+            { label: "Fake colors", value: false },
         ]
     }
 });
@@ -123,14 +123,14 @@ function SettingsAboutComponent() {
                 <Forms.FormTitle tag="h3">Color pickers</Forms.FormTitle>
                 <Flex
                     direction={Flex.Direction.HORIZONTAL}
-                    style={{gap: "1rem"}}
+                    style={{ gap: "1rem" }}
                 >
                     <ColorPicker
                         color={color1}
                         label={
                             <Text
                                 variant={"text-xs/normal"}
-                                style={{marginTop: "4px"}}
+                                style={{ marginTop: "4px" }}
                             >
                                 Primary
                             </Text>
@@ -144,7 +144,7 @@ function SettingsAboutComponent() {
                         label={
                             <Text
                                 variant={"text-xs/normal"}
-                                style={{marginTop: "4px"}}
+                                style={{ marginTop: "4px" }}
                             >
                                 Accent
                             </Text>
@@ -224,7 +224,7 @@ export default definePlugin({
         }
         return user;
     },
-    addCopy3y3Button: ErrorBoundary.wrap(function ({primary, accent}: Colors) {
+    addCopy3y3Button: ErrorBoundary.wrap(function ({ primary, accent }: Colors) {
         return <Button
             onClick={() => {
                 const colorString = encode(primary, accent);
@@ -235,5 +235,5 @@ export default definePlugin({
             className={Margins.left16}
         >Copy 3y3
         </Button>;
-    }, {noop: true}),
+    }, { noop: true }),
 });

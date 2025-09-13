@@ -17,7 +17,7 @@ const exec = promisify(execFile);
 async function applescript(cmds: string[]) {
     const { stdout } = await exec(
         "osascript",
-        cmds.map((c) => ["-e", c]).flat(),
+        cmds.map(c => ["-e", c]).flat(),
     );
     return stdout;
 }
@@ -45,13 +45,13 @@ let cachedToken: string | undefined = undefined;
 const getToken = async () => {
     if (cachedToken) return cachedToken;
 
-    const html = await fetch("https://music.apple.com/").then((r) => r.text());
+    const html = await fetch("https://music.apple.com/").then(r => r.text());
     const bundleUrl = new URL(
         html.match(APPLE_MUSIC_BUNDLE_REGEX)![1],
         "https://music.apple.com/",
     );
 
-    const bundle = await fetch(bundleUrl).then((r) => r.text());
+    const bundle = await fetch(bundleUrl).then(r => r.text());
     const token = bundle.match(APPLE_MUSIC_TOKEN_REGEX)![2];
 
     cachedToken = token;
@@ -99,8 +99,8 @@ async function fetchRemoteData({
                 origin: "https://music.apple.com",
             },
         })
-            .then((r) => r.json())
-            .then((data) => data.results.song.data[0]);
+            .then(r => r.json())
+            .then(data => data.results.song.data[0]);
 
         cachedRemoteData = {
             id,
@@ -147,14 +147,14 @@ export async function fetchTrackData(): Promise<TrackData | null> {
         'tell application "Music"',
         "get player state",
         "end tell",
-    ]).then((out) => out.trim());
+    ]).then(out => out.trim());
     if (playerState !== "playing") return null;
 
     const playerPosition = await applescript([
         'tell application "Music"',
         "get player position",
         "end tell",
-    ]).then((text) => Number.parseFloat(text.trim()));
+    ]).then(text => Number.parseFloat(text.trim()));
 
     const stdout = await applescript([
         'set output to ""',
@@ -171,7 +171,7 @@ export async function fetchTrackData(): Promise<TrackData | null> {
 
     const [id, name, album, artist, durationStr] = stdout
         .split("\n")
-        .filter((k) => !!k);
+        .filter(k => !!k);
     const duration = Number.parseFloat(durationStr);
 
     const remoteData = await fetchRemoteData({ id, name, artist, album });

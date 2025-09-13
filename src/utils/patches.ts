@@ -83,7 +83,7 @@ export function canonicalizeReplacement(
     );
     descriptors.replace = canonicalizeDescriptor(
         descriptors.replace,
-        (replace) => canonicalizeReplace(replace, pluginPath),
+        replace => canonicalizeReplace(replace, pluginPath),
     );
     Object.defineProperties(replacement, descriptors);
 }

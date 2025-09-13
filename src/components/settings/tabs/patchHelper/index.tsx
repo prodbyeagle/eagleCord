@@ -6,22 +6,22 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {CodeBlock} from "@components/CodeBlock";
-import {Flex} from "@components/Flex";
-import {SettingsTab, wrapTab} from "@components/settings/tabs/BaseTab";
-import {debounce} from "@shared/debounce";
-import {Margins} from "@utils/margins";
-import {copyWithToast} from "@utils/misc";
-import {stripIndent} from "@utils/text";
-import {ReplaceFn} from "@utils/types";
-import {search} from "@webpack";
-import {Button, Forms, React, TextInput, useMemo, useState} from "@webpack/common";
+import { CodeBlock } from "@components/CodeBlock";
+import { Flex } from "@components/Flex";
+import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
+import { debounce } from "@shared/debounce";
+import { Margins } from "@utils/margins";
+import { copyWithToast } from "@utils/misc";
+import { stripIndent } from "@utils/text";
+import { ReplaceFn } from "@utils/types";
+import { search } from "@webpack";
+import { Button, Forms, React, TextInput, useMemo, useState } from "@webpack/common";
 
-import {FullPatchInput} from "./FullPatchInput";
-import {PatchPreview} from "./PatchPreview";
-import {ReplacementInput} from "./ReplacementInput";
+import { FullPatchInput } from "./FullPatchInput";
+import { PatchPreview } from "./PatchPreview";
+import { ReplacementInput } from "./ReplacementInput";
 
-const findCandidates = debounce(function ({find, setModule, setError}) {
+const findCandidates = debounce(function ({ find, setModule, setError }) {
     const candidates = search(find);
     const keys = Object.keys(candidates);
     const len = keys.length;
@@ -73,7 +73,7 @@ function PatchHelper() {
             setParsedFind(parsedFind);
 
             if (v.length) {
-                findCandidates({find: parsedFind, setModule, setError: setFindError});
+                findCandidates({ find: parsedFind, setModule, setError: setFindError });
             }
         } catch (e: any) {
             setFindError((e as Error).message);

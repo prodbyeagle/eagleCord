@@ -6,16 +6,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {CopyIcon, DeleteIcon} from "@components/Icons";
-import {copyToClipboard} from "@utils/clipboard";
-import {Alerts, ContextMenuApi, Menu, UserStore} from "@webpack/common";
+import { CopyIcon, DeleteIcon } from "@components/Icons";
+import { copyToClipboard } from "@utils/clipboard";
+import { Alerts, ContextMenuApi, Menu, UserStore } from "@webpack/common";
 
-import {Decoration} from "../../lib/api";
-import {useCurrentUserDecorationsStore} from "../../lib/stores/CurrentUserDecorationsStore";
-import {cl} from "../";
+import { Decoration } from "../../lib/api";
+import { useCurrentUserDecorationsStore } from "../../lib/stores/CurrentUserDecorationsStore";
+import { cl } from "../";
 
-export default function DecorationContextMenu({decoration}: { decoration: Decoration; }) {
-    const {delete: deleteDecoration} = useCurrentUserDecorationsStore();
+export default function DecorationContextMenu({ decoration }: { decoration: Decoration; }) {
+    const { delete: deleteDecoration } = useCurrentUserDecorationsStore();
 
     return <Menu.Menu
         navId={cl("decoration-context-menu")}

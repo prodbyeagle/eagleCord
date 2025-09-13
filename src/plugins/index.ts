@@ -136,7 +136,7 @@ const neededApiPlugins = new Set<string>();
 // goes for the top level and their children, but for now this works okay with the current API plugins
 for (const p of pluginsValues)
     if (isPluginEnabled(p.name)) {
-        p.dependencies?.forEach((d) => {
+        p.dependencies?.forEach(d => {
             const dep = Plugins[d];
 
             if (!dep) {
@@ -239,7 +239,7 @@ export function startDependenciesRecursive(p: Plugin) {
     let restartNeeded = false;
     const failures: string[] = [];
 
-    p.dependencies?.forEach((d) => {
+    p.dependencies?.forEach(d => {
         if (!settings[d].enabled) {
             const dep = Plugins[d];
             startDependenciesRecursive(dep);
@@ -279,7 +279,7 @@ export function subscribePluginFluxEvents(
                 try {
                     const res = handler.apply(p, arguments as any);
                     return res instanceof Promise
-                        ? res.catch((e) =>
+                        ? res.catch(e =>
                               logger.error(
                                   `${p.name}: Error while handling ${event}\n`,
                                   e,
@@ -404,7 +404,7 @@ export const startPlugin = traceFunction(
 
         return true;
     },
-    (p) => `startPlugin ${p.name}`,
+    p => `startPlugin ${p.name}`,
 );
 
 export const stopPlugin = traceFunction(
@@ -486,5 +486,5 @@ export const stopPlugin = traceFunction(
 
         return true;
     },
-    (p) => `stopPlugin ${p.name}`,
+    p => `stopPlugin ${p.name}`,
 );

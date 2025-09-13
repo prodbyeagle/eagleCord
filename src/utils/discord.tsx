@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {MessageObject} from "@api/MessageEvents";
-import {Channel, CloudUpload, Guild, GuildFeatures, Message, User} from "@vencord/discord-types";
+import { MessageObject } from "@api/MessageEvents";
+import { Channel, CloudUpload, Guild, GuildFeatures, Message, User } from "@vencord/discord-types";
 import {
     ChannelActionCreators,
     ChannelStore,
@@ -27,11 +27,11 @@ import {
     UserSettingsActionCreators,
     UserUtils
 } from "@webpack/common";
-import {Except} from "type-fest";
+import { Except } from "type-fest";
 
-import {runtimeHashMessageKey} from "./intlHash";
-import {Logger} from "./Logger";
-import {MediaModalItem, MediaModalProps, openMediaModal} from "./modal";
+import { runtimeHashMessageKey } from "./intlHash";
+import { Logger } from "./Logger";
+import { MediaModalItem, MediaModalProps, openMediaModal } from "./modal";
 
 const IntlManagerLogger = new Logger("IntlManager");
 
@@ -64,7 +64,7 @@ export function getIntlMessageFromHash(hashedKey: string, values?: Record<Proper
  * @returns Whether the invite was accepted
  */
 export async function openInviteModal(code: string) {
-    const {invite} = await InviteActions.resolveInvite(code, "Desktop Modal");
+    const { invite } = await InviteActions.resolveInvite(code, "Desktop Modal");
     if (!invite) throw new Error("Invalid invite: " + code);
 
     FluxDispatcher.dispatch({
@@ -203,9 +203,9 @@ export async function fetchUserProfile(id: string, options?: FetchUserProfileOpt
     const cached = UserProfileStore.getUserProfile(id);
     if (cached) return cached;
 
-    FluxDispatcher.dispatch({type: "USER_PROFILE_FETCH_START", userId: id});
+    FluxDispatcher.dispatch({ type: "USER_PROFILE_FETCH_START", userId: id });
 
-    const {body} = await RestAPI.get({
+    const { body } = await RestAPI.get({
         url: Constants.Endpoints.USER_PROFILE(id),
         query: {
             with_mutual_guilds: false,
@@ -215,8 +215,8 @@ export async function fetchUserProfile(id: string, options?: FetchUserProfileOpt
         oldFormErrors: true,
     });
 
-    FluxDispatcher.dispatch({type: "USER_UPDATE", user: body.user});
-    await FluxDispatcher.dispatch({type: "USER_PROFILE_FETCH_SUCCESS", userProfile: body});
+    FluxDispatcher.dispatch({ type: "USER_UPDATE", user: body.user });
+    await FluxDispatcher.dispatch({ type: "USER_PROFILE_FETCH_SUCCESS", userProfile: body });
     if (options?.guild_id && body.guild_member)
         FluxDispatcher.dispatch({
             type: "GUILD_MEMBER_PROFILE_UPDATE",
@@ -241,7 +241,7 @@ export function getUniqueUsername(user: User) {
  * @param size The size for the emoji
  */
 export function getEmojiURL(id: string, animated: boolean, size: number) {
-    const url = IconUtils.getEmojiURL({id, animated, size});
+    const url = IconUtils.getEmojiURL({ id, animated, size });
     return animated ? url.replace(".webp", ".gif") : url;
 }
 

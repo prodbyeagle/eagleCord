@@ -196,7 +196,7 @@ export async function syncGroups() {
         if (type === ChannelType.GROUP_DM)
             groups.set(id, {
                 id,
-                name: name || rawRecipients.map((r) => r.username).join(", "),
+                name: name || rawRecipients.map(r => r.username).join(", "),
                 iconURL:
                     icon &&
                     `https://cdn.discordapp.com/channel-icons/${id}/${icon}.png`,

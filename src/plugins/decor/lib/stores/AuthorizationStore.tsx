@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {DataStore} from "@api/index";
-import {proxyLazy} from "@utils/lazy";
-import {Logger} from "@utils/Logger";
-import {openModal} from "@utils/modal";
-import {OAuth2AuthorizeModal, showToast, Toasts, UserStore, zustandCreate, zustandPersist} from "@webpack/common";
+import { DataStore } from "@api/index";
+import { proxyLazy } from "@utils/lazy";
+import { Logger } from "@utils/Logger";
+import { openModal } from "@utils/modal";
+import { OAuth2AuthorizeModal, showToast, Toasts, UserStore, zustandCreate, zustandPersist } from "@webpack/common";
 
-import {AUTHORIZE_URL, CLIENT_ID} from "../constants";
+import { AUTHORIZE_URL, CLIENT_ID } from "../constants";
 
 interface AuthorizationState {
     token: string | null;
@@ -43,17 +43,17 @@ export const useAuthorizationStore = proxyLazy(() => zustandCreate(
             token: null,
             tokens: {},
             init: () => {
-                set({token: get().tokens[UserStore.getCurrentUser().id] ?? null});
+                set({ token: get().tokens[UserStore.getCurrentUser().id] ?? null });
             },
             setToken: (token: string) => set({
                 token,
-                tokens: {...get().tokens, [UserStore.getCurrentUser().id]: token}
+                tokens: { ...get().tokens, [UserStore.getCurrentUser().id]: token }
             }),
             remove: (id: string) => {
-                const {tokens, init} = get();
-                const newTokens = {...tokens};
+                const { tokens, init } = get();
+                const newTokens = { ...tokens };
                 delete newTokens[id];
-                set({tokens: newTokens});
+                set({ tokens: newTokens });
 
                 init();
             },
@@ -101,7 +101,7 @@ export const useAuthorizationStore = proxyLazy(() => zustandCreate(
         {
             name: "decor-auth",
             storage: indexedDBStorage,
-            partialize: state => ({tokens: state.tokens}),
+            partialize: state => ({ tokens: state.tokens }),
             onRehydrateStorage: () => state => state?.init()
         }
     )

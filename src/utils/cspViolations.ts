@@ -31,7 +31,7 @@ document.addEventListener(
 
         CspBlockedUrls.add(blockedURI);
 
-        CspErrorListeners.forEach((listener) => listener());
+        CspErrorListeners.forEach(listener => listener());
     },
 );
 

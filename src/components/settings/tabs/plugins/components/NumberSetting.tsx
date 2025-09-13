@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {OptionType, PluginOptionNumber} from "@utils/types";
-import {React, TextInput, useState} from "@webpack/common";
+import { OptionType, PluginOptionNumber } from "@utils/types";
+import { React, TextInput, useState } from "@webpack/common";
 
-import {resolveError, SettingProps, SettingsSection} from "./Common";
+import { resolveError, SettingProps, SettingsSection } from "./Common";
 
 const MAX_SAFE_NUMBER = BigInt(Number.MAX_SAFE_INTEGER);
 

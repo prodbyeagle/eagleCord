@@ -8,18 +8,18 @@
 
 import "./messageLogger.css";
 
-import {findGroupChildrenByChildId, NavContextMenuPatchCallback} from "@api/ContextMenu";
-import {updateMessage} from "@api/MessageUpdater";
-import {Settings} from "@api/Settings";
-import {disableStyle, enableStyle} from "@api/Styles";
+import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { updateMessage } from "@api/MessageUpdater";
+import { Settings } from "@api/Settings";
+import { disableStyle, enableStyle } from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs, SUPPORT_CATEGORY_ID, VENBOT_USER_ID} from "@utils/constants";
-import {getIntlMessage} from "@utils/discord";
-import {Logger} from "@utils/Logger";
-import {classes} from "@utils/misc";
-import definePlugin, {OptionType} from "@utils/types";
-import {Message} from "@vencord/discord-types";
-import {findByPropsLazy} from "@webpack";
+import { Devs, SUPPORT_CATEGORY_ID, VENBOT_USER_ID } from "@utils/constants";
+import { getIntlMessage } from "@utils/discord";
+import { Logger } from "@utils/Logger";
+import { classes } from "@utils/misc";
+import definePlugin, { OptionType } from "@utils/types";
+import { Message } from "@vencord/discord-types";
+import { findByPropsLazy } from "@webpack";
 import {
     ChannelStore,
     FluxDispatcher,
@@ -34,7 +34,7 @@ import {
 
 import overlayStyle from "./deleteStyleOverlay.css?managed";
 import textStyle from "./deleteStyleText.css?managed";
-import {openHistoryModal} from "./HistoryModal";
+import { openHistoryModal } from "./HistoryModal";
 
 interface MLMessage extends Message {
     deleted?: boolean;
@@ -57,8 +57,8 @@ function addDeleteStyle() {
 const REMOVE_HISTORY_ID = "ml-remove-history";
 const TOGGLE_DELETE_STYLE_ID = "ml-toggle-style";
 const patchMessageContextMenu: NavContextMenuPatchCallback = (children, props) => {
-    const {message} = props;
-    const {deleted, editHistory, id, channel_id} = message;
+    const { message } = props;
+    const { deleted, editHistory, id, channel_id } = message;
 
     if (!deleted && !editHistory?.length) return;
 
@@ -100,7 +100,7 @@ const patchMessageContextMenu: NavContextMenuPatchCallback = (children, props) =
     ));
 };
 
-const patchChannelContextMenu: NavContextMenuPatchCallback = (children, {channel}) => {
+const patchChannelContextMenu: NavContextMenuPatchCallback = (children, { channel }) => {
     const messages = MessageStore.getMessages(channel?.id) as MLMessage[];
     if (!messages?.some(msg => msg.deleted || msg.editHistory?.length)) return;
 
@@ -159,7 +159,7 @@ export default definePlugin({
         addDeleteStyle();
     },
 
-    renderEdits: ErrorBoundary.wrap(({message: {id: messageId, channel_id: channelId}}: { message: Message; }) => {
+    renderEdits: ErrorBoundary.wrap(({ message: { id: messageId, channel_id: channelId } }: { message: Message; }) => {
         const message = useStateFromStores(
             [MessageStore],
             () => MessageStore.getMessage(channelId, messageId) as MLMessage,
@@ -183,7 +183,7 @@ export default definePlugin({
                 ))}
             </>
         );
-    }, {noop: true}),
+    }, { noop: true }),
 
     makeEdit(newMessage: any, oldMessage: any): any {
         return {
@@ -198,8 +198,8 @@ export default definePlugin({
             description: "The style of deleted messages",
             default: "text",
             options: [
-                {label: "Red text", value: "text", default: true},
-                {label: "Red overlay", value: "overlay"}
+                { label: "Red text", value: "text", default: true },
+                { label: "Red overlay", value: "overlay" }
             ],
             onChange: () => addDeleteStyle()
         },
@@ -307,7 +307,7 @@ export default definePlugin({
             (message.author?.id === VENBOT_USER_ID && ChannelStore.getChannel(message.channel_id)?.parent_id === SUPPORT_CATEGORY_ID);
     },
 
-    EditMarker({message, className, children, ...props}: any) {
+    EditMarker({ message, className, children, ...props }: any) {
         return (
             <span
                 {...props}

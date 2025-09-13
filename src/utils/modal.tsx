@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {LazyComponent} from "@utils/react";
-import {filters, findByCodeLazy, mapMangledModuleLazy} from "@webpack";
-import type {ComponentType, PropsWithChildren, ReactNode, Ref} from "react";
+import { LazyComponent } from "@utils/react";
+import { filters, findByCodeLazy, mapMangledModuleLazy } from "@webpack";
+import type { ComponentType, PropsWithChildren, ReactNode, Ref } from "react";
 
 export const enum ModalSize {
     SMALL = "small",
@@ -164,4 +164,4 @@ export const ModalAPI: ModalAPI = mapMangledModuleLazy(".modalKey?", {
     closeAllModals: filters.byCode(".getState();for")
 });
 
-export const {openModalLazy, openModal, closeModal, closeAllModals} = ModalAPI;
+export const { openModalLazy, openModal, closeModal, closeAllModals } = ModalAPI;

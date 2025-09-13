@@ -8,16 +8,16 @@
 
 import "./styles.css";
 
-import {definePluginSettings} from "@api/Settings";
+import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import {getIntlMessage} from "@utils/discord";
-import {canonicalizeMatch} from "@utils/patches";
-import definePlugin, {OptionType} from "@utils/types";
-import {Message} from "@vencord/discord-types";
-import {findComponentLazy} from "@webpack";
-import {ChannelStore, GuildMemberStore, Text, Tooltip} from "@webpack/common";
-import {FunctionComponent, ReactNode} from "react";
+import { Devs } from "@utils/constants";
+import { getIntlMessage } from "@utils/discord";
+import { canonicalizeMatch } from "@utils/patches";
+import definePlugin, { OptionType } from "@utils/types";
+import { Message } from "@vencord/discord-types";
+import { findComponentLazy } from "@webpack";
+import { ChannelStore, GuildMemberStore, Text, Tooltip } from "@webpack/common";
+import { FunctionComponent, ReactNode } from "react";
 
 const countDownFilter = canonicalizeMatch("#{intl::MAX_AGE_NEVER}");
 const CountDown = findComponentLazy(m => m.prototype?.render?.toString().includes(countDownFilter));
@@ -32,8 +32,8 @@ const settings = definePluginSettings({
         description: "How to display the timeout duration",
         type: OptionType.SELECT,
         options: [
-            {label: "In the Tooltip", value: DisplayStyle.Tooltip},
-            {label: "Next to the timeout icon", value: DisplayStyle.Inline, default: true},
+            { label: "In the Tooltip", value: DisplayStyle.Tooltip },
+            { label: "Next to the timeout icon", value: DisplayStyle.Inline, default: true },
         ],
     }
 });
@@ -85,7 +85,7 @@ export default definePlugin({
         }
     ],
 
-    TooltipWrapper: ErrorBoundary.wrap(({message, children, text}: {
+    TooltipWrapper: ErrorBoundary.wrap(({ message, children, text }: {
         message: Message;
         children: FunctionComponent<any>;
         text: ReactNode;
@@ -101,5 +101,5 @@ export default definePlugin({
                 </Text>
             </div>
         );
-    }, {noop: true})
+    }, { noop: true })
 });

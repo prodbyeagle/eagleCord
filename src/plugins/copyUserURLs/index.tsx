@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {NavContextMenuPatchCallback} from "@api/ContextMenu";
-import {LinkIcon} from "@components/Icons";
-import {copyToClipboard} from "@utils/clipboard";
-import {Devs} from "@utils/constants";
+import { NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { LinkIcon } from "@components/Icons";
+import { copyToClipboard } from "@utils/clipboard";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import type {Channel, User} from "@vencord/discord-types";
-import {Menu} from "@webpack/common";
+import type { Channel, User } from "@vencord/discord-types";
+import { Menu } from "@webpack/common";
 
 interface UserContextProps {
     channel: Channel;
@@ -20,7 +20,7 @@ interface UserContextProps {
     user: User;
 }
 
-const UserContextMenuPatch: NavContextMenuPatchCallback = (children, {user}: UserContextProps) => {
+const UserContextMenuPatch: NavContextMenuPatchCallback = (children, { user }: UserContextProps) => {
     if (!user) return;
 
     children.push(

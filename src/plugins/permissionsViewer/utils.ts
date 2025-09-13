@@ -26,7 +26,7 @@ export function getSortedRolesForMember(
 ) {
     // The guild id is the @everyone role
     return GuildRoleStore.getSortedRoles(guildId).filter(
-        (role) => role.id === guildId || member.roles.includes(role.id),
+        role => role.id === guildId || member.roles.includes(role.id),
     );
 }
 

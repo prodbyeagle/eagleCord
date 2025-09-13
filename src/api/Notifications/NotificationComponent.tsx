@@ -8,12 +8,12 @@
 
 import "./styles.css";
 
-import {useSettings} from "@api/Settings";
+import { useSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {classes} from "@utils/misc";
-import {React, useEffect, useMemo, useState, useStateFromStores, WindowStore} from "@webpack/common";
+import { classes } from "@utils/misc";
+import { React, useEffect, useMemo, useState, useStateFromStores, WindowStore } from "@webpack/common";
 
-import {NotificationData} from "./Notifications";
+import { NotificationData } from "./Notifications";
 
 export default ErrorBoundary.wrap(function NotificationComponent({
                                                                      title,
@@ -28,7 +28,7 @@ export default ErrorBoundary.wrap(function NotificationComponent({
                                                                      className,
                                                                      dismissOnClick
                                                                  }: NotificationData & { className?: string; }) {
-    const {timeout, position} = useSettings(["notifications.timeout", "notifications.position"]).notifications;
+    const { timeout, position } = useSettings(["notifications.timeout", "notifications.position"]).notifications;
     const hasFocus = useStateFromStores([WindowStore], () => WindowStore.isFocused());
 
     const [isHover, setIsHover] = useState(false);
@@ -55,7 +55,7 @@ export default ErrorBoundary.wrap(function NotificationComponent({
     return (
         <button
             className={classes("vc-notification-root", className)}
-            style={position === "bottom-right" ? {bottom: "1rem"} : {top: "3rem"}}
+            style={position === "bottom-right" ? { bottom: "1rem" } : { top: "3rem" }}
             onClick={() => {
                 onClick?.();
                 if (dismissOnClick !== false)
@@ -102,11 +102,11 @@ export default ErrorBoundary.wrap(function NotificationComponent({
             {timeout !== 0 && !permanent && (
                 <div
                     className="vc-notification-progressbar"
-                    style={{width: `${(1 - timeoutProgress) * 100}%`, backgroundColor: color || "var(--brand-500)"}}
+                    style={{ width: `${(1 - timeoutProgress) * 100}%`, backgroundColor: color || "var(--brand-500)" }}
                 />
             )}
         </button>
     );
 }, {
-    onError: ({props}) => props.onClose!()
+    onError: ({ props }) => props.onClose!()
 });

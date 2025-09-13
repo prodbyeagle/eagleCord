@@ -33,7 +33,7 @@ async function toggle(isEnabled: boolean) {
     if (!style) {
         if (isEnabled) {
             style = createStyle("vencord-custom-css");
-            VencordNative.quickCss.addChangeListener((css) => {
+            VencordNative.quickCss.addChangeListener(css => {
                 style.textContent = css;
                 // At the time of writing this, changing textContent resets the disabled state
                 style.disabled = !Settings.useQuickCss;
@@ -58,14 +58,14 @@ async function initThemes() {
               : "dark";
 
     const links = themeLinks
-        .map((rawLink) => {
+        .map(rawLink => {
             const match = /^@(light|dark) (.*)/.exec(rawLink);
             if (!match) return rawLink;
 
             const [, mode, link] = match;
             return mode === activeTheme ? link : null;
         })
-        .filter((link) => link !== null);
+        .filter(link => link !== null);
 
     if (IS_WEB) {
         for (const theme of enabledThemes) {
@@ -76,13 +76,13 @@ async function initThemes() {
         }
     } else {
         const localThemes = enabledThemes.map(
-            (theme) => `vencord:///themes/${theme}?v=${Date.now()}`,
+            theme => `vencord:///themes/${theme}?v=${Date.now()}`,
         );
         links.push(...localThemes);
     }
 
     themesStyle.textContent = links
-        .map((link) => `@import url("${link.trim()}");`)
+        .map(link => `@import url("${link.trim()}");`)
         .join("\n");
 }
 

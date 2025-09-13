@@ -6,24 +6,24 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
+import { definePluginSettings } from "@api/Settings";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
 
 const settings = definePluginSettings({
     defaultLayout: {
         type: OptionType.SELECT,
         options: [
-            {label: "List", value: 1, default: true},
-            {label: "Gallery", value: 2}
+            { label: "List", value: 1, default: true },
+            { label: "Gallery", value: 2 }
         ],
         description: "Which layout to use as default"
     },
     defaultSortOrder: {
         type: OptionType.SELECT,
         options: [
-            {label: "Recently Active", value: 0, default: true},
-            {label: "Date Posted", value: 1}
+            { label: "Recently Active", value: 0, default: true },
+            { label: "Date Posted", value: 1 }
         ],
         description: "Which sort order to use as default"
     }

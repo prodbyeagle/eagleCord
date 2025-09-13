@@ -8,13 +8,13 @@
 
 import "./style.css";
 
-import {addServerListElement, removeServerListElement, ServerListRenderPosition} from "@api/ServerList";
+import { addServerListElement, removeServerListElement, ServerListRenderPosition } from "@api/ServerList";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import {Channel} from "@vencord/discord-types";
-import {findStoreLazy} from "@webpack";
-import {Button, FluxDispatcher, GuildChannelStore, GuildStore, React, ReadStateStore} from "@webpack/common";
+import { Channel } from "@vencord/discord-types";
+import { findStoreLazy } from "@webpack";
+import { Button, FluxDispatcher, GuildChannelStore, GuildStore, React, ReadStateStore } from "@webpack/common";
 
 interface ThreadJoined {
     channel: Channel;
@@ -76,7 +76,7 @@ export default definePlugin({
     authors: [Devs.kemo],
     dependencies: ["ServerListAPI"],
 
-    renderReadAllButton: ErrorBoundary.wrap(ReadAllButton, {noop: true}),
+    renderReadAllButton: ErrorBoundary.wrap(ReadAllButton, { noop: true }),
 
     start() {
         addServerListElement(ServerListRenderPosition.Above, this.renderReadAllButton);

@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal,} from "@utils/modal";
-import {Button, Forms, React, TextInput} from "@webpack/common";
+import { ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal, } from "@utils/modal";
+import { Button, Forms, React, TextInput } from "@webpack/common";
 
-import {decrypt} from "../index";
+import { decrypt } from "../index";
 
 export function DecModal(props: any) {
     const encryptedMessage: string = props?.message?.content;
@@ -22,11 +22,11 @@ export function DecModal(props: any) {
             </ModalHeader>
 
             <ModalContent>
-                <Forms.FormTitle tag="h5" style={{marginTop: "10px"}}>Message with Encryption</Forms.FormTitle>
+                <Forms.FormTitle tag="h5" style={{ marginTop: "10px" }}>Message with Encryption</Forms.FormTitle>
                 <TextInput defaultValue={encryptedMessage} disabled={true}></TextInput>
-                <Forms.FormTitle tag="h5" style={{marginTop: "10px"}}>Password</Forms.FormTitle>
+                <Forms.FormTitle tag="h5" style={{ marginTop: "10px" }}>Password</Forms.FormTitle>
                 <TextInput
-                    style={{marginBottom: "20px"}}
+                    style={{ marginBottom: "20px" }}
                     onChange={setPassword}
                 />
             </ModalContent>
@@ -46,7 +46,7 @@ export function DecModal(props: any) {
                 <Button
                     color={Button.Colors.TRANSPARENT}
                     look={Button.Looks.LINK}
-                    style={{left: 15, position: "absolute"}}
+                    style={{ left: 15, position: "absolute" }}
                     onClick={props.onClose}
                 >
                     Cancel

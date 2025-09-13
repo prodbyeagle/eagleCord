@@ -8,7 +8,7 @@
 
 import * as t from "@vencord/discord-types";
 
-import {Text} from "./components";
+import { Text } from "./components";
 
 // TODO: replace with our own component soon
 export const FormText: t.FormText = function FormText(props) {

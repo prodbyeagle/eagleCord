@@ -60,7 +60,7 @@ export default definePlugin({
         if (!src || src.startsWith("data:")) return {};
 
         return Object.fromEntries(
-            [128, 256, 512, 1024, 2048, 4096].map((size) => [
+            [128, 256, 512, 1024, 2048, 4096].map(size => [
                 `--avatar-url-${size}`,
                 `url(${src.replace(/\d+$/, String(size))})`,
             ]),

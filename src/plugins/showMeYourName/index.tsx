@@ -8,12 +8,12 @@
 
 import "./styles.css";
 
-import {definePluginSettings} from "@api/Settings";
+import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
-import {Channel, Message, User} from "@vencord/discord-types";
-import {RelationshipStore, StreamerModeStore} from "@webpack/common";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
+import { Channel, Message, User } from "@vencord/discord-types";
+import { RelationshipStore, StreamerModeStore } from "@webpack/common";
 
 interface UsernameProps {
     author: { nick: string; authorId: string; };
@@ -29,18 +29,18 @@ const settings = definePluginSettings({
         type: OptionType.SELECT,
         description: "How to display usernames and nicks",
         options: [
-            {label: "Username then nickname", value: "user-nick", default: true},
-            {label: "Nickname then username", value: "nick-user"},
-            {label: "Username only", value: "user"},
+            { label: "Username then nickname", value: "user-nick", default: true },
+            { label: "Nickname then username", value: "nick-user" },
+            { label: "Username only", value: "user" },
         ],
     },
     friendNicknames: {
         type: OptionType.SELECT,
         description: "How to prioritise friend nicknames over server nicknames",
         options: [
-            {label: "Show friend nicknames only in direct messages", value: "dms", default: true},
-            {label: "Prefer friend nicknames over server nicknames", value: "always"},
-            {label: "Prefer server nicknames over friend nicknames", value: "fallback"}
+            { label: "Show friend nicknames only in direct messages", value: "dms", default: true },
+            { label: "Prefer friend nicknames over server nicknames", value: "always" },
+            { label: "Prefer server nicknames over friend nicknames", value: "fallback" }
         ]
     },
     displayNames: {
@@ -80,7 +80,7 @@ export default definePlugin({
                                             userOverride
                                         }: UsernameProps) => {
         try {
-            const {mode, friendNicknames, displayNames, inReplies} = settings.store;
+            const { mode, friendNicknames, displayNames, inReplies } = settings.store;
 
             const user = userOverride ?? message.author;
             let username = StreamerModeStore.enabled
@@ -90,7 +90,7 @@ export default definePlugin({
             if (displayNames)
                 username = user.globalName || username;
 
-            let {nick} = author;
+            let { nick } = author;
 
             const friendNickname = RelationshipStore.getNickname(author.authorId);
 
@@ -119,5 +119,5 @@ export default definePlugin({
         } catch {
             return <>{author?.nick}</>;
         }
-    }, {noop: true}),
+    }, { noop: true }),
 });

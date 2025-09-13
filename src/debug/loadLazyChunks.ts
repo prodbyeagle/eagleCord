@@ -61,7 +61,7 @@ export async function loadLazyChunks() {
                         const chunkIds = rawChunkIds
                             ? Array.from(
                                   rawChunkIds.matchAll(Webpack.ChunkIdsRegex),
-                              ).map((m) => {
+                              ).map(m => {
                                   const numChunkId = Number(m[1]);
                                   return Number.isNaN(numChunkId)
                                       ? m[1]
@@ -97,8 +97,8 @@ export async function loadLazyChunks() {
                             const isWorkerAsset = await fetch(
                                 wreq.p + wreq.u(id),
                             )
-                                .then((r) => r.text())
-                                .then((t) =>
+                                .then(r => r.text())
+                                .then(t =>
                                     /importScripts\(|self\.postMessage/.test(t),
                                 );
 
@@ -127,7 +127,7 @@ export async function loadLazyChunks() {
             // Loads all found valid chunk groups
             await Promise.all(
                 Array.from(validChunkGroups).map(([chunkIds]) =>
-                    Promise.all(chunkIds.map((id) => wreq.e(id))),
+                    Promise.all(chunkIds.map(id => wreq.e(id))),
                 ),
             );
 
@@ -207,15 +207,15 @@ export async function loadLazyChunks() {
 
         // Chunks which our regex could not catch to load
         // It will always contain WebWorker assets, and also currently contains some language packs which are loaded differently
-        const chunksLeft = allChunks.filter((id) => {
+        const chunksLeft = allChunks.filter(id => {
             return !(validChunks.has(id) || invalidChunks.has(id));
         });
 
         await Promise.all(
-            chunksLeft.map(async (id) => {
+            chunksLeft.map(async id => {
                 const isWorkerAsset = await fetch(wreq.p + wreq.u(id))
-                    .then((r) => r.text())
-                    .then((t) => /importScripts\(|self\.postMessage/.test(t));
+                    .then(r => r.text())
+                    .then(t => /importScripts\(|self\.postMessage/.test(t));
 
                 // Loads the chunk. Currently this only happens with the language packs which are loaded differently
                 if (!isWorkerAsset) {

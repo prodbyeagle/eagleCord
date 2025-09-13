@@ -32,7 +32,7 @@ export async function checkForUpdates() {
 
     // we only want to check this for the git updater, not the http updater
     if (!IS_STANDALONE) {
-        if (changes.some((c) => c.hash === gitHash)) {
+        if (changes.some(c => c.hash === gitHash)) {
             isNewer = true;
             return (isOutdated = false);
         }

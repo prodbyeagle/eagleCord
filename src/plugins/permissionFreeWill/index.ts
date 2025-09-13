@@ -53,7 +53,7 @@ export default definePlugin({
                 {
                     // replace export getters with functions that always resolve to true
                     match: /{(?:\i:\(\)=>\i,?){2}}/,
-                    replace: (m) =>
+                    replace: m =>
                         m.replaceAll(
                             canonicalizeMatch(/\(\)=>\i/g),
                             "()=>()=>Promise.resolve(true)",

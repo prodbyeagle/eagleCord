@@ -57,7 +57,7 @@ export default definePlugin({
                 },
             ],
         },
-        ...['"MessageStore"', '"ReadStateStore"'].map((find) => ({
+        ...['"MessageStore"', '"ReadStateStore"'].map(find => ({
             find,
             predicate: () => settings.store.ignoreMessages,
             replacement: [

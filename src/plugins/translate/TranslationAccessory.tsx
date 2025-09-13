@@ -6,19 +6,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Message} from "@vencord/discord-types";
-import {Parser, useEffect, useState} from "@webpack/common";
+import { Message } from "@vencord/discord-types";
+import { Parser, useEffect, useState } from "@webpack/common";
 
-import {TranslateIcon} from "./TranslateIcon";
-import {cl, TranslationValue} from "./utils";
+import { TranslateIcon } from "./TranslateIcon";
+import { cl, TranslationValue } from "./utils";
 
-const TranslationSetters = new Map<string, (v: TranslationValue) => void>();
+const TranslationSetters = new Map<string,(v: TranslationValue) => void>();
 
 export function handleTranslate(messageId: string, data: TranslationValue) {
     TranslationSetters.get(messageId)!(data);
 }
 
-function Dismiss({onDismiss}: { onDismiss: () => void; }) {
+function Dismiss({ onDismiss }: { onDismiss: () => void; }) {
     return (
         <button
             onClick={onDismiss}
@@ -29,7 +29,7 @@ function Dismiss({onDismiss}: { onDismiss: () => void; }) {
     );
 }
 
-export function TranslationAccessory({message}: { message: Message; }) {
+export function TranslationAccessory({ message }: { message: Message; }) {
     const [translation, setTranslation] = useState<TranslationValue>();
 
     useEffect(() => {

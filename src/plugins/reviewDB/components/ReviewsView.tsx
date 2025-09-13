@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {useAwaiter, useForceUpdater} from "@utils/react";
-import {findByCodeLazy, findByPropsLazy, findComponentByCodeLazy} from "@webpack";
-import {Forms, React, RelationshipStore, useRef, UserStore} from "@webpack/common";
+import { useAwaiter, useForceUpdater } from "@utils/react";
+import { findByCodeLazy, findByPropsLazy, findComponentByCodeLazy } from "@webpack";
+import { Forms, React, RelationshipStore, useRef, UserStore } from "@webpack/common";
 
-import {Auth, authorize} from "../auth";
-import {Review, ReviewType} from "../entities";
-import {addReview, getReviews, Response, REVIEWS_PER_PAGE} from "../reviewDbApi";
-import {settings} from "../settings";
-import {cl, showToast} from "../utils";
+import { Auth, authorize } from "../auth";
+import { Review, ReviewType } from "../entities";
+import { addReview, getReviews, Response, REVIEWS_PER_PAGE } from "../reviewDbApi";
+import { settings } from "../settings";
+import { cl, showToast } from "../utils";
 import ReviewComponent from "./ReviewComponent";
 
 const Transforms = findByPropsLazy("insertNodes", "textToText");
@@ -90,7 +90,7 @@ export default function ReviewsView({
     );
 }
 
-function ReviewList({refetch, reviews, hideOwnReview, profileId, type}: {
+function ReviewList({ refetch, reviews, hideOwnReview, profileId, type }: {
     refetch(): void;
     reviews: Review[];
     hideOwnReview: boolean;
@@ -123,7 +123,7 @@ function ReviewList({refetch, reviews, hideOwnReview, profileId, type}: {
 
 
 export function ReviewsInputComponent(
-    {discordId, isAuthor, refetch, name, modalKey}: {
+    { discordId, isAuthor, refetch, name, modalKey }: {
         discordId: string,
         name: string;
         isAuthor: boolean;
@@ -131,12 +131,12 @@ export function ReviewsInputComponent(
         modalKey?: string;
     }
 ) {
-    const {token} = Auth;
+    const { token } = Auth;
     const editorRef = useRef<any>(null);
     const inputType = ChatInputTypes.USER_PROFILE_REPLY;
     inputType.disableAutoFocus = true;
 
-    const channel = createChannelRecordFromServer({id: "0", type: 1});
+    const channel = createChannelRecordFromServer({ id: "0", type: 1 });
 
     return (
         <>

@@ -78,7 +78,7 @@ export function removeContextMenuPatch<T extends string | Array<string>>(
     const navIds: string[] = Array.isArray(navId) ? navId : [navId];
 
     const results = navIds.map(
-        (id) => navPatches.get(id)?.delete(patch) ?? false,
+        id => navPatches.get(id)?.delete(patch) ?? false,
     );
 
     return (Array.isArray(navId) ? results : results[0]) as T extends string
@@ -118,7 +118,7 @@ export function findGroupChildrenByChildId(
 
         if (
             (Array.isArray(id) &&
-                id.some((id) =>
+                id.some(id =>
                     matchSubstring
                         ? child.props?.id?.includes(id)
                         : child.props?.id === id,

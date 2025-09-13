@@ -52,7 +52,7 @@ export default definePlugin({
 
             const taskConfig =
                 quest.config.taskConfig ?? quest.config.task_config_v2;
-            const task = QuestTasks.find((t) => taskConfig?.tasks?.[t]);
+            const task = QuestTasks.find(t => taskConfig?.tasks?.[t]);
 
             if (!task) {
                 QuestSpooferLogger.warn(

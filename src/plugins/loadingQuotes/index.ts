@@ -14,7 +14,7 @@ import presetQuotesText from "file://quotes.txt";
 
 const presetQuotes = presetQuotesText
     .split("\n")
-    .map((quote) => /^\s*[^#\s]/.test(quote) && quote.trim())
+    .map(quote => /^\s*[^#\s]/.test(quote) && quote.trim())
     .filter(Boolean) as string[];
 const noQuotesQuote =
     "Did you really disable all loading quotes? What a buffoon you are...";

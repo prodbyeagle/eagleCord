@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {showNotification} from "@api/Notifications";
-import {definePluginSettings} from "@api/Settings";
-import {Devs} from "@utils/constants";
-import {Logger} from "@utils/Logger";
-import {canonicalizeMatch, canonicalizeReplace} from "@utils/patches";
-import definePlugin, {OptionType, ReporterTestable} from "@utils/types";
-import {filters, findAll, search} from "@webpack";
-import {Toasts} from "@webpack/common";
+import { showNotification } from "@api/Notifications";
+import { definePluginSettings } from "@api/Settings";
+import { Devs } from "@utils/constants";
+import { Logger } from "@utils/Logger";
+import { canonicalizeMatch, canonicalizeReplace } from "@utils/patches";
+import definePlugin, { OptionType, ReporterTestable } from "@utils/types";
+import { filters, findAll, search } from "@webpack";
+import { Toasts } from "@webpack/common";
 
 const PORT = 8485;
 // const NAV_ID = "dev-companion-reconnect";
@@ -128,14 +128,14 @@ function initWs(isManual = false) {
 
     ws.addEventListener("message", e => {
         try {
-            var {nonce, type, data} = JSON.parse(e.data);
+            var { nonce, type, data } = JSON.parse(e.data);
         } catch (err) {
             logger.error("Invalid JSON:", err, "\n" + e.data);
             return;
         }
 
         function reply(error?: string) {
-            const data = {nonce, ok: !error} as Record<string, unknown>;
+            const data = { nonce, ok: !error } as Record<string, unknown>;
             if (error) data.error = error;
 
             ws.send(JSON.stringify(data));
@@ -145,7 +145,7 @@ function initWs(isManual = false) {
 
         switch (type) {
             case "testPatch": {
-                const {find, replacement} = data as PatchData;
+                const { find, replacement } = data as PatchData;
 
                 const candidates = search(find);
                 const keys = Object.keys(candidates);
@@ -161,7 +161,7 @@ function initWs(isManual = false) {
 
                 let i = 0;
 
-                for (const {match, replace} of replacement) {
+                for (const { match, replace } of replacement) {
                     i++;
 
                     try {
@@ -183,7 +183,7 @@ function initWs(isManual = false) {
                 break;
             }
             case "testFind": {
-                const {type, args} = data as FindData;
+                const { type, args } = data as FindData;
                 try {
                     var parsedArgs = args.map(parseNode);
                 } catch (err) {

@@ -9,16 +9,16 @@
 import "./ui/styles.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import {UserStore} from "@webpack/common";
+import { UserStore } from "@webpack/common";
 
-import {CDN_URL, RAW_SKU_ID, SKU_ID} from "./lib/constants";
-import {useAuthorizationStore} from "./lib/stores/AuthorizationStore";
-import {useCurrentUserDecorationsStore} from "./lib/stores/CurrentUserDecorationsStore";
-import {useUserDecorAvatarDecoration, useUsersDecorationsStore} from "./lib/stores/UsersDecorationsStore";
-import {settings} from "./settings";
-import {setDecorationGridDecoration, setDecorationGridItem} from "./ui/components";
+import { CDN_URL, RAW_SKU_ID, SKU_ID } from "./lib/constants";
+import { useAuthorizationStore } from "./lib/stores/AuthorizationStore";
+import { useCurrentUserDecorationsStore } from "./lib/stores/CurrentUserDecorationsStore";
+import { useUserDecorAvatarDecoration, useUsersDecorationsStore } from "./lib/stores/UsersDecorationsStore";
+import { settings } from "./settings";
+import { setDecorationGridDecoration, setDecorationGridItem } from "./ui/components";
 import DecorSection from "./ui/components/DecorSection";
 
 export interface AvatarDecoration {
@@ -128,7 +128,7 @@ export default definePlugin({
         useUsersDecorationsStore.getState().fetch(UserStore.getCurrentUser().id, true);
     },
 
-    getDecorAvatarDecorationURL({avatarDecoration, canAnimate}: {
+    getDecorAvatarDecorationURL({ avatarDecoration, canAnimate }: {
         avatarDecoration: AvatarDecoration | null;
         canAnimate?: boolean;
     }) {
@@ -143,5 +143,5 @@ export default definePlugin({
         }
     },
 
-    DecorSection: ErrorBoundary.wrap(DecorSection, {noop: true})
+    DecorSection: ErrorBoundary.wrap(DecorSection, { noop: true })
 });

@@ -31,8 +31,8 @@ export default definePlugin({
         const CODES_URL = `https://raw.githubusercontent.com/facebook/react/v${React.version}/scripts/error-codes/codes.json`;
 
         ERROR_CODES = await fetch(CODES_URL)
-            .then((res) => res.json())
-            .catch((e) =>
+            .then(res => res.json())
+            .catch(e =>
                 console.error(
                     "[ReactErrorDecoder] Failed to fetch React error codes\n",
                     e,

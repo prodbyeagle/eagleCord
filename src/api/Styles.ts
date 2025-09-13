@@ -137,7 +137,7 @@ export const compileStyle = (style: Style) => {
 export const classNameToSelector = (name: string, prefix = "") =>
     name
         .split(" ")
-        .map((n) => `.${prefix}${n}`)
+        .map(n => `.${prefix}${n}`)
         .join("");
 
 type ClassNameFactoryArg =
@@ -165,11 +165,11 @@ export const classNameFactory =
         for (const arg of args) {
             if (arg && typeof arg === "string") classNames.add(arg);
             else if (Array.isArray(arg))
-                arg.forEach((name) => classNames.add(name));
+                arg.forEach(name => classNames.add(name));
             else if (arg && typeof arg === "object")
                 Object.entries(arg).forEach(
                     ([name, value]) => value && classNames.add(name),
                 );
         }
-        return Array.from(classNames, (name) => prefix + name).join(" ");
+        return Array.from(classNames, name => prefix + name).join(" ");
     };

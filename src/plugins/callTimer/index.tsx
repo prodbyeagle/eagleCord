@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Settings} from "@api/Settings";
+import { Settings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import {useTimer} from "@utils/react";
-import definePlugin, {OptionType} from "@utils/types";
-import {React} from "@webpack/common";
+import { Devs } from "@utils/constants";
+import { useTimer } from "@utils/react";
+import definePlugin, { OptionType } from "@utils/types";
+import { React } from "@webpack/common";
 
 import alignedChatInputFix from "./alignedChatInputFix.css?managed";
 
@@ -80,12 +80,12 @@ export default definePlugin({
         </ErrorBoundary>;
     },
 
-    Timer({channelId}: { channelId: string; }) {
+    Timer({ channelId }: { channelId: string; }) {
         const time = useTimer({
             deps: [channelId]
         });
 
-        return <p style={{margin: 0}}>Connected for <span
-            style={{fontFamily: "var(--font-code)"}}>{formatDuration(time)}</span></p>;
+        return <p style={{ margin: 0 }}>Connected for <span
+            style={{ fontFamily: "var(--font-code)" }}>{formatDuration(time)}</span></p>;
     }
 });

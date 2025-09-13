@@ -39,10 +39,10 @@ export const languages: Record<string, Language> = {};
 
 export const loadLanguages = async () => {
     const langsJson: LanguageJson[] = await fetch(vpcRepoLanguages).then(
-        (res) => (res.ok ? res.json() : []),
+        res => (res.ok ? res.json() : []),
     );
     const loadedLanguages = Object.fromEntries(
-        langsJson.map((lang) => [
+        langsJson.map(lang => [
             lang.id,
             {
                 ...lang,
@@ -57,7 +57,7 @@ export const getGrammar = (
     lang: Language,
 ): Promise<NonNullable<ILanguageRegistration["grammar"]>> => {
     if (lang.grammar) return Promise.resolve(lang.grammar);
-    return fetch(lang.grammarUrl).then((res) => res.json());
+    return fetch(lang.grammarUrl).then(res => res.json());
 };
 
 const aliasCache = new Map<string, Language>();
@@ -66,7 +66,7 @@ export function resolveLang(idOrAlias: string) {
     if (Object.prototype.hasOwnProperty.call(languages, idOrAlias))
         return languages[idOrAlias];
 
-    const lang = Object.values(languages).find((lang) =>
+    const lang = Object.values(languages).find(lang =>
         lang.aliases?.includes(idOrAlias),
     );
 

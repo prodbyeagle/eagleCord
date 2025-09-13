@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {classNameFactory} from "@api/Styles";
+import { classNameFactory } from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {FluxDispatcher, useLayoutEffect, useMemo, useRef, useState} from "@webpack/common";
+import { FluxDispatcher, useLayoutEffect, useMemo, useRef, useState } from "@webpack/common";
 
-import {ELEMENT_ID} from "../constants";
-import {settings} from "../index";
-import {waitFor} from "../utils/waitFor";
+import { ELEMENT_ID } from "../constants";
+import { settings } from "../index";
+import { waitFor } from "../utils/waitFor";
 
 interface Vec2 {
     x: number,
@@ -27,11 +27,11 @@ export interface MagnifierProps {
 
 const cl = classNameFactory("vc-imgzoom-");
 
-export const Magnifier = ErrorBoundary.wrap<MagnifierProps>(({instance, size: initialSize, zoom: initalZoom}) => {
+export const Magnifier = ErrorBoundary.wrap<MagnifierProps>(({ instance, size: initialSize, zoom: initalZoom }) => {
     const [ready, setReady] = useState(false);
 
-    const [lensPosition, setLensPosition] = useState<Vec2>({x: 0, y: 0});
-    const [imagePosition, setImagePosition] = useState<Vec2>({x: 0, y: 0});
+    const [lensPosition, setLensPosition] = useState<Vec2>({ x: 0, y: 0 });
+    const [imagePosition, setImagePosition] = useState<Vec2>({ x: 0, y: 0 });
     const [opacity, setOpacity] = useState(0);
 
     const isShiftDown = useRef(false);
@@ -66,11 +66,11 @@ export const Magnifier = ErrorBoundary.wrap<MagnifierProps>(({instance, size: in
 
             if (instance.state.mouseOver && instance.state.mouseDown) {
                 const offset = size.current / 2;
-                const pos = {x: e.pageX, y: e.pageY};
+                const pos = { x: e.pageX, y: e.pageY };
                 const x = -((pos.x - element.current.getBoundingClientRect().left) * zoom.current - offset);
                 const y = -((pos.y - element.current.getBoundingClientRect().top) * zoom.current - offset);
-                setLensPosition({x: e.x - offset, y: e.y - offset});
-                setImagePosition({x, y});
+                setLensPosition({ x: e.x - offset, y: e.y - offset });
+                setImagePosition({ x, y });
                 setOpacity(1);
             } else {
                 setOpacity(0);
@@ -85,7 +85,7 @@ export const Magnifier = ErrorBoundary.wrap<MagnifierProps>(({instance, size: in
 
                 // close context menu if open
                 if (document.getElementById("image-context")) {
-                    FluxDispatcher.dispatch({type: "CONTEXT_MENU_CLOSE"});
+                    FluxDispatcher.dispatch({ type: "CONTEXT_MENU_CLOSE" });
                 }
 
                 updateMousePosition(e);
@@ -168,7 +168,7 @@ export const Magnifier = ErrorBoundary.wrap<MagnifierProps>(({instance, size: in
 
     return (
         <div
-            className={cl("lens", {"nearest-neighbor": settings.store.nearestNeighbour, square: settings.store.square})}
+            className={cl("lens", { "nearest-neighbor": settings.store.nearestNeighbour, square: settings.store.square })}
             style={{
                 opacity,
                 width: size.current + "px",
@@ -209,4 +209,4 @@ export const Magnifier = ErrorBoundary.wrap<MagnifierProps>(({instance, size: in
                 )}
         </div>
     );
-}, {noop: true});
+}, { noop: true });

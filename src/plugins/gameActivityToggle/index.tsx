@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {getUserSettingLazy} from "@api/UserSettings";
+import { definePluginSettings } from "@api/Settings";
+import { getUserSettingLazy } from "@api/UserSettings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
-import {findComponentByCodeLazy} from "@webpack";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
+import { findComponentByCodeLazy } from "@webpack";
 
 import managedStyle from "./style.css?managed";
 
@@ -20,7 +20,7 @@ const Button = findComponentByCodeLazy(".NONE,disabled:", ".PANEL_BUTTON");
 const ShowCurrentGame = getUserSettingLazy<boolean>("status", "showCurrentGame")!;
 
 function makeIcon(showCurrentGame?: boolean) {
-    const {oldIcon} = settings.use(["oldIcon"]);
+    const { oldIcon } = settings.use(["oldIcon"]);
 
     const redLinePath = !oldIcon
         ? "M22.7 2.7a1 1 0 0 0-1.4-1.4l-20 20a1 1 0 1 0 1.4 1.4Z"
@@ -92,6 +92,6 @@ export default definePlugin({
         }
     ],
 
-    GameActivityToggleButton: ErrorBoundary.wrap(GameActivityToggleButton, {noop: true}),
+    GameActivityToggleButton: ErrorBoundary.wrap(GameActivityToggleButton, { noop: true }),
 
 });

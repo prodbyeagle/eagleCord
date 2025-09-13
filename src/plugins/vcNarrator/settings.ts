@@ -13,13 +13,13 @@ import { OptionType } from "@utils/types";
 import { VoiceSettingSection } from "./VoiceSetting";
 
 export const getDefaultVoice = () =>
-    window.speechSynthesis?.getVoices().find((v) => v.default);
+    window.speechSynthesis?.getVoices().find(v => v.default);
 
 export function getCurrentVoice(voices = window.speechSynthesis?.getVoices()) {
     if (!voices) return undefined;
 
     if (settings.store.voice) {
-        const voice = voices.find((v) => v.voiceURI === settings.store.voice);
+        const voice = voices.find(v => v.voiceURI === settings.store.voice);
         if (voice) return voice;
 
         new Logger("VcNarrator").error(
@@ -27,7 +27,7 @@ export function getCurrentVoice(voices = window.speechSynthesis?.getVoices()) {
         );
     }
 
-    const voice = voices.find((v) => v.default);
+    const voice = voices.find(v => v.default);
     settings.store.voice = voice?.voiceURI;
     return voice;
 }

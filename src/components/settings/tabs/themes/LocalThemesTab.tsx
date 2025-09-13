@@ -6,19 +6,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Settings, useSettings} from "@api/Settings";
-import {classNameFactory} from "@api/Styles";
-import {FolderIcon, PaintbrushIcon, PencilIcon, PlusIcon, RestartIcon} from "@components/Icons";
-import {Link} from "@components/Link";
-import {QuickAction, QuickActionCard} from "@components/settings/QuickAction";
-import {openPluginModal} from "@components/settings/tabs/plugins/PluginModal";
-import {UserThemeHeader} from "@main/themes";
-import {findLazy} from "@webpack";
-import {Card, Forms, useEffect, useRef, useState} from "@webpack/common";
+import { Settings, useSettings } from "@api/Settings";
+import { classNameFactory } from "@api/Styles";
+import { FolderIcon, PaintbrushIcon, PencilIcon, PlusIcon, RestartIcon } from "@components/Icons";
+import { Link } from "@components/Link";
+import { QuickAction, QuickActionCard } from "@components/settings/QuickAction";
+import { openPluginModal } from "@components/settings/tabs/plugins/PluginModal";
+import { UserThemeHeader } from "@main/themes";
+import { findLazy } from "@webpack";
+import { Card, Forms, useEffect, useRef, useState } from "@webpack/common";
 import ClientThemePlugin from "plugins/clientTheme";
-import type {ComponentType, Ref, SyntheticEvent} from "react";
+import type { ComponentType, Ref, SyntheticEvent } from "react";
 
-import {ThemeCard} from "./ThemeCard";
+import { ThemeCard } from "./ThemeCard";
 
 const cl = classNameFactory("vc-settings-theme-");
 
@@ -46,10 +46,10 @@ async function onFileUpload(e: SyntheticEvent<HTMLInputElement>) {
     e.preventDefault();
 
     if (!e.currentTarget?.files?.length) return;
-    const {files} = e.currentTarget;
+    const { files } = e.currentTarget;
 
     const uploads = Array.from(files, file => {
-        const {name} = file;
+        const { name } = file;
         if (!name.endsWith(".css")) return;
 
         return new Promise<void>((resolve, reject) => {
@@ -86,8 +86,8 @@ export function LocalThemesTab() {
         <>
             <Card className="vc-settings-card">
                 <Forms.FormTitle tag="h5">Find Themes:</Forms.FormTitle>
-                <div style={{marginBottom: ".5em", display: "flex", flexDirection: "column"}}>
-                    <Link style={{marginRight: ".5em"}} href="https://betterdiscord.app/themes">
+                <div style={{ marginBottom: ".5em", display: "flex", flexDirection: "column" }}>
+                    <Link style={{ marginRight: ".5em" }} href="https://betterdiscord.app/themes">
                         BetterDiscord Themes
                     </Link>
                     <Link href="https://github.com/search?q=discord+theme">GitHub</Link>
@@ -111,7 +111,7 @@ export function LocalThemesTab() {
                             (
                                 <QuickAction
                                     text={
-                                        <span style={{position: "relative"}}>
+                                        <span style={{ position: "relative" }}>
                                             Upload Theme
                                             <FileInput
                                                 ref={fileInputRef}
@@ -120,7 +120,7 @@ export function LocalThemesTab() {
                                                     refreshLocalThemes();
                                                 }}
                                                 multiple={true}
-                                                filters={[{extensions: ["css"]}]}
+                                                filters={[{ extensions: ["css"] }]}
                                             />
                                         </span>
                                     }

@@ -8,12 +8,12 @@
 
 import "./style.css";
 
-import {definePluginSettings, Settings} from "@api/Settings";
+import { definePluginSettings, Settings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import {getIntlMessage} from "@utils/discord";
-import definePlugin, {OptionType} from "@utils/types";
-import {findComponentByCodeLazy, findStoreLazy} from "@webpack";
+import { Devs } from "@utils/constants";
+import { getIntlMessage } from "@utils/discord";
+import definePlugin, { OptionType } from "@utils/types";
+import { findComponentByCodeLazy, findStoreLazy } from "@webpack";
 import {
     GuildMemberStore,
     RelationshipStore,
@@ -25,7 +25,7 @@ import {
     useStateFromStores
 } from "@webpack/common";
 
-import {buildSeveralUsers} from "../typingTweaks";
+import { buildSeveralUsers } from "../typingTweaks";
 
 const ThreeDots = findComponentByCodeLazy(".dots,", "dotRadius:");
 
@@ -41,10 +41,10 @@ function getDisplayName(guildId: string, userId: string) {
     return GuildMemberStore.getNick(guildId, userId) ?? (user as any).globalName ?? user.username;
 }
 
-function TypingIndicator({channelId, guildId}: { channelId: string; guildId: string; }) {
+function TypingIndicator({ channelId, guildId }: { channelId: string; guildId: string; }) {
     const typingUsers: Record<string, number> = useStateFromStores(
         [TypingStore],
-        () => ({...TypingStore.getTypingUsers(channelId)}),
+        () => ({ ...TypingStore.getTypingUsers(channelId) }),
         null,
         (old, current) => {
             const oldKeys = Object.keys(old);
@@ -76,7 +76,7 @@ function TypingIndicator({channelId, guildId}: { channelId: string; guildId: str
         case 0:
             break;
         case 1: {
-            tooltipText = getIntlMessage("ONE_USER_TYPING", {a: getDisplayName(guildId, a)});
+            tooltipText = getIntlMessage("ONE_USER_TYPING", { a: getDisplayName(guildId, a) });
             break;
         }
         case 2: {
@@ -96,7 +96,7 @@ function TypingIndicator({channelId, guildId}: { channelId: string; guildId: str
         }
         default: {
             tooltipText = Settings.plugins.TypingTweaks.enabled
-                ? buildSeveralUsers({users: [a, b].map(UserStore.getUser), count: typingUsersArray.length - 2, guildId})
+                ? buildSeveralUsers({ users: [a, b].map(UserStore.getUser), count: typingUsersArray.length - 2, guildId })
                 : getIntlMessage("SEVERAL_USERS_TYPING");
             break;
         }
@@ -161,9 +161,9 @@ const settings = definePluginSettings({
         type: OptionType.SELECT,
         description: "How should the indicator be displayed?",
         options: [
-            {label: "Avatars and animated dots", value: IndicatorMode.Dots | IndicatorMode.Avatars, default: true},
-            {label: "Animated dots", value: IndicatorMode.Dots},
-            {label: "Avatars", value: IndicatorMode.Avatars},
+            { label: "Avatars and animated dots", value: IndicatorMode.Dots | IndicatorMode.Avatars, default: true },
+            { label: "Animated dots", value: IndicatorMode.Dots },
+            { label: "Avatars", value: IndicatorMode.Avatars },
         ],
     }
 });

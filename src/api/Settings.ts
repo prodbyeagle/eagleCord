@@ -152,7 +152,7 @@ export const SettingsStore = new SettingsStoreClass(settings, {
                     return (target[key] = setting.default);
 
                 if (setting.type === OptionType.SELECT) {
-                    const def = setting.options.find((o) => o.default);
+                    const def = setting.options.find(o => o.default);
                     if (def) target[key] = def.value;
                     return def?.value;
                 }
@@ -200,11 +200,11 @@ export function useSettings(paths?: UseSettings<Settings>[]) {
 
     useEffect(() => {
         if (paths) {
-            paths.forEach((p) =>
+            paths.forEach(p =>
                 SettingsStore.addChangeListener(p, forceUpdate),
             );
             return () =>
-                paths.forEach((p) =>
+                paths.forEach(p =>
                     SettingsStore.removeChangeListener(p, forceUpdate),
                 );
         } else {
@@ -272,10 +272,10 @@ export function definePluginSettings<
                 );
             return PlainSettings.plugins[definedSettings.pluginName] as any;
         },
-        use: (settings) =>
+        use: settings =>
             useSettings(
                 settings?.map(
-                    (name) => `plugins.${definedSettings.pluginName}.${name}`,
+                    name => `plugins.${definedSettings.pluginName}.${name}`,
                 ) as UseSettings<Settings>[],
             ).plugins[definedSettings.pluginName] as any,
         def,

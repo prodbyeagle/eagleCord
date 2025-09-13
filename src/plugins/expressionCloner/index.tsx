@@ -6,17 +6,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {findGroupChildrenByChildId, NavContextMenuPatchCallback} from "@api/ContextMenu";
-import {migratePluginSettings} from "@api/Settings";
-import {CheckedTextInput} from "@components/CheckedTextInput";
-import {Devs} from "@utils/constants";
-import {getGuildAcronym} from "@utils/discord";
-import {Logger} from "@utils/Logger";
-import {Margins} from "@utils/margins";
-import {ModalContent, ModalHeader, ModalRoot, openModalLazy} from "@utils/modal";
+import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { migratePluginSettings } from "@api/Settings";
+import { CheckedTextInput } from "@components/CheckedTextInput";
+import { Devs } from "@utils/constants";
+import { getGuildAcronym } from "@utils/discord";
+import { Logger } from "@utils/Logger";
+import { Margins } from "@utils/margins";
+import { ModalContent, ModalHeader, ModalRoot, openModalLazy } from "@utils/modal";
 import definePlugin from "@utils/types";
-import {Guild, GuildSticker} from "@vencord/discord-types";
-import {findByCodeLazy} from "@webpack";
+import { Guild, GuildSticker } from "@vencord/discord-types";
+import { findByCodeLazy } from "@webpack";
 import {
     Constants,
     EmojiStore,
@@ -34,7 +34,7 @@ import {
     Tooltip,
     UserStore
 } from "@webpack/common";
-import {Promisable} from "type-fest";
+import { Promisable } from "type-fest";
 
 const uploadEmoji = findByCodeLazy(".GUILD_EMOJIS(", "EMOJI_UPLOAD_START");
 
@@ -66,7 +66,7 @@ async function fetchSticker(id: string) {
     const cached = StickersStore.getStickerById(id);
     if (cached) return cached;
 
-    const {body} = await RestAPI.get({
+    const { body } = await RestAPI.get({
         url: Constants.Endpoints.STICKER(id)
     });
 
@@ -85,7 +85,7 @@ async function cloneSticker(guildId: string, sticker: Sticker) {
     data.append("description", sticker.description);
     data.append("file", await fetchBlob(getUrl(sticker)));
 
-    const {body} = await RestAPI.post({
+    const { body } = await RestAPI.post({
         url: Constants.Endpoints.GUILD_STICKER_PACKS(guildId),
         body: data,
     });
@@ -121,15 +121,15 @@ function getGuildCandidates(data: Data) {
 
     return Object.values(GuildStore.getGuilds()).filter(g => {
         const canCreate = g.ownerId === meId ||
-            (PermissionStore.getGuildPermissions({id: g.id}) & PermissionsBits.CREATE_GUILD_EXPRESSIONS) === PermissionsBits.CREATE_GUILD_EXPRESSIONS;
+            (PermissionStore.getGuildPermissions({ id: g.id }) & PermissionsBits.CREATE_GUILD_EXPRESSIONS) === PermissionsBits.CREATE_GUILD_EXPRESSIONS;
         if (!canCreate) return false;
 
         if (data.t === "Sticker") return true;
 
-        const {isAnimated} = data as Emoji;
+        const { isAnimated } = data as Emoji;
 
         const emojiSlots = getGuildMaxEmojiSlots(g);
-        const {emojis} = EmojiStore.getGuilds()[g.id];
+        const { emojis } = EmojiStore.getGuilds()[g.id];
 
         let count = 0;
         for (const emoji of emojis)
@@ -183,7 +183,7 @@ const getFontSize = (s: string) => {
 
 const nameValidator = /^\w+$/i;
 
-function CloneModal({data}: { data: Sticker | Emoji; }) {
+function CloneModal({ data }: { data: Sticker | Emoji; }) {
     const [isCloning, setIsCloning] = React.useState(false);
     const [name, setName] = React.useState(data.name);
 
@@ -216,7 +216,7 @@ function CloneModal({data}: { data: Sticker | Emoji; }) {
             }}>
                 {guilds.map(g => (
                     <Tooltip key={g.id} text={g.name}>
-                        {({onMouseLeave, onMouseEnter}) => (
+                        {({ onMouseLeave, onMouseEnter }) => (
                             <div
                                 onMouseLeave={onMouseLeave}
                                 onMouseEnter={onMouseEnter}
@@ -290,7 +290,7 @@ function buildMenuItem(type: "Emoji" | "Sticker", fetchData: () => Promisable<Om
             action={() =>
                 openModalLazy(async () => {
                     const res = await fetchData();
-                    const data = {t: type, ...res} as Sticker | Emoji;
+                    const data = { t: type, ...res } as Sticker | Emoji;
                     const url = getUrl(data);
 
                     return modalProps => (
@@ -303,7 +303,7 @@ function buildMenuItem(type: "Emoji" | "Sticker", fetchData: () => Promisable<Om
                                     alt=""
                                     height={24}
                                     width={24}
-                                    style={{marginRight: "0.5em"}}
+                                    style={{ marginRight: "0.5em" }}
                                 />
                                 <Forms.FormText>Clone {data.name}</Forms.FormText>
                             </ModalHeader>
@@ -324,7 +324,7 @@ function isGifUrl(url: string) {
 }
 
 const messageContextMenuPatch: NavContextMenuPatchCallback = (children, props) => {
-    const {favoriteableId, itemHref, itemSrc, favoriteableType} = props ?? {};
+    const { favoriteableId, itemHref, itemSrc, favoriteableType } = props ?? {};
 
     if (!favoriteableId) return;
 
@@ -354,7 +354,7 @@ const messageContextMenuPatch: NavContextMenuPatchCallback = (children, props) =
 };
 
 const expressionPickerPatch: NavContextMenuPatchCallback = (children, props: { target: HTMLElement; }) => {
-    const {id, name, type} = props?.target?.dataset ?? {};
+    const { id, name, type } = props?.target?.dataset ?? {};
     if (!id) return;
 
     if (type === "emoji" && name) {

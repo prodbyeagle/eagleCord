@@ -66,7 +66,7 @@ if (IS_VESKTOP || !IS_VANILLA) {
                             "[Vencord] Installed React Developer Tools",
                         ),
                     )
-                    .catch((err) =>
+                    .catch(err =>
                         console.error(
                             "[Vencord] Failed to install React Developer Tools",
                             err,

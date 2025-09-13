@@ -27,6 +27,6 @@ for (const [plugin, methods] of Object.entries(PluginNatives)) {
     }
 }
 
-ipcMain.on(IpcEvents.GET_PLUGIN_IPC_METHOD_MAP, (e) => {
+ipcMain.on(IpcEvents.GET_PLUGIN_IPC_METHOD_MAP, e => {
     e.returnValue = PluginIpcMappings;
 });

@@ -6,28 +6,28 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {openUserProfile} from "@utils/discord";
-import {classes} from "@utils/misc";
-import {LazyComponent} from "@utils/react";
-import {filters, findBulk} from "@webpack";
-import {Alerts, Parser, Timestamp, useState} from "@webpack/common";
+import { openUserProfile } from "@utils/discord";
+import { classes } from "@utils/misc";
+import { LazyComponent } from "@utils/react";
+import { filters, findBulk } from "@webpack";
+import { Alerts, Parser, Timestamp, useState } from "@webpack/common";
 
-import {Auth, getToken} from "../auth";
-import {Review, ReviewType} from "../entities";
-import {blockUser, deleteReview, reportReview, unblockUser} from "../reviewDbApi";
-import {settings} from "../settings";
-import {canBlockReviewAuthor, canDeleteReview, canReportReview, cl, showToast} from "../utils";
-import {openBlockModal} from "./BlockedUserModal";
-import {BlockButton, DeleteButton, ReportButton} from "./MessageButton";
+import { Auth, getToken } from "../auth";
+import { Review, ReviewType } from "../entities";
+import { blockUser, deleteReview, reportReview, unblockUser } from "../reviewDbApi";
+import { settings } from "../settings";
+import { canBlockReviewAuthor, canDeleteReview, canReportReview, cl, showToast } from "../utils";
+import { openBlockModal } from "./BlockedUserModal";
+import { BlockButton, DeleteButton, ReportButton } from "./MessageButton";
 import ReviewBadge from "./ReviewBadge";
 
 export default LazyComponent(() => {
     // this is terrible, blame mantika
     const p = filters.byProps;
     const [
-        {cozyMessage, buttons, message, buttonsInner, groupStart},
-        {container, isHeader},
-        {avatar, clickable, username, wrapper, cozy},
+        { cozyMessage, buttons, message, buttonsInner, groupStart },
+        { container, isHeader },
+        { avatar, clickable, username, wrapper, cozy },
         buttonClasses,
         botTag
     ] = findBulk(
@@ -40,7 +40,7 @@ export default LazyComponent(() => {
 
     const dateFormat = new Intl.DateTimeFormat();
 
-    return function ReviewComponent({review, refetch, profileId}: {
+    return function ReviewComponent({ review, refetch, profileId }: {
         review: Review;
         refetch(): void;
         profileId: string;
@@ -123,12 +123,12 @@ export default LazyComponent(() => {
                     className={classes(avatar, clickable)}
                     onClick={openModal}
                     src={review.sender.profilePhoto || "/assets/1f0bfc0865d324c2587920a7d80c609b.png?size=128"}
-                    style={{left: "0px", zIndex: 0}}
+                    style={{ left: "0px", zIndex: 0 }}
                 />
-                <div style={{display: "inline-flex", justifyContent: "center", alignItems: "center"}}>
+                <div style={{ display: "inline-flex", justifyContent: "center", alignItems: "center" }}>
                     <span
                         className={classes(clickable, username)}
-                        style={{color: "var(--channels-default)", fontSize: "14px"}}
+                        style={{ color: "var(--channels-default)", fontSize: "14px" }}
                         onClick={() => openModal()}
                     >
                         {review.sender.username}
@@ -137,7 +137,7 @@ export default LazyComponent(() => {
                     {review.type === ReviewType.System && (
                         <span
                             className={classes(botTag.botTagVerified, botTag.botTagRegular, botTag.px, botTag.rem)}
-                            style={{marginLeft: "4px"}}>
+                            style={{ marginLeft: "4px" }}>
                             <span className={botTag.botText}>
                                 System
                             </span>

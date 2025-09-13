@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {classNameFactory} from "@api/Styles";
-import {classes} from "@utils/misc";
-import {wordsFromCamel, wordsToTitle} from "@utils/text";
-import {DefinedSettings, PluginOptionBase} from "@utils/types";
-import {Text} from "@webpack/common";
-import {PropsWithChildren} from "react";
+import { classNameFactory } from "@api/Styles";
+import { classes } from "@utils/misc";
+import { wordsFromCamel, wordsToTitle } from "@utils/text";
+import { DefinedSettings, PluginOptionBase } from "@utils/types";
+import { Text } from "@webpack/common";
+import { PropsWithChildren } from "react";
 
 export const cl = classNameFactory("vc-plugins-setting-");
 
@@ -44,7 +44,7 @@ interface SettingsSectionProps extends PropsWithChildren {
     inlineSetting?: boolean;
 }
 
-export function SettingsSection({name, description, error, inlineSetting, children}: SettingsSectionProps) {
+export function SettingsSection({ name, description, error, inlineSetting, children }: SettingsSectionProps) {
     return (
         <div className={cl("section")}>
             <div className={classes(cl("content"), inlineSetting && cl("inline"))}>

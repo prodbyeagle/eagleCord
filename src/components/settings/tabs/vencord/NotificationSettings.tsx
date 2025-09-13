@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {openNotificationLogModal} from "@api/Notifications/notificationLog";
-import {useSettings} from "@api/Settings";
-import {ErrorCard} from "@components/ErrorCard";
-import {Flex} from "@components/Flex";
-import {Margins} from "@utils/margins";
-import {identity} from "@utils/misc";
-import {ModalCloseButton, ModalContent, ModalHeader, ModalRoot, ModalSize, openModal} from "@utils/modal";
-import {Button, Forms, Select, Slider, Text} from "@webpack/common";
+import { openNotificationLogModal } from "@api/Notifications/notificationLog";
+import { useSettings } from "@api/Settings";
+import { ErrorCard } from "@components/ErrorCard";
+import { Flex } from "@components/Flex";
+import { Margins } from "@utils/margins";
+import { identity } from "@utils/misc";
+import { ModalCloseButton, ModalContent, ModalHeader, ModalRoot, ModalSize, openModal } from "@utils/modal";
+import { Button, Forms, Select, Slider, Text } from "@webpack/common";
 
 export function NotificationSection() {
     return (
@@ -34,7 +34,7 @@ export function openNotificationSettingsModal() {
     openModal(props => (
         <ModalRoot {...props} size={ModalSize.MEDIUM}>
             <ModalHeader>
-                <Text variant="heading-lg/semibold" style={{flexGrow: 1}}>Notification Settings</Text>
+                <Text variant="heading-lg/semibold" style={{ flexGrow: 1 }}>Notification Settings</Text>
                 <ModalCloseButton onClick={props.onClose}/>
             </ModalHeader>
 
@@ -49,10 +49,10 @@ function NotificationSettings() {
     const settings = useSettings().notifications;
 
     return (
-        <div style={{padding: "1em 0"}}>
+        <div style={{ padding: "1em 0" }}>
             <Forms.FormTitle tag="h5">Notification Style</Forms.FormTitle>
             {settings.useNative !== "never" && Notification?.permission === "denied" && (
-                <ErrorCard style={{padding: "1em"}} className={Margins.bottom8}>
+                <ErrorCard style={{ padding: "1em" }} className={Margins.bottom8}>
                     <Forms.FormTitle tag="h5">Desktop Notification Permission denied</Forms.FormTitle>
                     <Forms.FormText>You have denied Notification Permissions. Thus, Desktop notifications will not
                         work!</Forms.FormText>
@@ -74,8 +74,8 @@ function NotificationSettings() {
                         value: "not-focused",
                         default: true
                     },
-                    {label: "Always use Desktop notifications", value: "always"},
-                    {label: "Always use Vencord notifications", value: "never"},
+                    { label: "Always use Desktop notifications", value: "always" },
+                    { label: "Always use Vencord notifications", value: "never" },
                 ] satisfies Array<{ value: typeof settings["useNative"]; } & Record<string, any>>}
                 closeOnSelect={true}
                 select={v => settings.useNative = v}
@@ -89,8 +89,8 @@ function NotificationSettings() {
                 isDisabled={settings.useNative === "always"}
                 placeholder="Notification Position"
                 options={[
-                    {label: "Bottom Right", value: "bottom-right", default: true},
-                    {label: "Top Right", value: "top-right"},
+                    { label: "Bottom Right", value: "bottom-right", default: true },
+                    { label: "Top Right", value: "top-right" },
                 ] satisfies Array<{ value: typeof settings["position"]; } & Record<string, any>>}
                 select={v => settings.position = v}
                 isSelected={v => v === settings.position}

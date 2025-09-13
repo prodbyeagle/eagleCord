@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {LazyComponent} from "@utils/react";
-import {findByCode} from "@webpack";
-import {SVGProps} from "react";
+import { LazyComponent } from "@utils/react";
+import { findByCode } from "@webpack";
+import { SVGProps } from "react";
 
 export const DiscordIcon = (props: React.PropsWithChildren<SVGProps<SVGSVGElement>>) => (
     <svg

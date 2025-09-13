@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {NavContextMenuPatchCallback} from "@api/ContextMenu";
-import {definePluginSettings} from "@api/Settings";
-import {CodeBlock} from "@components/CodeBlock";
+import { NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { definePluginSettings } from "@api/Settings";
+import { CodeBlock } from "@components/CodeBlock";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Flex} from "@components/Flex";
-import {Devs} from "@utils/constants";
-import {getCurrentGuild, getIntlMessage} from "@utils/discord";
-import {Margins} from "@utils/margins";
-import {copyWithToast} from "@utils/misc";
+import { Flex } from "@components/Flex";
+import { Devs } from "@utils/constants";
+import { getCurrentGuild, getIntlMessage } from "@utils/discord";
+import { Margins } from "@utils/margins";
+import { copyWithToast } from "@utils/misc";
 import {
     closeModal,
     ModalCloseButton,
@@ -25,9 +25,9 @@ import {
     ModalSize,
     openModal
 } from "@utils/modal";
-import definePlugin, {OptionType} from "@utils/types";
-import {Message} from "@vencord/discord-types";
-import {Button, ChannelStore, Forms, GuildRoleStore, Menu, Text} from "@webpack/common";
+import definePlugin, { OptionType } from "@utils/types";
+import { Message } from "@vencord/discord-types";
+import { Button, ChannelStore, Forms, GuildRoleStore, Menu, Text } from "@webpack/common";
 
 
 const CopyIcon = () => {
@@ -67,11 +67,11 @@ function openViewRawModal(json: string, type: string, msgContent?: string) {
         <ErrorBoundary>
             <ModalRoot {...props} size={ModalSize.LARGE}>
                 <ModalHeader>
-                    <Text variant="heading-lg/semibold" style={{flexGrow: 1}}>View Raw</Text>
+                    <Text variant="heading-lg/semibold" style={{ flexGrow: 1 }}>View Raw</Text>
                     <ModalCloseButton onClick={() => closeModal(key)}/>
                 </ModalHeader>
                 <ModalContent>
-                    <div style={{padding: "16px 0"}}>
+                    <div style={{ padding: "16px 0" }}>
                         {!!msgContent && (
                             <>
                                 <Forms.FormTitle tag="h5">Content</Forms.FormTitle>
@@ -113,8 +113,8 @@ const settings = definePluginSettings({
         description: "Change the button to view the raw content/data of any message.",
         type: OptionType.SELECT,
         options: [
-            {label: "Left Click to view the raw content.", value: "Left", default: true},
-            {label: "Right click to view the raw content.", value: "Right"}
+            { label: "Left Click to view the raw content.", value: "Left", default: true },
+            { label: "Right click to view the raw content.", value: "Right" }
         ]
     }
 });
@@ -145,7 +145,7 @@ function MakeContextCallback(name: "Guild" | "Role" | "User" | "Channel"): NavCo
     };
 }
 
-const devContextCallback: NavContextMenuPatchCallback = (children, {id}: { id: string; }) => {
+const devContextCallback: NavContextMenuPatchCallback = (children, { id }: { id: string; }) => {
     const guild = getCurrentGuild();
     if (!guild) return;
 

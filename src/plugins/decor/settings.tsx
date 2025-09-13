@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {Link} from "@components/Link";
-import {Margins} from "@utils/margins";
-import {classes} from "@utils/misc";
-import {closeAllModals} from "@utils/modal";
-import {OptionType} from "@utils/types";
-import {FluxDispatcher, Forms} from "@webpack/common";
+import { definePluginSettings } from "@api/Settings";
+import { Link } from "@components/Link";
+import { Margins } from "@utils/margins";
+import { classes } from "@utils/misc";
+import { closeAllModals } from "@utils/modal";
+import { OptionType } from "@utils/types";
+import { FluxDispatcher, Forms } from "@webpack/common";
 
 import DecorSection from "./ui/components/DecorSection";
 

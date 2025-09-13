@@ -170,15 +170,15 @@ export class SettingsStore<T extends object> {
                 root,
             );
 
-            this.globalListeners.forEach((cb) => cb(root, settingPathStr));
+            this.globalListeners.forEach(cb => cb(root, settingPathStr));
             this.pathListeners
                 .get(settingPathStr)
-                ?.forEach((cb) => cb(settingValue));
+                ?.forEach(cb => cb(settingValue));
         } else {
-            this.globalListeners.forEach((cb) => cb(root, pathStr));
+            this.globalListeners.forEach(cb => cb(root, pathStr));
         }
 
-        this.pathListeners.get(pathStr)?.forEach((cb) => cb(value));
+        this.pathListeners.get(pathStr)?.forEach(cb => cb(value));
     }
 
     /**
@@ -209,7 +209,7 @@ export class SettingsStore<T extends object> {
                 v = v[p];
             }
 
-            this.pathListeners.get(pathToNotify)?.forEach((cb) => cb(v));
+            this.pathListeners.get(pathToNotify)?.forEach(cb => cb(v));
         }
 
         this.markAsChanged();
@@ -275,6 +275,6 @@ export class SettingsStore<T extends object> {
      * Call all global change listeners
      */
     public markAsChanged() {
-        this.globalListeners.forEach((cb) => cb(this.plain, ""));
+        this.globalListeners.forEach(cb => cb(this.plain, ""));
     }
 }

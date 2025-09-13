@@ -42,7 +42,7 @@ export default definePlugin({
     },
 
     unindentMsg(msg: MessageObject) {
-        msg.content = msg.content.replace(/```(.|\n)*?```/g, (m) => {
+        msg.content = msg.content.replace(/```(.|\n)*?```/g, m => {
             const lines = m.split("\n");
             if (lines.length < 2) return m; // Do not affect inline codeblocks
             let suffix = "";

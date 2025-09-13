@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {getUserSettingLazy} from "@api/UserSettings";
+import { definePluginSettings } from "@api/Settings";
+import { getUserSettingLazy } from "@api/UserSettings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Flex} from "@components/Flex";
-import {Link} from "@components/Link";
-import {openUpdaterModal} from "@components/settings/tabs/updater";
+import { Flex } from "@components/Flex";
+import { Link } from "@components/Link";
+import { openUpdaterModal } from "@components/settings/tabs/updater";
 import {
     CONTRIB_ROLE_ID,
     Devs,
@@ -23,16 +23,16 @@ import {
     VENBOT_USER_ID,
     VENCORD_GUILD_ID
 } from "@utils/constants";
-import {sendMessage} from "@utils/discord";
-import {Logger} from "@utils/Logger";
-import {Margins} from "@utils/margins";
-import {isPluginDev, tryOrElse} from "@utils/misc";
-import {relaunch} from "@utils/native";
-import {onlyOnce} from "@utils/onlyOnce";
-import {makeCodeblock} from "@utils/text";
+import { sendMessage } from "@utils/discord";
+import { Logger } from "@utils/Logger";
+import { Margins } from "@utils/margins";
+import { isPluginDev, tryOrElse } from "@utils/misc";
+import { relaunch } from "@utils/native";
+import { onlyOnce } from "@utils/onlyOnce";
+import { makeCodeblock } from "@utils/text";
 import definePlugin from "@utils/types";
-import {checkForUpdates, isOutdated, update} from "@utils/updater";
-import {Channel} from "@vencord/discord-types";
+import { checkForUpdates, isOutdated, update } from "@utils/updater";
+import { Channel } from "@vencord/discord-types";
 import {
     Alerts,
     Button,
@@ -49,10 +49,10 @@ import {
     Toasts,
     UserStore
 } from "@webpack/common";
-import {JSX} from "react";
+import { JSX } from "react";
 
 import gitHash from "~git-hash";
-import plugins, {PluginMeta} from "~plugins";
+import plugins, { PluginMeta } from "~plugins";
 
 import SettingsPlugin from "./settings";
 
@@ -86,7 +86,7 @@ async function forceUpdate() {
 }
 
 async function generateDebugInfoMessage() {
-    const {RELEASE_CHANNEL} = window.GLOBAL_ENV;
+    const { RELEASE_CHANNEL } = window.GLOBAL_ENV;
 
     const client = (() => {
         if (IS_DISCORD_DESKTOP) return `Discord Desktop v${DiscordNative.app.getVersion()}`;
@@ -101,7 +101,7 @@ async function generateDebugInfoMessage() {
     const info = {
         EagleCord:
             `v${VERSION} • [${gitHash}](<https://github.com/prodbyeagle/cord/commit/${gitHash}>)` +
-            `${SettingsPlugin.additionalInfo} - ${Intl.DateTimeFormat("en-GB", {dateStyle: "medium"}).format(BUILD_TIMESTAMP)}`,
+            `${SettingsPlugin.additionalInfo} - ${Intl.DateTimeFormat("en-GB", { dateStyle: "medium" }).format(BUILD_TIMESTAMP)}`,
         Client: `${RELEASE_CHANNEL} ~ ${client}`,
         Platform: navigator.platform
     };
@@ -173,18 +173,18 @@ export default definePlugin({
             name: "vencord-debug",
             description: "Send Vencord debug info",
             predicate: ctx => isPluginDev(UserStore.getCurrentUser()?.id) || isSupportAllowedChannel(ctx.channel),
-            execute: async () => ({content: await generateDebugInfoMessage()})
+            execute: async () => ({ content: await generateDebugInfoMessage() })
         },
         {
             name: "vencord-plugins",
             description: "Send Vencord plugin list",
             predicate: ctx => isPluginDev(UserStore.getCurrentUser()?.id) || isSupportAllowedChannel(ctx.channel),
-            execute: () => ({content: generatePluginList()})
+            execute: () => ({ content: generatePluginList() })
         }
     ],
 
     flux: {
-        async CHANNEL_SELECT({channelId}) {
+        async CHANNEL_SELECT({ channelId }) {
             const isSupportChannel = channelId === SUPPORT_CHANNEL_ID || ChannelStore.getChannel(channelId)?.parent_id === SUPPORT_CATEGORY_ID;
             if (!isSupportChannel) return;
 
@@ -295,13 +295,13 @@ export default definePlugin({
                 buttons.push(
                     <Button
                         key="vc-dbg"
-                        onClick={async () => sendMessage(props.channel.id, {content: await generateDebugInfoMessage()})}
+                        onClick={async () => sendMessage(props.channel.id, { content: await generateDebugInfoMessage() })}
                     >
                         Run /vencord-debug
                     </Button>,
                     <Button
                         key="vc-plg-list"
-                        onClick={async () => sendMessage(props.channel.id, {content: generatePluginList()})}
+                        onClick={async () => sendMessage(props.channel.id, { content: generatePluginList() })}
                     >
                         Run /vencord-plugins
                     </Button>
@@ -336,7 +336,7 @@ export default definePlugin({
             : null;
     },
 
-    renderContributorDmWarningCard: ErrorBoundary.wrap(({channel}) => {
+    renderContributorDmWarningCard: ErrorBoundary.wrap(({ channel }) => {
         const userId = channel.getRecipientId();
         if (!isPluginDev(userId)) return null;
         if (RelationshipStore.isFriend(userId) || isPluginDev(UserStore.getCurrentUser()?.id)) return null;
@@ -350,5 +350,5 @@ export default definePlugin({
                 {!ChannelStore.getChannel(SUPPORT_CHANNEL_ID) && " (Click the link to join)"}
             </Card>
         );
-    }, {noop: true}),
+    }, { noop: true }),
 });

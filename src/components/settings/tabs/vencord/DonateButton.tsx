@@ -7,8 +7,8 @@
  */
 
 import DonateButton from "@components/settings/DonateButton";
-import {DONOR_ROLE_ID, EAGLE_USER_ROLE_ID, MEOW_LOUNGE_GUILD_ID, VENCORD_GUILD_ID} from "@utils/constants";
-import {Button, GuildMemberStore} from "@webpack/common";
+import { DONOR_ROLE_ID, EAGLE_USER_ROLE_ID, MEOW_LOUNGE_GUILD_ID, VENCORD_GUILD_ID } from "@utils/constants";
+import { Button, GuildMemberStore } from "@webpack/common";
 import BadgeAPI from "plugins/_api/badges";
 
 export const isDonor = (userId: string) => !!(
@@ -29,7 +29,7 @@ export function DonateButtonComponent() {
         <DonateButton
             look={Button.Looks.FILLED}
             color={Button.Colors.WHITE}
-            style={{marginTop: "1em"}}
+            style={{ marginTop: "1em" }}
         />
     );
 }

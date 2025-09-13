@@ -23,7 +23,7 @@ export const ReactDOM: typeof import("react-dom") =
 export const createRoot: typeof import("react-dom/client").createRoot =
     findByCodeLazy("(299));", ".onRecoverableError");
 
-waitFor("useState", (m) => {
+waitFor("useState", m => {
     React = m;
     ({
         useEffect,

@@ -31,7 +31,7 @@ export async function spoofDesktopPlayQuest(
         });
         const app = res.body[0];
         const exeName = app.executables
-            .find((x) => x.os === "win32")
+            .find(x => x.os === "win32")
             ?.name.replace(">", "");
 
         const fakeGame = {

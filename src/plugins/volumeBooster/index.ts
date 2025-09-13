@@ -46,7 +46,7 @@ export default definePlugin({
 
     patches: [
         // Change the max volume for sliders to allow for values above 200
-        ...["#{intl::USER_VOLUME}", "currentVolume:"].map((find) => ({
+        ...["#{intl::USER_VOLUME}", "currentVolume:"].map(find => ({
             find,
             replacement: {
                 match: /(?<=maxValue:)\i\.\i\?(\d+?):(\d+?)(?=,)/,

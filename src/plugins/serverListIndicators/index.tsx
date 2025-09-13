@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {addServerListElement, removeServerListElement, ServerListRenderPosition} from "@api/ServerList";
-import {Settings} from "@api/Settings";
+import { addServerListElement, removeServerListElement, ServerListRenderPosition } from "@api/ServerList";
+import { Settings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
-import {findStoreLazy} from "@webpack";
-import {GuildStore, PresenceStore, RelationshipStore, useStateFromStores} from "@webpack/common";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
+import { findStoreLazy } from "@webpack";
+import { GuildStore, PresenceStore, RelationshipStore, useStateFromStores } from "@webpack/common";
 
 const enum IndicatorType {
     SERVER = 1 << 0,
@@ -89,17 +89,17 @@ export default definePlugin({
             description: "mode",
             type: OptionType.SELECT,
             options: [
-                {label: "Only online friend count", value: IndicatorType.FRIEND, default: true},
-                {label: "Only server count", value: IndicatorType.SERVER},
-                {label: "Both server and online friend counts", value: IndicatorType.BOTH},
+                { label: "Only online friend count", value: IndicatorType.FRIEND, default: true },
+                { label: "Only server count", value: IndicatorType.SERVER },
+                { label: "Both server and online friend counts", value: IndicatorType.BOTH },
             ]
         }
     },
 
     renderIndicator: () => {
-        const {mode} = Settings.plugins.ServerListIndicators;
+        const { mode } = Settings.plugins.ServerListIndicators;
         return <ErrorBoundary noop>
-            <div style={{marginBottom: "4px"}}>
+            <div style={{ marginBottom: "4px" }}>
                 {!!(mode & IndicatorType.FRIEND) && <FriendsIndicator/>}
                 {!!(mode & IndicatorType.SERVER) && <ServersIndicator/>}
             </div>

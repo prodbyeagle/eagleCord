@@ -6,16 +6,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {ChatBarButton, ChatBarButtonFactory} from "@api/ChatButtons";
-import {classes} from "@utils/misc";
-import {openModal} from "@utils/modal";
-import {Alerts, Forms, Tooltip, useEffect, useState} from "@webpack/common";
+import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
+import { classes } from "@utils/misc";
+import { openModal } from "@utils/modal";
+import { Alerts, Forms, Tooltip, useEffect, useState } from "@webpack/common";
 
-import {settings} from "./settings";
-import {TranslateModal} from "./TranslateModal";
-import {cl} from "./utils";
+import { settings } from "./settings";
+import { TranslateModal } from "./TranslateModal";
+import { cl } from "./utils";
 
-export function TranslateIcon({height = 20, width = 20, className}: {
+export function TranslateIcon({ height = 20, width = 20, className }: {
     height?: number;
     width?: number;
     className?: string;
@@ -35,8 +35,8 @@ export function TranslateIcon({height = 20, width = 20, className}: {
 
 export let setShouldShowTranslateEnabledTooltip: undefined | ((show: boolean) => void);
 
-export const TranslateChatBarIcon: ChatBarButtonFactory = ({isMainChat}) => {
-    const {autoTranslate, showChatBarButton} = settings.use(["autoTranslate", "showChatBarButton"]);
+export const TranslateChatBarIcon: ChatBarButtonFactory = ({ isMainChat }) => {
+    const { autoTranslate, showChatBarButton } = settings.use(["autoTranslate", "showChatBarButton"]);
 
     const [shouldShowTranslateEnabledTooltip, setter] = useState(false);
     useEffect(() => {
@@ -83,7 +83,7 @@ export const TranslateChatBarIcon: ChatBarButtonFactory = ({isMainChat}) => {
                 "aria-haspopup": "dialog"
             }}
         >
-            <TranslateIcon className={cl({"auto-translate": autoTranslate, "chat-button": true})}/>
+            <TranslateIcon className={cl({ "auto-translate": autoTranslate, "chat-button": true })}/>
         </ChatBarButton>
     );
 

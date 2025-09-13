@@ -26,7 +26,7 @@ export default definePlugin({
         ...[
             ".handleVoiceStatusClick", // voice channels
             ".handleClickChat", // stage channels
-        ].map((find) => ({
+        ].map(find => ({
             find,
             // hack: these are not React onClick, it is a custom prop handled by Discord
             // thus, replacing this with onDoubleClick won't work, and you also cannot check

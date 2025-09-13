@@ -107,7 +107,7 @@ export function initIpc(mainWindow: BrowserWindow) {
     let quickCssWatcher: FSWatcher | undefined;
 
     open(QUICKCSS_PATH, "a+")
-        .then((fd) => {
+        .then(fd => {
             fd.close();
             quickCssWatcher = watch(
                 QUICKCSS_PATH,
@@ -139,7 +139,7 @@ export function initIpc(mainWindow: BrowserWindow) {
 ipcMain.handle(IpcEvents.OPEN_MONACO_EDITOR, async () => {
     const title = "Vencord QuickCSS Editor";
     const existingWindow = BrowserWindow.getAllWindows().find(
-        (w) => w.title === title,
+        w => w.title === title,
     );
     if (existingWindow && !existingWindow.isDestroyed()) {
         existingWindow.focus();

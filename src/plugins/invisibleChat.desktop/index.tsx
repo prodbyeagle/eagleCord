@@ -6,18 +6,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {ChatBarButton, ChatBarButtonFactory} from "@api/ChatButtons";
-import {updateMessage} from "@api/MessageUpdater";
-import {definePluginSettings} from "@api/Settings";
+import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
+import { updateMessage } from "@api/MessageUpdater";
+import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import {getStegCloak} from "@utils/dependencies";
-import definePlugin, {OptionType, ReporterTestable} from "@utils/types";
-import {Message} from "@vencord/discord-types";
-import {ChannelStore, Constants, RestAPI, Tooltip} from "@webpack/common";
+import { Devs } from "@utils/constants";
+import { getStegCloak } from "@utils/dependencies";
+import definePlugin, { OptionType, ReporterTestable } from "@utils/types";
+import { Message } from "@vencord/discord-types";
+import { ChannelStore, Constants, RestAPI, Tooltip } from "@webpack/common";
 
-import {buildDecModal} from "./components/DecryptionModal";
-import {buildEncModal} from "./components/EncryptionModal";
+import { buildDecModal } from "./components/DecryptionModal";
+import { buildEncModal } from "./components/EncryptionModal";
 
 let steggo: any;
 
@@ -39,7 +39,7 @@ function PopOverIcon() {
 function Indicator() {
     return (
         <Tooltip text="This message has a hidden message! (InvisibleChat)">
-            {({onMouseEnter, onMouseLeave}) => (
+            {({ onMouseEnter, onMouseLeave }) => (
                 <img
                     aria-label="Hidden Message Indicator (InvisibleChat)"
                     onMouseEnter={onMouseEnter}
@@ -47,7 +47,7 @@ function Indicator() {
                     src="https://github.com/SammCheese/invisible-chat/raw/NewReplugged/src/assets/lock.png"
                     width={20}
                     height={20}
-                    style={{transform: "translateY(4p)", paddingInline: 4}}
+                    style={{ transform: "translateY(4p)", paddingInline: 4 }}
                 />
             )}
         </Tooltip>
@@ -56,7 +56,7 @@ function Indicator() {
 
 }
 
-const ChatBarIcon: ChatBarButtonFactory = ({isMainChat}) => {
+const ChatBarIcon: ChatBarButtonFactory = ({ isMainChat }) => {
     if (!isMainChat) return null;
 
     return (
@@ -74,7 +74,7 @@ const ChatBarIcon: ChatBarButtonFactory = ({isMainChat}) => {
                 width="20"
                 height="20"
                 viewBox={"0 0 64 64"}
-                style={{scale: "1.39", translate: "0 -1px"}}
+                style={{ scale: "1.39", translate: "0 -1px" }}
             >
                 <path fill="currentColor"
                       d="M 32 9 C 24.832 9 19 14.832 19 22 L 19 27.347656 C 16.670659 28.171862 15 30.388126 15 33 L 15 49 C 15 52.314 17.686 55 21 55 L 43 55 C 46.314 55 49 52.314 49 49 L 49 33 C 49 30.388126 47.329341 28.171862 45 27.347656 L 45 22 C 45 14.832 39.168 9 32 9 z M 32 13 C 36.963 13 41 17.038 41 22 L 41 27 L 23 27 L 23 22 C 23 17.038 27.037 13 32 13 z"/>
@@ -116,7 +116,7 @@ export default definePlugin({
         /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/,
     ),
     async start() {
-        const {default: StegCloak} = await getStegCloak();
+        const { default: StegCloak } = await getStegCloak();
         steggo = new StegCloak(true, false);
     },
 
@@ -133,7 +133,7 @@ export default definePlugin({
                     if (res)
                         this.buildEmbed(message, res);
                     else
-                        buildDecModal({message});
+                        buildDecModal({ message });
                 }
             }
             : null;
@@ -149,7 +149,7 @@ export default definePlugin({
 
     // Gets the Embed of a Link
     async getEmbed(url: URL): Promise<Object | {}> {
-        const {body} = await RestAPI.post({
+        const { body } = await RestAPI.post({
             url: Constants.Endpoints.UNFURL_EMBED_URLS,
             body: {
                 urls: [url]
@@ -179,11 +179,11 @@ export default definePlugin({
                 message.embeds.push(embed);
         }
 
-        updateMessage(message.channel_id, message.id, {embeds: message.embeds});
+        updateMessage(message.channel_id, message.id, { embeds: message.embeds });
     },
 
     popOverIcon: () => <PopOverIcon/>,
-    indicator: ErrorBoundary.wrap(Indicator, {noop: true})
+    indicator: ErrorBoundary.wrap(Indicator, { noop: true })
 });
 
 export function encrypt(secret: string, password: string, cover: string): string {
@@ -204,7 +204,7 @@ export async function iteratePasswords(message: Message): Promise<string | false
 
     if (!message?.content || !passwords?.length) return false;
 
-    let {content} = message;
+    let { content } = message;
 
     // we use an extra variable so we dont have to edit the message content directly
     if (/^\W/.test(message.content)) content = `d ${message.content}d`;

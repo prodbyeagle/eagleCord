@@ -25,7 +25,7 @@ export const settings = definePluginSettings(
         theme: {
             type: OptionType.SELECT,
             description: "Default themes",
-            options: themeNames.map((themeName) => ({
+            options: themeNames.map(themeName => ({
                 label: wordsToTitle(wordsFromPascal(themeName)),
                 value: themes[themeName],
                 default: themes[themeName] === themes.DarkPlus,
@@ -36,7 +36,7 @@ export const settings = definePluginSettings(
             type: OptionType.STRING,
             description: "A link to a custom vscode theme",
             placeholder: themes.MaterialCandy,
-            onChange: (value) => {
+            onChange: value => {
                 shiki.setTheme(value || settings.store.theme);
             },
         },

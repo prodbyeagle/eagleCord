@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {useSettings} from "@api/Settings";
-import {Margins} from "@utils/margins";
-import {classes} from "@utils/misc";
-import {Card, Forms, TextArea, useState} from "@webpack/common";
+import { useSettings } from "@api/Settings";
+import { Margins } from "@utils/margins";
+import { classes } from "@utils/misc";
+import { Card, Forms, TextArea, useState } from "@webpack/common";
 
 export function OnlineThemesTab() {
     const settings = useSettings(["themeLinks"]);

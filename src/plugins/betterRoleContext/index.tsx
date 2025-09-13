@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {getUserSettingLazy} from "@api/UserSettings";
-import {ImageIcon} from "@components/Icons";
-import {copyToClipboard} from "@utils/clipboard";
-import {Devs} from "@utils/constants";
-import {getCurrentGuild, openImageModal} from "@utils/discord";
-import definePlugin, {OptionType} from "@utils/types";
-import {findByPropsLazy} from "@webpack";
-import {GuildRoleStore, Menu, PermissionStore} from "@webpack/common";
+import { definePluginSettings } from "@api/Settings";
+import { getUserSettingLazy } from "@api/UserSettings";
+import { ImageIcon } from "@components/Icons";
+import { copyToClipboard } from "@utils/clipboard";
+import { Devs } from "@utils/constants";
+import { getCurrentGuild, openImageModal } from "@utils/discord";
+import definePlugin, { OptionType } from "@utils/types";
+import { findByPropsLazy } from "@webpack";
+import { GuildRoleStore, Menu, PermissionStore } from "@webpack/common";
 
 const GuildSettingsActions = findByPropsLazy("open", "selectRole", "updateGuild");
 
@@ -80,7 +80,7 @@ export default definePlugin({
     },
 
     contextMenus: {
-        "dev-context"(children, {id}: { id: string; }) {
+        "dev-context"(children, { id }: { id: string; }) {
             const guild = getCurrentGuild();
             if (!guild) return;
 

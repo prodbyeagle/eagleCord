@@ -8,15 +8,15 @@
 
 import "./styles.css";
 
-import {findGroupChildrenByChildId, NavContextMenuPatchCallback} from "@api/ContextMenu";
-import {definePluginSettings} from "@api/Settings";
+import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {SafetyIcon} from "@components/Icons";
-import {Devs} from "@utils/constants";
-import {classes} from "@utils/misc";
-import definePlugin, {OptionType} from "@utils/types";
-import type {Guild, GuildMember} from "@vencord/discord-types";
-import {findByPropsLazy} from "@webpack";
+import { SafetyIcon } from "@components/Icons";
+import { Devs } from "@utils/constants";
+import { classes } from "@utils/misc";
+import definePlugin, { OptionType } from "@utils/types";
+import type { Guild, GuildMember } from "@vencord/discord-types";
+import { findByPropsLazy } from "@webpack";
 import {
     Button,
     ChannelStore,
@@ -38,7 +38,7 @@ import openRolesAndUsersPermissionsModal, {
     RoleOrUserPermission
 } from "./components/RolesAndUsersPermissions";
 import UserPermissions from "./components/UserPermissions";
-import {getSortedRolesForMember, sortPermissionOverwrites} from "./utils";
+import { getSortedRolesForMember, sortPermissionOverwrites } from "./utils";
 
 const PopoutClasses = findByPropsLazy("container", "scroller", "list");
 const RoleButtonClasses = findByPropsLazy("button", "buttonInner", "icon", "banner");
@@ -59,8 +59,8 @@ export const settings = definePluginSettings({
         description: "The sort method used for defining which role grants an user a certain permission",
         type: OptionType.SELECT,
         options: [
-            {label: "Highest Role", value: PermissionsSortOrder.HighestRole, default: true},
-            {label: "Lowest Role", value: PermissionsSortOrder.LowestRole}
+            { label: "Highest Role", value: PermissionsSortOrder.HighestRole, default: true },
+            { label: "Lowest Role", value: PermissionsSortOrder.LowestRole }
         ]
     },
 });
@@ -75,7 +75,7 @@ function MenuItem(guildId: string, id?: string, type?: MenuItemParentType) {
             action={() => {
                 const guild = GuildStore.getGuild(guildId);
 
-                const {permissions, header} = match(type)
+                const { permissions, header } = match(type)
                     .returnType<{ permissions: RoleOrUserPermission[], header: string; }>()
                     .with(MenuItemParentType.User, () => {
                         const member = GuildMemberStore.getMember(guildId, id!)!;
@@ -185,7 +185,7 @@ export default definePlugin({
         }
     ],
 
-    ViewPermissionsButton: ErrorBoundary.wrap(({guild, guildMember}: { guild: Guild; guildMember: GuildMember; }) => {
+    ViewPermissionsButton: ErrorBoundary.wrap(({ guild, guildMember }: { guild: Guild; guildMember: GuildMember; }) => {
         const buttonRef = useRef(null);
 
         return (
@@ -193,8 +193,8 @@ export default definePlugin({
                 position="bottom"
                 align="center"
                 targetElementRef={buttonRef}
-                renderPopout={({closePopout}) => (
-                    <Dialog className={PopoutClasses.container} style={{width: "500px"}}>
+                renderPopout={({ closePopout }) => (
+                    <Dialog className={PopoutClasses.container} style={{ width: "500px" }}>
                         <UserPermissions guild={guild} guildMember={guildMember} closePopout={closePopout}/>
                     </Dialog>
                 )}
@@ -216,7 +216,7 @@ export default definePlugin({
                 )}
             </Popout>
         );
-    }, {noop: true}),
+    }, { noop: true }),
 
     contextMenus: {
         "user-context": makeContextMenuPatch("roles", MenuItemParentType.User),

@@ -18,7 +18,7 @@ import {
 } from "@webpack";
 
 export let FluxDispatcher: t.FluxDispatcher;
-waitFor(["dispatch", "subscribe"], (m) => {
+waitFor(["dispatch", "subscribe"], m => {
     FluxDispatcher = m;
     // Non import access to avoid circular dependency
     Vencord.Plugins.subscribeAllPluginsFluxEvents(m);
@@ -31,16 +31,16 @@ waitFor(["dispatch", "subscribe"], (m) => {
 });
 
 export let ComponentDispatch: any;
-waitFor(["dispatchToLastSubscribed"], (m) => (ComponentDispatch = m));
+waitFor(["dispatchToLastSubscribed"], m => (ComponentDispatch = m));
 
 export const Constants: t.Constants = mapMangledModuleLazy('ME:"/users/@me"', {
     Endpoints: filters.byProps("USER", "ME"),
     UserFlags: filters.byProps("STAFF", "SPAMMER"),
-    FriendsSections: (m) => m.PENDING === "PENDING" && m.ADD_FRIEND,
+    FriendsSections: m => m.PENDING === "PENDING" && m.ADD_FRIEND,
 });
 
 export const RestAPI: t.RestAPI = findLazy(
-    (m) => typeof m === "object" && m.del && m.put,
+    m => typeof m === "object" && m.del && m.put,
 );
 export const moment: typeof import("moment") =
     findByPropsLazy("parseTwoDigitYear");
@@ -64,20 +64,20 @@ export const lodash: typeof import("lodash") = findByPropsLazy(
 export const i18n = mapMangledModuleLazy(
     'defaultLocale:"en-US"',
     {
-        t: (m) => m?.[Symbol.toStringTag] === "IntlMessagesProxy",
-        intl: (m) =>
+        t: m => m?.[Symbol.toStringTag] === "IntlMessagesProxy",
+        intl: m =>
             m != null && Object.getPrototypeOf(m)?.withFormatters != null,
     },
     true,
 );
 
 export let SnowflakeUtils: t.SnowflakeUtils;
-waitFor(["fromTimestamp", "extractTimestamp"], (m) => (SnowflakeUtils = m));
+waitFor(["fromTimestamp", "extractTimestamp"], m => (SnowflakeUtils = m));
 
 export let Parser: t.Parser;
-waitFor("parseTopic", (m) => (Parser = m));
+waitFor("parseTopic", m => (Parser = m));
 export let Alerts: t.Alerts;
-waitFor(["show", "close"], (m) => (Alerts = m));
+waitFor(["show", "close"], m => (Alerts = m));
 
 const ToastType = {
     MESSAGE: "message",
@@ -133,7 +133,7 @@ export const Toasts = {
 };
 
 // This is the same module but this is easier
-waitFor("showToast", (m) => {
+waitFor("showToast", m => {
     Toasts.show = m.showToast;
     Toasts.pop = m.popToast;
     Toasts.create = m.createToast;
@@ -191,10 +191,10 @@ export const ChannelRouter: t.ChannelRouter = mapMangledModuleLazy(
 );
 
 export let SettingsRouter: any;
-waitFor(["open", "saveAccountChanges"], (m) => (SettingsRouter = m));
+waitFor(["open", "saveAccountChanges"], m => (SettingsRouter = m));
 
 export const PermissionsBits: t.PermissionsBits = findLazy(
-    (m) => typeof m.ADMINISTRATOR === "bigint",
+    m => typeof m.ADMINISTRATOR === "bigint",
 );
 
 export const { zustandCreate } = mapMangledModuleLazy(

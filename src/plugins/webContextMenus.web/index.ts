@@ -257,7 +257,7 @@ export default definePlugin({
     async copyImage(url: string) {
         url = fixImageUrl(url);
 
-        let imageData = await fetch(url).then((r) => r.blob());
+        let imageData = await fetch(url).then(r => r.blob());
         if (imageData.type !== "image/png") {
             const bitmap = await createImageBitmap(imageData);
 
@@ -266,8 +266,8 @@ export default definePlugin({
             canvas.height = bitmap.height;
             canvas.getContext("2d")!.drawImage(bitmap, 0, 0);
 
-            await new Promise<void>((done) => {
-                canvas.toBlob((data) => {
+            await new Promise<void>(done => {
+                canvas.toBlob(data => {
                     imageData = data!;
                     done();
                 }, "image/png");

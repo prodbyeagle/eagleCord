@@ -130,15 +130,15 @@ export default definePlugin({
             UserAffinitiesStore.getUserAffinities();
         const relationships = RelationshipStore.getMutableRelationships();
         const nonFriendAffinities = userAffinities.filter(
-            (a) => !RelationshipStore.getRelationshipType(a.otherUserId),
+            a => !RelationshipStore.getRelationshipType(a.otherUserId),
         );
-        nonFriendAffinities.forEach((a) => {
+        nonFriendAffinities.forEach(a => {
             relationships.set(a.otherUserId, 5);
         });
         RelationshipStore.emitChange();
 
         const toRequest = nonFriendAffinities.filter(
-            (a) => !UserStore.getUser(a.otherUserId),
+            a => !UserStore.getUser(a.otherUserId),
         );
         const allGuildIds = Object.keys(GuildStore.getGuilds());
         const sentNonce = SnowflakeUtils.fromTimestamp(Date.now());
@@ -150,7 +150,7 @@ export default definePlugin({
         // This should not be a big deal as these should be rare
         const callback = ({ chunks }) => {
             const chunkCount = chunks.filter(
-                (chunk) => chunk.nonce === sentNonce,
+                chunk => chunk.nonce === sentNonce,
             ).length;
             if (chunkCount === 0) return;
 

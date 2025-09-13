@@ -8,18 +8,18 @@
 
 import "./styles.css";
 
-import {NavContextMenuPatchCallback} from "@api/ContextMenu";
-import {Microphone} from "@components/Icons";
-import {Link} from "@components/Link";
-import {Devs} from "@utils/constants";
-import {Margins} from "@utils/margins";
-import {ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, openModal} from "@utils/modal";
-import {useAwaiter} from "@utils/react";
+import { NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { Microphone } from "@components/Icons";
+import { Link } from "@components/Link";
+import { Devs } from "@utils/constants";
+import { Margins } from "@utils/margins";
+import { ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, openModal } from "@utils/modal";
+import { useAwaiter } from "@utils/react";
 import definePlugin from "@utils/types";
-import {chooseFile} from "@utils/web";
-import {CloudUpload as TCloudUpload} from "@vencord/discord-types";
-import {CloudUploadPlatform} from "@vencord/discord-types/enums";
-import {findByPropsLazy, findLazy, findStoreLazy} from "@webpack";
+import { chooseFile } from "@utils/web";
+import { CloudUpload as TCloudUpload } from "@vencord/discord-types";
+import { CloudUploadPlatform } from "@vencord/discord-types/enums";
+import { findByPropsLazy, findLazy, findStoreLazy } from "@webpack";
 import {
     Button,
     Card,
@@ -39,13 +39,13 @@ import {
     useEffect,
     useState
 } from "@webpack/common";
-import {ComponentType} from "react";
+import { ComponentType } from "react";
 
-import {VoiceRecorderDesktop} from "./DesktopRecorder";
-import {settings} from "./settings";
-import {cl} from "./utils";
-import {VoicePreview} from "./VoicePreview";
-import {VoiceRecorderWeb} from "./WebRecorder";
+import { VoiceRecorderDesktop } from "./DesktopRecorder";
+import { settings } from "./settings";
+import { cl } from "./utils";
+import { VoicePreview } from "./VoicePreview";
+import { VoiceRecorderWeb } from "./WebRecorder";
 
 const CloudUpload: typeof TCloudUpload = findLazy(m => m.prototype?.trackUploadFinished);
 const PendingReplyStore = findStoreLazy("PendingReplyStore");
@@ -97,10 +97,10 @@ const EMPTY_META: AudioMetadata = {
 function sendAudio(blob: Blob, meta: AudioMetadata) {
     const channelId = SelectedChannelStore.getChannelId();
     const reply = PendingReplyStore.getPendingReply(channelId);
-    if (reply) FluxDispatcher.dispatch({type: "DELETE_PENDING_REPLY", channelId});
+    if (reply) FluxDispatcher.dispatch({ type: "DELETE_PENDING_REPLY", channelId });
 
     const upload = new CloudUpload({
-        file: new File([blob], "voice-message.ogg", {type: "audio/ogg; codecs=opus"}),
+        file: new File([blob], "voice-message.ogg", { type: "audio/ogg; codecs=opus" }),
         isThumbnail: false,
         platform: CloudUploadPlatform.WEB,
     }, channelId);
@@ -142,7 +142,7 @@ function useObjectUrl() {
     return [url, setWithFree] as const;
 }
 
-function Modal({modalProps}: { modalProps: ModalProps; }) {
+function Modal({ modalProps }: { modalProps: ModalProps; }) {
     const [isRecording, setRecording] = useState(false);
     const [blob, setBlob] = useState<Blob>();
     const [blobUrl, setBlobUrl] = useObjectUrl();

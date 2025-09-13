@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {classNameFactory} from "@api/Styles";
+import { classNameFactory } from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Margins} from "@utils/margins";
-import {classes} from "@utils/misc";
-import {ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal} from "@utils/modal";
-import {findByPropsLazy} from "@webpack";
-import {TabBar, Text, Timestamp, TooltipContainer, useState} from "@webpack/common";
+import { Margins } from "@utils/margins";
+import { classes } from "@utils/misc";
+import { ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
+import { findByPropsLazy } from "@webpack";
+import { TabBar, Text, Timestamp, TooltipContainer, useState } from "@webpack/common";
 
-import {parseEditContent} from ".";
+import { parseEditContent } from ".";
 
 const CodeContainerClasses = findByPropsLazy("markup", "codeContainer");
 const MiscClasses = findByPropsLazy("messageContent", "markupRtl");
@@ -32,7 +32,7 @@ export function openHistoryModal(message: any) {
     );
 }
 
-export function HistoryModal({modalProps, message}: { modalProps: ModalProps; message: any; }) {
+export function HistoryModal({ modalProps, message }: { modalProps: ModalProps; message: any; }) {
     const [currentTab, setCurrentTab] = useState(message.editHistory.length);
     const timestamps = [message.firstEditTimestamp, ...message.editHistory.map(m => m.timestamp)];
     const contents = [...message.editHistory.map(m => m.content), message.content];
@@ -40,7 +40,7 @@ export function HistoryModal({modalProps, message}: { modalProps: ModalProps; me
     return (
         <ModalRoot {...modalProps} size={ModalSize.LARGE}>
             <ModalHeader className={cl("head")}>
-                <Text variant="heading-lg/semibold" style={{flexGrow: 1}}>Message Edit History</Text>
+                <Text variant="heading-lg/semibold" style={{ flexGrow: 1 }}>Message Edit History</Text>
                 <ModalCloseButton onClick={modalProps.onClose}/>
             </ModalHeader>
 

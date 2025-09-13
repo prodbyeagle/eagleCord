@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Margins} from "@utils/margins";
-import {canonicalizeMatch, canonicalizeReplace} from "@utils/patches";
-import {makeCodeblock} from "@utils/text";
-import {ReplaceFn} from "@utils/types";
-import {Button, Forms, Parser, useMemo, useState} from "@webpack/common";
-import type {Change} from "diff";
+import { Margins } from "@utils/margins";
+import { canonicalizeMatch, canonicalizeReplace } from "@utils/patches";
+import { makeCodeblock } from "@utils/text";
+import { ReplaceFn } from "@utils/types";
+import { Button, Forms, Parser, useMemo, useState } from "@webpack/common";
+import type { Change } from "diff";
 
 // Do not include diff in non dev builds (side effects import)
 if (IS_DEV) {
@@ -43,7 +43,7 @@ function makeDiff(original: string, patched: string, match: RegExpMatchArray | n
     return differ.diffWordsWithSpace(context, patchedContext);
 }
 
-function Match({matchResult}: { matchResult: RegExpMatchArray | null; }) {
+function Match({ matchResult }: { matchResult: RegExpMatchArray | null; }) {
     if (!matchResult)
         return null;
 
@@ -57,13 +57,13 @@ function Match({matchResult}: { matchResult: RegExpMatchArray | null; }) {
     return (
         <>
             <Forms.FormTitle>Match</Forms.FormTitle>
-            <div style={{userSelect: "text"}}>{Parser.parse(fullMatch)}</div>
-            <div style={{userSelect: "text"}}>{Parser.parse(groups)}</div>
+            <div style={{ userSelect: "text" }}>{Parser.parse(fullMatch)}</div>
+            <div style={{ userSelect: "text" }}>{Parser.parse(groups)}</div>
         </>
     );
 }
 
-function Diff({diff}: { diff: Change[] | null; }) {
+function Diff({ diff }: { diff: Change[] | null; }) {
     if (!diff?.length)
         return null;
 
@@ -77,7 +77,7 @@ function Diff({diff}: { diff: Change[] | null; }) {
         return (
             <div
                 key={idx}
-                style={{color, userSelect: "text", wordBreak: "break-all", lineBreak: "anywhere"}}
+                style={{ color, userSelect: "text", wordBreak: "break-all", lineBreak: "anywhere" }}
             >
                 {p.value}
             </div>
@@ -92,7 +92,7 @@ function Diff({diff}: { diff: Change[] | null; }) {
     );
 }
 
-export function PatchPreview({module, match, replacement, setReplacementError}: PatchPreviewProps) {
+export function PatchPreview({ module, match, replacement, setReplacementError }: PatchPreviewProps) {
     const [id, fact] = module;
     const [compileResult, setCompileResult] = useState<[boolean, string]>();
 
@@ -143,7 +143,7 @@ export function PatchPreview({module, match, replacement, setReplacementError}: 
             )}
 
             {compileResult && (
-                <Forms.FormText style={{color: compileResult[0] ? "var(--status-positive)" : "var(--text-danger)"}}>
+                <Forms.FormText style={{ color: compileResult[0] ? "var(--status-positive)" : "var(--text-danger)" }}>
                     {compileResult[1]}
                 </Forms.FormText>
             )}

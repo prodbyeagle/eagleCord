@@ -38,5 +38,5 @@ export const useTheme = (): ThemeState => {
 export function dispatchTheme(state: ThemeState) {
     if (currentTheme.id === state.id) return;
     Object.assign(currentTheme, state);
-    themeSetters.forEach((setTheme) => setTheme(state));
+    themeSetters.forEach(setTheme => setTheme(state));
 }

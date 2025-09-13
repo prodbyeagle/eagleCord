@@ -6,16 +6,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Margins} from "@utils/margins";
-import {ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot} from "@utils/modal";
-import {Forms, SearchableSelect, Switch, useMemo} from "@webpack/common";
+import { Margins } from "@utils/margins";
+import { ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot } from "@utils/modal";
+import { Forms, SearchableSelect, Switch, useMemo } from "@webpack/common";
 
-import {settings} from "./settings";
-import {cl, getLanguages} from "./utils";
+import { settings } from "./settings";
+import { cl, getLanguages } from "./utils";
 
 const LanguageSettingKeys = ["receivedInput", "receivedOutput", "sentInput", "sentOutput"] as const;
 
-function LanguageSelect({settingsKey, includeAuto}: {
+function LanguageSelect({ settingsKey, includeAuto }: {
     settingsKey: typeof LanguageSettingKeys[number];
     includeAuto: boolean;
 }) {
@@ -23,7 +23,7 @@ function LanguageSelect({settingsKey, includeAuto}: {
 
     const options = useMemo(
         () => {
-            const options = Object.entries(getLanguages()).map(([value, label]) => ({value, label}));
+            const options = Object.entries(getLanguages()).map(([value, label]) => ({ value, label }));
             if (!includeAuto)
                 options.shift();
 
@@ -65,7 +65,7 @@ function AutoTranslateToggle() {
 }
 
 
-export function TranslateModal({rootProps}: { rootProps: ModalProps; }) {
+export function TranslateModal({ rootProps }: { rootProps: ModalProps; }) {
     return (
         <ModalRoot {...rootProps}>
             <ModalHeader className={cl("modal-header")}>

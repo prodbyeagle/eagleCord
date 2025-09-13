@@ -220,7 +220,7 @@ export default definePlugin({
                                     description:
                                         Object.values(getTags())
                                             .map(
-                                                (tag) =>
+                                                tag =>
                                                     `\`${tag.name}\`: ${tag.message.slice(0, 72).replaceAll("\\n", " ")}${tag.message.length > 72 ? "..." : ""}`,
                                             )
                                             .join("\n") ||

@@ -6,18 +6,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {NavContextMenuPatchCallback} from "@api/ContextMenu";
-import {definePluginSettings} from "@api/Settings";
-import {debounce} from "@shared/debounce";
-import {Devs} from "@utils/constants";
-import {Logger} from "@utils/Logger";
-import definePlugin, {makeRange, OptionType} from "@utils/types";
-import {createRoot, Menu} from "@webpack/common";
-import {JSX} from "react";
-import type {Root} from "react-dom/client";
+import { NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { definePluginSettings } from "@api/Settings";
+import { debounce } from "@shared/debounce";
+import { Devs } from "@utils/constants";
+import { Logger } from "@utils/Logger";
+import definePlugin, { makeRange, OptionType } from "@utils/types";
+import { createRoot, Menu } from "@webpack/common";
+import { JSX } from "react";
+import type { Root } from "react-dom/client";
 
-import {Magnifier, MagnifierProps} from "./components/Magnifier";
-import {ELEMENT_ID} from "./constants";
+import { Magnifier, MagnifierProps } from "./components/Magnifier";
+import { ELEMENT_ID } from "./constants";
 import managedStyle from "./styles.css?managed";
 
 export const settings = definePluginSettings({
@@ -76,7 +76,7 @@ const imageContextMenuPatch: NavContextMenuPatchCallback = (children, props) => 
     // emojis in user statuses
     if (props.target?.classList?.contains("emoji")) return;
 
-    const {square, nearestNeighbour} = settings.use(["square", "nearestNeighbour"]);
+    const { square, nearestNeighbour } = settings.use(["square", "nearestNeighbour"]);
 
     children.push(
         <Menu.MenuGroup id="image-zoom">
@@ -248,17 +248,17 @@ export default definePlugin({
     },
 
     onMouseOver(instance) {
-        instance.setState((state: any) => ({...state, mouseOver: true}));
+        instance.setState((state: any) => ({ ...state, mouseOver: true }));
     },
     onMouseOut(instance) {
-        instance.setState((state: any) => ({...state, mouseOver: false}));
+        instance.setState((state: any) => ({ ...state, mouseOver: false }));
     },
     onMouseDown(e: React.MouseEvent, instance) {
         if (e.button === 0 /* left */)
-            instance.setState((state: any) => ({...state, mouseDown: true}));
+            instance.setState((state: any) => ({ ...state, mouseDown: true }));
     },
     onMouseUp(instance) {
-        instance.setState((state: any) => ({...state, mouseDown: false}));
+        instance.setState((state: any) => ({ ...state, mouseDown: false }));
     },
 
     start() {

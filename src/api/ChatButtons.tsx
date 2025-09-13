@@ -9,11 +9,11 @@
 import "./ChatButton.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Logger} from "@utils/Logger";
-import {Channel} from "@vencord/discord-types";
-import {waitFor} from "@webpack";
-import {Button, ButtonWrapperClasses, Tooltip} from "@webpack/common";
-import {HTMLProps, JSX, MouseEventHandler, ReactNode} from "react";
+import { Logger } from "@utils/Logger";
+import { Channel } from "@vencord/discord-types";
+import { waitFor } from "@webpack";
+import { Button, ButtonWrapperClasses, Tooltip } from "@webpack/common";
+import { HTMLProps, JSX, MouseEventHandler, ReactNode } from "react";
 
 let ChannelTextAreaClasses: Record<"button" | "buttonContainer", string>;
 waitFor(["buttonContainer", "channelTextArea"], m => ChannelTextAreaClasses = m);
@@ -108,7 +108,7 @@ export interface ChatBarButtonProps {
 export const ChatBarButton = ErrorBoundary.wrap((props: ChatBarButtonProps) => {
     return (
         <Tooltip text={props.tooltip}>
-            {({onMouseEnter, onMouseLeave}) => (
+            {({ onMouseEnter, onMouseLeave }) => (
                 <div
                     className={`expression-picker-chat-input-button ${ChannelTextAreaClasses?.buttonContainer ?? ""} vc-chatbar-button`}>
                     <Button
@@ -131,4 +131,4 @@ export const ChatBarButton = ErrorBoundary.wrap((props: ChatBarButtonProps) => {
             )}
         </Tooltip>
     );
-}, {noop: true});
+}, { noop: true });

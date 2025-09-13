@@ -27,7 +27,7 @@ export default definePlugin({
                     // Fix not calculating non-expanded roles because the above patch makes the default "expanded",
                     // which makes the collapse button never show up and calculation never occur
                     match: /(?<=useLayoutEffect\(\(\)=>{if\()\i/,
-                    replace: (isExpanded) => "false",
+                    replace: isExpanded => "false",
                 },
             ],
         },

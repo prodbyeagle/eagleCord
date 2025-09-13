@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {ErrorCard} from "@components/ErrorCard";
-import {Link} from "@components/Link";
-import {CspBlockedUrls, useCspErrors} from "@utils/cspViolations";
-import {Margins} from "@utils/margins";
-import {classes} from "@utils/misc";
-import {relaunch} from "@utils/native";
-import {useForceUpdater} from "@utils/react";
-import {Alerts, Button, Forms} from "@webpack/common";
+import { ErrorCard } from "@components/ErrorCard";
+import { Link } from "@components/Link";
+import { CspBlockedUrls, useCspErrors } from "@utils/cspViolations";
+import { Margins } from "@utils/margins";
+import { classes } from "@utils/misc";
+import { relaunch } from "@utils/native";
+import { useForceUpdater } from "@utils/react";
+import { Alerts, Button, Forms } from "@webpack/common";
 
 export function CspErrorCard() {
     if (IS_WEB) return null;
@@ -26,7 +26,7 @@ export function CspErrorCard() {
     const isImgurHtmlDomain = (url: string) => url.startsWith("https://imgur.com/");
 
     const allowUrl = async (url: string) => {
-        const {origin: baseUrl, host} = new URL(url);
+        const { origin: baseUrl, host } = new URL(url);
 
         const result = await VencordNative.csp.requestAddOverride(baseUrl, ["connect-src", "img-src", "style-src", "font-src"], "Vencord Themes");
         if (result !== "ok") return;

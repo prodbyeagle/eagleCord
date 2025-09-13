@@ -6,17 +6,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {findGroupChildrenByChildId, NavContextMenuPatchCallback} from "@api/ContextMenu";
-import {definePluginSettings} from "@api/Settings";
-import {CogWheel} from "@components/Icons";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
-import {Guild} from "@vencord/discord-types";
-import {findByCodeLazy, findByPropsLazy, mapMangledModuleLazy} from "@webpack";
-import {Menu} from "@webpack/common";
+import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { definePluginSettings } from "@api/Settings";
+import { CogWheel } from "@components/Icons";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
+import { Guild } from "@vencord/discord-types";
+import { findByCodeLazy, findByPropsLazy, mapMangledModuleLazy } from "@webpack";
+import { Menu } from "@webpack/common";
 
-const {updateGuildNotificationSettings} = findByPropsLazy("updateGuildNotificationSettings");
-const {toggleShowAllChannels} = mapMangledModuleLazy(".onboardExistingMember(", {
+const { updateGuildNotificationSettings } = findByPropsLazy("updateGuildNotificationSettings");
+const { toggleShowAllChannels } = mapMangledModuleLazy(".onboardExistingMember(", {
     toggleShowAllChannels: m => {
         const s = String(m);
         return s.length < 100 && !s.includes("onboardExistingMember") && !s.includes("getOptedInChannels");
@@ -34,10 +34,10 @@ const settings = definePluginSettings({
         description: "Server Notification Settings",
         type: OptionType.SELECT,
         options: [
-            {label: "All messages", value: 0},
-            {label: "Only @mentions", value: 1},
-            {label: "Nothing", value: 2},
-            {label: "Server default", value: 3, default: true}
+            { label: "All messages", value: 0 },
+            { label: "Only @mentions", value: 1 },
+            { label: "Nothing", value: 2 },
+            { label: "Server default", value: 3, default: true }
         ],
     },
     everyone: {
@@ -67,7 +67,7 @@ const settings = definePluginSettings({
     }
 });
 
-const makeContextMenuPatch: (shouldAddIcon: boolean) => NavContextMenuPatchCallback = (shouldAddIcon: boolean) => (children, {guild}: {
+const makeContextMenuPatch: (shouldAddIcon: boolean) => NavContextMenuPatchCallback = (shouldAddIcon: boolean) => (children, { guild }: {
     guild: Guild,
     onClose(): void;
 }) => {

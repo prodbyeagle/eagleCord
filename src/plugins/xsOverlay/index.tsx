@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {Devs} from "@utils/constants";
-import {Logger} from "@utils/Logger";
-import definePlugin, {makeRange, OptionType, PluginNative, ReporterTestable} from "@utils/types";
-import type {Channel, Embed, GuildMember, MessageAttachment, User} from "@vencord/discord-types";
-import {findByCodeLazy, findLazy} from "@webpack";
-import {Button, ChannelStore, GuildRoleStore, GuildStore, UserStore} from "@webpack/common";
+import { definePluginSettings } from "@api/Settings";
+import { Devs } from "@utils/constants";
+import { Logger } from "@utils/Logger";
+import definePlugin, { makeRange, OptionType, PluginNative, ReporterTestable } from "@utils/types";
+import type { Channel, Embed, GuildMember, MessageAttachment, User } from "@vencord/discord-types";
+import { findByCodeLazy, findLazy } from "@webpack";
+import { Button, ChannelStore, GuildRoleStore, GuildStore, UserStore } from "@webpack/common";
 
 const ChannelTypes = findLazy(m => m.ANNOUNCEMENT_THREAD === 10);
 
@@ -196,13 +196,13 @@ export default definePlugin({
     settings,
 
     flux: {
-        CALL_UPDATE({call}: { call: Call; }) {
+        CALL_UPDATE({ call }: { call: Call; }) {
             if (call?.ringing?.includes(UserStore.getCurrentUser().id) && settings.store.callNotifications) {
                 const channel = ChannelStore.getChannel(call.channel_id);
                 sendOtherNotif("Incoming call", `${channel.name} is calling you...`);
             }
         },
-        MESSAGE_CREATE({message, optimistic}: { message: Message; optimistic: boolean; }) {
+        MESSAGE_CREATE({ message, optimistic }: { message: Message; optimistic: boolean; }) {
             if (optimistic) return;
             const channel = ChannelStore.getChannel(message.channel_id);
             if (!shouldNotify(message, message.channel_id)) return;

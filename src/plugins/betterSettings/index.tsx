@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {classNameFactory} from "@api/Styles";
-import {Devs} from "@utils/constants";
-import {getIntlMessage} from "@utils/discord";
-import {Logger} from "@utils/Logger";
-import definePlugin, {OptionType} from "@utils/types";
-import {waitFor} from "@webpack";
-import {ComponentDispatch, FocusLock, Menu, useEffect, useRef} from "@webpack/common";
-import type {HTMLAttributes, ReactElement} from "react";
+import { definePluginSettings } from "@api/Settings";
+import { classNameFactory } from "@api/Styles";
+import { Devs } from "@utils/constants";
+import { getIntlMessage } from "@utils/discord";
+import { Logger } from "@utils/Logger";
+import definePlugin, { OptionType } from "@utils/types";
+import { waitFor } from "@webpack";
+import { ComponentDispatch, FocusLock, Menu, useEffect, useRef } from "@webpack/common";
+import type { HTMLAttributes, ReactElement } from "react";
 
 import PluginsSubmenu from "./PluginsSubmenu";
 
@@ -49,7 +49,7 @@ interface LayerProps extends HTMLAttributes<HTMLDivElement> {
     baseLayer?: boolean;
 }
 
-function Layer({mode, baseLayer = false, ...props}: LayerProps) {
+function Layer({ mode, baseLayer = false, ...props }: LayerProps) {
     const hidden = mode === "HIDDEN";
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -67,7 +67,7 @@ function Layer({mode, baseLayer = false, ...props}: LayerProps) {
                 [Classes.baseLayer]: baseLayer,
                 "stop-animations": hidden
             })}
-            style={{opacity: hidden ? 0 : undefined}}
+            style={{ opacity: hidden ? 0 : undefined }}
             {...props}
         />
     );
@@ -156,13 +156,13 @@ export default definePlugin({
     wrapMenu(list: SettingsEntry[]) {
         if (!settings.store.organizeMenu) return list;
 
-        const items = [{label: null as string | null, items: [] as SettingsEntry[]}];
+        const items = [{ label: null as string | null, items: [] as SettingsEntry[] }];
 
         for (const item of list) {
             if (item.section === "HEADER") {
-                items.push({label: item.label, items: []});
+                items.push({ label: item.label, items: [] });
             } else if (item.section === "DIVIDER") {
-                items.push({label: getIntlMessage("OTHER_OPTIONS"), items: []});
+                items.push({ label: getIntlMessage("OTHER_OPTIONS"), items: [] });
             } else {
                 items.at(-1)!.items.push(item);
             }
@@ -178,7 +178,7 @@ export default definePlugin({
             map(render: (item: SettingsEntry) => ReactElement<any>) {
                 return items
                     .filter(a => a.items.length > 0)
-                    .map(({label, items}) => {
+                    .map(({ label, items }) => {
                         const children = items.map(render);
                         if (label) {
                             return (

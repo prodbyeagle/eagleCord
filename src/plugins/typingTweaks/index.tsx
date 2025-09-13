@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
+import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import {openUserProfile} from "@utils/discord";
-import {isNonNullish} from "@utils/guards";
-import {Logger} from "@utils/Logger";
-import definePlugin, {OptionType} from "@utils/types";
-import {Channel, User} from "@vencord/discord-types";
+import { Devs } from "@utils/constants";
+import { openUserProfile } from "@utils/discord";
+import { isNonNullish } from "@utils/guards";
+import { Logger } from "@utils/Logger";
+import definePlugin, { OptionType } from "@utils/types";
+import { Channel, User } from "@vencord/discord-types";
 import {
     AuthenticationStore,
     Avatar,
@@ -24,7 +24,7 @@ import {
     UserStore,
     useStateFromStores
 } from "@webpack/common";
-import {PropsWithChildren} from "react";
+import { PropsWithChildren } from "react";
 
 import managedStyle from "./style.css?managed";
 
@@ -46,7 +46,7 @@ const settings = definePluginSettings({
     }
 });
 
-export const buildSeveralUsers = ErrorBoundary.wrap(function buildSeveralUsers({users, count, guildId}: {
+export const buildSeveralUsers = ErrorBoundary.wrap(function buildSeveralUsers({ users, count, guildId }: {
     users: User[],
     count: number;
     guildId: string;
@@ -62,14 +62,14 @@ export const buildSeveralUsers = ErrorBoundary.wrap(function buildSeveralUsers({
             and {count} others are typing...
         </>
     );
-}, {noop: true});
+}, { noop: true });
 
 interface TypingUserProps {
     user: User;
     guildId: string;
 }
 
-const TypingUser = ErrorBoundary.wrap(function TypingUser({user, guildId}: TypingUserProps) {
+const TypingUser = ErrorBoundary.wrap(function TypingUser({ user, guildId }: TypingUserProps) {
     return (
         <strong
             className="vc-typing-user"
@@ -93,7 +93,7 @@ const TypingUser = ErrorBoundary.wrap(function TypingUser({user, guildId}: Typin
             }
         </strong>
     );
-}, {noop: true});
+}, { noop: true });
 
 export default definePlugin({
     name: "TypingTweaks",
@@ -156,7 +156,7 @@ export default definePlugin({
 
     buildSeveralUsers,
 
-    renderTypingUsers: ErrorBoundary.wrap(({guildId, users, children}: PropsWithChildren<{
+    renderTypingUsers: ErrorBoundary.wrap(({ guildId, users, children }: PropsWithChildren<{
         guildId: string,
         users: User[];
     }>) => {
@@ -179,5 +179,5 @@ export default definePlugin({
         }
 
         return children;
-    }, {noop: true})
+    }, { noop: true })
 });

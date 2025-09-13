@@ -7,18 +7,18 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {useAwaiter, useIntersection} from "@utils/react";
-import {hljs, React} from "@webpack/common";
+import { useAwaiter, useIntersection } from "@utils/react";
+import { hljs, React } from "@webpack/common";
 
-import {resolveLang} from "../api/languages";
-import {shiki} from "../api/shiki";
-import {useShikiSettings} from "../hooks/useShikiSettings";
-import {useTheme} from "../hooks/useTheme";
-import {hex2Rgb} from "../utils/color";
-import {cl, shouldUseHljs} from "../utils/misc";
-import {ButtonRow} from "./ButtonRow";
-import {Code} from "./Code";
-import {Header} from "./Header";
+import { resolveLang } from "../api/languages";
+import { shiki } from "../api/shiki";
+import { useShikiSettings } from "../hooks/useShikiSettings";
+import { useTheme } from "../hooks/useTheme";
+import { hex2Rgb } from "../utils/color";
+import { cl, shouldUseHljs } from "../utils/misc";
+import { ButtonRow } from "./ButtonRow";
+import { Code } from "./Code";
+import { Header } from "./Header";
 
 export interface ThemeBase {
     plainColor: string;
@@ -50,10 +50,10 @@ export const Highlighter = ({
         useDevIcon,
         bgOpacity,
     } = useShikiSettings(["tryHljs", "useDevIcon", "bgOpacity"]);
-    const {id: currentThemeId, theme: currentTheme} = useTheme();
+    const { id: currentThemeId, theme: currentTheme } = useTheme();
 
     const shikiLang = lang ? resolveLang(lang) : null;
-    const useHljs = shouldUseHljs({lang, tryHljs});
+    const useHljs = shouldUseHljs({ lang, tryHljs });
 
     const [rootRef, isIntersecting] = useIntersection(true);
 
@@ -80,7 +80,7 @@ export const Highlighter = ({
     return (
         <div
             ref={rootRef}
-            className={cl("root", {plain: !langName, preview: isPreview})}
+            className={cl("root", { plain: !langName, preview: isPreview })}
             style={{
                 backgroundColor: useHljs
                     ? themeBase.backgroundColor

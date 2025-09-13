@@ -24,7 +24,7 @@ export let _resolveReady: () => void;
  * Fired once a gateway connection to Discord has been established.
  * This indicates that the core webpack modules have been initialised
  */
-export const onceReady = new Promise<void>((r) => (_resolveReady = r));
+export const onceReady = new Promise<void>(r => (_resolveReady = r));
 
 export let wreq: WebpackRequire;
 export let cache: WebpackRequire["c"];
@@ -38,7 +38,7 @@ export type CodeFilter = Array<string | RegExp>;
 export type StoreNameFilter = string;
 
 export const stringMatches = (s: string, filter: CodeFilter) =>
-    filter.every((f) =>
+    filter.every(f =>
         typeof f === "string"
             ? s.includes(f)
             : (f.global && (f.lastIndex = 0), f.test(s)),
@@ -47,12 +47,12 @@ export const stringMatches = (s: string, filter: CodeFilter) =>
 export const filters = {
     byProps: (...props: PropsFilter): FilterFn =>
         props.length === 1
-            ? (m) => m[props[0]] !== void 0
-            : (m) => props.every((p) => m[p] !== void 0),
+            ? m => m[props[0]] !== void 0
+            : m => props.every(p => m[p] !== void 0),
 
     byCode: (...code: CodeFilter): FilterFn => {
         const parsedCode = code.map(canonicalizeMatch);
-        const filter = (m) => {
+        const filter = m => {
             if (typeof m !== "function") return false;
             return stringMatches(
                 Function.prototype.toString.call(m),
@@ -65,12 +65,12 @@ export const filters = {
     },
     byStoreName:
         (name: StoreNameFilter): FilterFn =>
-        (m) =>
+        m =>
             m.constructor?.displayName === name,
 
     componentByCode: (...code: CodeFilter): FilterFn => {
         const byCodeFilter = filters.byCode(...code);
-        const filter = (m) => {
+        const filter = m => {
             let inner = m;
 
             while (inner != null) {
@@ -212,7 +212,7 @@ let devToolsOpen = false;
 if (IS_DEV && IS_DISCORD_DESKTOP) {
     // At this point in time, DiscordNative has not been exposed yet, so setImmediate is needed
     setTimeout(() => {
-        DiscordNative /* just to make sure */?.window
+        DiscordNative/* just to make sure */?.window
             .setDevtoolsCallbacks(
                 () => (devToolsOpen = true),
                 () => (devToolsOpen = false),
@@ -645,7 +645,7 @@ function getAllPropertyNames(
         : Object.keys;
     do {
         getKeys(object).forEach(
-            (name) => name !== "__esModule" && names.add(name),
+            name => name !== "__esModule" && names.add(name),
         );
         object = Object.getPrototypeOf(object);
     } while (object != null);
@@ -778,13 +778,13 @@ export async function extractAndLoadChunks(
 
     if (rawChunkIds) {
         const chunkIds = Array.from(rawChunkIds.matchAll(ChunkIdsRegex)).map(
-            (m) => {
+            m => {
                 const numChunkId = Number(m[1]);
                 return Number.isNaN(numChunkId) ? m[1] : numChunkId;
             },
         );
 
-        await Promise.all(chunkIds.map((id) => wreq.e(id)));
+        await Promise.all(chunkIds.map(id => wreq.e(id)));
     }
 
     if (wreq.m[entryPoint] == null) {

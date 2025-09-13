@@ -60,10 +60,10 @@ async function getDiscordStyles(): Promise<string> {
     );
 
     const cssTexts = await Promise.all(
-        Array.from(styleLinkNodes, async (node) => {
+        Array.from(styleLinkNodes, async node => {
             if (!node.href) return null;
 
-            return fetch(node.href).then((res) => res.text());
+            return fetch(node.href).then(res => res.text());
         }),
     );
 

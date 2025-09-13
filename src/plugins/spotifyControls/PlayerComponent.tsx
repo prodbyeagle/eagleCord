@@ -8,13 +8,13 @@
 
 import "./spotifyStyles.css";
 
-import {Settings} from "@api/Settings";
-import {classNameFactory} from "@api/Styles";
-import {Flex} from "@components/Flex";
-import {CopyIcon, ImageIcon, LinkIcon, OpenExternalIcon} from "@components/Icons";
-import {debounce} from "@shared/debounce";
-import {openImageModal} from "@utils/discord";
-import {classes, copyWithToast} from "@utils/misc";
+import { Settings } from "@api/Settings";
+import { classNameFactory } from "@api/Styles";
+import { Flex } from "@components/Flex";
+import { CopyIcon, ImageIcon, LinkIcon, OpenExternalIcon } from "@components/Icons";
+import { debounce } from "@shared/debounce";
+import { openImageModal } from "@utils/discord";
+import { classes, copyWithToast } from "@utils/misc";
 import {
     ContextMenuApi,
     FluxDispatcher,
@@ -26,8 +26,8 @@ import {
     useStateFromStores
 } from "@webpack/common";
 
-import {SeekBar} from "./SeekBar";
-import {SpotifyStore, Track} from "./SpotifyStore";
+import { SeekBar } from "./SeekBar";
+import { SpotifyStore, Track } from "./SpotifyStore";
 
 const cl = classNameFactory("vc-spotify-");
 
@@ -75,7 +75,7 @@ function Button(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
     );
 }
 
-function CopyContextMenu({name, type, path}: { type: string; name: string; path: string; }) {
+function CopyContextMenu({ name, type, path }: { type: string; name: string; path: string; }) {
     return (
         <Menu.Menu
             navId="vc-spotify-menu"
@@ -125,7 +125,7 @@ function Controls() {
 
     // the 1 is using position absolute so it does not make the button jump around
     return (
-        <Flex className={cl("button-row")} style={{gap: 0}}>
+        <Flex className={cl("button-row")} style={{ gap: 0 }}>
             <Button
                 className={classes(cl("button"), cl("shuffle"), cl(shuffle ? "shuffle-on" : "shuffle-off"))}
                 onClick={() => SpotifyStore.setShuffle(!shuffle)}
@@ -146,7 +146,7 @@ function Controls() {
             <Button
                 className={classes(cl("button"), cl("repeat"), cl(repeatClassName))}
                 onClick={() => SpotifyStore.setRepeat(nextRepeat)}
-                style={{position: "relative"}}
+                style={{ position: "relative" }}
             >
                 {repeat === "track" && <span className={cl("repeat-1")}>1</span>}
                 <Repeat/>
@@ -160,7 +160,7 @@ const seek = debounce((v: number) => {
 });
 
 function SpotifySeekBar() {
-    const {duration} = SpotifyStore.track!;
+    const { duration } = SpotifyStore.track!;
 
     const [storePosition, isSettingPosition, isPlaying] = useStateFromStores(
         [SpotifyStore],
@@ -215,13 +215,13 @@ function SpotifySeekBar() {
 }
 
 
-function AlbumContextMenu({track}: { track: Track; }) {
+function AlbumContextMenu({ track }: { track: Track; }) {
     const volume = useStateFromStores([SpotifyStore], () => SpotifyStore.volume);
 
     return (
         <Menu.Menu
             navId="spotify-album-menu"
-            onClose={() => FluxDispatcher.dispatch({type: "CONTEXT_MENU_CLOSE"})}
+            onClose={() => FluxDispatcher.dispatch({ type: "CONTEXT_MENU_CLOSE" })}
             aria-label="Spotify Album Menu"
         >
             <Menu.MenuItem
@@ -269,7 +269,7 @@ function makeLinkProps(type: "Song" | "Artist" | "Album", condition: unknown, na
     } satisfies React.HTMLAttributes<HTMLElement>;
 }
 
-function Info({track}: { track: Track; }) {
+function Info({ track }: { track: Track; }) {
     const img = track?.album?.image;
 
     const [coverExpanded, setCoverExpanded] = useState(false);
@@ -317,7 +317,7 @@ function Info({track}: { track: Track; }) {
                             <React.Fragment key={a.name}>
                                 <span
                                     className={cl("artist")}
-                                    style={{fontSize: "inherit"}}
+                                    style={{ fontSize: "inherit" }}
                                     title={a.name}
                                     {...makeLinkProps("Artist", a.id, a.name, `/artist/${a.id}`)}
                                 >
@@ -334,7 +334,7 @@ function Info({track}: { track: Track; }) {
                         <span
                             id={cl("album-title")}
                             className={cl("album")}
-                            style={{fontSize: "inherit"}}
+                            style={{ fontSize: "inherit" }}
                             title={track.album.name}
                             {...makeLinkProps("Album", track.album.id, track.album.name, `/album/${track.album.id}`)}
                         >

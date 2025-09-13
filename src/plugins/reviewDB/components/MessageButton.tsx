@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {DeleteIcon} from "@components/Icons";
-import {classes} from "@utils/misc";
-import {findByPropsLazy} from "@webpack";
-import {Tooltip} from "@webpack/common";
+import { DeleteIcon } from "@components/Icons";
+import { classes } from "@utils/misc";
+import { findByPropsLazy } from "@webpack";
+import { Tooltip } from "@webpack/common";
 
 const iconClasses = findByPropsLazy("button", "wrapper", "disabled", "separator");
 
-export function DeleteButton({onClick}: { onClick(): void; }) {
+export function DeleteButton({ onClick }: { onClick(): void; }) {
     return (
         <Tooltip text="Delete Review">
             {props => (
@@ -30,7 +30,7 @@ export function DeleteButton({onClick}: { onClick(): void; }) {
     );
 }
 
-export function ReportButton({onClick}: { onClick(): void; }) {
+export function ReportButton({ onClick }: { onClick(): void; }) {
     return (
         <Tooltip text="Report Review">
             {props => (
@@ -52,7 +52,7 @@ export function ReportButton({onClick}: { onClick(): void; }) {
     );
 }
 
-export function BlockButton({onClick, isBlocked}: { onClick(): void; isBlocked: boolean; }) {
+export function BlockButton({ onClick, isBlocked }: { onClick(): void; isBlocked: boolean; }) {
     return (
         <Tooltip text={`${isBlocked ? "Unblock" : "Block"} user`}>
             {props => (

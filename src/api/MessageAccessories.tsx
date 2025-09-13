@@ -7,7 +7,7 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {JSX, ReactNode} from "react";
+import { JSX, ReactNode } from "react";
 
 export type MessageAccessoryFactory = (props: Record<string, any>) => ReactNode;
 export type MessageAccessory = {

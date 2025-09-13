@@ -8,11 +8,11 @@
 
 import "./AddonCard.css";
 
-import {classNameFactory} from "@api/Styles";
-import {AddonBadge} from "@components/settings/PluginBadge";
-import {Switch} from "@components/settings/Switch";
-import {Text, useRef} from "@webpack/common";
-import type {MouseEventHandler, ReactNode} from "react";
+import { classNameFactory } from "@api/Styles";
+import { AddonBadge } from "@components/settings/PluginBadge";
+import { Switch } from "@components/settings/Switch";
+import { Text, useRef } from "@webpack/common";
+import type { MouseEventHandler, ReactNode } from "react";
 
 const cl = classNameFactory("vc-addon-");
 
@@ -51,7 +51,7 @@ export function AddonCard({
 
     return (
         <div
-            className={cl("card", {"card-disabled": disabled})}
+            className={cl("card", { "card-disabled": disabled })}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
         >

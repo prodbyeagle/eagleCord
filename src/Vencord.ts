@@ -142,7 +142,7 @@ async function init() {
 
     if (IS_DEV) {
         const pendingPatches = patches.filter(
-            (p) => !p.all && p.predicate?.() !== false,
+            p => !p.all && p.predicate?.() !== false,
         );
         if (pendingPatches.length)
             PMLogger.warn(
@@ -153,7 +153,7 @@ async function init() {
                 "\nThe following patches have not been applied:",
                 "\n\n" +
                     pendingPatches
-                        .map((p) => `${p.plugin}: ${p.find}`)
+                        .map(p => `${p.plugin}: ${p.find}`)
                         .join("\n"),
             );
     }

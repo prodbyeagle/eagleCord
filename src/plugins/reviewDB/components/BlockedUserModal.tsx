@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Logger} from "@utils/Logger";
-import {ModalCloseButton, ModalContent, ModalHeader, ModalRoot, openModal} from "@utils/modal";
-import {useAwaiter} from "@utils/react";
-import {Forms, Tooltip, useState} from "@webpack/common";
+import { Logger } from "@utils/Logger";
+import { ModalCloseButton, ModalContent, ModalHeader, ModalRoot, openModal } from "@utils/modal";
+import { useAwaiter } from "@utils/react";
+import { Forms, Tooltip, useState } from "@webpack/common";
 
-import {Auth} from "../auth";
-import {ReviewDBUser} from "../entities";
-import {fetchBlocks, unblockUser} from "../reviewDbApi";
-import {cl} from "../utils";
+import { Auth } from "../auth";
+import { ReviewDBUser } from "../entities";
+import { fetchBlocks, unblockUser } from "../reviewDbApi";
+import { cl } from "../utils";
 
 function UnblockButton(props: { onClick?(): void; }) {
     return (
@@ -36,7 +36,7 @@ function UnblockButton(props: { onClick?(): void; }) {
     );
 }
 
-function BlockedUser({user, isBusy, setIsBusy}: { user: ReviewDBUser; isBusy: boolean; setIsBusy(v: boolean): void; }) {
+function BlockedUser({ user, isBusy, setIsBusy }: { user: ReviewDBUser; isBusy: boolean; setIsBusy(v: boolean): void; }) {
     const [gone, setGone] = useState(false);
     if (gone) return null;
 
@@ -91,7 +91,7 @@ export function openBlockModal() {
     openModal(modalProps => (
         <ModalRoot {...modalProps}>
             <ModalHeader className={cl("block-modal-header")}>
-                <Forms.FormTitle style={{margin: 0}}>Blocked Users</Forms.FormTitle>
+                <Forms.FormTitle style={{ margin: 0 }}>Blocked Users</Forms.FormTitle>
                 <ModalCloseButton onClick={modalProps.onClose}/>
             </ModalHeader>
             <ModalContent className={cl("block-modal")}>

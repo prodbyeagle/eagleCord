@@ -8,19 +8,19 @@
 
 import "./styles.css";
 
-import {definePluginSettings} from "@api/Settings";
+import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Flex} from "@components/Flex";
-import {CopyIcon, LinkIcon} from "@components/Icons";
-import {Devs} from "@utils/constants";
-import {copyWithToast} from "@utils/misc";
-import definePlugin, {OptionType} from "@utils/types";
-import {ConnectedAccount, User} from "@vencord/discord-types";
-import {findByCodeLazy, findByPropsLazy} from "@webpack";
-import {Tooltip, UserProfileStore} from "@webpack/common";
+import { Flex } from "@components/Flex";
+import { CopyIcon, LinkIcon } from "@components/Icons";
+import { Devs } from "@utils/constants";
+import { copyWithToast } from "@utils/misc";
+import definePlugin, { OptionType } from "@utils/types";
+import { ConnectedAccount, User } from "@vencord/discord-types";
+import { findByCodeLazy, findByPropsLazy } from "@webpack";
+import { Tooltip, UserProfileStore } from "@webpack/common";
 import OpenInAppPlugin from "plugins/openInApp";
 
-import {VerifiedIcon} from "./VerifiedIcon";
+import { VerifiedIcon } from "./VerifiedIcon";
 
 const useLegacyPlatformType: (platform: string) => string = findByCodeLazy(".TWITTER_LEGACY:");
 const platforms: { get(type: string): ConnectionPlatform; } = findByPropsLazy("isSupported", "getByUrl");
@@ -45,9 +45,9 @@ const settings = definePluginSettings({
         description: "Icon margin",
         default: Spacing.COZY,
         options: [
-            {label: "Compact", value: Spacing.COMPACT},
-            {label: "Cozy", value: Spacing.COZY}, // US Spelling :/
-            {label: "Roomy", value: Spacing.ROOMY}
+            { label: "Compact", value: Spacing.COMPACT },
+            { label: "Cozy", value: Spacing.COZY }, // US Spelling :/
+            { label: "Roomy", value: Spacing.ROOMY }
         ]
     }
 });
@@ -66,10 +66,10 @@ const profilePopoutComponent = ErrorBoundary.wrap(
             theme={getProfileThemeProps(props).theme}
         />
     ),
-    {noop: true}
+    { noop: true }
 );
 
-function ConnectionsComponent({id, theme}: { id: string, theme: string; }) {
+function ConnectionsComponent({ id, theme }: { id: string, theme: string; }) {
     const profile = UserProfileStore.getUserProfile(id);
     if (!profile)
         return null;
@@ -89,7 +89,7 @@ function ConnectionsComponent({id, theme}: { id: string, theme: string; }) {
     );
 }
 
-function CompactConnectionComponent({connection, theme}: { connection: ConnectedAccount, theme: string; }) {
+function CompactConnectionComponent({ connection, theme }: { connection: ConnectedAccount, theme: string; }) {
     const platform = platforms.get(useLegacyPlatformType(connection.type));
     const url = platform.getPlatformUserUrl?.(connection);
 

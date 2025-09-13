@@ -7,11 +7,11 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import {findComponentByCodeLazy} from "@webpack";
-import {UserStore, useStateFromStores} from "@webpack/common";
-import {ReactNode} from "react";
+import { findComponentByCodeLazy } from "@webpack";
+import { UserStore, useStateFromStores } from "@webpack/common";
+import { ReactNode } from "react";
 
 const UserMentionComponent = findComponentByCodeLazy(".USER_MENTION)");
 
@@ -50,6 +50,6 @@ export default definePlugin({
             channelId={props.channelId}
         />;
     }, {
-        fallback: ({wrappedProps: {originalComponent}}) => originalComponent()
+        fallback: ({ wrappedProps: { originalComponent } }) => originalComponent()
     })
 });

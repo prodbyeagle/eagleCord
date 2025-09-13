@@ -6,15 +6,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings, Settings} from "@api/Settings";
-import {getUserSettingLazy} from "@api/UserSettings";
+import { definePluginSettings, Settings } from "@api/Settings";
+import { getUserSettingLazy } from "@api/UserSettings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Flex} from "@components/Flex";
-import {Devs} from "@utils/constants";
-import {Margins} from "@utils/margins";
-import definePlugin, {OptionType} from "@utils/types";
-import {findStoreLazy} from "@webpack";
-import {Button, Forms, showToast, TextInput, Toasts, Tooltip, useEffect, useState} from "@webpack/common";
+import { Flex } from "@components/Flex";
+import { Devs } from "@utils/constants";
+import { Margins } from "@utils/margins";
+import definePlugin, { OptionType } from "@utils/types";
+import { findStoreLazy } from "@webpack";
+import { Button, Forms, showToast, TextInput, Toasts, Tooltip, useEffect, useState } from "@webpack/common";
 
 const enum ActivitiesTypes {
     Game,
@@ -69,7 +69,7 @@ const ToggleIconOff = (activity: IgnoredActivity, fill: string) => ToggleIcon(ac
 
 function ToggleActivityComponent(activity: IgnoredActivity, isPlaying = false) {
     const s = settings.use(["ignoredActivities"]);
-    const {ignoredActivities} = s;
+    const { ignoredActivities } = s;
 
     if (ignoredActivities.some(act => act.id === activity.id)) return ToggleIconOff(activity, "var(--status-danger)");
     return ToggleIconOn(activity, isPlaying ? "var(--green-300)" : "var(--interactive-normal)");
@@ -332,7 +332,7 @@ export default definePlugin({
     renderToggleGameActivityButton(props: { id?: string; name: string, exePath: string; }, nowPlaying: boolean) {
         return (
             <ErrorBoundary noop>
-                <div style={{marginLeft: 12, zIndex: 0}}>
+                <div style={{ marginLeft: 12, zIndex: 0 }}>
                     {ToggleActivityComponent({
                         id: props.id ?? props.exePath,
                         name: props.name,
@@ -346,7 +346,7 @@ export default definePlugin({
     renderToggleActivityButton(props: { id: string; name: string; }) {
         return (
             <ErrorBoundary noop>
-                {ToggleActivityComponent({id: props.id, name: props.name, type: ActivitiesTypes.Embedded})}
+                {ToggleActivityComponent({ id: props.id, name: props.name, type: ActivitiesTypes.Embedded })}
             </ErrorBoundary>
         );
     }

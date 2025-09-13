@@ -14,11 +14,11 @@ import { moment } from "@webpack/common";
 export const wordsFromCamel = (text: string) =>
     text
         .split(/(?=[A-Z][a-z])|(?<=[a-z])(?=[A-Z])/)
-        .map((w) => (/^[A-Z]{2,}$/.test(w) ? w : w.toLowerCase()));
+        .map(w => (/^[A-Z]{2,}$/.test(w) ? w : w.toLowerCase()));
 export const wordsFromSnake = (text: string) => text.toLowerCase().split("_");
 export const wordsFromKebab = (text: string) => text.toLowerCase().split("-");
 export const wordsFromPascal = (text: string) =>
-    text.split(/(?=[A-Z])/).map((w) => w.toLowerCase());
+    text.split(/(?=[A-Z])/).map(w => w.toLowerCase());
 export const wordsFromTitle = (text: string) => text.toLowerCase().split(" ");
 
 // Words to case style
@@ -27,9 +27,9 @@ export const wordsToCamel = (words: string[]) =>
 export const wordsToSnake = (words: string[]) => words.join("_").toUpperCase();
 export const wordsToKebab = (words: string[]) => words.join("-").toLowerCase();
 export const wordsToPascal = (words: string[]) =>
-    words.map((w) => w[0].toUpperCase() + w.slice(1)).join("");
+    words.map(w => w[0].toUpperCase() + w.slice(1)).join("");
 export const wordsToTitle = (words: string[]) =>
-    words.map((w) => w[0].toUpperCase() + w.slice(1)).join(" ");
+    words.map(w => w[0].toUpperCase() + w.slice(1)).join(" ");
 
 const units = [
     "years",
@@ -61,7 +61,7 @@ export function formatDuration(
 ) {
     const dur = moment.duration(time, unit);
 
-    let unitsAmounts = units.map((unit) => ({ amount: dur[unit](), unit }));
+    let unitsAmounts = units.map(unit => ({ amount: dur[unit](), unit }));
 
     let amountsToBeRemoved = 0;
 
@@ -120,7 +120,7 @@ export function humanFriendlyJoin<T>(
 ): string;
 export function humanFriendlyJoin(
     elements: any[],
-    mapper: (e: any) => string = (s) => s,
+    mapper: (e: any) => string = s => s,
 ): string {
     const { length } = elements;
     if (length === 0) return "";

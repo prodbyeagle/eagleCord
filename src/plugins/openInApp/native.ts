@@ -14,7 +14,7 @@ const validRedirectUrls = /^https:\/\/(spotify\.link|s\.team)\/.+$/;
 
 function getRedirect(url: string) {
     return new Promise<string>((resolve, reject) => {
-        const req = request(new URL(url), { method: "HEAD" }, (res) => {
+        const req = request(new URL(url), { method: "HEAD" }, res => {
             resolve(
                 res.headers.location ? getRedirect(res.headers.location) : url,
             );

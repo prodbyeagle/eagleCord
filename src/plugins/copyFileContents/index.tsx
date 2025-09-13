@@ -9,11 +9,11 @@
 import "./style.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {CopyIcon, NoEntrySignIcon} from "@components/Icons";
-import {Devs} from "@utils/constants";
-import {copyWithToast} from "@utils/misc";
+import { CopyIcon, NoEntrySignIcon } from "@components/Icons";
+import { Devs } from "@utils/constants";
+import { copyWithToast } from "@utils/misc";
 import definePlugin from "@utils/types";
-import {Tooltip, useState} from "@webpack/common";
+import { Tooltip, useState } from "@webpack/common";
 
 const CheckMarkIcon = () => {
     return <svg width="24" height="24" viewBox="0 0 24 24">
@@ -36,7 +36,7 @@ export default definePlugin({
         }
     ],
 
-    addCopyButton: ErrorBoundary.wrap(({fileContents, bytesLeft}: { fileContents: string, bytesLeft: number; }) => {
+    addCopyButton: ErrorBoundary.wrap(({ fileContents, bytesLeft }: { fileContents: string, bytesLeft: number; }) => {
         const [recentlyCopied, setRecentlyCopied] = useState(false);
 
         return (
@@ -61,5 +61,5 @@ export default definePlugin({
                 )}
             </Tooltip>
         );
-    }, {noop: true}),
+    }, { noop: true }),
 });

@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-export function VoiceIcon({className}: { className?: string; }) {
+export function VoiceIcon({ className }: { className?: string; }) {
     return (
         <svg viewBox="0 0 32 32" fill="currentColor" className={className}>
             <path

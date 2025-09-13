@@ -69,7 +69,7 @@ export default definePlugin({
                 settings.store.channelToAffect === "user_dm") ||
             (settings.store.allowMentions &&
                 message.mentions.some(
-                    (m) => m.id === UserStore.getCurrentUser().id,
+                    m => m.id === UserStore.getCurrentUser().id,
                 )) ||
             (settings.store.allowEveryone && message.mention_everyone)
         ) {

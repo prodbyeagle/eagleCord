@@ -9,12 +9,12 @@
 import "./style.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
+import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import type {Message} from "@vencord/discord-types";
-import {findByPropsLazy} from "@webpack";
-import {DateUtils, Timestamp} from "@webpack/common";
-import type {HTMLAttributes} from "react";
+import type { Message } from "@vencord/discord-types";
+import { findByPropsLazy } from "@webpack";
+import { DateUtils, Timestamp } from "@webpack/common";
+import type { HTMLAttributes } from "react";
 
 const MessageClasses = findByPropsLazy("separator", "latin24CompactTimeStamp");
 
@@ -74,5 +74,5 @@ export default definePlugin({
         }
     ],
 
-    ReplyTimestamp: ErrorBoundary.wrap(ReplyTimestamp, {noop: true}),
+    ReplyTimestamp: ErrorBoundary.wrap(ReplyTimestamp, { noop: true }),
 });

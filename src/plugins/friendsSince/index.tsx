@@ -7,11 +7,11 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import {getCurrentChannel} from "@utils/discord";
+import { Devs } from "@utils/constants";
+import { getCurrentChannel } from "@utils/discord";
 import definePlugin from "@utils/types";
-import {findByCodeLazy, findByPropsLazy, findComponentByCodeLazy} from "@webpack";
-import {RelationshipStore, Text} from "@webpack/common";
+import { findByCodeLazy, findByPropsLazy, findComponentByCodeLazy } from "@webpack";
+import { RelationshipStore, Text } from "@webpack/common";
 
 const containerWrapper = findByPropsLazy("memberSinceWrapper");
 const container = findByPropsLazy("memberSince");
@@ -50,7 +50,7 @@ export default definePlugin({
         }
     ],
 
-    FriendsSinceComponent: ErrorBoundary.wrap(({userId, isSidebar}: { userId: string; isSidebar: boolean; }) => {
+    FriendsSinceComponent: ErrorBoundary.wrap(({ userId, isSidebar }: { userId: string; isSidebar: boolean; }) => {
         if (!RelationshipStore.isFriend(userId)) return null;
 
         const friendsSince = RelationshipStore.getSince(userId);
@@ -88,5 +88,5 @@ export default definePlugin({
                 }
             </Section>
         );
-    }, {noop: true}),
+    }, { noop: true }),
 });

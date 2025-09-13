@@ -44,7 +44,7 @@ export default definePlugin({
             inputType: ApplicationCommandInputType.BUILT_IN,
             execute: async (_, ctx) => {
                 const invites = await FriendInvites.getAllFriendInvites();
-                const friendInviteList = invites.map((i) =>
+                const friendInviteList = invites.map(i =>
                     `
                     _discord.gg/${i.code}_ ·
                     Expires: <t:${new Date(i.expires_at).getTime() / 1000}:R> ·

@@ -7,7 +7,7 @@ const handleClick = async () =>
 export const Example: React.FC<{
     real: boolean,
     shigged?: number,
-}> = ({real, shigged}) => <>
+}> = ({ real, shigged }) => <>
     <p>{`Shigg${real ? `ies${shigged === 0x1B ? "t" : ""}` : "y"}`}</p>
     <button onClick={handleClick}>Click Me</button>
 </>;

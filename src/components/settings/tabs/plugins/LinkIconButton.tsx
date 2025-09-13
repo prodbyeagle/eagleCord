@@ -8,9 +8,9 @@
 
 import "./LinkIconButton.css";
 
-import {GithubIcon, WebsiteIcon} from "@components/Icons";
-import {getTheme, Theme} from "@utils/discord";
-import {MaskedLink, Tooltip} from "@webpack/common";
+import { GithubIcon, WebsiteIcon } from "@components/Icons";
+import { getTheme, Theme } from "@utils/discord";
+import { MaskedLink, Tooltip } from "@webpack/common";
 
 export function GithubLinkIcon() {
     const theme = getTheme() === Theme.Light ? "#000000" : "#FFFFFF";
@@ -27,7 +27,7 @@ interface Props {
     href: string;
 }
 
-function LinkIcon({text, href, Icon}: Props & { Icon: React.ComponentType; }) {
+function LinkIcon({ text, href, Icon }: Props & { Icon: React.ComponentType; }) {
     return (
         <Tooltip text={text}>
             {props => (

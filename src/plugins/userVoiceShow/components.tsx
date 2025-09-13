@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {classNameFactory} from "@api/Styles";
+import { classNameFactory } from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {classes} from "@utils/misc";
-import {Channel} from "@vencord/discord-types";
-import {filters, findByCodeLazy, findByPropsLazy, findComponentByCodeLazy, mapMangledModuleLazy} from "@webpack";
+import { classes } from "@utils/misc";
+import { Channel } from "@vencord/discord-types";
+import { filters, findByCodeLazy, findByPropsLazy, findComponentByCodeLazy, mapMangledModuleLazy } from "@webpack";
 import {
     ChannelRouter,
     ChannelStore,
@@ -34,8 +34,8 @@ import {
 
 const cl = classNameFactory("vc-uvs-");
 
-const {selectVoiceChannel} = findByPropsLazy("selectVoiceChannel", "selectChannel");
-const {useChannelName} = mapMangledModuleLazy("#{intl::GROUP_DM_ALONE}", {
+const { selectVoiceChannel } = findByPropsLazy("selectVoiceChannel", "selectChannel");
+const { useChannelName } = mapMangledModuleLazy("#{intl::GROUP_DM_ALONE}", {
     useChannelName: filters.byCode("()=>null==")
 });
 const getDMChannelIcon = findByCodeLazy(".getChannelIconURL({");
@@ -104,7 +104,7 @@ interface VoiceChannelTooltipProps {
     isLocked: boolean;
 }
 
-function VoiceChannelTooltip({channel, isLocked}: VoiceChannelTooltipProps) {
+function VoiceChannelTooltip({ channel, isLocked }: VoiceChannelTooltipProps) {
     const voiceStates = useStateFromStores([VoiceStateStore], () => VoiceStateStore.getVoiceStatesForChannel(channel.id));
 
     const users = useMemo(
@@ -223,4 +223,4 @@ export const VoiceChannelIndicator = ErrorBoundary.wrap(({
             }}
         </Tooltip>
     );
-}, {noop: true});
+}, { noop: true });

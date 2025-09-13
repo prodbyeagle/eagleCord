@@ -83,7 +83,7 @@ export function _getBadges(args: BadgeUserArgs) {
         }
 
         const b = badge.getBadges
-            ? badge.getBadges(args).map((badge) => ({
+            ? badge.getBadges(args).map(badge => ({
                   ...args,
                   ...badge,
                   component:
@@ -102,7 +102,7 @@ export function _getBadges(args: BadgeUserArgs) {
     const donorBadges = BadgeAPIPlugin.getDonorBadges(args.userId);
     if (donorBadges) {
         badges.unshift(
-            ...donorBadges.map((badge) => ({
+            ...donorBadges.map(badge => ({
                 ...args,
                 ...badge,
             })),

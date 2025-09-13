@@ -8,16 +8,16 @@
 
 import "./style.css";
 
-import {addProfileBadge, BadgePosition, BadgeUserArgs, ProfileBadge, removeProfileBadge} from "@api/Badges";
-import {addMemberListDecorator, removeMemberListDecorator} from "@api/MemberListDecorators";
-import {addMessageDecoration, removeMessageDecoration} from "@api/MessageDecorations";
-import {Settings} from "@api/Settings";
+import { addProfileBadge, BadgePosition, BadgeUserArgs, ProfileBadge, removeProfileBadge } from "@api/Badges";
+import { addMemberListDecorator, removeMemberListDecorator } from "@api/MemberListDecorators";
+import { addMessageDecoration, removeMessageDecoration } from "@api/MessageDecorations";
+import { Settings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
-import {User} from "@vencord/discord-types";
-import {filters, findStoreLazy, mapMangledModuleLazy} from "@webpack";
-import {PresenceStore, Tooltip, UserStore} from "@webpack/common";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
+import { User } from "@vencord/discord-types";
+import { filters, findStoreLazy, mapMangledModuleLazy } from "@webpack";
+import { PresenceStore, Tooltip, UserStore } from "@webpack/common";
 
 export interface Session {
     sessionId: string;
@@ -35,7 +35,7 @@ const SessionsStore = findStoreLazy("SessionsStore") as {
 };
 
 function Icon(path: string, opts?: { viewBox?: string; width?: number; height?: number; }) {
-    return ({color, tooltip, small}: { color: string; tooltip: string; small: boolean; }) => (
+    return ({ color, tooltip, small }: { color: string; tooltip: string; small: boolean; }) => (
         <Tooltip text={tooltip}>
             {(tooltipProps: any) => (
                 <svg
@@ -60,15 +60,15 @@ const Icons = {
         height: 17,
         width: 17
     }),
-    embedded: Icon("M14.8 2.7 9 3.1V47h3.3c1.7 0 6.2.3 10 .7l6.7.6V2l-4.2.2c-2.4.1-6.9.3-10 .5zm1.8 6.4c1 1.7-1.3 3.6-2.7 2.2C12.7 10.1 13.5 8 15 8c.5 0 1.2.5 1.6 1.1zM16 33c0 6-.4 10-1 10s-1-4-1-10 .4-10 1-10 1 4 1 10zm15-8v23.3l3.8-.7c2-.3 4.7-.6 6-.6H43V3h-2.2c-1.3 0-4-.3-6-.6L31 1.7V25z", {viewBox: "0 0 50 50"}),
+    embedded: Icon("M14.8 2.7 9 3.1V47h3.3c1.7 0 6.2.3 10 .7l6.7.6V2l-4.2.2c-2.4.1-6.9.3-10 .5zm1.8 6.4c1 1.7-1.3 3.6-2.7 2.2C12.7 10.1 13.5 8 15 8c.5 0 1.2.5 1.6 1.1zM16 33c0 6-.4 10-1 10s-1-4-1-10 .4-10 1-10 1 4 1 10zm15-8v23.3l3.8-.7c2-.3 4.7-.6 6-.6H43V3h-2.2c-1.3 0-4-.3-6-.6L31 1.7V25z", { viewBox: "0 0 50 50" }),
 };
 type Platform = keyof typeof Icons;
 
-const {useStatusFillColor} = mapMangledModuleLazy(".concat(.5625*", {
+const { useStatusFillColor } = mapMangledModuleLazy(".concat(.5625*", {
     useStatusFillColor: filters.byCode(".hex")
 });
 
-const PlatformIcon = ({platform, status, small}: { platform: Platform, status: string; small: boolean; }) => {
+const PlatformIcon = ({ platform, status, small }: { platform: Platform, status: string; small: boolean; }) => {
     const tooltip = platform === "embedded"
         ? "Console"
         : platform[0].toUpperCase() + platform.slice(1);
@@ -82,7 +82,7 @@ function ensureOwnStatus(user: User) {
     if (user.id === UserStore.getCurrentUser().id) {
         const sessions = SessionsStore.getSessions();
         if (typeof sessions !== "object") return null;
-        const sortedSessions = Object.values(sessions).sort(({status: a}, {status: b}) => {
+        const sortedSessions = Object.values(sessions).sort(({ status: a }, { status: b }) => {
             if (a === b) return 0;
             if (a === "online") return 1;
             if (b === "online") return -1;
@@ -97,12 +97,12 @@ function ensureOwnStatus(user: User) {
             return acc;
         }, {});
 
-        const {clientStatuses} = PresenceStore.getState();
+        const { clientStatuses } = PresenceStore.getState();
         clientStatuses[UserStore.getCurrentUser().id] = ownStatus;
     }
 }
 
-function getBadges({userId}: BadgeUserArgs): ProfileBadge[] {
+function getBadges({ userId }: BadgeUserArgs): ProfileBadge[] {
     const user = UserStore.getUser(userId);
 
     if (!user || user.bot) return [];
@@ -127,7 +127,7 @@ function getBadges({userId}: BadgeUserArgs): ProfileBadge[] {
     }));
 }
 
-const PlatformIndicator = ({user, small = false}: { user: User; small?: boolean; }) => {
+const PlatformIndicator = ({ user, small = false }: { user: User; small?: boolean; }) => {
     if (!user || user.bot) return null;
 
     ensureOwnStatus(user);
@@ -149,7 +149,7 @@ const PlatformIndicator = ({user, small = false}: { user: User; small?: boolean;
     return (
         <span
             className="vc-platform-indicator"
-            style={{gap: "2px"}}
+            style={{ gap: "2px" }}
         >
             {icons}
         </span>
@@ -195,7 +195,7 @@ export default definePlugin({
 
     start() {
         const settings = Settings.plugins.PlatformIndicators;
-        const {displayMode} = settings;
+        const { displayMode } = settings;
 
         // transfer settings from the old ones, which had a select menu instead of booleans
         if (displayMode) {

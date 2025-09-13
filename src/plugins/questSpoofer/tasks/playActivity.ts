@@ -27,7 +27,7 @@ export async function spoofPlayActivityQuest(
 
     const vcId =
         ChannelStore.getSortedPrivateChannels()[0]?.id ??
-        Object.values(guilds).find((g) => (g.VOCAL ?? []).length > 0)
+        Object.values(guilds).find(g => (g.VOCAL ?? []).length > 0)
             ?.VOCAL?.[0]?.channel?.id;
 
     if (!vcId) {
@@ -65,7 +65,7 @@ export async function spoofPlayActivityQuest(
                 break;
             }
 
-            await new Promise((r) => setTimeout(r, 20_000));
+            await new Promise(r => setTimeout(r, 20_000));
         }
     })();
 

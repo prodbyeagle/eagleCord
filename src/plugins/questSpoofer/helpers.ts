@@ -33,7 +33,7 @@ export async function fetchQuests() {
         const res = await RestAPI.get({ url: "/quests/@me" });
         const quests = res.body?.quests ?? [];
 
-        return quests.filter((q) => {
+        return quests.filter(q => {
             const userStatus = q.user_status;
             if (!userStatus) return false;
             if (userStatus.completed_at) return false;

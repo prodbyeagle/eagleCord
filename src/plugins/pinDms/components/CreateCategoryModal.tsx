@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {classNameFactory} from "@api/Styles";
-import {ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, openModalLazy} from "@utils/modal";
-import {extractAndLoadChunksLazy, findComponentByCodeLazy} from "@webpack";
-import {Button, ColorPicker, Forms, Text, TextInput, Toasts, useMemo, useState} from "@webpack/common";
+import { classNameFactory } from "@api/Styles";
+import { ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, openModalLazy } from "@utils/modal";
+import { extractAndLoadChunksLazy, findComponentByCodeLazy } from "@webpack";
+import { Button, ColorPicker, Forms, Text, TextInput, Toasts, useMemo, useState } from "@webpack/common";
 
-import {DEFAULT_COLOR, SWATCHES} from "../constants";
-import {categoryLen, createCategory, getCategory} from "../data";
+import { DEFAULT_COLOR, SWATCHES } from "../constants";
+import { categoryLen, createCategory, getCategory } from "../data";
 
 interface ColorPickerWithSwatchesProps {
     defaultColor: number;
@@ -56,7 +56,7 @@ function useCategory(categoryId: string | null, initalChannelId: string | null) 
     return category;
 }
 
-export function NewCategoryModal({categoryId, modalProps, initialChannelId}: Props) {
+export function NewCategoryModal({ categoryId, modalProps, initialChannelId }: Props) {
     const category = useCategory(categoryId, initialChannelId);
     if (!category) return null;
 
@@ -79,7 +79,7 @@ export function NewCategoryModal({categoryId, modalProps, initialChannelId}: Pro
     return (
         <ModalRoot {...modalProps}>
             <ModalHeader>
-                <Text variant="heading-lg/semibold" style={{flexGrow: 1}}>{categoryId ? "Edit" : "New"} Category</Text>
+                <Text variant="heading-lg/semibold" style={{ flexGrow: 1 }}>{categoryId ? "Edit" : "New"} Category</Text>
             </ModalHeader>
 
             {/* form is here so when you press enter while in the text input it submits */}

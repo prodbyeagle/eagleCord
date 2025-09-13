@@ -46,7 +46,7 @@ for (const method of [
         Reflect[method](target[SYM_LAZY_GET](), ...args);
 }
 
-handler.ownKeys = (target) => {
+handler.ownKeys = target => {
     const v = target[SYM_LAZY_GET]();
     const keys = Reflect.ownKeys(v);
     for (const key of unconfigurable) {

@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {useTimer} from "@utils/react";
-import {findComponentByCodeLazy} from "@webpack";
+import { useTimer } from "@utils/react";
+import { findComponentByCodeLazy } from "@webpack";
 
-import {cl} from "./utils";
+import { cl } from "./utils";
 
 interface VoiceMessageProps {
     src: string;

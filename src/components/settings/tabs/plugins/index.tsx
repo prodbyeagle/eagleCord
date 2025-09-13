@@ -9,15 +9,15 @@
 import "./styles.css";
 
 import * as DataStore from "@api/DataStore";
-import {useSettings} from "@api/Settings";
-import {classNameFactory} from "@api/Styles";
-import {SettingsTab, wrapTab} from "@components/settings/tabs/BaseTab";
-import {ChangeList} from "@utils/ChangeList";
-import {Logger} from "@utils/Logger";
-import {Margins} from "@utils/margins";
-import {classes} from "@utils/misc";
-import {useAwaiter, useCleanupEffect} from "@utils/react";
-import {findByPropsLazy} from "@webpack";
+import { useSettings } from "@api/Settings";
+import { classNameFactory } from "@api/Styles";
+import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
+import { ChangeList } from "@utils/ChangeList";
+import { Logger } from "@utils/Logger";
+import { Margins } from "@utils/margins";
+import { classes } from "@utils/misc";
+import { useAwaiter, useCleanupEffect } from "@utils/react";
+import { findByPropsLazy } from "@webpack";
 import {
     Alerts,
     Button,
@@ -33,18 +33,18 @@ import {
     useMemo,
     useState
 } from "@webpack/common";
-import {JSX} from "react";
+import { JSX } from "react";
 
-import Plugins, {ExcludedPlugins} from "~plugins";
+import Plugins, { ExcludedPlugins } from "~plugins";
 
-import {PluginCard} from "./PluginCard";
+import { PluginCard } from "./PluginCard";
 
 export const cl = classNameFactory("vc-plugins-");
 export const logger = new Logger("PluginSettings", "#a6d189");
 
 const InputStyles = findByPropsLazy("inputWrapper", "inputError", "error");
 
-function ReloadRequiredCard({required}: { required: boolean; }) {
+function ReloadRequiredCard({ required }: { required: boolean; }) {
     return (
         <Card className={classes(cl("info-card"), required && "vc-warning-card")}>
             {required
@@ -77,7 +77,7 @@ const enum SearchStatus {
     NEW
 }
 
-function ExcludedPluginsList({search}: { search: string; }) {
+function ExcludedPluginsList({ search }: { search: string; }) {
     const matching = Object.entries(ExcludedPlugins).filter(([name]) =>
         name.toLowerCase().includes(search)
     );
@@ -164,14 +164,14 @@ function PluginSettings() {
         []
     );
 
-    const [searchValue, setSearchValue] = useState({value: "", status: SearchStatus.ALL});
+    const [searchValue, setSearchValue] = useState({ value: "", status: SearchStatus.ALL });
 
     const search = searchValue.value.toLowerCase();
-    const onSearch = (query: string) => setSearchValue(prev => ({...prev, value: query}));
-    const onStatusChange = (status: SearchStatus) => setSearchValue(prev => ({...prev, status}));
+    const onSearch = (query: string) => setSearchValue(prev => ({ ...prev, value: query }));
+    const onStatusChange = (status: SearchStatus) => setSearchValue(prev => ({ ...prev, status }));
 
     const pluginFilter = (plugin: typeof Plugins[keyof typeof Plugins]) => {
-        const {status} = searchValue;
+        const { status } = searchValue;
         const enabled = Vencord.Plugins.isPluginEnabled(plugin.name);
 
         switch (status) {
@@ -201,7 +201,7 @@ function PluginSettings() {
         const sortedPluginNames = Object.values(sortedPlugins).map(plugin => plugin.name);
 
         const newPlugins: string[] = [];
-        for (const {name: p} of sortedPlugins) {
+        for (const { name: p } of sortedPlugins) {
             const time = existingTimestamps[p] = cachedPlugins?.[p] ?? now;
             if ((time + 60 * 60 * 24 * 2) > now) {
                 newPlugins.push(p);
@@ -231,7 +231,7 @@ function PluginSettings() {
 
             requiredPlugins.push(
                 <Tooltip text={tooltipText} key={p.name}>
-                    {({onMouseLeave, onMouseEnter}) => (
+                    {({ onMouseLeave, onMouseEnter }) => (
                         <PluginCard
                             onMouseLeave={onMouseLeave}
                             onMouseEnter={onMouseEnter}
@@ -270,10 +270,10 @@ function PluginSettings() {
                 <div className={InputStyles.inputWrapper}>
                     <Select
                         options={[
-                            {label: "Show All", value: SearchStatus.ALL, default: true},
-                            {label: "Show Enabled", value: SearchStatus.ENABLED},
-                            {label: "Show Disabled", value: SearchStatus.DISABLED},
-                            {label: "Show New", value: SearchStatus.NEW}
+                            { label: "Show All", value: SearchStatus.ALL, default: true },
+                            { label: "Show Enabled", value: SearchStatus.ENABLED },
+                            { label: "Show Disabled", value: SearchStatus.DISABLED },
+                            { label: "Show New", value: SearchStatus.NEW }
                         ]}
                         serialize={String}
                         select={onStatusChange}

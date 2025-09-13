@@ -8,9 +8,9 @@
 
 import "./iconStyles.css";
 
-import {getIntlMessage} from "@utils/discord";
-import {classes} from "@utils/misc";
-import type {JSX, PropsWithChildren} from "react";
+import { getIntlMessage } from "@utils/discord";
+import { classes } from "@utils/misc";
+import type { JSX, PropsWithChildren } from "react";
 
 interface BaseIconProps extends IconProps {
     viewBox: string;
@@ -18,7 +18,7 @@ interface BaseIconProps extends IconProps {
 
 type IconProps = JSX.IntrinsicElements["svg"];
 
-function Icon({height = 24, width = 24, className, children, viewBox, ...svgProps}: PropsWithChildren<BaseIconProps>) {
+function Icon({ height = 24, width = 24, className, children, viewBox, ...svgProps }: PropsWithChildren<BaseIconProps>) {
     return (
         <svg
             className={classes(className, "vc-icon")}
@@ -36,7 +36,7 @@ function Icon({height = 24, width = 24, className, children, viewBox, ...svgProp
 /**
  * Discord's link icon, as seen in the Message context menu "Copy Message Link" option
  */
-export function LinkIcon({height = 24, width = 24, className}: IconProps) {
+export function LinkIcon({ height = 24, width = 24, className }: IconProps) {
     return (
         <Icon
             height={height}

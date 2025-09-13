@@ -8,9 +8,9 @@
 
 import "./QuickAction.css";
 
-import {classNameFactory} from "@api/Styles";
-import {Card} from "@webpack/common";
-import type {ComponentType, PropsWithChildren, ReactNode} from "react";
+import { classNameFactory } from "@api/Styles";
+import { Card } from "@webpack/common";
+import type { ComponentType, PropsWithChildren, ReactNode } from "react";
 
 const cl = classNameFactory("vc-settings-quickActions-");
 
@@ -22,7 +22,7 @@ export interface QuickActionProps {
 }
 
 export function QuickAction(props: QuickActionProps) {
-    const {Icon, action, text, disabled} = props;
+    const { Icon, action, text, disabled } = props;
 
     return (
         <button className={cl("pill")} onClick={action} disabled={disabled}>

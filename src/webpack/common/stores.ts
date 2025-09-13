@@ -53,28 +53,28 @@ export let StreamerModeStore: t.StreamerModeStore;
 export const useStateFromStores: t.useStateFromStores =
     findByCodeLazy("useStateFromStores");
 
-waitForStore("AuthenticationStore", (s) => (AuthenticationStore = s));
-waitForStore("DraftStore", (s) => (DraftStore = s));
-waitForStore("UserStore", (s) => (UserStore = s));
-waitForStore("UserProfileStore", (m) => (UserProfileStore = m));
-waitForStore("ChannelStore", (m) => (ChannelStore = m));
-waitForStore("SelectedChannelStore", (m) => (SelectedChannelStore = m));
-waitForStore("SelectedGuildStore", (m) => (SelectedGuildStore = m));
-waitForStore("GuildStore", (m) => (GuildStore = m));
-waitForStore("GuildMemberStore", (m) => (GuildMemberStore = m));
-waitForStore("RelationshipStore", (m) => (RelationshipStore = m));
-waitForStore("PermissionStore", (m) => (PermissionStore = m));
-waitForStore("PresenceStore", (m) => (PresenceStore = m));
-waitForStore("ReadStateStore", (m) => (ReadStateStore = m));
-waitForStore("GuildChannelStore", (m) => (GuildChannelStore = m));
-waitForStore("GuildRoleStore", (m) => (GuildRoleStore = m));
-waitForStore("MessageStore", (m) => (MessageStore = m));
-waitForStore("WindowStore", (m) => (WindowStore = m));
-waitForStore("EmojiStore", (m) => (EmojiStore = m));
-waitForStore("StickersStore", (m) => (StickersStore = m));
-waitForStore("TypingStore", (m) => (TypingStore = m));
-waitForStore("VoiceStateStore", (m) => (VoiceStateStore = m));
-waitForStore("ThemeStore", (m) => {
+waitForStore("AuthenticationStore", s => (AuthenticationStore = s));
+waitForStore("DraftStore", s => (DraftStore = s));
+waitForStore("UserStore", s => (UserStore = s));
+waitForStore("UserProfileStore", m => (UserProfileStore = m));
+waitForStore("ChannelStore", m => (ChannelStore = m));
+waitForStore("SelectedChannelStore", m => (SelectedChannelStore = m));
+waitForStore("SelectedGuildStore", m => (SelectedGuildStore = m));
+waitForStore("GuildStore", m => (GuildStore = m));
+waitForStore("GuildMemberStore", m => (GuildMemberStore = m));
+waitForStore("RelationshipStore", m => (RelationshipStore = m));
+waitForStore("PermissionStore", m => (PermissionStore = m));
+waitForStore("PresenceStore", m => (PresenceStore = m));
+waitForStore("ReadStateStore", m => (ReadStateStore = m));
+waitForStore("GuildChannelStore", m => (GuildChannelStore = m));
+waitForStore("GuildRoleStore", m => (GuildRoleStore = m));
+waitForStore("MessageStore", m => (MessageStore = m));
+waitForStore("WindowStore", m => (WindowStore = m));
+waitForStore("EmojiStore", m => (EmojiStore = m));
+waitForStore("StickersStore", m => (StickersStore = m));
+waitForStore("TypingStore", m => (TypingStore = m));
+waitForStore("VoiceStateStore", m => (VoiceStateStore = m));
+waitForStore("ThemeStore", m => {
     ThemeStore = m;
     // Importing this directly can easily cause circular imports. For this reason, use a non import access here.
     Vencord.QuickCss.initQuickCssThemeStore();

@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type {IThemedToken} from "@vap/shiki";
-import {hljs} from "@webpack/common";
-import {JSX} from "react";
+import type { IThemedToken } from "@vap/shiki";
+import { hljs } from "@webpack/common";
+import { JSX } from "react";
 
-import {cl} from "../utils/misc";
-import {ThemeBase} from "./Highlighter";
+import { cl } from "../utils/misc";
+import { ThemeBase } from "./Highlighter";
 
 export interface CodeProps {
     theme: ThemeBase;
@@ -32,10 +32,10 @@ export const Code = ({
 
     if (useHljs) {
         try {
-            const {value: hljsHtml} = hljs.highlight(content, {language: lang!, ignoreIllegals: true});
+            const { value: hljsHtml } = hljs.highlight(content, { language: lang!, ignoreIllegals: true });
             lines = hljsHtml
                 .split("\n")
-                .map((line, i) => <span key={i} dangerouslySetInnerHTML={{__html: line}}/>);
+                .map((line, i) => <span key={i} dangerouslySetInnerHTML={{ __html: line }}/>);
         } catch {
             lines = content.split("\n").map((line, idx) => <span key={idx}>{line}</span>);
         }
@@ -44,7 +44,7 @@ export const Code = ({
             tokens ??
             content
                 .split("\n")
-                .map(line => [{color: theme.plainColor, content: line} as IThemedToken]);
+                .map(line => [{ color: theme.plainColor, content: line } as IThemedToken]);
 
         lines = renderTokens.map((line, idx) => {
             // [Cynthia] this makes it so when you highlight the codeblock
@@ -55,7 +55,7 @@ export const Code = ({
 
             return (
                 <>
-                    {line.map(({content, color, fontStyle}, i) => (
+                    {line.map(({ content, color, fontStyle }, i) => (
                         <span
                             key={i}
                             style={{
@@ -75,7 +75,7 @@ export const Code = ({
 
     const codeTableRows = lines.map((line, i) => (
         <tr className={cl("table-row")} key={i}>
-            <td className={cl("table-cell")} style={{color: theme.plainColor}}>{i + 1}</td>
+            <td className={cl("table-cell")} style={{ color: theme.plainColor }}>{i + 1}</td>
             <td className={cl("table-cell")}>{line}</td>
         </tr>
     ));

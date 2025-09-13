@@ -7,15 +7,15 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {getIntlMessage} from "@utils/discord";
-import {classes} from "@utils/misc";
-import type {Guild, GuildMember} from "@vencord/discord-types";
-import {filters, findBulk, proxyLazyWebpack} from "@webpack";
-import {PermissionsBits, Text, Tooltip, useMemo, UserStore} from "@webpack/common";
+import { getIntlMessage } from "@utils/discord";
+import { classes } from "@utils/misc";
+import type { Guild, GuildMember } from "@vencord/discord-types";
+import { filters, findBulk, proxyLazyWebpack } from "@webpack";
+import { PermissionsBits, Text, Tooltip, useMemo, UserStore } from "@webpack/common";
 
-import {PermissionsSortOrder, settings} from "..";
-import {cl, getGuildPermissionSpecMap, getSortedRolesForMember, sortUserRoles} from "../utils";
-import openRolesAndUsersPermissionsModal, {PermissionType, type RoleOrUserPermission} from "./RolesAndUsersPermissions";
+import { PermissionsSortOrder, settings } from "..";
+import { cl, getGuildPermissionSpecMap, getSortedRolesForMember, sortUserRoles } from "../utils";
+import openRolesAndUsersPermissionsModal, { PermissionType, type RoleOrUserPermission } from "./RolesAndUsersPermissions";
 
 interface UserPermission {
     permission: string;
@@ -26,14 +26,14 @@ interface UserPermission {
 
 type UserPermissions = Array<UserPermission>;
 
-const {RoleRootClasses, RoleClasses, RoleBorderClasses} = proxyLazyWebpack(() => {
+const { RoleRootClasses, RoleClasses, RoleBorderClasses } = proxyLazyWebpack(() => {
     const [RoleRootClasses, RoleClasses, RoleBorderClasses] = findBulk(
         filters.byProps("root", "expandButton", "collapseButton"),
         filters.byProps("role", "roleCircle", "roleName"),
         filters.byProps("roleCircle", "dot", "dotBorderColor")
     ) as Record<string, string>[];
 
-    return {RoleRootClasses, RoleClasses, RoleBorderClasses};
+    return { RoleRootClasses, RoleClasses, RoleBorderClasses };
 });
 
 interface FakeRoleProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -41,13 +41,13 @@ interface FakeRoleProps extends React.HTMLAttributes<HTMLDivElement> {
     color: string;
 }
 
-function FakeRole({text, color, ...props}: FakeRoleProps) {
+function FakeRole({ text, color, ...props }: FakeRoleProps) {
     return (
         <div {...props} className={classes(RoleClasses.role)}>
             <div className={RoleClasses.roleRemoveButton}>
                 <span
                     className={classes(RoleBorderClasses.roleCircle, RoleClasses.roleCircle)}
-                    style={{backgroundColor: color}}
+                    style={{ backgroundColor: color }}
                 />
             </div>
             <div className={RoleClasses.roleName}>
@@ -67,7 +67,7 @@ interface GrantedByTooltipProps {
     roleColor: string;
 }
 
-function GrantedByTooltip({roleName, roleColor}: GrantedByTooltipProps) {
+function GrantedByTooltip({ roleName, roleColor }: GrantedByTooltipProps) {
     return (
         <>
             <Text variant="text-sm/medium">Granted By</Text>
@@ -76,12 +76,12 @@ function GrantedByTooltip({roleName, roleColor}: GrantedByTooltipProps) {
     );
 }
 
-function UserPermissionsComponent({guild, guildMember, closePopout}: {
+function UserPermissionsComponent({ guild, guildMember, closePopout }: {
     guild: Guild;
     guildMember: GuildMember;
     closePopout: () => void;
 }) {
-    const {permissionsSortOrder} = settings.use(["permissionsSortOrder"]);
+    const { permissionsSortOrder } = settings.use(["permissionsSortOrder"]);
 
     const guildPermissionSpecMap = useMemo(() => getGuildPermissionSpecMap(guild), [guild.id]);
 
@@ -113,7 +113,7 @@ function UserPermissionsComponent({guild, guildMember, closePopout}: {
         sortUserRoles(userRoles);
 
         for (const bit of Object.values(PermissionsBits)) {
-            for (const {permissions, colorString, position, name} of userRoles) {
+            for (const { permissions, colorString, position, name } of userRoles) {
                 if ((permissions & bit) === bit) {
                     userPermissions.push({
                         permission: guildPermissionSpecMap[String(bit)].title,
@@ -187,7 +187,7 @@ function UserPermissionsComponent({guild, guildMember, closePopout}: {
         </div>
         {userPermissions.length > 0 && (
             <div className={classes(RoleRootClasses.root)}>
-                {userPermissions.map(({permission, roleColor, roleName}) => (
+                {userPermissions.map(({ permission, roleColor, roleName }) => (
                     <Tooltip
                         key={permission}
                         text={<GrantedByTooltip roleName={roleName} roleColor={roleColor}/>}
@@ -204,4 +204,4 @@ function UserPermissionsComponent({guild, guildMember, closePopout}: {
     </div>;
 }
 
-export default ErrorBoundary.wrap(UserPermissionsComponent, {noop: true});
+export default ErrorBoundary.wrap(UserPermissionsComponent, { noop: true });

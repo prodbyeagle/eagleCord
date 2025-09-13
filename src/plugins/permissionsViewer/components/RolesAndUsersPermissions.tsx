@@ -7,13 +7,13 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Flex} from "@components/Flex";
-import {InfoIcon, OwnerCrownIcon} from "@components/Icons";
-import {copyToClipboard} from "@utils/clipboard";
-import {getIntlMessage, getUniqueUsername} from "@utils/discord";
-import {ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal} from "@utils/modal";
-import {Guild, Role, UnicodeEmoji, User} from "@vencord/discord-types";
-import {findByCodeLazy} from "@webpack";
+import { Flex } from "@components/Flex";
+import { InfoIcon, OwnerCrownIcon } from "@components/Icons";
+import { copyToClipboard } from "@utils/clipboard";
+import { getIntlMessage, getUniqueUsername } from "@utils/discord";
+import { ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
+import { Guild, Role, UnicodeEmoji, User } from "@vencord/discord-types";
+import { findByCodeLazy } from "@webpack";
 import {
     ContextMenuApi,
     FluxDispatcher,
@@ -32,9 +32,9 @@ import {
     useStateFromStores
 } from "@webpack/common";
 
-import {settings} from "..";
-import {cl, getGuildPermissionSpecMap} from "../utils";
-import {PermissionAllowedIcon, PermissionDefaultIcon, PermissionDeniedIcon} from "./icons";
+import { settings } from "..";
+import { cl, getGuildPermissionSpecMap } from "../utils";
+import { PermissionAllowedIcon, PermissionDefaultIcon, PermissionDeniedIcon } from "./icons";
 
 export const enum PermissionType {
     Role = 0,
@@ -57,11 +57,11 @@ function getRoleIconSrc(role: Role) {
     const icon = getRoleIconData(role, 20);
     if (!icon) return;
 
-    const {customIconSrc, unicodeEmoji} = icon;
+    const { customIconSrc, unicodeEmoji } = icon;
     return customIconSrc ?? unicodeEmoji?.url;
 }
 
-function RolesAndUsersPermissionsComponent({permissions, guild, modalProps, header}: {
+function RolesAndUsersPermissionsComponent({ permissions, guild, modalProps, header }: {
     permissions: Array<RoleOrUserPermission>;
     guild: Guild;
     modalProps: ModalProps;
@@ -83,7 +83,7 @@ function RolesAndUsersPermissionsComponent({permissions, guild, modalProps, head
     useEffect(() => {
         const usersToRequest = permissions
             .filter(p => p.type === PermissionType.User && !GuildMemberStore.isMember(guild.id, p.id!))
-            .map(({id}) => id);
+            .map(({ id }) => id);
 
         FluxDispatcher.dispatch({
             type: "GUILD_MEMBERS_REQUEST",
@@ -131,7 +131,7 @@ function RolesAndUsersPermissionsComponent({permissions, guild, modalProps, head
                                         tabIndex={0}
                                     >
                                         <div
-                                            className={cl("modal-list-item", {"modal-list-item-active": selectedItemIndex === index})}
+                                            className={cl("modal-list-item", { "modal-list-item-active": selectedItemIndex === index })}
                                             onContextMenu={e => {
                                                 if (permission.type === PermissionType.Role)
                                                     ContextMenuApi.openContextMenu(e, () => (
@@ -153,7 +153,7 @@ function RolesAndUsersPermissionsComponent({permissions, guild, modalProps, head
                                             {(permission.type === PermissionType.Role || permission.type === PermissionType.Owner) && (
                                                 <span
                                                     className={cl("modal-role-circle")}
-                                                    style={{backgroundColor: role?.colorString ?? "var(--primary-300)"}}
+                                                    style={{ backgroundColor: role?.colorString ?? "var(--primary-300)" }}
                                                 />
                                             )}
                                             {permission.type === PermissionType.Role && roleIconSrc != null && (
@@ -175,7 +175,7 @@ function RolesAndUsersPermissionsComponent({permissions, guild, modalProps, head
                                                         : permission.type === PermissionType.User
                                                             ? (user != null && getUniqueUsername(user)) ?? "Unknown User"
                                                             : (
-                                                                <Flex style={{gap: "0.2em", justifyItems: "center"}}>
+                                                                <Flex style={{ gap: "0.2em", justifyItems: "center" }}>
                                                                     @owner
                                                                     <OwnerCrownIcon height={18} width={18}
                                                                                     aria-hidden="true"/>
@@ -194,7 +194,7 @@ function RolesAndUsersPermissionsComponent({permissions, guild, modalProps, head
                                 <div key={bit} className={cl("modal-perms-item")}>
                                     <div className={cl("modal-perms-item-icon")}>
                                         {(() => {
-                                            const {permissions, overwriteAllow, overwriteDeny} = selectedItem;
+                                            const { permissions, overwriteAllow, overwriteDeny } = selectedItem;
 
                                             if (permissions)
                                                 return (permissions & bit) === bit
@@ -213,7 +213,7 @@ function RolesAndUsersPermissionsComponent({permissions, guild, modalProps, head
 
                                     <Tooltip text={
                                         (() => {
-                                            const {description} = guildPermissionSpecMap[String(bit)];
+                                            const { description } = guildPermissionSpecMap[String(bit)];
                                             return typeof description === "function" ? i18n.intl.format(description, {}) : description;
                                         })()
                                     }>
@@ -229,7 +229,7 @@ function RolesAndUsersPermissionsComponent({permissions, guild, modalProps, head
     );
 }
 
-function RoleContextMenu({guild, roleId, onClose}: { guild: Guild; roleId: string; onClose: () => void; }) {
+function RoleContextMenu({ guild, roleId, onClose }: { guild: Guild; roleId: string; onClose: () => void; }) {
     return (
         <Menu.Menu
             navId={cl("role-context-menu")}
@@ -270,7 +270,7 @@ function RoleContextMenu({guild, roleId, onClose}: { guild: Guild; roleId: strin
     );
 }
 
-function UserContextMenu({userId}: { userId: string; }) {
+function UserContextMenu({ userId }: { userId: string; }) {
     return (
         <Menu.Menu
             navId={cl("user-context-menu")}

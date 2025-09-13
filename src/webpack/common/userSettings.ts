@@ -9,10 +9,10 @@
 import { findLazy } from "@webpack";
 
 export const UserSettingsActionCreators = {
-    FrecencyUserSettingsActionCreators: findLazy((m) =>
+    FrecencyUserSettingsActionCreators: findLazy(m =>
         m.ProtoClass?.typeName?.endsWith(".FrecencyUserSettings"),
     ),
-    PreloadedUserSettingsActionCreators: findLazy((m) =>
+    PreloadedUserSettingsActionCreators: findLazy(m =>
         m.ProtoClass?.typeName?.endsWith(".PreloadedUserSettings"),
     ),
 };

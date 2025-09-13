@@ -8,11 +8,11 @@
 
 import "./styles.css";
 
-import {definePluginSettings} from "@api/Settings";
+import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import definePlugin, {OptionType} from "@utils/types";
-import {Tooltip} from "@webpack/common";
+import { Devs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
+import { Tooltip } from "@webpack/common";
 
 const settings = definePluginSettings({
     loop: {
@@ -83,5 +83,5 @@ export default definePlugin({
                 )}
             </Tooltip>
         );
-    }, {noop: true})
+    }, { noop: true })
 });

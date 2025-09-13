@@ -24,7 +24,7 @@ async function extract(data: Buffer, outDir: string) {
         unzip(data, (err, files) => {
             if (err) return void reject(err);
             Promise.all(
-                Object.keys(files).map(async (f) => {
+                Object.keys(files).map(async f => {
                     // Signature stuff
                     // 'Cannot load extension with file or directory name
                     // _metadata. Filenames starting with "_" are reserved for use by the system.';
@@ -46,7 +46,7 @@ async function extract(data: Buffer, outDir: string) {
                 }),
             )
                 .then(() => resolve())
-                .catch((err) => {
+                .catch(err => {
                     rm(outDir, { recursive: true, force: true });
                     reject(err);
                 });
@@ -68,7 +68,7 @@ export async function installExt(id: string) {
             },
         });
 
-        await extract(crxToZip(buf), extDir).catch((err) =>
+        await extract(crxToZip(buf), extDir).catch(err =>
             console.error(`Failed to extract extension ${id}`, err),
         );
     }

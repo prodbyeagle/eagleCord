@@ -35,7 +35,7 @@ function validate(url: string, directives: string[]) {
     }
 
     if (directives.length === 0) return false;
-    if (directives.some((d) => !ImageAndCssSrc.includes(d))) return false;
+    if (directives.some(d => !ImageAndCssSrc.includes(d))) return false;
 
     return true;
 }
@@ -54,8 +54,8 @@ function getMessage(url: string, directives: string[], callerName: string) {
     }
 
     const contentTypes = directives
-        .filter((type) => type !== "connect-src")
-        .map((type) => {
+        .filter(type => type !== "connect-src")
+        .map(type => {
             switch (type) {
                 case "img-src":
                     return "Images";
@@ -135,7 +135,7 @@ function isDomainAllowed(
             CspPolicies[domain] ?? NativeSettings.store.customCspRules[domain];
         if (!ruleForDomain) return false;
 
-        return directives.every((d) => ruleForDomain.includes(d));
+        return directives.every(d => ruleForDomain.includes(d));
     } catch (e) {
         return false;
     }

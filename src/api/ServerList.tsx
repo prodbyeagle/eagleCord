@@ -7,7 +7,7 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {ComponentType} from "react";
+import { ComponentType } from "react";
 
 export const enum ServerListRenderPosition {
     Above,

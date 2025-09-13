@@ -182,7 +182,7 @@ export const SpotifyStore = proxyLazyWebpack(() => {
         },
         SPOTIFY_SET_DEVICES({ devices }: { devices: Device[] }) {
             store.device =
-                devices.find((d) => d.is_active) ?? devices[0] ?? null;
+                devices.find(d => d.is_active) ?? devices[0] ?? null;
             store.emitChange();
         },
     });

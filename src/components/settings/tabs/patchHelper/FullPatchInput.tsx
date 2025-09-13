@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Margins} from "@utils/margins";
-import {Patch, ReplaceFn} from "@utils/types";
-import {Forms, TextArea, useEffect, useRef, useState} from "@webpack/common";
+import { Margins } from "@utils/margins";
+import { Patch, ReplaceFn } from "@utils/types";
+import { Forms, TextArea, useEffect, useRef, useState } from "@webpack/common";
 
 export interface FullPatchInputProps {
     setFind(v: string): void;
@@ -20,7 +20,7 @@ export interface FullPatchInputProps {
     setReplacement(v: string | ReplaceFn): void;
 }
 
-export function FullPatchInput({setFind, setParsedFind, setMatch, setReplacement}: FullPatchInputProps) {
+export function FullPatchInput({ setFind, setParsedFind, setMatch, setReplacement }: FullPatchInputProps) {
     const [patch, setPatch] = useState<string>("");
     const [error, setError] = useState<string>("");
 
@@ -38,7 +38,7 @@ export function FullPatchInput({setFind, setParsedFind, setMatch, setReplacement
         }
 
         try {
-            let {find, replacement} = (0, eval)(`([${patch}][0])`) as Patch;
+            let { find, replacement } = (0, eval)(`([${patch}][0])`) as Patch;
 
             if (!find) throw new Error("No 'find' field");
             if (!replacement) throw new Error("No 'replacement' field");
@@ -64,7 +64,7 @@ export function FullPatchInput({setFind, setParsedFind, setMatch, setReplacement
     }
 
     useEffect(() => {
-        const {current: textArea} = textAreaRef;
+        const { current: textArea } = textAreaRef;
         if (textArea) {
             textArea.style.height = "auto";
             textArea.style.height = `${textArea.scrollHeight}px`;
@@ -82,7 +82,7 @@ export function FullPatchInput({setFind, setParsedFind, setMatch, setReplacement
                 onChange={setPatch}
                 onBlur={update}
             />
-            {error !== "" && <Forms.FormText style={{color: "var(--text-danger)"}}>{error}</Forms.FormText>}
+            {error !== "" && <Forms.FormText style={{ color: "var(--text-danger)" }}>{error}</Forms.FormText>}
         </>
     );
 }

@@ -20,7 +20,7 @@ type DecorationGridItemComponent = ComponentType<
 >;
 
 export let DecorationGridItem: DecorationGridItemComponent;
-export const setDecorationGridItem = (v) => (DecorationGridItem = v);
+export const setDecorationGridItem = v => (DecorationGridItem = v);
 
 export const AvatarDecorationModalPreview = LazyComponentWebpack(() => {
     const component = findComponentByCode(".shopPreviewBanner");
@@ -36,5 +36,5 @@ type DecorationGridDecorationComponent = React.ComponentType<
 >;
 
 export let DecorationGridDecoration: DecorationGridDecorationComponent;
-export const setDecorationGridDecoration = (v) =>
+export const setDecorationGridDecoration = v =>
     (DecorationGridDecoration = v);

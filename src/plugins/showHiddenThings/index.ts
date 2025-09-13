@@ -93,7 +93,7 @@ export default definePlugin({
         roles: Role[],
     ): Role | undefined {
         try {
-            return roles.find((role) => role.id === member.highestRoleId);
+            return roles.find(role => role.id === member.highestRoleId);
         } catch (e) {
             new Logger("ShowHiddenThings").error(
                 "Failed to find highest role",

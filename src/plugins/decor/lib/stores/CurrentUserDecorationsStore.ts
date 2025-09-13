@@ -57,7 +57,7 @@ export const useCurrentUserDecorationsStore = proxyLazy(() =>
 
                     const { selectedDecoration, decorations } = get();
                     const newState = {
-                        decorations: decorations.filter((d) => d.hash !== hash),
+                        decorations: decorations.filter(d => d.hash !== hash),
                         selectedDecoration:
                             selectedDecoration?.hash === hash
                                 ? null

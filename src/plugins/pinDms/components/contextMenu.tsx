@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {findGroupChildrenByChildId, NavContextMenuPatchCallback} from "@api/ContextMenu";
-import {Menu} from "@webpack/common";
+import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { Menu } from "@webpack/common";
 
 import {
     addChannelToCategory,
@@ -17,8 +17,8 @@ import {
     moveChannel,
     removeChannelFromCategory
 } from "../data";
-import {PinOrder, settings} from "../index";
-import {openCategoryModal} from "./CreateCategoryModal";
+import { PinOrder, settings } from "../index";
+import { openCategoryModal } from "./CreateCategoryModal";
 
 function createPinMenuItem(channelId: string) {
     const pinned = isPinned(channelId);

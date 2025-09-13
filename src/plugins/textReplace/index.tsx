@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
-import {Flex} from "@components/Flex";
-import {DeleteIcon} from "@components/Icons";
-import {Devs} from "@utils/constants";
-import {Logger} from "@utils/Logger";
-import definePlugin, {OptionType} from "@utils/types";
-import {Button, Forms, React, TextInput, useState} from "@webpack/common";
+import { definePluginSettings } from "@api/Settings";
+import { Flex } from "@components/Flex";
+import { DeleteIcon } from "@components/Icons";
+import { Devs } from "@utils/constants";
+import { Logger } from "@utils/Logger";
+import definePlugin, { OptionType } from "@utils/types";
+import { Button, Forms, React, TextInput, useState } from "@webpack/common";
 
 const STRING_RULES_KEY = "TextReplace_rulesString";
 const REGEX_RULES_KEY = "TextReplace_rulesRegex";
@@ -35,7 +35,7 @@ const settings = definePluginSettings({
     replace: {
         type: OptionType.COMPONENT,
         component: () => {
-            const {stringRules, regexRules} = settings.use(["stringRules", "regexRules"]);
+            const { stringRules, regexRules } = settings.use(["stringRules", "regexRules"]);
 
             return (
                 <>
@@ -82,14 +82,14 @@ function renderFindError(find: string) {
         return null;
     } catch (e) {
         return (
-            <span style={{color: "var(--text-danger)"}}>
+            <span style={{ color: "var(--text-danger)" }}>
                 {String(e)}
             </span>
         );
     }
 }
 
-function Input({initialValue, onChange, placeholder}: {
+function Input({ initialValue, onChange, placeholder }: {
     placeholder: string;
     initialValue: string;
     onChange(value: string): void;
@@ -106,7 +106,7 @@ function Input({initialValue, onChange, placeholder}: {
     );
 }
 
-function TextReplace({title, rulesArray}: TextReplaceProps) {
+function TextReplace({ title, rulesArray }: TextReplaceProps) {
     const isRegexRules = title === "Using Regex";
 
     async function onClickRemove(index: number) {
@@ -129,12 +129,12 @@ function TextReplace({title, rulesArray}: TextReplaceProps) {
     return (
         <>
             <Forms.FormTitle tag="h4">{title}</Forms.FormTitle>
-            <Flex flexDirection="column" style={{gap: "0.5em"}}>
+            <Flex flexDirection="column" style={{ gap: "0.5em" }}>
                 {
                     rulesArray.map((rule, index) =>
                         <React.Fragment key={`${rule.find}-${index}`}>
-                            <Flex flexDirection="row" style={{gap: 0}}>
-                                <Flex flexDirection="row" style={{flexGrow: 1, gap: "0.5em"}}>
+                            <Flex flexDirection="row" style={{ gap: 0 }}>
+                                <Flex flexDirection="row" style={{ flexGrow: 1, gap: "0.5em" }}>
                                     <Input
                                         placeholder="Find"
                                         initialValue={rule.find}

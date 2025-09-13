@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {LazyComponent, LazyComponentWrapper} from "@utils/react";
-import {FilterFn, filters, lazyWebpackSearchHistory, waitFor} from "@webpack";
+import { LazyComponent, LazyComponentWrapper } from "@utils/react";
+import { FilterFn, filters, lazyWebpackSearchHistory, waitFor } from "@webpack";
 
 export function waitForComponent<T extends React.ComponentType<any> = React.ComponentType<any> & Record<string, any>>(name: string, filter: FilterFn | string | string[]) {
     if (IS_REPORTER) lazyWebpackSearchHistory.push(["waitForComponent", Array.isArray(filter) ? filter : [filter]]);
@@ -20,7 +20,7 @@ export function waitForComponent<T extends React.ComponentType<any> = React.Comp
     waitFor(filter, (v: any) => {
         myValue = v;
         Object.assign(lazyComponent, v);
-    }, {isIndirect: true});
+    }, { isIndirect: true });
 
     return lazyComponent;
 }
@@ -28,5 +28,5 @@ export function waitForComponent<T extends React.ComponentType<any> = React.Comp
 export function waitForStore(name: string, cb: (v: any) => void) {
     if (IS_REPORTER) lazyWebpackSearchHistory.push(["waitForStore", [name]]);
 
-    waitFor(filters.byStoreName(name), cb, {isIndirect: true});
+    waitFor(filters.byStoreName(name), cb, { isIndirect: true });
 }

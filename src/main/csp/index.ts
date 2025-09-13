@@ -72,12 +72,12 @@ export const CspPolicies: PolicyMap = {
 };
 
 const findHeader = (headers: PolicyMap, headerName: Lowercase<string>) => {
-    return Object.keys(headers).find((h) => h.toLowerCase() === headerName);
+    return Object.keys(headers).find(h => h.toLowerCase() === headerName);
 };
 
 const parsePolicy = (policy: string): PolicyMap => {
     const result: PolicyMap = {};
-    policy.split(";").forEach((directive) => {
+    policy.split(";").forEach(directive => {
         const [directiveKey, ...directiveValue] = directive
             .trim()
             .split(/\s+/g);
@@ -95,7 +95,7 @@ const parsePolicy = (policy: string): PolicyMap => {
 const stringifyPolicy = (policy: PolicyMap): string =>
     Object.entries(policy)
         .filter(([, values]) => values?.length)
-        .map((directive) => directive.flat().join(" "))
+        .map(directive => directive.flat().join(" "))
         .join("; ");
 
 const patchCsp = (headers: PolicyMap) => {

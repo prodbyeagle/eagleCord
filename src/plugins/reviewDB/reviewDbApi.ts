@@ -106,7 +106,7 @@ export async function addReview(review: any): Promise<Response | null> {
         headers: {
             "Content-Type": "application/json",
         },
-    }).then(async (r) => {
+    }).then(async r => {
         const data = (await r.json()) as Response;
         showToast(data.message);
         return r.ok ? data : null;
@@ -123,7 +123,7 @@ export async function deleteReview(id: number): Promise<Response | null> {
         body: JSON.stringify({
             reviewid: id,
         }),
-    }).then(async (r) => {
+    }).then(async r => {
         const data = (await r.json()) as Response;
         showToast(data.message);
         return r.ok ? data : null;
@@ -140,7 +140,7 @@ export async function reportReview(id: number) {
         body: JSON.stringify({
             reviewid: id,
         }),
-    }).then((r) => r.json())) as Response;
+    }).then(r => r.json())) as Response;
 
     showToast(res.message);
 }
@@ -167,7 +167,7 @@ async function patchBlock(action: "block" | "unblock", userId: string) {
             const newBlockedUsers =
                 action === "block"
                     ? [...Auth.user.blockedUsers, userId]
-                    : Auth.user.blockedUsers.filter((id) => id !== userId);
+                    : Auth.user.blockedUsers.filter(id => id !== userId);
             updateAuth({
                 user: { ...Auth.user, blockedUsers: newBlockedUsers },
             });
@@ -195,7 +195,7 @@ export function getCurrentUserInfo(
 ): Promise<ReviewDBCurrentUser> {
     return rdbRequest("/users", {
         method: "POST",
-    }).then((r) => r.json());
+    }).then(r => r.json());
 }
 
 export async function readNotification(id: number) {

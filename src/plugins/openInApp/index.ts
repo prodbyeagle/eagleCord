@@ -31,14 +31,14 @@ const UrlReplacementRules: Record<string, URLReplacementRule> = {
         replace: (_, type, id) => `spotify://${type}/${id}`,
         description: "Open Spotify links in the Spotify app",
         shortlinkMatch: /^https:\/\/spotify\.link\/.+$/,
-        accountViewReplace: (userId) => `spotify:user:${userId}`,
+        accountViewReplace: userId => `spotify:user:${userId}`,
     },
     steam: {
         match: /^https:\/\/(steamcommunity\.com|(?:help|store)\.steampowered\.com)\/.+$/,
-        replace: (match) => `steam://openurl/${match}`,
+        replace: match => `steam://openurl/${match}`,
         description: "Open Steam links in the Steam app",
         shortlinkMatch: /^https:\/\/s.team\/.+$/,
-        accountViewReplace: (userId) =>
+        accountViewReplace: userId =>
             `steam://openurl/https://steamcommunity.com/profiles/${userId}`,
     },
     epic: {
@@ -109,7 +109,7 @@ export default definePlugin({
 
         // User Profile Modal & User Profile Modal v2
         ...[".__invalid_connectedAccountOpenIconContainer", ".BLUESKY||"].map(
-            (find) => ({
+            find => ({
                 find,
                 replacement: {
                     match: /(?<=onClick:(\i)=>\{)(?=.{0,100}\.CONNECTED_ACCOUNT_VIEWED)(?<==(\i)\.metadata.+?)/,

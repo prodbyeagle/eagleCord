@@ -55,7 +55,7 @@ async function calculateGitChanges() {
 
     const commits = res.stdout.trim();
     return commits
-        ? commits.split("\n").map((line) => {
+        ? commits.split("\n").map(line => {
               const [author, hash, ...rest] = line.split("/");
               return {
                   hash,

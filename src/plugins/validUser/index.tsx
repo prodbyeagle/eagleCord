@@ -7,14 +7,14 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import {isNonNullish} from "@utils/guards";
-import {sleep} from "@utils/misc";
-import {Queue} from "@utils/Queue";
+import { Devs } from "@utils/constants";
+import { isNonNullish } from "@utils/guards";
+import { sleep } from "@utils/misc";
+import { Queue } from "@utils/Queue";
 import definePlugin from "@utils/types";
-import {ProfileBadge} from "@vencord/discord-types";
-import {Constants, FluxDispatcher, RestAPI, UserProfileStore, UserStore, useState} from "@webpack/common";
-import {type ComponentType, type ReactNode} from "react";
+import { ProfileBadge } from "@vencord/discord-types";
+import { Constants, FluxDispatcher, RestAPI, UserProfileStore, UserStore, useState } from "@webpack/common";
+import { type ComponentType, type ReactNode } from "react";
 
 // LYING to the type checker here
 const UserFlags = Constants.UserFlags as Record<string, number>;
@@ -125,7 +125,7 @@ async function getUser(id: string) {
     if (userObj)
         return userObj;
 
-    const user: any = await RestAPI.get({url: Constants.Endpoints.USER(id)}).then(response => {
+    const user: any = await RestAPI.get({ url: Constants.Endpoints.USER(id) }).then(response => {
         FluxDispatcher.dispatch({
             type: "USER_UPDATE",
             user: response.body,
@@ -162,7 +162,7 @@ async function getUser(id: string) {
     return userObj;
 }
 
-function MentionWrapper({data, UserMention, RoleMention, parse, props}: MentionProps) {
+function MentionWrapper({ data, UserMention, RoleMention, parse, props }: MentionProps) {
     const [userId, setUserId] = useState(data.userId);
 
     // if userId is set it means the user is cached. Uncached users have userId set to undefined

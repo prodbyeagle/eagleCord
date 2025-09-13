@@ -9,12 +9,12 @@
 import "./style.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import {isNonNullish} from "@utils/guards";
-import {Logger} from "@utils/Logger";
+import { Devs } from "@utils/constants";
+import { isNonNullish } from "@utils/guards";
+import { Logger } from "@utils/Logger";
 import definePlugin from "@utils/types";
-import {Channel, User} from "@vencord/discord-types";
-import {findByPropsLazy, findComponentByCodeLazy} from "@webpack";
+import { Channel, User } from "@vencord/discord-types";
+import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import {
     Avatar,
     ChannelStore,
@@ -26,7 +26,7 @@ import {
     useMemo,
     UserStore
 } from "@webpack/common";
-import {JSX} from "react";
+import { JSX } from "react";
 
 const SelectedChannelActionCreators = findByPropsLazy("selectPrivateChannel");
 const UserUtils = findByPropsLazy("getGlobalName");
@@ -66,7 +66,7 @@ function renderClickableGDMs(mutualDms: Channel[], onClose: () => void) {
             }}
         >
             <Avatar
-                src={IconUtils.getChannelIconURL({id: c.id, icon: c.icon, size: 32})}
+                src={IconUtils.getChannelIconURL({ id: c.id, icon: c.icon, size: 32 })}
                 size="SIZE_40"
                 className={MutualsListClasses.icon}
             >
@@ -166,7 +166,7 @@ export default definePlugin({
         }
     },
 
-    renderMutualGDMs: ErrorBoundary.wrap(({user, onClose}: { user: User, onClose: () => void; }) => {
+    renderMutualGDMs: ErrorBoundary.wrap(({ user, onClose }: { user: User, onClose: () => void; }) => {
         const mutualGDms = useMemo(() => getMutualGroupDms(user.id), [user.id]);
         const entries = renderClickableGDMs(mutualGDms, onClose);
 
@@ -189,7 +189,7 @@ export default definePlugin({
         );
     }),
 
-    renderDMPageList: ErrorBoundary.wrap(({user, hasDivider, Divider, listStyle}: {
+    renderDMPageList: ErrorBoundary.wrap(({ user, hasDivider, Divider, listStyle }: {
         user: User,
         hasDivider: boolean,
         Divider: JSX.Element,
@@ -210,5 +210,5 @@ export default definePlugin({
                 />
             </>
         );
-    }, {noop: true})
+    }, { noop: true })
 });

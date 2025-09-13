@@ -22,7 +22,7 @@ export function classes(...classes: Array<string | null | undefined | false>) {
  * Returns a promise that resolves after the specified amount of time
  */
 export function sleep(ms: number): Promise<void> {
-    return new Promise((r) => setTimeout(r, ms));
+    return new Promise(r => setTimeout(r, ms));
 }
 
 export async function copyWithToast(
@@ -101,7 +101,7 @@ export function interpolateIfDefined(
     strings: TemplateStringsArray,
     ...args: any[]
 ) {
-    if (args.some((arg) => arg == null)) return "";
+    if (args.some(arg => arg == null)) return "";
     return String.raw({ raw: strings }, ...args);
 }
 

@@ -149,7 +149,7 @@ define(Function.prototype, "m", {
         // As an extra measure, take advatange of the fact their files include the names and return early if it's one of them.
         // Later down we also include other measures to avoid patching them.
         if (
-            ["sentry", "libdiscore"].some((name) =>
+            ["sentry", "libdiscore"].some(name =>
                 fileName?.toLowerCase()?.includes(name),
             )
         ) {

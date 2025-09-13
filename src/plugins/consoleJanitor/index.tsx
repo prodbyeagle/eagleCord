@@ -6,12 +6,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
+import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {SettingsSection} from "@components/settings/tabs/plugins/components/Common";
-import {Devs} from "@utils/constants";
-import definePlugin, {defineDefault, OptionType, StartAt} from "@utils/types";
-import {Checkbox, Text} from "@webpack/common";
+import { SettingsSection } from "@components/settings/tabs/plugins/components/Common";
+import { Devs } from "@utils/constants";
+import definePlugin, { defineDefault, OptionType, StartAt } from "@utils/types";
+import { Checkbox, Text } from "@webpack/common";
 
 const Noop = () => {
 };
@@ -43,8 +43,8 @@ interface AllowLevelSettingProps {
     settingKey: keyof AllowLevels;
 }
 
-function AllowLevelSetting({settingKey}: AllowLevelSettingProps) {
-    const {allowLevel} = settings.use(["allowLevel"]);
+function AllowLevelSetting({ settingKey }: AllowLevelSettingProps) {
+    const { allowLevel } = settings.use(["allowLevel"]);
     const value = allowLevel[settingKey];
 
     return (
@@ -61,7 +61,7 @@ function AllowLevelSetting({settingKey}: AllowLevelSettingProps) {
 const AllowLevelSettings = ErrorBoundary.wrap(() => {
     return (
         <SettingsSection name="Filter List" description="Always allow loggers of these types">
-            <div style={{display: "flex", flexDirection: "row"}}>
+            <div style={{ display: "flex", flexDirection: "row" }}>
                 {Object.keys(settings.store.allowLevel).map(key => (
                     <AllowLevelSetting key={key} settingKey={key as keyof AllowLevels}/>
                 ))}

@@ -7,9 +7,9 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {isPrimitiveReactNode} from "@utils/react";
-import {waitFor} from "@webpack";
-import {ReactNode} from "react";
+import { isPrimitiveReactNode } from "@utils/react";
+import { waitFor } from "@webpack";
+import { ReactNode } from "react";
 
 let NoticesModule: any;
 waitFor(m => m.show && m.dismiss && !m.suppressAll, m => NoticesModule = m);

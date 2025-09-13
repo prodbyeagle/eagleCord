@@ -6,9 +6,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Forms, SearchableSelect, useMemo, useState} from "@webpack/common";
+import { Forms, SearchableSelect, useMemo, useState } from "@webpack/common";
 
-import {getCurrentVoice, settings} from "./settings";
+import { getCurrentVoice, settings } from "./settings";
 
 // TODO: replace by [Object.groupBy](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/groupBy) once it has more maturity
 
@@ -26,7 +26,7 @@ interface PickerProps {
     voices: SpeechSynthesisVoice[];
 }
 
-function SimplePicker({voice, voices}: PickerProps) {
+function SimplePicker({ voice, voices }: PickerProps) {
     const options = voices.map(voice => ({
         label: voice.name,
         value: voice.voiceURI,
@@ -45,9 +45,9 @@ function SimplePicker({voice, voices}: PickerProps) {
     );
 }
 
-const languageNames = new Intl.DisplayNames(["en"], {type: "language"});
+const languageNames = new Intl.DisplayNames(["en"], { type: "language" });
 
-function ComplexPicker({voice, voices}: PickerProps) {
+function ComplexPicker({ voice, voices }: PickerProps) {
     const groupedVoices = useMemo(() => groupBy(voices, voice => voice.lang), [voices]);
 
     const languageNameMapping = useMemo(() => {
@@ -57,7 +57,7 @@ function ComplexPicker({voice, voices}: PickerProps) {
             try {
                 const friendlyName = languageNames.of(name);
                 if (friendlyName) {
-                    list.push({name, friendlyName});
+                    list.push({ name, friendlyName });
                 }
             } catch {
             }
@@ -107,7 +107,7 @@ function ComplexPicker({voice, voices}: PickerProps) {
 
 function VoiceSetting() {
     const voices = useMemo(() => window.speechSynthesis?.getVoices() ?? [], []);
-    const {voice} = settings.use(["voice"]);
+    const { voice } = settings.use(["voice"]);
 
     if (!voices.length)
         return <Forms.FormText>No voices found.</Forms.FormText>;

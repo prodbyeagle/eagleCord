@@ -48,7 +48,7 @@ RendererSettings.addGlobalChangeListener(() => {
 
 ipcMain.on(
     IpcEvents.GET_SETTINGS,
-    (e) => (e.returnValue = RendererSettings.plain),
+    e => (e.returnValue = RendererSettings.plain),
 );
 
 ipcMain.handle(

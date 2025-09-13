@@ -7,10 +7,10 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import {getIntlMessage, hasGuildFeature} from "@utils/discord";
+import { Devs } from "@utils/constants";
+import { getIntlMessage, hasGuildFeature } from "@utils/discord";
 import definePlugin from "@utils/types";
-import {Constants, GuildStore, PermissionStore, RestAPI} from "@webpack/common";
+import { Constants, GuildStore, PermissionStore, RestAPI } from "@webpack/common";
 
 function showDisableInvites(guildId: string) {
     const guild = GuildStore.getGuild(guildId);
@@ -27,7 +27,7 @@ function disableInvites(guildId: string) {
     const features = [...guild.features, "INVITES_DISABLED"];
     RestAPI.patch({
         url: Constants.Endpoints.GUILD(guildId),
-        body: {features},
+        body: { features },
     });
 }
 
@@ -54,7 +54,7 @@ export default definePlugin({
         }
     ],
 
-    renderInvitesLabel: ErrorBoundary.wrap(({guildId, setChecked}) => {
+    renderInvitesLabel: ErrorBoundary.wrap(({ guildId, setChecked }) => {
         return (
             <div>
                 {getIntlMessage("GUILD_INVITE_DISABLE_ACTION_SHEET_DESCRIPTION")}
@@ -64,5 +64,5 @@ export default definePlugin({
                 }}> Pause Indefinitely.</a>}
             </div>
         );
-    }, {noop: true})
+    }, { noop: true })
 });

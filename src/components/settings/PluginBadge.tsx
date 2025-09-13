@@ -6,7 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-export function AddonBadge({text, color}) {
+export function AddonBadge({ text, color }) {
     return (
         <div className="vc-addon-badge" style={{
             backgroundColor: color,

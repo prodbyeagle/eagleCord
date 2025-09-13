@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {useSettings} from "@api/Settings";
-import {SpecialCard} from "@components/settings/SpecialCard";
-import {SettingsTab, wrapTab} from "@components/settings/tabs/BaseTab";
-import {Margins} from "@utils/margins";
-import {Forms, Switch, UserStore} from "@webpack/common";
+import { useSettings } from "@api/Settings";
+import { SpecialCard } from "@components/settings/SpecialCard";
+import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
+import { Margins } from "@utils/margins";
+import { Forms, Switch, UserStore } from "@webpack/common";
 
-import {CONTRIB_BACKGROUND_IMAGE, EAGLECORD_ICON_IMAGE} from "../vencord";
+import { CONTRIB_BACKGROUND_IMAGE, EAGLECORD_ICON_IMAGE } from "../vencord";
 
 
 function EagleCordTab() {

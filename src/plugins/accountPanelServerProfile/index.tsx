@@ -6,14 +6,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {definePluginSettings} from "@api/Settings";
+import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import {Devs} from "@utils/constants";
-import {getCurrentChannel} from "@utils/discord";
-import definePlugin, {OptionType} from "@utils/types";
-import {User} from "@vencord/discord-types";
-import {findComponentByCodeLazy} from "@webpack";
-import {ContextMenuApi, Menu} from "@webpack/common";
+import { Devs } from "@utils/constants";
+import { getCurrentChannel } from "@utils/discord";
+import definePlugin, { OptionType } from "@utils/types";
+import { User } from "@vencord/discord-types";
+import { findComponentByCodeLazy } from "@webpack";
+import { ContextMenuApi, Menu } from "@webpack/common";
 
 interface UserProfileProps {
     popoutProps: Record<string, any>;
@@ -24,10 +24,10 @@ interface UserProfileProps {
 const UserProfile = findComponentByCodeLazy(".POPOUT,user");
 
 let openAlternatePopout = false;
-let accountPanelRef: React.RefObject<HTMLDivElement | null> = {current: null};
+let accountPanelRef: React.RefObject<HTMLDivElement | null> = { current: null };
 
 const AccountPanelContextMenu = ErrorBoundary.wrap(() => {
-    const {prioritizeServerProfile} = settings.use(["prioritizeServerProfile"]);
+    const { prioritizeServerProfile } = settings.use(["prioritizeServerProfile"]);
 
     return (
         <Menu.Menu
@@ -51,7 +51,7 @@ const AccountPanelContextMenu = ErrorBoundary.wrap(() => {
             />
         </Menu.Menu>
     );
-}, {noop: true});
+}, { noop: true });
 
 const settings = definePluginSettings({
     prioritizeServerProfile: {
@@ -105,7 +105,7 @@ export default definePlugin({
         openAlternatePopout = false;
     },
 
-    UserProfile: ErrorBoundary.wrap(({popoutProps, currentUser, originalRenderPopout}: UserProfileProps) => {
+    UserProfile: ErrorBoundary.wrap(({ popoutProps, currentUser, originalRenderPopout }: UserProfileProps) => {
         if (
             (settings.store.prioritizeServerProfile && openAlternatePopout) ||
             (!settings.store.prioritizeServerProfile && !openAlternatePopout)
@@ -127,5 +127,5 @@ export default definePlugin({
                 channelId={currentChannel.id}
             />
         );
-    }, {noop: true})
+    }, { noop: true })
 });

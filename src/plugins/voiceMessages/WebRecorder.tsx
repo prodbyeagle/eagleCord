@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {Button, useState} from "@webpack/common";
+import { Button, useState } from "@webpack/common";
 
-import type {VoiceRecorder} from ".";
-import {settings} from "./settings";
-import {MediaEngineStore} from "./utils";
+import type { VoiceRecorder } from ".";
+import { settings } from "./settings";
+import { MediaEngineStore } from "./utils";
 
-export const VoiceRecorderWeb: VoiceRecorder = ({setAudioBlob, onRecordingChange}) => {
+export const VoiceRecorderWeb: VoiceRecorder = ({ setAudioBlob, onRecordingChange }) => {
     const [recording, setRecording] = useState(false);
     const [paused, setPaused] = useState(false);
     const [recorder, setRecorder] = useState<MediaRecorder>();
@@ -49,7 +49,7 @@ export const VoiceRecorderWeb: VoiceRecorder = ({setAudioBlob, onRecordingChange
         } else {
             if (recorder) {
                 recorder.addEventListener("stop", () => {
-                    setAudioBlob(new Blob(chunks, {type: "audio/ogg; codecs=opus"}));
+                    setAudioBlob(new Blob(chunks, { type: "audio/ogg; codecs=opus" }));
 
                     changeRecording(false);
                 });

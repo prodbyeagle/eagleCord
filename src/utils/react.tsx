@@ -6,10 +6,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import {React, useEffect, useMemo, useReducer, useState} from "@webpack/common";
-import {ActionDispatch, ReactNode} from "react";
+import { React, useEffect, useMemo, useReducer, useState } from "@webpack/common";
+import { ActionDispatch, ReactNode } from "react";
 
-import {checkIntersecting} from "./misc";
+import { checkIntersecting } from "./misc";
 
 export * from "./lazyReact";
 
@@ -97,17 +97,17 @@ export function useAwaiter<T>(factory: () => Promise<T>, providedOpts?: AwaiterO
 
     useEffect(() => {
         let isAlive = true;
-        if (!state.pending) setState({...state, pending: true});
+        if (!state.pending) setState({ ...state, pending: true });
 
         factory()
             .then(value => {
                 if (!isAlive) return;
-                setState({value, error: null, pending: false});
+                setState({ value, error: null, pending: false });
                 opts.onSuccess?.(value);
             })
             .catch(error => {
                 if (!isAlive) return;
-                setState({value: null, error, pending: false});
+                setState({ value: null, error, pending: false });
                 opts.onError?.(error);
             });
 
@@ -132,7 +132,7 @@ interface TimerOpts {
     deps?: unknown[];
 }
 
-export function useTimer({interval = 1000, deps = []}: TimerOpts) {
+export function useTimer({ interval = 1000, deps = [] }: TimerOpts) {
     const [time, setTime] = useState(0);
     const start = useMemo(() => Date.now(), deps);
 
