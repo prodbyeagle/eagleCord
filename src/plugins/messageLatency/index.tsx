@@ -13,7 +13,7 @@ import { isNonNullish } from "@utils/guards";
 import definePlugin, { OptionType } from "@utils/types";
 import { Message } from "@vencord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
-import { SnowflakeUtils, Tooltip } from "@webpack/common";
+import { AuthenticationStore, SnowflakeUtils, Tooltip } from "@webpack/common";
 
 type FillValue = ("status-danger" | "status-warning" | "status-positive" | "text-muted");
 type Fill = [FillValue, FillValue, FillValue];
@@ -50,6 +50,11 @@ export default definePlugin({
             type: OptionType.BOOLEAN,
             description: "Show milliseconds",
             default: false
+        },
+        ignoreSelf: {
+            type: OptionType.BOOLEAN,
+            description: "Don't add indicator to your own messages",
+            default: false
         }
     }),
 
@@ -81,10 +86,10 @@ export default definePlugin({
             return prev + (
                 isNonNullish(s)
                     ? (prev !== ""
-                    ? (showMillis ? k === "milliseconds" : k === "seconds")
-                        ? " and "
-                        : " "
-                    : "") + s
+                        ? (showMillis ? k === "milliseconds" : k === "seconds")
+                            ? " and "
+                            : " "
+                        : "") + s
                     : ""
             );
         }, "");
@@ -93,7 +98,7 @@ export default definePlugin({
     },
 
     latencyTooltipData(message: Message) {
-        const { latency, detectDiscordKotlin, showMillis } = this.settings.store;
+        const { latency, detectDiscordKotlin, showMillis, ignoreSelf } = this.settings.store;
         const { id, nonce } = message;
 
         // Message wasn't received through gateway
@@ -101,6 +106,8 @@ export default definePlugin({
 
         // Bots basically never send a nonce, and if someone does do it then it's usually not a snowflake
         if (message.author.bot) return null;
+
+        if (ignoreSelf && message.author.id === AuthenticationStore.getId()) return null;
 
         let isDiscordKotlin = false;
         let delta = SnowflakeUtils.extractTimestamp(id) - SnowflakeUtils.extractTimestamp(nonce); // milliseconds
@@ -158,7 +165,7 @@ export default definePlugin({
             >
                 {
                     props => <>
-                        {<this.Icon delta={d.delta} fill={d.fill} props={props}/>}
+                        {<this.Icon delta={d.delta} fill={d.fill} props={props} />}
                         {/* Time Out indicator uses this, I think this is for a11y */}
                         <HiddenVisually>Delayed Message</HiddenVisually>
                     </>
