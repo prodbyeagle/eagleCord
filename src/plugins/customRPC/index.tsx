@@ -17,6 +17,8 @@ import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { useAwaiter } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
+import { Activity } from "@vencord/discord-types";
+import { ActivityType } from "@vencord/discord-types/enums";
 import { findByCodeLazy, findComponentByCodeLazy } from "@webpack";
 import { ApplicationAssetUtils, Button, FluxDispatcher, Forms, React, UserStore } from "@webpack/common";
 
@@ -29,41 +31,7 @@ async function getApplicationAsset(key: string): Promise<string> {
     return (await ApplicationAssetUtils.fetchAssetIds(settings.store.appID!, [key]))[0];
 }
 
-interface ActivityAssets {
-    large_image?: string;
-    large_text?: string;
-    small_image?: string;
-    small_text?: string;
-}
-
-interface Activity {
-    state?: string;
-    details?: string;
-    timestamps?: {
-        start?: number;
-        end?: number;
-    };
-    assets?: ActivityAssets;
-    buttons?: Array<string>;
-    name: string;
-    application_id: string;
-    metadata?: {
-        button_urls?: Array<string>;
-    };
-    type: ActivityType;
-    url?: string;
-    flags: number;
-}
-
-const enum ActivityType {
-    PLAYING = 0,
-    STREAMING = 1,
-    LISTENING = 2,
-    WATCHING = 3,
-    COMPETING = 5
-}
-
-const enum TimestampMode {
+export const enum TimestampMode {
     NONE,
     NOW,
     TIME,
@@ -413,8 +381,7 @@ export default definePlugin({
                         style={{ padding: "1em" }}
                     >
                         <Forms.FormTitle>Notice</Forms.FormTitle>
-                        <Forms.FormText>Activity Sharing isn't enabled, people won't be able to see your custom rich
-                            presence!</Forms.FormText>
+                        <Forms.FormText>Activity Sharing isn't enabled, people won't be able to see your custom rich presence!</Forms.FormText>
 
                         <Button
                             color={Button.Colors.TRANSPARENT}
@@ -428,35 +395,26 @@ export default definePlugin({
 
                 <Flex flexDirection="column" style={{ gap: ".5em" }} className={Margins.top16}>
                     <Forms.FormText>
-                        Go to the <Link href="https://discord.com/developers/applications">Discord Developer
-                        Portal</Link> to create an application and
+                        Go to the <Link href="https://discord.com/developers/applications">Discord Developer Portal</Link> to create an application and
                         get the application ID.
                     </Forms.FormText>
                     <Forms.FormText>
                         Upload images in the Rich Presence tab to get the image keys.
                     </Forms.FormText>
                     <Forms.FormText>
-                        If you want to use an image link, download your image and reupload the image to <Link
-                        href="https://imgur.com">Imgur</Link> and get the image link by right-clicking the image and
-                        selecting "Copy image address".
+                        If you want to use an image link, download your image and reupload the image to <Link href="https://imgur.com">Imgur</Link> and get the image link by right-clicking the image and selecting "Copy image address".
                     </Forms.FormText>
                     <Forms.FormText>
                         You can't see your own buttons on your profile, but everyone else can see it fine.
                     </Forms.FormText>
                     <Forms.FormText>
-                        Some weird unicode text ("fonts" 𝖑𝖎𝖐𝖊 𝖙𝖍𝖎𝖘) may cause the rich presence to not show up, try
-                        using normal letters instead.
+                        Some weird unicode text ("fonts" 𝖑𝖎𝖐𝖊 𝖙𝖍𝖎𝖘) may cause the rich presence to not show up, try using normal letters instead.
                     </Forms.FormText>
                 </Flex>
 
-                <Forms.FormDivider className={Margins.top8}/>
+                <Forms.FormDivider className={Margins.top8} />
 
-                <div style={{
-                    width: "284px", ...profileThemeStyle,
-                    marginTop: 8,
-                    borderRadius: 8,
-                    background: "var(--background-mod-faint)"
-                }}>
+                <div style={{ width: "284px", ...profileThemeStyle, marginTop: 8, borderRadius: 8, background: "var(--background-mod-faint)" }}>
                     {activity[0] && <ActivityView
                         activity={activity[0]}
                         user={UserStore.getCurrentUser()}

@@ -11,39 +11,10 @@ import { Link } from "@components/Link";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
+import { Activity, ActivityAssets, ActivityButton } from "@vencord/discord-types";
+import { ActivityFlags, ActivityStatusDisplayType, ActivityType } from "@vencord/discord-types/enums";
 import { findByPropsLazy } from "@webpack";
 import { ApplicationAssetUtils, FluxDispatcher, Forms } from "@webpack/common";
-
-interface ActivityAssets {
-    large_image?: string;
-    large_text?: string;
-    small_image?: string;
-    small_text?: string;
-}
-
-
-interface ActivityButton {
-    label: string;
-    url: string;
-}
-
-interface Activity {
-    state: string;
-    details?: string;
-    timestamps?: {
-        start?: number;
-    };
-    assets?: ActivityAssets;
-    buttons?: Array<string>;
-    name: string;
-    application_id: string;
-    status_display_type?: number;
-    metadata?: {
-        button_urls?: Array<string>;
-    };
-    type: number;
-    flags: number;
-}
 
 interface TrackData {
     name: string;
@@ -51,16 +22,6 @@ interface TrackData {
     artist: string;
     url: string;
     imageUrl?: string;
-}
-
-// only relevant enum values
-const enum ActivityType {
-    PLAYING = 0,
-    LISTENING = 2,
-}
-
-const enum ActivityFlag {
-    INSTANCE = 1 << 0,
 }
 
 const enum NameFormat {
@@ -213,10 +174,10 @@ export default definePlugin({
             <Forms.FormText>
                 An API key is required to fetch your current track. To get one, you can
                 visit <Link href="https://www.last.fm/api/account/create">this page</Link> and
-                fill in the following information: <br/> <br/>
+                fill in the following information: <br /> <br />
 
-                Application name: Discord Rich Presence <br/>
-                Application description: (personal use) <br/> <br/>
+                Application name: Discord Rich Presence <br />
+                Application description: (personal use) <br /> <br />
 
                 And copy the API key (not the shared secret!)
             </Forms.FormText>
@@ -227,9 +188,7 @@ export default definePlugin({
 
     start() {
         this.updatePresence();
-        this.updateInterval = setInterval(() => {
-            this.updatePresence();
-        }, 16000);
+        this.updateInterval = setInterval(() => { this.updatePresence(); }, 16000);
     },
 
     stop() {
@@ -292,18 +251,13 @@ export default definePlugin({
 
     async getActivity(): Promise<Activity | null> {
         if (settings.store.hideWithActivity) {
-            if (PresenceStore.getActivities().some((a: {
-                application_id: string;
-            }) => a.application_id !== applicationId)) {
+            if (PresenceStore.getActivities().some(a => a.application_id !== applicationId)) {
                 return null;
             }
         }
 
         if (settings.store.hideWithSpotify) {
-            if (PresenceStore.getActivities().some((a: {
-                type: ActivityType;
-                application_id: string;
-            }) => a.type === ActivityType.LISTENING && a.application_id !== applicationId)) {
+            if (PresenceStore.getActivities().some(a => a.type === ActivityType.LISTENING && a.application_id !== applicationId)) {
                 // there is already music status because of Spotify or richerCider (probably more)
                 return null;
             }
@@ -364,9 +318,9 @@ export default definePlugin({
             details: trackData.name,
             state: trackData.artist,
             status_display_type: {
-                "off": 0,
-                "artist": 1,
-                "track": 2
+                "off": ActivityStatusDisplayType.NAME,
+                "artist": ActivityStatusDisplayType.STATE,
+                "track": ActivityStatusDisplayType.DETAILS
             }[settings.store.statusDisplayType],
             assets,
 
@@ -376,7 +330,7 @@ export default definePlugin({
             },
 
             type: settings.store.useListeningStatus ? ActivityType.LISTENING : ActivityType.PLAYING,
-            flags: ActivityFlag.INSTANCE,
+            flags: ActivityFlags.INSTANCE,
         };
     }
 });
