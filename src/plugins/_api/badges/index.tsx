@@ -137,6 +137,13 @@ export default definePlugin({
                     replace: "...$self.getBadgeMouseEventHandlers($1),$&"
                 }
             ]
+        },
+        {
+            find: "profileCardUsernameRow,children:",
+            replacement: {
+                match: /badges:(\i)(?<=displayProfile:(\i).+?)/,
+                replace: "badges:[...$self.getBadges($2),...$1]"
+            }
         }
     ],
 
@@ -217,7 +224,7 @@ export default definePlugin({
                 }
             },
             onContextMenu(event, badge) {
-                ContextMenuApi.openContextMenu(event, () => <BadgeContextMenu badge={badge}/>);
+                ContextMenuApi.openContextMenu(event, () => <BadgeContextMenu badge={badge} />);
             },
             onClick() {
                 const modalKey = openModal(props => (
@@ -236,7 +243,7 @@ export default definePlugin({
                                             margin: 0
                                         }}
                                     >
-                                        <Heart/>
+                                        <Heart />
                                         Vencord Donor
                                     </Forms.FormTitle>
                                 </Flex>
@@ -268,7 +275,7 @@ export default definePlugin({
                             </ModalContent>
                             <ModalFooter>
                                 <Flex style={{ width: "100%", justifyContent: "center" }}>
-                                    <DonateButton/>
+                                    <DonateButton />
                                 </Flex>
                             </ModalFooter>
                         </ModalRoot>
@@ -290,7 +297,7 @@ export default definePlugin({
                 }
             },
             onContextMenu(event, badge) {
-                ContextMenuApi.openContextMenu(event, () => <BadgeContextMenu badge={badge}/>);
+                ContextMenuApi.openContextMenu(event, () => <BadgeContextMenu badge={badge} />);
             },
             onClick() {
                 const modalKey = openModal(props => (
