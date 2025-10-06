@@ -10,7 +10,7 @@ import "./AddonCard.css";
 
 import { classNameFactory } from "@api/Styles";
 import { AddonBadge } from "@components/settings/PluginBadge";
-import { Switch } from "@components/settings/Switch";
+import { Switch } from "@components/Switch";
 import { Text, useRef } from "@webpack/common";
 import type { MouseEventHandler, ReactNode } from "react";
 
@@ -23,7 +23,6 @@ interface Props {
     setEnabled: (enabled: boolean) => void;
     disabled?: boolean;
     isNew?: boolean;
-    isEagleCord?: boolean;
     onMouseEnter?: MouseEventHandler<HTMLDivElement>;
     onMouseLeave?: MouseEventHandler<HTMLDivElement>;
 
@@ -32,20 +31,7 @@ interface Props {
     author?: ReactNode;
 }
 
-export function AddonCard({
-                              disabled,
-                              isNew,
-                              isEagleCord,
-                              name,
-                              infoButton,
-                              footer,
-                              author,
-                              enabled,
-                              setEnabled,
-                              description,
-                              onMouseEnter,
-                              onMouseLeave
-                          }: Props) {
+export function AddonCard({ disabled, isNew, name, infoButton, footer, author, enabled, setEnabled, description, onMouseEnter, onMouseLeave }: Props) {
     const titleRef = useRef<HTMLDivElement>(null);
     const titleContainerRef = useRef<HTMLDivElement>(null);
 
@@ -73,8 +59,7 @@ export function AddonCard({
                                 {name}
                             </div>
                         </div>
-                        {isEagleCord && <AddonBadge text="🦅" color="#bf7e74"/>}
-                        {isNew && <AddonBadge text="NEW" color="#ED4245"/>}
+                        {isNew && <AddonBadge text="NEW" color="#ED4245" />}
                     </Text>
 
                     {!!author && (

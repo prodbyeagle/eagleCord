@@ -6,19 +6,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { FormSwitch } from "@components/FormSwitch";
 import { Margins } from "@utils/margins";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot } from "@utils/modal";
-import { Forms, SearchableSelect, Switch, useMemo } from "@webpack/common";
+import { Forms, SearchableSelect, useMemo } from "@webpack/common";
 
 import { settings } from "./settings";
 import { cl, getLanguages } from "./utils";
 
 const LanguageSettingKeys = ["receivedInput", "receivedOutput", "sentInput", "sentOutput"] as const;
 
-function LanguageSelect({ settingsKey, includeAuto }: {
-    settingsKey: typeof LanguageSettingKeys[number];
-    includeAuto: boolean;
-}) {
+function LanguageSelect({ settingsKey, includeAuto }: { settingsKey: typeof LanguageSettingKeys[number]; includeAuto: boolean; }) {
     const currentValue = settings.use([settingsKey])[settingsKey];
 
     const options = useMemo(
@@ -53,14 +51,13 @@ function AutoTranslateToggle() {
     const value = settings.use(["autoTranslate"]).autoTranslate;
 
     return (
-        <Switch
+        <FormSwitch
+            title="Auto Translate"
+            description={settings.def.autoTranslate.description}
             value={value}
             onChange={v => settings.store.autoTranslate = v}
-            note={settings.def.autoTranslate.description}
             hideBorder
-        >
-            Auto Translate
-        </Switch>
+        />
     );
 }
 
@@ -72,7 +69,7 @@ export function TranslateModal({ rootProps }: { rootProps: ModalProps; }) {
                 <Forms.FormTitle tag="h2" className={cl("modal-title")}>
                     Translate
                 </Forms.FormTitle>
-                <ModalCloseButton onClick={rootProps.onClose}/>
+                <ModalCloseButton onClick={rootProps.onClose} />
             </ModalHeader>
 
             <ModalContent className={cl("modal-content")}>
@@ -84,9 +81,9 @@ export function TranslateModal({ rootProps }: { rootProps: ModalProps; }) {
                     />
                 ))}
 
-                <Forms.FormDivider className={Margins.bottom16}/>
+                <Forms.FormDivider className={Margins.bottom16} />
 
-                <AutoTranslateToggle/>
+                <AutoTranslateToggle />
             </ModalContent>
         </ModalRoot>
     );

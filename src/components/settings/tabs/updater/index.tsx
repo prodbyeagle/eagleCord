@@ -7,13 +7,14 @@
  */
 
 import { useSettings } from "@api/Settings";
+import { FormSwitch } from "@components/FormSwitch";
 import { Link } from "@components/Link";
 import { handleSettingsTabError, SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { Margins } from "@utils/margins";
 import { ModalCloseButton, ModalContent, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import { useAwaiter } from "@utils/react";
 import { getRepo, isNewer, UpdateLogger } from "@utils/updater";
-import { Forms, React, Switch } from "@webpack/common";
+import { Forms, React } from "@webpack/common";
 
 import gitHash from "~git-hash";
 
@@ -33,24 +34,22 @@ function Updater() {
     };
 
     return (
-        <SettingsTab title="EagleCord Updater">
+        <SettingsTab title="Vencord Updater">
             <Forms.FormTitle tag="h5">Updater Settings</Forms.FormTitle>
 
-            <Switch
+            <FormSwitch
+                title="Automatically update"
+                description="Automatically update Vencord without confirmation prompt"
                 value={settings.autoUpdate}
                 onChange={(v: boolean) => settings.autoUpdate = v}
-                note="Automatically update EagleCord without confirmation prompt"
-            >
-                Automatically update
-            </Switch>
-            <Switch
+            />
+            <FormSwitch
+                title="Get notified when an automatic update completes"
+                description="Show a notification when Vencord automatically updates"
                 value={settings.autoUpdateNotification}
                 onChange={(v: boolean) => settings.autoUpdateNotification = v}
-                note="Show a notification when EagleCord automatically updates"
                 disabled={!settings.autoUpdate}
-            >
-                Get notified when an automatic update completes
-            </Switch>
+            />
 
             <Forms.FormTitle tag="h5">Repo</Forms.FormTitle>
 
@@ -66,10 +65,10 @@ function Updater() {
                         )
                 }
                 {" "}
-                (<HashLink hash={gitHash} repo={repo} disabled={repoPending}/>)
+                (<HashLink hash={gitHash} repo={repo} disabled={repoPending} />)
             </Forms.FormText>
 
-            <Forms.FormDivider className={Margins.top8 + " " + Margins.bottom8}/>
+            <Forms.FormDivider className={Margins.top8 + " " + Margins.bottom8} />
 
             <Forms.FormTitle tag="h5">Updates</Forms.FormTitle>
 
@@ -94,8 +93,8 @@ export const openUpdaterModal = IS_UPDATER_DISABLED
             openModal(wrapTab((modalProps: ModalProps) => (
                 <ModalRoot {...modalProps} size={ModalSize.MEDIUM}>
                     <ModalContent className="vc-updater-modal">
-                        <ModalCloseButton onClick={modalProps.onClose} className="vc-updater-modal-close-button"/>
-                        <UpdaterTab/>
+                        <ModalCloseButton onClick={modalProps.onClose} className="vc-updater-modal-close-button" />
+                        <UpdaterTab />
                     </ModalContent>
                 </ModalRoot>
             ), "UpdaterModal"));
