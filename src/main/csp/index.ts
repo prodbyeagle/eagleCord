@@ -129,7 +129,7 @@ const patchCsp = (headers: PolicyMap) => {
             "media-src",
             "worker-src",
         ]) {
-            pushDirective(directive, "blob:", "data:", "vencord:");
+            pushDirective(directive, "blob:", "data:", "vencord:", "vesktop:");
         }
 
         for (const [host, directives] of Object.entries(
@@ -171,5 +171,5 @@ export function initCsp() {
     // assign a noop to onHeadersReceived to prevent other mods from adding their own incompatible ones.
     // For instance, OpenAsar adds their own that doesn't fix content-type for stylesheets which makes it
     // impossible to load css from github raw despite our fix above
-    session.defaultSession.webRequest.onHeadersReceived = () => {};
+    session.defaultSession.webRequest.onHeadersReceived = () => { };
 }
