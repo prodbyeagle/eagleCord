@@ -62,10 +62,10 @@ export default definePlugin({
             }
         },
         {
-            find: 'H1,title:"Experiments"',
+            find: 'placeholder:"Search experiments"',
             replacement: {
-                match: 'title:"Experiments",children:[',
-                replace: "$&$self.WarningCard(),"
+                match: /(?<=children:\[)(?=\(0,\i\.jsx?\)\(\i\.\i,{placeholder:"Search experiments")/,
+                replace: "$self.WarningCard(),"
             }
         },
         // Change top right chat toolbar button from the help one to the dev one
@@ -144,16 +144,13 @@ export default definePlugin({
             <Forms.FormTitle tag="h2">Hold on!!</Forms.FormTitle>
 
             <Forms.FormText>
-                Experiments are unreleased Discord features. They might not work, or even break your client or get your
-                account disabled.
+                Experiments are unreleased Discord features. They might not work, or even break your client or get your account disabled.
             </Forms.FormText>
 
             <Forms.FormText className={Margins.top8}>
-                Only use experiments if you know what you're doing. Vencord is not responsible for any damage caused by
-                enabling experiments.
+                Only use experiments if you know what you're doing. Vencord is not responsible for any damage caused by enabling experiments.
 
-                If you don't know what an experiment does, ignore it. Do not ask us what experiments do either, we
-                probably don't know.
+                If you don't know what an experiment does, ignore it. Do not ask us what experiments do either, we probably don't know.
             </Forms.FormText>
 
             <Forms.FormText className={Margins.top8}>
