@@ -9,6 +9,7 @@
 import "./SpecialCard.css";
 
 import { classNameFactory } from "@api/Styles";
+import { Divider } from "@components/Divider";
 import { Card, Clickable, Forms, React } from "@webpack/common";
 import type { PropsWithChildren } from "react";
 
@@ -25,17 +26,7 @@ interface StyledCardProps {
     buttonOnClick?: () => void;
 }
 
-export function SpecialCard({
-                                title,
-                                subtitle,
-                                description,
-                                cardImage,
-                                backgroundImage,
-                                backgroundColor,
-                                buttonTitle,
-                                buttonOnClick: onClick,
-                                children
-                            }: PropsWithChildren<StyledCardProps>) {
+export function SpecialCard({ title, subtitle, description, cardImage, backgroundImage, backgroundColor, buttonTitle, buttonOnClick: onClick, children }: PropsWithChildren<StyledCardProps>) {
     const cardStyle: React.CSSProperties = {
         backgroundColor: backgroundColor || "#9c85ef",
         backgroundImage: `url(${backgroundImage || ""})`,
@@ -64,7 +55,7 @@ export function SpecialCard({
             </div>
             {buttonTitle && (
                 <>
-                    <Forms.FormDivider className={cl("seperator")}/>
+                    <Divider className={cl("seperator")} />
                     <Clickable onClick={onClick} className={cl("hyperlink")}>
                         <Forms.FormText className={cl("hyperlink-text")}>
                             {buttonTitle}

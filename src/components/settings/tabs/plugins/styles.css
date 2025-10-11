@@ -1,8 +1,20 @@
 /*
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2022 Vendicated and contributors
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 .vc-plugins-grid {
     margin-top: 16px;
@@ -17,6 +29,12 @@
     padding: 0;
     background: transparent;
     margin-right: 8px;
+    color: var(--icon-secondary);
+    transition: background-color 0.2s ease;
+
+    &:hover {
+        color: var(--interactive-hover);
+    }
 }
 
 .vc-plugins-settings-button:hover {
@@ -27,7 +45,7 @@
     display: grid;
     height: 40px;
     gap: 10px;
-    grid-template-columns: 1fr 200px;
+    grid-template-columns: 1fr 150px;
 }
 
 .vc-addon-badge {
@@ -48,8 +66,7 @@
 
 .vc-plugins-info-card {
     padding: 1em;
-    /* FIX PADDING BELOW THE BUTTON IN PLUGINS RESTART CARD */
-    height: 8.5em;
+    height: 8em;
     display: flex;
     flex-direction: column;
     gap: 0.25em;
@@ -68,39 +85,4 @@
     display: flex;
     flex-direction: column;
     gap: 1.25em;
-}
-
-.vc-plugins-excluded-plugins {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-
-.vc-plugins-excluded-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.vc-plugins-excluded-card {
-    background: var(--background-secondary-alt);
-    padding: 12px 16px;
-    border-radius: var(--radius-md);
-    display: flex;
-    flex-direction: column;
-}
-
-.vc-plugins-excluded-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.vc-plugins-excluded-badge {
-    background-color: var(--background-base-low);
-    color: var(--text-default);
-    font-size: 12px;
-    font-weight: 500;
-    border-radius: 4px;
-    padding: 2px 6px;
 }

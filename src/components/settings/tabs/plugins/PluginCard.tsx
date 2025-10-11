@@ -10,9 +10,8 @@ import { showNotice } from "@api/Notices";
 import { CogWheel, InfoIcon } from "@components/Icons";
 import { AddonCard } from "@components/settings/AddonCard";
 import { proxyLazy } from "@utils/lazy";
-import { classes, isObjectEmpty } from "@utils/misc";
+import { isObjectEmpty } from "@utils/misc";
 import { Plugin } from "@utils/types";
-import { findByPropsLazy } from "@webpack";
 import { React, showToast, Toasts } from "@webpack/common";
 import { Settings } from "Vencord";
 
@@ -20,21 +19,12 @@ import { cl, logger } from ".";
 import { openPluginModal } from "./PluginModal";
 
 // Avoid circular dependency
-const {
-    startDependenciesRecursive,
-    startPlugin,
-    stopPlugin,
-    isPluginEnabled
-} = proxyLazy(() => require("plugins") as typeof import("plugins"));
-
-export const ButtonClasses = findByPropsLazy("button", "disabled", "enabled");
+const { startDependenciesRecursive, startPlugin, stopPlugin, isPluginEnabled } = proxyLazy(() => require("plugins") as typeof import("plugins"));
 
 interface PluginCardProps extends React.HTMLProps<HTMLDivElement> {
     plugin: Plugin;
     disabled: boolean;
-
     onRestartNeeded(name: string, key: string): void;
-
     isNew?: boolean;
 }
 
@@ -98,7 +88,6 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
             name={plugin.name}
             description={plugin.description}
             isNew={isNew}
-            isEagleCord={plugin.isEagleCord}
             enabled={isEnabled()}
             setEnabled={toggleEnabled}
             disabled={disabled}
@@ -108,13 +97,13 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
                 <button
                     role="switch"
                     onClick={() => openPluginModal(plugin, onRestartNeeded)}
-                    className={classes(ButtonClasses.button, cl("info-button"))}
+                    className={cl("info-button")}
                 >
                     {plugin.options && !isObjectEmpty(plugin.options)
-                        ? <CogWheel className={cl("info-icon")}/>
-                        : <InfoIcon className={cl("info-icon")}/>
+                        ? <CogWheel className={cl("info-icon")} />
+                        : <InfoIcon className={cl("info-icon")} />
                     }
                 </button>
-            }/>
+            } />
     );
 }

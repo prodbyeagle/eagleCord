@@ -14,16 +14,7 @@ import { useForceUpdater } from "@utils/react";
 import definePlugin from "@utils/types";
 import { CustomEmoji, Message, ReactionEmoji, User } from "@vencord/discord-types";
 import { findByPropsLazy } from "@webpack";
-import {
-    ChannelStore,
-    Constants,
-    FluxDispatcher,
-    React,
-    RestAPI,
-    useEffect,
-    useLayoutEffect,
-    UserSummaryItem
-} from "@webpack/common";
+import { ChannelStore, Constants, FluxDispatcher, React, RestAPI, useEffect, useLayoutEffect, UserSummaryItem } from "@webpack/common";
 
 const AvatarStyles = findByPropsLazy("moreUsers", "emptyUser", "avatarContainer", "clickableAvatar");
 let Scroll: any = null;
@@ -129,7 +120,7 @@ export default definePlugin({
 
         useEffect(() => {
             const cb = (e: any) => {
-                if (e.messageId === message.id)
+                if (e?.messageId === message.id)
                     forceUpdate();
             };
             FluxDispatcher.subscribe("MESSAGE_REACTION_ADD_USERS", cb);

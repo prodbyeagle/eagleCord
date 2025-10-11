@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { Divider } from "@components/Divider";
 import { FormSwitch } from "@components/FormSwitch";
 import { Margins } from "@utils/margins";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot } from "@utils/modal";
@@ -81,7 +82,7 @@ export function TranslateModal({ rootProps }: { rootProps: ModalProps; }) {
                     />
                 ))}
 
-                <Forms.FormDivider className={Margins.bottom16} />
+                <Divider className={Margins.bottom16} />
 
                 <AutoTranslateToggle />
             </ModalContent>

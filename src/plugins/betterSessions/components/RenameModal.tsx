@@ -13,11 +13,7 @@ import { KeyboardEvent } from "react";
 import { SessionInfo } from "../types";
 import { getDefaultName, savedSessionsCache, saveSessionsToDataStore } from "../utils";
 
-export function RenameModal({ props, session, state }: {
-    props: ModalProps,
-    session: SessionInfo["session"],
-    state: [string, React.Dispatch<React.SetStateAction<string>>];
-}) {
+export function RenameModal({ props, session, state }: { props: ModalProps, session: SessionInfo["session"], state: [string, React.Dispatch<React.SetStateAction<string>>]; }) {
     const [title, setTitle] = state;
     const [value, setValue] = React.useState(savedSessionsCache.get(session.id_hash)?.name ?? "");
 
@@ -69,20 +65,21 @@ export function RenameModal({ props, session, state }: {
             </ModalContent>
 
             <ModalFooter>
-                <Button
-                    color={Button.Colors.BRAND}
-                    onClick={onSaveClick}
-                >
-                    Save
-                </Button>
-                <Button
-                    color={Button.Colors.TRANSPARENT}
-                    look={Button.Looks.LINK}
-                    onClick={() => props.onClose()}
-                >
-                    Cancel
-                </Button>
+                <div className="vc-betterSessions-footer-buttons">
+                    <Button
+                        color={Button.Colors.PRIMARY}
+                        onClick={() => props.onClose()}
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        color={Button.Colors.BRAND}
+                        onClick={onSaveClick}
+                    >
+                        Save
+                    </Button>
+                </div>
             </ModalFooter>
-        </ModalRoot>
+        </ModalRoot >
     );
 }

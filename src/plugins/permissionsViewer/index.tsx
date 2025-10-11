@@ -17,26 +17,9 @@ import { classes } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
 import type { Guild, GuildMember } from "@vencord/discord-types";
 import { findByPropsLazy } from "@webpack";
-import {
-    Button,
-    ChannelStore,
-    Dialog,
-    GuildMemberStore,
-    GuildRoleStore,
-    GuildStore,
-    match,
-    Menu,
-    PermissionsBits,
-    Popout,
-    TooltipContainer,
-    useRef,
-    UserStore
-} from "@webpack/common";
+import { Button, ChannelStore, Dialog, GuildMemberStore, GuildRoleStore, GuildStore, match, Menu, PermissionsBits, Popout, TooltipContainer, useRef, UserStore } from "@webpack/common";
 
-import openRolesAndUsersPermissionsModal, {
-    PermissionType,
-    RoleOrUserPermission
-} from "./components/RolesAndUsersPermissions";
+import openRolesAndUsersPermissionsModal, { PermissionType, RoleOrUserPermission } from "./components/RolesAndUsersPermissions";
 import UserPermissions from "./components/UserPermissions";
 import { getSortedRolesForMember, sortPermissionOverwrites } from "./utils";
 
@@ -101,12 +84,7 @@ function MenuItem(guildId: string, id?: string, type?: MenuItemParentType) {
                     .with(MenuItemParentType.Channel, () => {
                         const channel = ChannelStore.getChannel(id!);
 
-                        const permissions = sortPermissionOverwrites(Object.values(channel.permissionOverwrites).map(({
-                                                                                                                          id,
-                                                                                                                          allow,
-                                                                                                                          deny,
-                                                                                                                          type
-                                                                                                                      }) => ({
+                        const permissions = sortPermissionOverwrites(Object.values(channel.permissionOverwrites).map(({ id, allow, deny, type }) => ({
                             type: type as PermissionType,
                             id,
                             overwriteAllow: allow,
@@ -195,7 +173,7 @@ export default definePlugin({
                 targetElementRef={buttonRef}
                 renderPopout={({ closePopout }) => (
                     <Dialog className={PopoutClasses.container} style={{ width: "500px" }}>
-                        <UserPermissions guild={guild} guildMember={guildMember} closePopout={closePopout}/>
+                        <UserPermissions guild={guild} guildMember={guildMember} closePopout={closePopout} />
                     </Dialog>
                 )}
             >
@@ -203,14 +181,13 @@ export default definePlugin({
                     <TooltipContainer text="View Permissions">
                         <Button
                             {...popoutProps}
-                            buttonRef={buttonRef}
+                            ref={buttonRef}
                             color={Button.Colors.CUSTOM}
                             look={Button.Looks.FILLED}
                             size={Button.Sizes.NONE}
-                            innerClassName={classes(RoleButtonClasses.buttonInner, RoleButtonClasses.icon)}
                             className={classes(RoleButtonClasses.button, RoleButtonClasses.icon, "vc-permviewer-role-button")}
                         >
-                            <SafetyIcon height="16" width="16"/>
+                            <SafetyIcon height="16" width="16" />
                         </Button>
                     </TooltipContainer>
                 )}

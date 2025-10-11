@@ -8,6 +8,7 @@
 
 import { openNotificationLogModal } from "@api/Notifications/notificationLog";
 import { useSettings } from "@api/Settings";
+import { Divider } from "@components/Divider";
 import { FormSwitch } from "@components/FormSwitch";
 import { FolderIcon, GithubIcon, LogIcon, PaintbrushIcon, RestartIcon } from "@components/index";
 import { QuickAction, QuickActionCard } from "@components/settings/QuickAction";
@@ -20,7 +21,7 @@ import { IS_MAC, IS_WINDOWS } from "@utils/constants";
 import { Margins } from "@utils/margins";
 import { isPluginDev } from "@utils/misc";
 import { relaunch } from "@utils/native";
-import { Forms, React, UserStore } from "@webpack/common";
+import { Alerts, Forms, React, UserStore } from "@webpack/common";
 
 import { isEagleUser } from "./DonateButton";
 import { VibrancySettings } from "./MacVibrancySettings";
@@ -31,8 +32,9 @@ const SHIGGY_DONATE_IMAGE = "https://media.discordapp.net/stickers/1039992459209
 const VENNIE_DONATOR_IMAGE = "https://cdn.discordapp.com/emojis/1238120638020063377.png";
 const COZY_CONTRIB_IMAGE = "https://cdn.discordapp.com/emojis/1026533070955872337.png";
 const DONOR_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070116305436712.png?size=2048";
-const CONTRIB_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070166481895484.png?size=2048";
+export const CONTRIB_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070166481895484.png?size=2048";
 export const EAGLECORD_ICON_IMAGE = "https://cdn.discordapp.com/emojis/1385016033831555233.gif";
+
 type KeysOfType<Object, Type> = {
     [K in keyof Object]: Object[K] extends Type ? K : never;
 }[keyof Object];
@@ -44,52 +46,73 @@ function Switches() {
         {
             key: "useQuickCss",
             title: "Enable Custom CSS",
-            note: "Loads your Custom CSS"
         },
         !IS_WEB && {
             key: "enableReactDevtools",
             title: "Enable React Developer Tools",
-            note: "Requires a full restart"
+            restartRequired: true
         },
         !IS_WEB && (!IS_DISCORD_DESKTOP || !IS_WINDOWS ? {
             key: "frameless",
             title: "Disable the window frame",
-            note: "Requires a full restart"
+            restartRequired: true
         } : {
             key: "winNativeTitleBar",
             title: "Use Windows' native title bar instead of Discord's custom one",
-            note: "Requires a full restart"
+            restartRequired: true
         }),
         !IS_WEB && {
             key: "transparent",
-            title: "Enable window transparency.",
-            note: "You need a theme that supports transparency or this will do nothing. WILL STOP THE WINDOW FROM BEING RESIZABLE!! Requires a full restart"
-        },
-        !IS_WEB && IS_WINDOWS && {
-            key: "winCtrlQ",
-            title: "Register Ctrl+Q as shortcut to close Discord (Alternative to Alt+F4)",
-            note: "Requires a full restart"
+            title: "Enable window transparency",
+            description: "A theme that supports transparency is required or this will do nothing. Stops the window from being resizable as a side effect",
+            restartRequired: true
         },
         IS_DISCORD_DESKTOP && {
             key: "disableMinSize",
             title: "Disable minimum window size",
-            note: "Requires a full restart"
+            restartRequired: true
+        },
+        !IS_WEB && IS_WINDOWS && {
+            key: "winCtrlQ",
+            title: "Register Ctrl+Q as shortcut to close Discord (Alternative to Alt+F4)",
+            restartRequired: true
         },
     ] satisfies Array<false | {
         key: KeysOfType<typeof settings, boolean>;
         title: string;
-        note: string;
+        description?: string;
+        restartRequired?: boolean;
     }>;
 
-    return Switches.map(s => s && (
-        <FormSwitch
-            key={s.key}
-            title={s.title}
-            description={s.note}
-            value={settings[s.key]}
-            onChange={v => settings[s.key] = v}
-        />
-    ));
+    return Switches.map(setting => {
+        if (!setting) {
+            return null;
+        }
+
+        const { key, title, description, restartRequired } = setting;
+
+        return (
+            <FormSwitch
+                key={key}
+                title={title}
+                description={description}
+                value={settings[key]}
+                onChange={v => {
+                    settings[key] = v;
+
+                    if (restartRequired) {
+                        Alerts.show({
+                            title: "Restart Required",
+                            body: "A restart is required to apply this change",
+                            confirmText: "Restart now",
+                            cancelText: "Later!",
+                            onConfirm: relaunch
+                        });
+                    }
+                }}
+            />
+        );
+    });
 }
 
 function VencordSettings() {
@@ -100,7 +123,7 @@ function VencordSettings() {
 
     const needsVibrancySettings = IS_DISCORD_DESKTOP && IS_MAC;
 
-    const user = UserStore.getCurrentUser();
+    const user = UserStore?.getCurrentUser();
 
     return (
         <SettingsTab title="EagleCord Settings">
@@ -190,7 +213,7 @@ function VencordSettings() {
                 </QuickActionCard>
             </section>
 
-            <Forms.FormDivider />
+            <Divider />
 
             <section className={Margins.top16}>
                 <Forms.FormTitle tag="h5">Settings</Forms.FormTitle>

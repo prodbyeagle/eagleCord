@@ -10,6 +10,7 @@
 import "./index.css";
 
 import { definePluginSettings } from "@api/Settings";
+import { Divider } from "@components/Divider";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Devs } from "@utils/constants";
 import { fetchUserProfile } from "@utils/discord";
@@ -117,7 +118,7 @@ function SettingsAboutComponent() {
                     <li>• click the "Copy 3y3" button</li>
                     <li>• paste the invisible text anywhere in your bio</li>
                 </ul><br />
-                <Forms.FormDivider
+                <Divider
                     className={classes(Margins.top8, Margins.bottom8)}
                 />
                 <Forms.FormTitle tag="h3">Color pickers</Forms.FormTitle>
@@ -164,7 +165,7 @@ function SettingsAboutComponent() {
                         Copy 3y3
                     </Button>
                 </Flex>
-                <Forms.FormDivider
+                <Divider
                     className={classes(Margins.top8, Margins.bottom8)}
                 />
                 <Forms.FormTitle tag="h3">Preview</Forms.FormTitle>

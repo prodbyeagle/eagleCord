@@ -4,6 +4,7 @@
 
 .vc-donate-button .vc-heart-icon {
     transition: transform 0.3s;
+    margin-right: 0.5em;
 }
 
 .vc-donate-button:hover .vc-heart-icon {
@@ -78,8 +79,8 @@
     flex-shrink: 0;
     width: 100px;
     height: 100px;
-    border-radius: 15%;
-    background-color: rgb(255 255 255 / 35%);
+    border-radius: 50%;
+    background-color: white;
 }
 
 .vc-special-image {

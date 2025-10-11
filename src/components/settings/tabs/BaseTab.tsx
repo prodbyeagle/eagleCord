@@ -6,24 +6,17 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { BaseText } from "@components/BaseText";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { handleComponentFailed } from "@components/handleComponentFailed";
 import { Margins } from "@utils/margins";
 import { onlyOnce } from "@utils/onlyOnce";
-import { Text } from "@webpack/common";
 import type { ComponentType, PropsWithChildren } from "react";
 
 export function SettingsTab({ title, children }: PropsWithChildren<{ title: string; }>) {
     return (
         <section>
-            <Text
-                variant="heading-lg/semibold"
-                tag="h2"
-                className={Margins.bottom16}
-            >
-                {title}
-            </Text>
-
+            <BaseText tag="h2" size="xl" weight="semibold" className={Margins.bottom16}>{title}</BaseText>
             {children}
         </section>
     );

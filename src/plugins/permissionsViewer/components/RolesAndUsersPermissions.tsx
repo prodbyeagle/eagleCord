@@ -14,23 +14,7 @@ import { getIntlMessage, getUniqueUsername } from "@utils/discord";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import { Guild, Role, UnicodeEmoji, User } from "@vencord/discord-types";
 import { findByCodeLazy } from "@webpack";
-import {
-    ContextMenuApi,
-    FluxDispatcher,
-    GuildMemberStore,
-    GuildRoleStore,
-    i18n,
-    Menu,
-    PermissionsBits,
-    ScrollerThin,
-    Text,
-    Tooltip,
-    useEffect,
-    useMemo,
-    UserStore,
-    useState,
-    useStateFromStores
-} from "@webpack/common";
+import { ContextMenuApi, FluxDispatcher, GuildMemberStore, GuildRoleStore, i18n, Menu, PermissionsBits, ScrollerThin, Text, Tooltip, useEffect, useMemo, UserStore, useState, useStateFromStores } from "@webpack/common";
 
 import { settings } from "..";
 import { cl, getGuildPermissionSpecMap } from "../utils";
@@ -61,12 +45,7 @@ function getRoleIconSrc(role: Role) {
     return customIconSrc ?? unicodeEmoji?.url;
 }
 
-function RolesAndUsersPermissionsComponent({ permissions, guild, modalProps, header }: {
-    permissions: Array<RoleOrUserPermission>;
-    guild: Guild;
-    modalProps: ModalProps;
-    header: string;
-}) {
+function RolesAndUsersPermissionsComponent({ permissions, guild, modalProps, header }: { permissions: Array<RoleOrUserPermission>; guild: Guild; modalProps: ModalProps; header: string; }) {
     const guildPermissionSpecMap = useMemo(() => getGuildPermissionSpecMap(guild), [guild.id]);
 
     useStateFromStores(
@@ -103,8 +82,8 @@ function RolesAndUsersPermissionsComponent({ permissions, guild, modalProps, hea
             size={ModalSize.LARGE}
         >
             <ModalHeader>
-                <Text className={cl("modal-title")} variant="heading-lg/semibold">{header} permissions:</Text>
-                <ModalCloseButton onClick={modalProps.onClose}/>
+                <Text className={cl("modal-title")} variant="heading-lg/semibold">{header} Permissions</Text>
+                <ModalCloseButton onClick={modalProps.onClose} />
             </ModalHeader>
 
             <ModalContent className={cl("modal-content")}>
@@ -177,8 +156,7 @@ function RolesAndUsersPermissionsComponent({ permissions, guild, modalProps, hea
                                                             : (
                                                                 <Flex style={{ gap: "0.2em", justifyItems: "center" }}>
                                                                     @owner
-                                                                    <OwnerCrownIcon height={18} width={18}
-                                                                                    aria-hidden="true"/>
+                                                                    <OwnerCrownIcon height={18} width={18} aria-hidden="true" />
                                                                 </Flex>
                                                             )
                                                 }
@@ -188,7 +166,7 @@ function RolesAndUsersPermissionsComponent({ permissions, guild, modalProps, hea
                                 );
                             })}
                         </ScrollerThin>
-                        <div className={cl("modal-divider")}/>
+                        <div className={cl("modal-divider")} />
                         <ScrollerThin className={cl("modal-perms")} orientation="auto">
                             {Object.values(PermissionsBits).map(bit => (
                                 <div key={bit} className={cl("modal-perms-item")}>

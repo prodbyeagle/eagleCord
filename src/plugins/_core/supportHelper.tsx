@@ -12,17 +12,7 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
 import { Link } from "@components/Link";
 import { openUpdaterModal } from "@components/settings/tabs/updater";
-import {
-    CONTRIB_ROLE_ID,
-    Devs,
-    DONOR_ROLE_ID,
-    KNOWN_ISSUES_CHANNEL_ID,
-    REGULAR_ROLE_ID,
-    SUPPORT_CATEGORY_ID,
-    SUPPORT_CHANNEL_ID,
-    VENBOT_USER_ID,
-    VENCORD_GUILD_ID
-} from "@utils/constants";
+import { CONTRIB_ROLE_ID, Devs, DONOR_ROLE_ID, KNOWN_ISSUES_CHANNEL_ID, REGULAR_ROLE_ID, SUPPORT_CATEGORY_ID, SUPPORT_CHANNEL_ID, VENBOT_USER_ID, VENCORD_GUILD_ID } from "@utils/constants";
 import { sendMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
@@ -33,22 +23,7 @@ import { makeCodeblock } from "@utils/text";
 import definePlugin from "@utils/types";
 import { checkForUpdates, isOutdated, update } from "@utils/updater";
 import { Channel } from "@vencord/discord-types";
-import {
-    Alerts,
-    Button,
-    Card,
-    ChannelStore,
-    Forms,
-    GuildMemberStore,
-    Parser,
-    PermissionsBits,
-    PermissionStore,
-    RelationshipStore,
-    showToast,
-    Text,
-    Toasts,
-    UserStore
-} from "@webpack/common";
+import { Alerts, Button, Card, ChannelStore, Forms, GuildMemberStore, Parser, PermissionsBits, PermissionStore, RelationshipStore, showToast, Text, Toasts, UserStore } from "@webpack/common";
 import { JSX } from "react";
 
 import gitHash from "~git-hash";
@@ -68,8 +43,7 @@ const TrustedRolesIds = [
     DONOR_ROLE_ID, // donor
 ];
 
-const AsyncFunction = async function () {
-}.constructor;
+const AsyncFunction = async function () { }.constructor;
 
 const ShowCurrentGame = getUserSettingLazy<boolean>("status", "showCurrentGame")!;
 
@@ -99,8 +73,8 @@ async function generateDebugInfoMessage() {
     })();
 
     const info = {
-        EagleCord:
-            `v${VERSION} • [${gitHash}](<https://github.com/prodbyeagle/cord/commit/${gitHash}>)` +
+        Vencord:
+            `v${VERSION} • [${gitHash}](<https://github.com/Vendicated/Vencord/commit/${gitHash}>)` +
             `${SettingsPlugin.additionalInfo} - ${Intl.DateTimeFormat("en-GB", { dateStyle: "medium" }).format(BUILD_TIMESTAMP)}`,
         Client: `${RELEASE_CHANNEL} ~ ${client}`,
         Platform: navigator.platform
@@ -192,15 +166,13 @@ export default definePlugin({
             if (!selfId || isPluginDev(selfId)) return;
 
             if (!IS_UPDATER_DISABLED) {
-                await checkForUpdatesOnce().catch(() => {
-                });
+                await checkForUpdatesOnce().catch(() => { });
 
                 if (isOutdated) {
                     return Alerts.show({
                         title: "Hold on!",
                         body: <div>
-                            <Forms.FormText>You are using an outdated version of Vencord! Chances are, your issue is
-                                already fixed.</Forms.FormText>
+                            <Forms.FormText>You are using an outdated version of Vencord! Chances are, your issue is already fixed.</Forms.FormText>
                             <Forms.FormText className={Margins.top8}>
                                 Please first update before asking for support!
                             </Forms.FormText>
@@ -221,11 +193,9 @@ export default definePlugin({
                 return Alerts.show({
                     title: "Hold on!",
                     body: <div>
-                        <Forms.FormText>You are using an externally updated Vencord version, which we do not provide
-                            support for!</Forms.FormText>
+                        <Forms.FormText>You are using an externally updated Vencord version, which we do not provide support for!</Forms.FormText>
                         <Forms.FormText className={Margins.top8}>
-                            Please either switch to an <Link href="https://eaglecord.vercel.app/download">officially
-                            supported version of Vencord</Link>, or
+                            Please either switch to an <Link href="https://vencord.dev/download">officially supported version of Vencord</Link>, or
                             contact your package maintainer for support instead.
                         </Forms.FormText>
                     </div>
@@ -236,18 +206,14 @@ export default definePlugin({
                 return Alerts.show({
                     title: "Hold on!",
                     body: <div>
-                        <Forms.FormText>You are using a custom build of Vencord, which we do not provide support
-                            for!</Forms.FormText>
+                        <Forms.FormText>You are using a custom build of Vencord, which we do not provide support for!</Forms.FormText>
 
                         <Forms.FormText className={Margins.top8}>
-                            We only provide support for <Link href="https://eaglecord.vercel.app/download">official
-                            builds</Link>.
-                            Either <Link href="https://eaglecord.vercel.app/download">switch to an official
-                            build</Link> or figure your issue out yourself.
+                            We only provide support for <Link href="https://vencord.dev/download">official builds</Link>.
+                            Either <Link href="https://vencord.dev/download">switch to an official build</Link> or figure your issue out yourself.
                         </Forms.FormText>
 
-                        <Text variant="text-md/bold" className={Margins.top8}>You will be banned from receiving support
-                            if you ignore this rule.</Text>
+                        <Text variant="text-md/bold" className={Margins.top8}>You will be banned from receiving support if you ignore this rule.</Text>
                     </div>,
                     confirmText: "Understood",
                     secondaryConfirmText: "Don't show again",
@@ -295,12 +261,14 @@ export default definePlugin({
                 buttons.push(
                     <Button
                         key="vc-dbg"
+                        color={Button.Colors.PRIMARY}
                         onClick={async () => sendMessage(props.channel.id, { content: await generateDebugInfoMessage() })}
                     >
                         Run /vencord-debug
                     </Button>,
                     <Button
                         key="vc-plg-list"
+                        color={Button.Colors.PRIMARY}
                         onClick={async () => sendMessage(props.channel.id, { content: generatePluginList() })}
                     >
                         Run /vencord-plugins
@@ -344,9 +312,8 @@ export default definePlugin({
         return (
             <Card className={`vc-warning-card ${Margins.top8}`}>
                 Please do not private message Vencord plugin developers for support!
-                <br/>
-                Instead, use the Vencord support
-                channel: {Parser.parse("https://discord.com/channels/1015060230222131221/1026515880080842772")}
+                <br />
+                Instead, use the Vencord support channel: {Parser.parse("https://discord.com/channels/1015060230222131221/1026515880080842772")}
                 {!ChannelStore.getChannel(SUPPORT_CHANNEL_ID) && " (Click the link to join)"}
             </Card>
         );

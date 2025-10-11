@@ -8,25 +8,7 @@
 
 import { MessageObject } from "@api/MessageEvents";
 import { Channel, CloudUpload, Guild, GuildFeatures, Message, User } from "@vencord/discord-types";
-import {
-    ChannelActionCreators,
-    ChannelStore,
-    ComponentDispatch,
-    Constants,
-    FluxDispatcher,
-    GuildStore,
-    i18n,
-    IconUtils,
-    InviteActions,
-    MessageActions,
-    RestAPI,
-    SelectedChannelStore,
-    SelectedGuildStore,
-    UserProfileActions,
-    UserProfileStore,
-    UserSettingsActionCreators,
-    UserUtils
-} from "@webpack/common";
+import { ChannelActionCreators, ChannelStore, ComponentDispatch, Constants, FluxDispatcher, GuildStore, i18n, IconUtils, InviteActions, MessageActions, RestAPI, SelectedChannelStore, SelectedGuildStore, UserProfileActions, UserProfileStore, UserSettingsActionCreators, UserUtils } from "@webpack/common";
 import { Except } from "type-fest";
 
 import { runtimeHashMessageKey } from "./intlHash";
@@ -108,7 +90,11 @@ export const enum Theme {
 }
 
 export function getTheme(): Theme {
-    return UserSettingsActionCreators.PreloadedUserSettingsActionCreators.getCurrentValue()?.appearance?.theme;
+    try {
+        return UserSettingsActionCreators.PreloadedUserSettingsActionCreators.getCurrentValue()?.appearance?.theme;
+    } catch {
+        return Theme.Dark;
+    }
 }
 
 export function insertTextIntoChatInputBox(text: string) {
@@ -218,11 +204,7 @@ export async function fetchUserProfile(id: string, options?: FetchUserProfileOpt
     FluxDispatcher.dispatch({ type: "USER_UPDATE", user: body.user });
     await FluxDispatcher.dispatch({ type: "USER_PROFILE_FETCH_SUCCESS", userProfile: body });
     if (options?.guild_id && body.guild_member)
-        FluxDispatcher.dispatch({
-            type: "GUILD_MEMBER_PROFILE_UPDATE",
-            guildId: options.guild_id,
-            guildMember: body.guild_member
-        });
+        FluxDispatcher.dispatch({ type: "GUILD_MEMBER_PROFILE_UPDATE", guildId: options.guild_id, guildMember: body.guild_member });
 
     return UserProfileStore.getUserProfile(id);
 }

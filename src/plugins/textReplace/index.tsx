@@ -47,7 +47,7 @@ const settings = definePluginSettings({
                         title="Using Regex"
                         rulesArray={regexRules}
                     />
-                    <TextReplaceTesting/>
+                    <TextReplaceTesting />
                 </>
             );
         }
@@ -133,24 +133,22 @@ function TextReplace({ title, rulesArray }: TextReplaceProps) {
                 {
                     rulesArray.map((rule, index) =>
                         <React.Fragment key={`${rule.find}-${index}`}>
-                            <Flex flexDirection="row" style={{ gap: 0 }}>
-                                <Flex flexDirection="row" style={{ flexGrow: 1, gap: "0.5em" }}>
-                                    <Input
-                                        placeholder="Find"
-                                        initialValue={rule.find}
-                                        onChange={e => onChange(e, index, "find")}
-                                    />
-                                    <Input
-                                        placeholder="Replace"
-                                        initialValue={rule.replace}
-                                        onChange={e => onChange(e, index, "replace")}
-                                    />
-                                    <Input
-                                        placeholder="Only if includes"
-                                        initialValue={rule.onlyIfIncludes}
-                                        onChange={e => onChange(e, index, "onlyIfIncludes")}
-                                    />
-                                </Flex>
+                            <Flex flexDirection="row" style={{ flexGrow: 1, gap: "0.5em" }}>
+                                <Input
+                                    placeholder="Find"
+                                    initialValue={rule.find}
+                                    onChange={e => onChange(e, index, "find")}
+                                />
+                                <Input
+                                    placeholder="Replace"
+                                    initialValue={rule.replace}
+                                    onChange={e => onChange(e, index, "replace")}
+                                />
+                                <Input
+                                    placeholder="Only if includes"
+                                    initialValue={rule.onlyIfIncludes}
+                                    onChange={e => onChange(e, index, "onlyIfIncludes")}
+                                />
                                 <Button
                                     size={Button.Sizes.MIN}
                                     onClick={() => onClickRemove(index)}
@@ -158,15 +156,15 @@ function TextReplace({ title, rulesArray }: TextReplaceProps) {
                                         background: "none",
                                         color: "var(--status-danger)",
                                         ...(index === rulesArray.length - 1
-                                                ? {
-                                                    visibility: "hidden",
-                                                    pointerEvents: "none"
-                                                }
-                                                : {}
+                                            ? {
+                                                visibility: "hidden",
+                                                pointerEvents: "none"
+                                            }
+                                            : {}
                                         )
                                     }}
                                 >
-                                    <DeleteIcon/>
+                                    <DeleteIcon />
                                 </Button>
                             </Flex>
                             {isRegexRules && renderFindError(rule.find)}
@@ -183,8 +181,8 @@ function TextReplaceTesting() {
     return (
         <>
             <Forms.FormTitle tag="h4">Test Rules</Forms.FormTitle>
-            <TextInput placeholder="Type a message" onChange={setValue}/>
-            <TextInput placeholder="Message with rules applied" editable={false} value={applyRules(value)}/>
+            <TextInput placeholder="Type a message" onChange={setValue} />
+            <TextInput placeholder="Message with rules applied" editable={false} value={applyRules(value)} />
         </>
     );
 }
