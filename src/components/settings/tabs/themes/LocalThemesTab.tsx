@@ -92,19 +92,17 @@ export function LocalThemesTab() {
                     </Link>
                     <Link href="https://github.com/search?q=discord+theme">GitHub</Link>
                 </div>
-                <Forms.FormText>If using the BD site, click on "Download" and place the downloaded .theme.css file into
-                    your themes folder.</Forms.FormText>
+                <Forms.FormText>If using the BD site, click on "Download" and place the downloaded .theme.css file into your themes folder.</Forms.FormText>
             </Card>
 
             <Card className="vc-settings-card">
                 <Forms.FormTitle tag="h5">External Resources</Forms.FormTitle>
-                <Forms.FormText>For security reasons, loading resources (styles, fonts, images, ...) from most sites is
-                    blocked.</Forms.FormText>
-                <Forms.FormText>Make sure all your assets are hosted on GitHub, GitLab, Codeberg, Imgur, Discord or
-                    Google Fonts.</Forms.FormText>
+                <Forms.FormText>For security reasons, loading resources (styles, fonts, images, ...) from most sites is blocked.</Forms.FormText>
+                <Forms.FormText>Make sure all your assets are hosted on GitHub, GitLab, Codeberg, Imgur, Discord or Google Fonts.</Forms.FormText>
             </Card>
 
-            <Forms.FormSection title="Local Themes">
+            <section>
+                <Forms.FormTitle tag="h5">Local Themes</Forms.FormTitle>
                 <QuickActionCard>
                     <>
                         {IS_WEB ?
@@ -169,7 +167,7 @@ export function LocalThemesTab() {
                         />
                     ))}
                 </div>
-            </Forms.FormSection>
+            </section>
         </>
     );
 }

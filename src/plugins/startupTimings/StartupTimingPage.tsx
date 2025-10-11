@@ -78,30 +78,25 @@ function TimingSection({ title, logs, traceEnd }: TimingSectionProps) {
     });
 
     return (
-        <Forms.FormSection title={title} tag="h1">
+        <section>
+            <Forms.FormTitle tag="h2">{title}</Forms.FormTitle>
             <code>
                 {traceEnd && (
                     <div style={{ color: "var(--header-primary)", marginBottom: 5, userSelect: "text" }}>
                         Trace ended at: {(new Date(traceEnd)).toTimeString()}
                     </div>
                 )}
-                <div style={{
-                    color: "var(--header-primary)",
-                    display: "grid",
-                    gridTemplateColumns: "repeat(3, auto) 1fr",
-                    gap: "2px 10px",
-                    userSelect: "text"
-                }}>
+                <div style={{ color: "var(--header-primary)", display: "grid", gridTemplateColumns: "repeat(3, auto) 1fr", gap: "2px 10px", userSelect: "text" }}>
                     <span>Start</span>
                     <span>Interval</span>
                     <span>Delta</span>
                     <span style={{ marginBottom: 5 }}>Event</span>
                     {AppStartPerformance.logs.map((log, i) => (
-                        <TimerItem key={i} {...log} instance={timings[i]}/>
+                        <TimerItem key={i} {...log} instance={timings[i]} />
                     ))}
                 </div>
             </code>
-        </Forms.FormSection>
+        </section>
     );
 }
 
@@ -113,7 +108,8 @@ function ServerTrace({ trace }: ServerTraceProps) {
     const lines = trace.split("\n");
 
     return (
-        <Forms.FormSection title="Server Trace" tag="h2">
+        <section>
+            <Forms.FormTitle tag="h3">Server Trace</Forms.FormTitle>
             <code>
                 <Flex flexDirection="column" style={{ color: "var(--header-primary)", gap: 5, userSelect: "text" }}>
                     {lines.map((line, idx) => (
@@ -121,7 +117,7 @@ function ServerTrace({ trace }: ServerTraceProps) {
                     ))}
                 </Flex>
             </code>
-        </Forms.FormSection>
+        </section>
     );
 }
 
@@ -139,7 +135,7 @@ function StartupTimingPage() {
             />
             {/* Lazy Divider */}
             <div style={{ marginTop: 5 }}>&nbsp;</div>
-            {serverTrace && <ServerTrace trace={serverTrace}/>}
+            {serverTrace && <ServerTrace trace={serverTrace} />}
         </React.Fragment>
     );
 }

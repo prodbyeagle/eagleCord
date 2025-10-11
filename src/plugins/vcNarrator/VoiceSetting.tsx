@@ -59,8 +59,7 @@ function ComplexPicker({ voice, voices }: PickerProps) {
                 if (friendlyName) {
                     list.push({ name, friendlyName });
                 }
-            } catch {
-            }
+            } catch { }
         }
 
         return list;
@@ -116,14 +115,14 @@ function VoiceSetting() {
     // If there are more than 20 voices, we split it up into two pickers, one for language, then one with only the voices for that language.
     // This way, there are around 200-ish options per language
     const Picker = voices.length > 20 ? ComplexPicker : SimplePicker;
-    return <Picker voice={voice} voices={voices}/>;
+    return <Picker voice={voice} voices={voices} />;
 }
 
 export function VoiceSettingSection() {
     return (
-        <Forms.FormSection>
+        <section>
             <Forms.FormTitle>Voice</Forms.FormTitle>
-            <VoiceSetting/>
-        </Forms.FormSection>
+            <VoiceSetting />
+        </section>
     );
 }

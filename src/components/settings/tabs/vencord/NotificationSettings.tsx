@@ -17,7 +17,8 @@ import { Button, Forms, Select, Slider, Text } from "@webpack/common";
 
 export function NotificationSection() {
     return (
-        <Forms.FormSection className={Margins.top16} title="Vencord Notifications" tag="h5">
+        <section className={Margins.top16}>
+            <Forms.FormTitle tag="h5">Vencord Notifications</Forms.FormTitle>
             <Flex>
                 <Button onClick={openNotificationSettingsModal}>
                     Notification Settings
@@ -26,7 +27,7 @@ export function NotificationSection() {
                     View Notification Log
                 </Button>
             </Flex>
-        </Forms.FormSection>
+        </section>
     );
 }
 
@@ -35,11 +36,11 @@ export function openNotificationSettingsModal() {
         <ModalRoot {...props} size={ModalSize.MEDIUM}>
             <ModalHeader>
                 <Text variant="heading-lg/semibold" style={{ flexGrow: 1 }}>Notification Settings</Text>
-                <ModalCloseButton onClick={props.onClose}/>
+                <ModalCloseButton onClick={props.onClose} />
             </ModalHeader>
 
             <ModalContent>
-                <NotificationSettings/>
+                <NotificationSettings />
             </ModalContent>
         </ModalRoot>
     ));
@@ -54,26 +55,20 @@ function NotificationSettings() {
             {settings.useNative !== "never" && Notification?.permission === "denied" && (
                 <ErrorCard style={{ padding: "1em" }} className={Margins.bottom8}>
                     <Forms.FormTitle tag="h5">Desktop Notification Permission denied</Forms.FormTitle>
-                    <Forms.FormText>You have denied Notification Permissions. Thus, Desktop notifications will not
-                        work!</Forms.FormText>
+                    <Forms.FormText>You have denied Notification Permissions. Thus, Desktop notifications will not work!</Forms.FormText>
                 </ErrorCard>
             )}
             <Forms.FormText className={Margins.bottom8}>
                 Some plugins may show you notifications. These come in two styles:
                 <ul>
                     <li><strong>Vencord Notifications</strong>: These are in-app notifications</li>
-                    <li><strong>Desktop Notifications</strong>: Native Desktop notifications (like when you get a ping)
-                    </li>
+                    <li><strong>Desktop Notifications</strong>: Native Desktop notifications (like when you get a ping)</li>
                 </ul>
             </Forms.FormText>
             <Select
                 placeholder="Notification Style"
                 options={[
-                    {
-                        label: "Only use Desktop notifications when Discord is not focused",
-                        value: "not-focused",
-                        default: true
-                    },
+                    { label: "Only use Desktop notifications when Discord is not focused", value: "not-focused", default: true },
                     { label: "Always use Desktop notifications", value: "always" },
                     { label: "Always use Vencord notifications", value: "never" },
                 ] satisfies Array<{ value: typeof settings["useNative"]; } & Record<string, any>>}
@@ -83,8 +78,7 @@ function NotificationSettings() {
                 serialize={identity}
             />
 
-            <Forms.FormTitle tag="h5" className={Margins.top16 + " " + Margins.bottom8}>Notification
-                Position</Forms.FormTitle>
+            <Forms.FormTitle tag="h5" className={Margins.top16 + " " + Margins.bottom8}>Notification Position</Forms.FormTitle>
             <Select
                 isDisabled={settings.useNative === "always"}
                 placeholder="Notification Position"
@@ -97,8 +91,7 @@ function NotificationSettings() {
                 serialize={identity}
             />
 
-            <Forms.FormTitle tag="h5" className={Margins.top16 + " " + Margins.bottom8}>Notification
-                Timeout</Forms.FormTitle>
+            <Forms.FormTitle tag="h5" className={Margins.top16 + " " + Margins.bottom8}>Notification Timeout</Forms.FormTitle>
             <Forms.FormText className={Margins.bottom16}>Set to 0s to never automatically time out</Forms.FormText>
             <Slider
                 disabled={settings.useNative === "always"}
@@ -112,12 +105,10 @@ function NotificationSettings() {
                 stickToMarkers={false}
             />
 
-            <Forms.FormTitle tag="h5" className={Margins.top16 + " " + Margins.bottom8}>Notification Log
-                Limit</Forms.FormTitle>
+            <Forms.FormTitle tag="h5" className={Margins.top16 + " " + Margins.bottom8}>Notification Log Limit</Forms.FormTitle>
             <Forms.FormText className={Margins.bottom16}>
                 The amount of notifications to save in the log until old ones are removed.
-                Set to <code>0</code> to disable Notification log and <code>∞</code> to never automatically remove old
-                Notifications
+                Set to <code>0</code> to disable Notification log and <code>∞</code> to never automatically remove old Notifications
             </Forms.FormText>
             <Slider
                 markers={[0, 25, 50, 75, 100, 200]}

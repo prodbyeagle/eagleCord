@@ -43,20 +43,14 @@ function ToggleIcon(activity: IgnoredActivity, tooltipText: string, path: string
                 <button
                     {...tooltipProps}
                     onClick={e => handleActivityToggle(e, activity)}
-                    style={{
-                        all: "unset",
-                        cursor: "pointer",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center"
-                    }}
+                    style={{ all: "unset", cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center" }}
                 >
                     <svg
                         width="24"
                         height="24"
                         viewBox="0 -960 960 960"
                     >
-                        <path fill={fill} d={path}/>
+                        <path fill={fill} d={path} />
                     </svg>
                 </button>
             )}
@@ -139,17 +133,16 @@ function IdsListComponent(props: { setValue: (value: string) => void; }) {
     }
 
     return (
-        <Forms.FormSection>
+        <section>
             <Forms.FormTitle tag="h3">Filter List</Forms.FormTitle>
-            <Forms.FormText className={Margins.bottom8}>Comma separated list of activity IDs to filter (Useful for
-                filtering specific RPC activities and CustomRPC</Forms.FormText>
+            <Forms.FormText className={Margins.bottom8}>Comma separated list of activity IDs to filter (Useful for filtering specific RPC activities and CustomRPC</Forms.FormText>
             <TextInput
                 type="text"
                 value={idsList}
                 onChange={handleChange}
                 placeholder="235834946571337729, 343383572805058560"
             />
-        </Forms.FormSection>
+        </section>
     );
 }
 
@@ -182,7 +175,7 @@ const settings = definePluginSettings({
             settings.store.idsList = Array.from(ids).join(", ");
             recalculateActivities();
         },
-        component: props => <IdsListComponent setValue={props.setValue}/>
+        component: props => <IdsListComponent setValue={props.setValue} />
     },
     ignorePlaying: {
         type: OptionType.BOOLEAN,
@@ -227,16 +220,11 @@ function isActivityTypeIgnored(type: number, id?: string) {
     }
 
     switch (type) {
-        case 0:
-            return settings.store.ignorePlaying;
-        case 1:
-            return settings.store.ignoreStreaming;
-        case 2:
-            return settings.store.ignoreListening;
-        case 3:
-            return settings.store.ignoreWatching;
-        case 5:
-            return settings.store.ignoreCompeting;
+        case 0: return settings.store.ignorePlaying;
+        case 1: return settings.store.ignoreStreaming;
+        case 2: return settings.store.ignoreListening;
+        case 3: return settings.store.ignoreWatching;
+        case 5: return settings.store.ignoreCompeting;
     }
 
     return false;
@@ -333,11 +321,7 @@ export default definePlugin({
         return (
             <ErrorBoundary noop>
                 <div style={{ marginLeft: 12, zIndex: 0 }}>
-                    {ToggleActivityComponent({
-                        id: props.id ?? props.exePath,
-                        name: props.name,
-                        type: ActivitiesTypes.Game
-                    }, nowPlaying)}
+                    {ToggleActivityComponent({ id: props.id ?? props.exePath, name: props.name, type: ActivitiesTypes.Game }, nowPlaying)}
                 </div>
             </ErrorBoundary>
         );

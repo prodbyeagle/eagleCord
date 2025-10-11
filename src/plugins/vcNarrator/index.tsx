@@ -12,17 +12,7 @@ import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { wordsToTitle } from "@utils/text";
 import definePlugin, { ReporterTestable } from "@utils/types";
-import {
-    Button,
-    ChannelStore,
-    Forms,
-    GuildMemberStore,
-    SelectedChannelStore,
-    SelectedGuildStore,
-    useMemo,
-    UserStore,
-    VoiceStateStore
-} from "@webpack/common";
+import { Button, ChannelStore, Forms, GuildMemberStore, SelectedChannelStore, SelectedGuildStore, useMemo, UserStore, VoiceStateStore } from "@webpack/common";
 import { ReactElement } from "react";
 
 import { getCurrentVoice, settings } from "./settings";
@@ -238,21 +228,17 @@ export default definePlugin({
                 : "Try installing some in the Narrator settings of your Operating System";
             errorComponent = <ErrorCard>{error}</ErrorCard>;
         } else if (!hasEnglishVoices) {
-            errorComponent =
-                <ErrorCard>You don't have any English voices installed, so the narrator might sound weird</ErrorCard>;
+            errorComponent = <ErrorCard>You don't have any English voices installed, so the narrator might sound weird</ErrorCard>;
         }
 
         return (
-            <Forms.FormSection>
+            <section>
                 <Forms.FormText>
-                    You can customise the spoken messages below. You can disable specific messages by setting them to
-                    nothing
+                    You can customise the spoken messages below. You can disable specific messages by setting them to nothing
                 </Forms.FormText>
                 <Forms.FormText>
-                    The special
-                    placeholders <code>{"{{USER}}"}</code>, <code>{"{{DISPLAY_NAME}}"}</code>, <code>{"{{NICKNAME}}"}</code> and <code>{"{{CHANNEL}}"}</code>{" "}
-                    will be replaced with the user's name (nothing if it's yourself), the user's display name, the
-                    user's nickname on current server and the channel's name respectively
+                    The special placeholders <code>{"{{USER}}"}</code>, <code>{"{{DISPLAY_NAME}}"}</code>, <code>{"{{NICKNAME}}"}</code> and <code>{"{{CHANNEL}}"}</code>{" "}
+                    will be replaced with the user's name (nothing if it's yourself), the user's display name, the user's nickname on current server and the channel's name respectively
                 </Forms.FormText>
                 {hasEnglishVoices && (
                     <>
@@ -274,7 +260,7 @@ export default definePlugin({
                     </>
                 )}
                 {errorComponent}
-            </Forms.FormSection>
+            </section>
         );
     }
 });

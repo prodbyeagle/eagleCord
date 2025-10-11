@@ -20,7 +20,7 @@ import { IS_MAC, IS_WINDOWS } from "@utils/constants";
 import { Margins } from "@utils/margins";
 import { isPluginDev } from "@utils/misc";
 import { relaunch } from "@utils/native";
-import { Forms, React, useMemo, UserStore } from "@webpack/common";
+import { Forms, React, UserStore } from "@webpack/common";
 
 import { isEagleUser } from "./DonateButton";
 import { VibrancySettings } from "./MacVibrancySettings";
@@ -31,9 +31,8 @@ const SHIGGY_DONATE_IMAGE = "https://media.discordapp.net/stickers/1039992459209
 const VENNIE_DONATOR_IMAGE = "https://cdn.discordapp.com/emojis/1238120638020063377.png";
 const COZY_CONTRIB_IMAGE = "https://cdn.discordapp.com/emojis/1026533070955872337.png";
 const DONOR_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070116305436712.png?size=2048";
-export const CONTRIB_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070166481895484.png?size=2048";
+const CONTRIB_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070166481895484.png?size=2048";
 export const EAGLECORD_ICON_IMAGE = "https://cdn.discordapp.com/emojis/1385016033831555233.gif";
-
 type KeysOfType<Object, Type> = {
     [K in keyof Object]: Object[K] extends Type ? K : never;
 }[keyof Object];
@@ -89,16 +88,15 @@ function Switches() {
             description={s.note}
             value={settings[s.key]}
             onChange={v => settings[s.key] = v}
-        >
-        </FormSwitch>
+        />
     ));
 }
 
 function VencordSettings() {
-    const donateImage = useMemo(() =>
-        Math.random() > 0.5 ? DEFAULT_DONATE_IMAGE : SHIGGY_DONATE_IMAGE,
-        []
-    );
+    // const donateImage = useMemo(() =>
+    //     Math.random() > 0.5 ? DEFAULT_DONATE_IMAGE : SHIGGY_DONATE_IMAGE,
+    //     []
+    // );
 
     const needsVibrancySettings = IS_DISCORD_DESKTOP && IS_MAC;
 
@@ -156,7 +154,9 @@ function VencordSettings() {
                 />
             )}
 
-            <Forms.FormSection title="Quick Actions">
+            <section>
+                <Forms.FormTitle tag="h5">Quick Actions</Forms.FormTitle>
+
                 <QuickActionCard>
                     <QuickAction
                         Icon={LogIcon}
@@ -188,11 +188,12 @@ function VencordSettings() {
                         action={() => VencordNative.native.openExternal("https://github.com/" + gitRemote)}
                     />
                 </QuickActionCard>
-            </Forms.FormSection>
+            </section>
 
             <Forms.FormDivider />
 
-            <Forms.FormSection className={Margins.top16} title="Settings" tag="h5">
+            <section className={Margins.top16}>
+                <Forms.FormTitle tag="h5">Settings</Forms.FormTitle>
                 <Forms.FormText className={Margins.bottom20} style={{ color: "var(--text-muted)" }}>
                     Hint: You can change the position of this settings section in the{" "}
                     <a onClick={() => openPluginModal(Vencord.Plugins.plugins.Settings)}>
@@ -201,7 +202,7 @@ function VencordSettings() {
                 </Forms.FormText>
 
                 <Switches />
-            </Forms.FormSection>
+            </section>
 
 
             {needsVibrancySettings && <VibrancySettings />}

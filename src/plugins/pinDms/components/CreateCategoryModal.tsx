@@ -19,9 +19,7 @@ interface ColorPickerWithSwatchesProps {
     colors: number[];
     value: number;
     disabled?: boolean;
-
     onChange(value: number | null): void;
-
     renderDefaultButton?: () => React.ReactNode;
     renderCustomButton?: () => React.ReactNode;
 }
@@ -85,15 +83,15 @@ export function NewCategoryModal({ categoryId, modalProps, initialChannelId }: P
             {/* form is here so when you press enter while in the text input it submits */}
             <form onSubmit={onSave}>
                 <ModalContent className={cl("content")}>
-                    <Forms.FormSection>
+                    <section>
                         <Forms.FormTitle>Name</Forms.FormTitle>
                         <TextInput
                             value={name}
                             onChange={e => setName(e)}
                         />
-                    </Forms.FormSection>
-                    <Forms.FormDivider/>
-                    <Forms.FormSection>
+                    </section>
+                    <Forms.FormDivider />
+                    <section>
                         <Forms.FormTitle>Color</Forms.FormTitle>
                         <ColorPickerWithSwatches
                             key={category.id}
@@ -111,7 +109,7 @@ export function NewCategoryModal({ categoryId, modalProps, initialChannelId }: P
                                 />
                             )}
                         />
-                    </Forms.FormSection>
+                    </section>
                 </ModalContent>
                 <ModalFooter>
                     <Button type="submit" onClick={onSave} disabled={!name}>{categoryId ? "Save" : "Create"}</Button>
@@ -124,6 +122,5 @@ export function NewCategoryModal({ categoryId, modalProps, initialChannelId }: P
 export const openCategoryModal = (categoryId: string | null, channelId: string | null) =>
     openModalLazy(async () => {
         await requireSettingsMenu();
-        return modalProps => <NewCategoryModal categoryId={categoryId} modalProps={modalProps}
-                                               initialChannelId={channelId}/>;
+        return modalProps => <NewCategoryModal categoryId={categoryId} modalProps={modalProps} initialChannelId={channelId} />;
     });

@@ -11,6 +11,7 @@ import "./styles.css";
 import * as DataStore from "@api/DataStore";
 import { useSettings } from "@api/Settings";
 import { classNameFactory } from "@api/Styles";
+import ErrorBoundary from "@components/ErrorBoundary";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { ChangeList } from "@utils/ChangeList";
 import { Logger } from "@utils/Logger";
@@ -18,21 +19,7 @@ import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { useAwaiter, useCleanupEffect } from "@utils/react";
 import { findByPropsLazy } from "@webpack";
-import {
-    Alerts,
-    Button,
-    Card,
-    Forms,
-    lodash,
-    Parser,
-    React,
-    Select,
-    Text,
-    TextInput,
-    Tooltip,
-    useMemo,
-    useState
-} from "@webpack/common";
+import { Alerts, Button, Card, Forms, lodash, Parser, React, Select, Text, TextInput, Tooltip, useMemo, useState } from "@webpack/common";
 import { JSX } from "react";
 
 import Plugins, { ExcludedPlugins } from "~plugins";
@@ -78,45 +65,33 @@ const enum SearchStatus {
 }
 
 function ExcludedPluginsList({ search }: { search: string; }) {
-    const matching = Object.entries(ExcludedPlugins).filter(([name]) =>
-        name.toLowerCase().includes(search)
-    );
+    const matchingExcludedPlugins = Object.entries(ExcludedPlugins)
+        .filter(([name]) => name.toLowerCase().includes(search));
 
-    if (!matching.length) {
-        return (
-            <Text variant="text-md/normal" className={Margins.top16}>
-                No excluded plugins match your search.
-            </Text>
-        );
-    }
-
-    const reasonMap: Record<keyof typeof ExcludedPlugins, string> = {
-        desktop: "Only available on Desktop/Vesktop",
-        discordDesktop: "Only available on Discord Desktop",
-        vesktop: "Only available on Vesktop",
-        web: "Only available on Web/Vesktop",
-        dev: "Only available in Dev builds"
+    const ExcludedReasons: Record<"web" | "discordDesktop" | "vesktop" | "desktop" | "dev", string> = {
+        desktop: "Discord Desktop app or Vesktop",
+        discordDesktop: "Discord Desktop app",
+        vesktop: "Vesktop app",
+        web: "Vesktop app and the Web version of Discord",
+        dev: "Developer version of Vencord"
     };
 
     return (
-        <div className={classes(Margins.top20, cl("excluded-plugins"))}>
-            <Forms.FormTitle tag="h5">Unavailable Plugins</Forms.FormTitle>
-            <Forms.FormText className={Margins.bottom8}>
-                These plugins are not available in your current platform/environment:
-            </Forms.FormText>
-            <div className={cl("excluded-list")}>
-                {matching.map(([name, reason]) => (
-                    <Card className={cl("excluded-card")} key={name}>
-                        <div className={cl("excluded-header")}>
-                            <Text variant="text-md/semibold">{name}</Text>
-                            <Text className={cl("excluded-badge")} variant="text-sm/medium">
-                                {reasonMap[reason]}
-                            </Text>
-                        </div>
-                    </Card>
-                ))}
-            </div>
-        </div>
+        <Text variant="text-md/normal" className={Margins.top16}>
+            {matchingExcludedPlugins.length
+                ? <>
+                    <Forms.FormText>Are you looking for:</Forms.FormText>
+                    <ul>
+                        {matchingExcludedPlugins.map(([name, reason]) => (
+                            <li key={name}>
+                                <b>{name}</b>: Only available on the {ExcludedReasons[reason]}
+                            </li>
+                        ))}
+                    </ul>
+                </>
+                : "No plugins meet the search criteria."
+            }
+        </Text>
     );
 }
 
@@ -160,7 +135,7 @@ function PluginSettings() {
     }, []);
 
     const sortedPlugins = useMemo(() =>
-            Object.values(Plugins).sort((a, b) => a.name.localeCompare(b.name)),
+        Object.values(Plugins).sort((a, b) => a.name.localeCompare(b.name)),
         []
     );
 
@@ -258,28 +233,31 @@ function PluginSettings() {
 
     return (
         <SettingsTab title="Plugins">
-            <ReloadRequiredCard required={changes.hasChanges}/>
+            <ReloadRequiredCard required={changes.hasChanges} />
 
             <Forms.FormTitle tag="h5" className={classes(Margins.top20, Margins.bottom8)}>
                 Filters
             </Forms.FormTitle>
 
             <div className={classes(Margins.bottom20, cl("filter-controls"))}>
-                <TextInput autoFocus value={searchValue.value} placeholder="Search for a plugin..."
-                           onChange={onSearch}/>
+                <ErrorBoundary noop>
+                    <TextInput autoFocus value={searchValue.value} placeholder="Search for a plugin..." onChange={onSearch} />
+                </ErrorBoundary>
                 <div className={InputStyles.inputWrapper}>
-                    <Select
-                        options={[
-                            { label: "Show All", value: SearchStatus.ALL, default: true },
-                            { label: "Show Enabled", value: SearchStatus.ENABLED },
-                            { label: "Show Disabled", value: SearchStatus.DISABLED },
-                            { label: "Show New", value: SearchStatus.NEW }
-                        ]}
-                        serialize={String}
-                        select={onStatusChange}
-                        isSelected={v => v === searchValue.status}
-                        closeOnSelect={true}
-                    />
+                    <ErrorBoundary noop>
+                        <Select
+                            options={[
+                                { label: "Show All", value: SearchStatus.ALL, default: true },
+                                { label: "Show Enabled", value: SearchStatus.ENABLED },
+                                { label: "Show Disabled", value: SearchStatus.DISABLED },
+                                { label: "Show New", value: SearchStatus.NEW }
+                            ]}
+                            serialize={String}
+                            select={onStatusChange}
+                            isSelected={v => v === searchValue.status}
+                            closeOnSelect={true}
+                        />
+                    </ErrorBoundary>
                 </div>
             </div>
 
@@ -294,11 +272,11 @@ function PluginSettings() {
                         }
                     </div>
                 )
-                : <ExcludedPluginsList search={search}/>
+                : <ExcludedPluginsList search={search} />
             }
 
 
-            <Forms.FormDivider className={Margins.top20}/>
+            <Forms.FormDivider className={Margins.top20} />
 
             <Forms.FormTitle tag="h5" className={classes(Margins.top20, Margins.bottom8)}>
                 Required Plugins
@@ -309,7 +287,7 @@ function PluginSettings() {
                     : <Text variant="text-md/normal">No plugins meet the search criteria.</Text>
                 }
             </div>
-        </SettingsTab>
+        </SettingsTab >
     );
 }
 

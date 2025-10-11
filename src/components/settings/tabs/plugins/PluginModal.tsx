@@ -22,19 +22,7 @@ import { ModalCloseButton, ModalContent, ModalHeader, ModalProps, ModalRoot, Mod
 import { OptionType, Plugin } from "@utils/types";
 import { User } from "@vencord/discord-types";
 import { findByPropsLazy } from "@webpack";
-import {
-    Clickable,
-    FluxDispatcher,
-    Forms,
-    React,
-    Text,
-    Tooltip,
-    useEffect,
-    UserStore,
-    UserSummaryItem,
-    UserUtils,
-    useState
-} from "@webpack/common";
+import { Clickable, FluxDispatcher, Forms, React, Text, Tooltip, useEffect, UserStore, UserSummaryItem, UserUtils, useState } from "@webpack/common";
 import { Constructor } from "type-fest";
 
 import { PluginMeta } from "~plugins";
@@ -50,7 +38,6 @@ const UserRecord: Constructor<Partial<User>> = proxyLazy(() => UserStore.getCurr
 
 interface PluginModalProps extends ModalProps {
     plugin: Plugin;
-
     onRestartNeeded(key: string): void;
 }
 
@@ -108,14 +95,15 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
 
             const Component = OptionComponentMap[setting.type];
             return (
-                <Component
-                    id={key}
-                    key={key}
-                    option={setting}
-                    onChange={debounce(onChange)}
-                    pluginSettings={pluginSettings}
-                    definedSettings={plugin.settings}
-                />
+                <ErrorBoundary noop key={key}>
+                    <Component
+                        id={key}
+                        option={setting}
+                        onChange={debounce(onChange)}
+                        pluginSettings={pluginSettings}
+                        definedSettings={plugin.settings}
+                    />
+                </ErrorBoundary>
             );
         });
 
@@ -152,18 +140,18 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
         <ModalRoot transitionState={transitionState} size={ModalSize.MEDIUM}>
             <ModalHeader separator={false} className={Margins.bottom8}>
                 <Text variant="heading-xl/bold" style={{ flexGrow: 1 }}>{plugin.name}</Text>
-                <ModalCloseButton onClick={onClose}/>
+                <ModalCloseButton onClick={onClose} />
             </ModalHeader>
 
             <ModalContent className={Margins.bottom16}>
-                <Forms.FormSection>
+                <section>
                     <Flex className={cl("info")}>
                         <Forms.FormText className={cl("description")}>{plugin.description}</Forms.FormText>
                         {!pluginMeta.userPlugin && (
                             <div className="vc-settings-modal-links">
                                 <WebsiteButton
                                     text="View more info"
-                                    href={`https://eaglecord.vercel.app/plugins/${plugin.name}`}
+                                    href={`https://vencord.dev/plugins/${plugin.name}`}
                                 />
                                 <GithubButton
                                     text="View source code"
@@ -172,8 +160,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                             </div>
                         )}
                     </Flex>
-                    <Text variant="heading-lg/semibold"
-                          className={classes(Margins.top8, Margins.bottom8)}>Authors</Text>
+                    <Text variant="heading-lg/semibold" className={classes(Margins.top8, Margins.bottom8)}>Authors</Text>
                     <div style={{ width: "fit-content" }}>
                         <UserSummaryItem
                             users={authors}
@@ -197,24 +184,22 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                             )}
                         />
                     </div>
-                </Forms.FormSection>
+                </section>
 
                 {!!plugin.settingsAboutComponent && (
                     <div className={Margins.top16}>
-                        <Forms.FormSection>
-                            <ErrorBoundary
-                                message="An error occurred while rendering this plugin's custom Info Component">
-                                <plugin.settingsAboutComponent/>
+                        <section>
+                            <ErrorBoundary message="An error occurred while rendering this plugin's custom Info Component">
+                                <plugin.settingsAboutComponent />
                             </ErrorBoundary>
-                        </Forms.FormSection>
+                        </section>
                     </div>
                 )}
 
-                <Forms.FormSection>
-                    <Text variant="heading-lg/semibold"
-                          className={classes(Margins.top16, Margins.bottom8)}>Settings</Text>
+                <section>
+                    <Text variant="heading-lg/semibold" className={classes(Margins.top16, Margins.bottom8)}>Settings</Text>
                     {renderSettings()}
-                </Forms.FormSection>
+                </section>
             </ModalContent>
         </ModalRoot>
     );

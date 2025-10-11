@@ -38,12 +38,12 @@ export function OnlineThemesTab() {
             <Card className="vc-settings-card">
                 <Forms.FormTitle tag="h5">Paste links to css files here</Forms.FormTitle>
                 <Forms.FormText>One link per line</Forms.FormText>
-                <Forms.FormText>You can prefix lines with @light or @dark to toggle them based on your Discord
-                    theme</Forms.FormText>
+                <Forms.FormText>You can prefix lines with @light or @dark to toggle them based on your Discord theme</Forms.FormText>
                 <Forms.FormText>Make sure to use direct links to files (raw or github.io)!</Forms.FormText>
             </Card>
 
-            <Forms.FormSection title="Online Themes" tag="h5">
+            <section>
+                <Forms.FormTitle tag="h5">Online Themes</Forms.FormTitle>
                 <TextArea
                     value={themeText}
                     onChange={setThemeText}
@@ -53,7 +53,7 @@ export function OnlineThemesTab() {
                     onBlur={onBlur}
                     rows={10}
                 />
-            </Forms.FormSection>
+            </section>
         </>
     );
 }

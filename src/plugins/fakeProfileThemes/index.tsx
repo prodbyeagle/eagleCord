@@ -92,7 +92,7 @@ const ProfileModal = findComponentByCodeLazy<ProfileModalProps>("isTryItOutFlow:
 function SettingsAboutComponentWrapper() {
     const [, , userProfileLoading] = useAwaiter(() => fetchUserProfile(UserStore.getCurrentUser().id));
 
-    return !userProfileLoading && <SettingsAboutComponent/>;
+    return !userProfileLoading && <SettingsAboutComponent />;
 }
 
 function SettingsAboutComponent() {
@@ -103,12 +103,12 @@ function SettingsAboutComponent() {
     const [color2, setColor2] = useState(existingColors[1]);
 
     return (
-        <Forms.FormSection>
+        <section>
             <Forms.FormTitle tag="h3">Usage</Forms.FormTitle>
             <Forms.FormText>
                 After enabling this plugin, you will see custom colors in
                 the profiles of other people using compatible plugins.{" "}
-                <br/>
+                <br />
                 To set your own colors:
                 <ul>
                     <li>
@@ -116,7 +116,7 @@ function SettingsAboutComponent() {
                     </li>
                     <li>• click the "Copy 3y3" button</li>
                     <li>• paste the invisible text anywhere in your bio</li>
-                </ul><br/>
+                </ul><br />
                 <Forms.FormDivider
                     className={classes(Margins.top8, Margins.bottom8)}
                 />
@@ -172,10 +172,8 @@ function SettingsAboutComponent() {
                     <ProfileModal
                         user={UserStore.getCurrentUser()}
                         pendingThemeColors={[color1, color2]}
-                        onAvatarChange={() => {
-                        }}
-                        onBannerChange={() => {
-                        }}
+                        onAvatarChange={() => { }}
+                        onBannerChange={() => { }}
                         canUsePremiumCustomization={true}
                         hideExampleButton={true}
                         hideFakeActivity={true}
@@ -183,7 +181,7 @@ function SettingsAboutComponent() {
                     />
                 </div>
             </Forms.FormText>
-        </Forms.FormSection>);
+        </section>);
 }
 
 export default definePlugin({
@@ -234,6 +232,6 @@ export default definePlugin({
             size={Button.Sizes.XLARGE}
             className={Margins.left16}
         >Copy 3y3
-        </Button>;
+        </Button >;
     }, { noop: true }),
 });
