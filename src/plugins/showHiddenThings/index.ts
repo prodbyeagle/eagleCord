@@ -12,34 +12,23 @@ import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType, PluginSettingDef } from "@utils/types";
 import { GuildMember, Role } from "@vencord/discord-types";
 
-const opt = (description: string) =>
-    ({
-        type: OptionType.BOOLEAN,
-        description,
-        default: true,
-        restartNeeded: true,
-    }) satisfies PluginSettingDef;
+const opt = (description: string) => ({
+    type: OptionType.BOOLEAN,
+    description,
+    default: true,
+    restartNeeded: true
+} satisfies PluginSettingDef);
 
 const settings = definePluginSettings({
     showTimeouts: opt("Show member timeout icons in chat."),
-    showInvitesPaused: opt(
-        "Show the invites paused tooltip in the server list.",
-    ),
-    showModView: opt(
-        "Show the member mod view context menu item in all servers.",
-    ),
+    showInvitesPaused: opt("Show the invites paused tooltip in the server list."),
+    showModView: opt("Show the member mod view context menu item in all servers.")
 });
 
 export default definePlugin({
     name: "ShowHiddenThings",
-    tags: [
-        "ShowTimeouts",
-        "ShowInvitesPaused",
-        "ShowModView",
-        "DisableDiscoveryFilters",
-    ],
-    description:
-        "Displays various hidden & moderator-only things regardless of permissions.",
+    tags: ["ShowTimeouts", "ShowInvitesPaused", "ShowModView", "DisableDiscoveryFilters"],
+    description: "Displays various hidden & moderator-only things regardless of permissions.",
     authors: [Devs.Dolfies],
     settings,
 
@@ -66,16 +55,16 @@ export default definePlugin({
             replacement: {
                 match: /return \i\.\i\(\i\.\i\(\{user:\i,context:\i,checkElevated:!1\}\),\i\.\i\)/,
                 replace: "return true",
-            },
+            }
         },
         // fixes a bug where Members page must be loaded to see highest role, why is Discord depending on MemberSafetyStore.getEnhancedMember for something that can be obtained here?
         {
-            find: "#{intl::GUILD_MEMBER_MOD_VIEW_PERMISSION_GRANTED_BY_ARIA_LABEL}),allowOverflow:",
+            find: "#{intl::GUILD_MEMBER_MOD_VIEW_HIGHEST_ROLE}),children:",
             predicate: () => settings.store.showModView,
             replacement: {
                 match: /(?<=\.highestRole\),)role:\i(?<=\[\i\.roles,\i\.highestRoleId,(\i)\].+)/,
                 replace: "role:$self.getHighestRole(arguments[0],$1)",
-            },
+            }
         },
         // allows you to open mod view on yourself
         {
@@ -83,23 +72,17 @@ export default definePlugin({
             predicate: () => settings.store.showModView,
             replacement: {
                 match: /\i(?=\?null)/,
-                replace: "false",
-            },
-        },
+                replace: "false"
+            }
+        }
     ],
 
-    getHighestRole(
-        { member }: { member: GuildMember },
-        roles: Role[],
-    ): Role | undefined {
+    getHighestRole({ member }: { member: GuildMember; }, roles: Role[]): Role | undefined {
         try {
             return roles.find(role => role.id === member.highestRoleId);
         } catch (e) {
-            new Logger("ShowHiddenThings").error(
-                "Failed to find highest role",
-                e,
-            );
+            new Logger("ShowHiddenThings").error("Failed to find highest role", e);
             return undefined;
         }
-    },
+    }
 });

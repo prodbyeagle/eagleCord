@@ -16,19 +16,12 @@ import { Constants, React, RestAPI, Tooltip } from "@webpack/common";
 
 import { RenameButton } from "./components/RenameButton";
 import { Session, SessionInfo } from "./types";
-import {
-    fetchNamesFromDataStore,
-    getDefaultName,
-    GetOsColor,
-    GetPlatformIcon,
-    savedSessionsCache,
-    saveSessionsToDataStore
-} from "./utils";
+import { fetchNamesFromDataStore, getDefaultName, GetOsColor, GetPlatformIcon, savedSessionsCache, saveSessionsToDataStore } from "./utils";
 
 const AuthSessionsStore = findStoreLazy("AuthSessionsStore");
 const UserSettingsModal = findByPropsLazy("saveAccountChanges", "open");
 
-const TimestampClasses = findByPropsLazy("timestampTooltip", "blockquoteContainer");
+const TimestampClasses = findByPropsLazy("timestamp", "blockquoteContainer");
 const SessionIconClasses = findByPropsLazy("sessionIcon");
 
 const BlobMask = findComponentByCodeLazy("!1,lowerBadgeSize:");
@@ -98,15 +91,14 @@ export default definePlugin({
                         NEW
                     </div>
                 )}
-                <RenameButton session={session} state={state}/>
+                <RenameButton session={session} state={state} />
             </>
         );
     }, { noop: true }),
 
     renderTimestamp: ErrorBoundary.wrap(({ session, timeLabel }: { session: Session, timeLabel: string; }) => {
         return (
-            <Tooltip text={session.approx_last_used_time.toLocaleString()}
-                     tooltipClassName={TimestampClasses.timestampTooltip}>
+            <Tooltip text={session.approx_last_used_time.toLocaleString()}>
                 {props => (
                     <span {...props} className={TimestampClasses.timestamp}>
                         {timeLabel}
@@ -116,10 +108,7 @@ export default definePlugin({
         );
     }, { noop: true }),
 
-    renderIcon: ErrorBoundary.wrap(({ session, DeviceIcon }: {
-        session: Session,
-        DeviceIcon: React.ComponentType<any>;
-    }) => {
+    renderIcon: ErrorBoundary.wrap(({ session, DeviceIcon }: { session: Session, DeviceIcon: React.ComponentType<any>; }) => {
         const PlatformIcon = GetPlatformIcon(session.client_info.platform);
 
         return (
@@ -143,7 +132,7 @@ export default definePlugin({
                             color: "var(--background-base-lower)",
                         }}
                     >
-                        <PlatformIcon width={14} height={14}/>
+                        <PlatformIcon width={14} height={14} />
                     </div>
                 }
                 lowerBadgeSize={{
@@ -155,7 +144,7 @@ export default definePlugin({
                     className={SessionIconClasses.sessionIcon}
                     style={{ backgroundColor: GetOsColor(session.client_info.os) }}
                 >
-                    <DeviceIcon size="md" color="currentColor"/>
+                    <DeviceIcon size="md" color="currentColor" />
                 </div>
             </BlobMask>
         );
