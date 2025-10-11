@@ -74,9 +74,9 @@ export default definePlugin({
             }
         },
         {
-            find: ".SIDEBAR,shouldShowTooltip:",
+            find: ".SIDEBAR,disableToolbar:",
             replacement: {
-                match: /children:\[(?=[^[]+?shouldShowTooltip:)/,
+                match: /children:\[(?=[^[]+?\.SIDEBAR}\),\i\.bot)/,
                 replace: "$&$self.BiteSizeReviewsButton({user:arguments[0].user}),"
             }
         }
@@ -147,7 +147,7 @@ export default definePlugin({
                     className={classes(RoleButtonClasses.button, RoleButtonClasses.icon, RoleButtonClasses.banner)}
                     innerClassName={classes(RoleButtonClasses.buttonInner, RoleButtonClasses.icon, RoleButtonClasses.banner)}
                 >
-                    <NotesIcon height={16} width={16}/>
+                    <NotesIcon height={16} width={16} />
                 </Button>
             </TooltipContainer>
         );
