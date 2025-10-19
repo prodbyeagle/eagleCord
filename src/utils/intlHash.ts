@@ -10,10 +10,7 @@
 
 import { hash as h64 } from "@intrnl/xxhash64";
 
-const BASE64_TABLE =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".split(
-        "",
-    );
+const BASE64_TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".split("");
 const IS_BIG_ENDIAN = (() => {
     const array = new Uint8Array(4);
     const view = new Uint32Array(array.buffer);
@@ -42,6 +39,21 @@ function numberToBytes(number: number | bigint) {
  * `@discord/intl-loader-core`, to be able to hash names at runtime.
  */
 export function runtimeHashMessageKey(key: string): string {
+    const hash = h64(key, 0);
+    const bytes = numberToBytes(hash);
+    return [
+        BASE64_TABLE[bytes[0] >> 2],
+        BASE64_TABLE[((bytes[0] & 0x03) << 4) | (bytes[1] >> 4)],
+        BASE64_TABLE[((bytes[1] & 0x0f) << 2) | (bytes[2] >> 6)],
+        BASE64_TABLE[bytes[2] & 0x3f],
+        BASE64_TABLE[bytes[3] >> 2],
+        BASE64_TABLE[((bytes[3] & 0x03) << 4) | (bytes[4] >> 4)],
+    ].join("");
+}
+
+// Old variant for compatibility
+// TODO: remove once Discord shipped new one everywhere for a while
+export function runtimeHashMessageKeyLegacy(key: string): string {
     const hash = h64(key, 0);
     const bytes = numberToBytes(hash);
     return [
