@@ -32,4 +32,8 @@ export interface Activity {
     metadata?: {
         button_urls?: Array<string>;
     };
+    party?: {
+        id?: string;
+        size?: [number, number];
+    };
 }
