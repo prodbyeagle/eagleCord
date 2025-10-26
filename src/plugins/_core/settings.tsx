@@ -69,6 +69,13 @@ export default definePlugin({
                 match: /(?<=function\((\i),\i\)\{)(?=let \i=Object.values\(\i.\i\).*?(\i\.\i)\.open\()/,
                 replace: "$2.open($1);return;"
             }
+        },
+        {
+            find: "2025-09-user-settings-redesign-1",
+            replacement: {
+                match: /enabled:![01],showLegacyOpen:/g,
+                replace: "enabled:false,showLegacyOpen:"
+            }
         }
     ],
 
