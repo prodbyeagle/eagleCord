@@ -50,15 +50,19 @@ export const settings = definePluginSettings({
     appID?: string;
     appName?: string;
     details?: string;
+    detailsURL?: string;
     state?: string;
+    stateURL?: string;
     type?: ActivityType;
     streamLink?: string;
     timestampMode?: TimestampMode;
     startTime?: number;
     endTime?: number;
     imageBig?: string;
+    imageBigURL?: string;
     imageBigTooltip?: string;
     imageSmall?: string;
+    imageSmallURL?: string;
     imageSmallTooltip?: string;
     buttonOneText?: string;
     buttonOneURL?: string;
@@ -73,14 +77,18 @@ async function createActivity(): Promise<Activity | undefined> {
         appID,
         appName,
         details,
+        detailsURL,
         state,
+        stateURL,
         type,
         streamLink,
         startTime,
         endTime,
         imageBig,
+        imageBigURL,
         imageBigTooltip,
         imageSmall,
+        imageSmallURL,
         imageSmallTooltip,
         buttonOneText,
         buttonOneURL,
@@ -127,6 +135,14 @@ async function createActivity(): Promise<Activity | undefined> {
             break;
     }
 
+    if (detailsURL) {
+        activity.details_url = detailsURL;
+    }
+
+    if (stateURL) {
+        activity.state_url = stateURL;
+    }
+
     if (buttonOneText) {
         activity.buttons = [
             buttonOneText,
@@ -144,7 +160,8 @@ async function createActivity(): Promise<Activity | undefined> {
     if (imageBig) {
         activity.assets = {
             large_image: await getApplicationAsset(imageBig),
-            large_text: imageBigTooltip || undefined
+            large_text: imageBigTooltip || undefined,
+            large_url: imageBigURL || undefined
         };
     }
 
@@ -152,7 +169,8 @@ async function createActivity(): Promise<Activity | undefined> {
         activity.assets = {
             ...activity.assets,
             small_image: await getApplicationAsset(imageSmall),
-            small_text: imageSmallTooltip || undefined
+            small_text: imageSmallTooltip || undefined,
+            small_url: imageSmallURL || undefined
         };
     }
 
