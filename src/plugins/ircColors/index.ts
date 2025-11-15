@@ -118,8 +118,8 @@ export default definePlugin({
 
         if (
             settings.store.applyColorOnlyInDms &&
-            !context?.channel?.isPrivate()
-        ) {
+            context?.guildId !== undefined)
+        {
             return colorString;
         }
 

@@ -23,11 +23,9 @@ import definePlugin from "@utils/types";
 import { User } from "@vencord/discord-types";
 import { ContextMenuApi, Forms, Menu, Toasts, UserStore } from "@webpack/common";
 
-
-
 const ContributorBadge: ProfileBadge = {
     description: "EagleCord Contributor",
-    image: EAGLECORD_ICON_IMAGE,
+    iconSrc: EAGLECORD_ICON_IMAGE,
     position: BadgePosition.END,
     shouldShow: ({ userId }) => shouldShowContributorBadge(userId),
     onClick: (_, { userId }) => openContributorModal(UserStore.getUser(userId)),
@@ -36,7 +34,7 @@ const ContributorBadge: ProfileBadge = {
 
 const FormerStaff: ProfileBadge = {
     description: "Former Staff",
-    image: OWNER_BADGE,
+    iconSrc: OWNER_BADGE,
     position: BadgePosition.END,
     onClick: () => openStaffModal(FormerStaff),
     shouldShow: ({ userId }) => ["1093444260491165777", "773166395147157504"].includes(userId),
@@ -49,7 +47,7 @@ const FormerStaff: ProfileBadge = {
 
 const OwnerBadge: ProfileBadge = {
     description: "Owner",
-    image: OWNER_BADGE,
+    iconSrc: OWNER_BADGE,
     position: BadgePosition.END,
     shouldShow: ({ userId }) => ["893759402832699392"].includes(userId),
     onClick: () => openEaglePage(),
@@ -93,11 +91,11 @@ function BadgeContextMenu({ badge }: { badge: ProfileBadge & BadgeUserArgs; }) {
                     action={() => copyWithToast(badge.description!)}
                 />
             )}
-            {badge.image && (
+            {badge.iconSrc && (
                 <Menu.MenuItem
                     id="vc-badge-copy-link"
                     label="Copy Badge Image Link"
-                    action={() => copyWithToast(badge.image!)}
+                    action={() => copyWithToast(badge.iconSrc!)}
                 />
             )}
         </Menu.Menu>
@@ -122,8 +120,8 @@ export default definePlugin({
             find: "#{intl::PROFILE_USER_BADGES}",
             replacement: [
                 {
-                    match: /(alt:" ","aria-hidden":!0,src:)(.+?)(?=,)(?<=href:(\i)\.link.+?)/,
-                    replace: (_, rest, originalSrc, badge) => `...${badge}.props,${rest}${badge}.image??(${originalSrc})`
+                    match: /alt:" ","aria-hidden":!0,src:.{0,50}(\i).iconSrc/,
+                    replace: "...$1.props,$&"
                 },
                 {
                     match: /(?<="aria-label":(\i)\.description,.{0,200})children:/,
@@ -212,7 +210,7 @@ export default definePlugin({
 
     getDonorBadges(userId: string) {
         return DonorBadges[userId]?.map(badge => ({
-            image: badge.badge,
+            iconSrc: badge.badge,
             description: badge.tooltip,
             position: BadgePosition.START,
             props: {
@@ -285,7 +283,7 @@ export default definePlugin({
 
     getEagleCordBadges(userId: string) {
         return EagleBadges[userId]?.map(badge => ({
-            image: badge.badge,
+            iconSrc: badge.badge,
             description: badge.tooltip,
             position: BadgePosition.START,
             props: {
