@@ -14,8 +14,7 @@ import { Flex } from "@components/Flex";
 import { Heart } from "@components/Heart";
 import DonateButton from "@components/settings/DonateButton";
 import { openContributorModal, openStaffModal } from "@components/settings/tabs";
-import { EAGLECORD_ICON_IMAGE } from "@components/settings/tabs/vencord";
-import { Devs } from "@utils/constants";
+import { Devs, EAGLECORD_ICON_IMAGE,OWNER_BADGE } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { copyWithToast, shouldShowContributorBadge } from "@utils/misc";
@@ -24,8 +23,7 @@ import definePlugin from "@utils/types";
 import { User } from "@vencord/discord-types";
 import { ContextMenuApi, Forms, Menu, Toasts, UserStore } from "@webpack/common";
 
-// const CONTRIBUTOR_BADGE = "https://cdn.discordapp.com/emojis/1092089799109775453.png?size=64";
-const OWNER_BADGE = "https://cdn.discordapp.com/badge-icons/5e74e9b61934fc1f67c65515d1f7e60d.png";
+
 
 const ContributorBadge: ProfileBadge = {
     description: "EagleCord Contributor",

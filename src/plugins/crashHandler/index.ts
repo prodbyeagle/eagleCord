@@ -19,7 +19,7 @@ import {
     ExpressionPickerStore,
     FluxDispatcher,
     NavigationRouter,
-    SelectedChannelStore,
+    SelectedChannelStore, showToast,
 } from "@webpack/common";
 
 const CrashHandlerLogger = new Logger("CrashHandler");
@@ -124,12 +124,7 @@ export default definePlugin({
 
     handlePreventCrash(_this: any) {
         try {
-            showNotification({
-                color: "#eed202",
-                title: "Discord has crashed!",
-                body: "Attempting to recover...",
-                noPersist: true,
-            });
+            showToast("Discord has crashed! Attempting to recover...", "FAILURE");
         } catch {}
 
         try {

@@ -17,7 +17,7 @@ import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { openContributorModal } from "@components/settings/tabs/plugins/ContributorModal";
 import { openPluginModal } from "@components/settings/tabs/plugins/PluginModal";
 import { gitRemote } from "@shared/vencordUserAgent";
-import { IS_MAC, IS_WINDOWS } from "@utils/constants";
+import { CONTRIB_BACKGROUND_IMAGE, COZY_CONTRIB_IMAGE, EAGLECORD_ICON_IMAGE, IS_MAC, IS_WINDOWS } from "@utils/constants";
 import { Margins } from "@utils/margins";
 import { isPluginDev } from "@utils/misc";
 import { relaunch } from "@utils/native";
@@ -26,14 +26,6 @@ import { Alerts, Forms, React, UserStore } from "@webpack/common";
 import { isEagleUser } from "./DonateButton";
 import { VibrancySettings } from "./MacVibrancySettings";
 import { NotificationSection } from "./NotificationSettings";
-
-const DEFAULT_DONATE_IMAGE = "https://cdn.discordapp.com/emojis/1026533090627174460.png";
-const SHIGGY_DONATE_IMAGE = "https://media.discordapp.net/stickers/1039992459209490513.png";
-const VENNIE_DONATOR_IMAGE = "https://cdn.discordapp.com/emojis/1238120638020063377.png";
-const COZY_CONTRIB_IMAGE = "https://cdn.discordapp.com/emojis/1026533070955872337.png";
-const DONOR_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070116305436712.png?size=2048";
-export const CONTRIB_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070166481895484.png?size=2048";
-export const EAGLECORD_ICON_IMAGE = "https://cdn.discordapp.com/emojis/1385016033831555233.gif";
 
 type KeysOfType<Object, Type> = {
     [K in keyof Object]: Object[K] extends Type ? K : never;
