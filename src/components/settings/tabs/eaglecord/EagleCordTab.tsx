@@ -7,16 +7,14 @@
  */
 
 import { useSettings } from "@api/Settings";
+import { FormSwitch } from "@components/FormSwitch";
+import { HeadingTertiary } from "@components/Heading";
 import { SpecialCard } from "@components/settings/SpecialCard";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
+import { CONTRIB_BACKGROUND_IMAGE, EAGLECORD_ICON_IMAGE } from "@utils/constants";
 import { Margins } from "@utils/margins";
-import { Forms, Switch, UserStore } from "@webpack/common";
-
-import { CONTRIB_BACKGROUND_IMAGE, EAGLECORD_ICON_IMAGE } from "../vencord";
-
 
 function EagleCordTab() {
-    const user = UserStore.getCurrentUser();
 
     const settings = useSettings([
         "eaglecord.showBanner",
@@ -33,16 +31,15 @@ function EagleCordTab() {
                 backgroundColor="#cfa6f5"
             />
 
-            <Forms.FormSection title="Funktionen" className={Margins.top20}>
-                <Switch
-                    key="eaglecord.showBanner"
+            <section className={Margins.top20}>
+                <HeadingTertiary className={Margins.bottom8}>Funktionen</HeadingTertiary>
+                <FormSwitch
+                    title="Benutzerdefinierte Banner anzeigen"
+                    description="Zeigt benutzerdefinierte Banner in Profilen und Einstellungen."
                     value={settings.eaglecord.showBanner}
-                    onChange={v => settings.eaglecord.showBanner = v}
-                    note="Zeigt benutzerdefinierte Banner in Profilen und Einstellungen."
-                >
-                    Benutzerdefinierte Banner anzeigen
-                </Switch>
-            </Forms.FormSection>
+                    onChange={(v: boolean) => settings.eaglecord.showBanner = v}
+                />
+            </section>
         </SettingsTab>
     );
 }
