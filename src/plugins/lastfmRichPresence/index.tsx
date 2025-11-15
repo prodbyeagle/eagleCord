@@ -7,14 +7,12 @@
  */
 
 import { definePluginSettings } from "@api/Settings";
-import { Link } from "@components/Link";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
 import { Activity, ActivityAssets, ActivityButton } from "@vencord/discord-types";
 import { ActivityFlags, ActivityStatusDisplayType, ActivityType } from "@vencord/discord-types/enums";
-import { findByPropsLazy } from "@webpack";
-import { ApplicationAssetUtils, FluxDispatcher, Forms } from "@webpack/common";
+import { ApplicationAssetUtils, FluxDispatcher, PresenceStore } from "@webpack/common";
 
 interface TrackData {
     name: string;
@@ -33,15 +31,15 @@ const enum NameFormat {
     AlbumName = "album"
 }
 
-const applicationId = "1108588077900898414";
-const placeholderId = "2a96cbd8b46e442fc41c2b86b821562f";
+// Last.fm API keys are essentially public information and have no access to your account, so including one here is fine.
+const API_KEY = "790c37d90400163a5a5fe00d6ca32ef0";
+const DISCORD_APP_ID = "1108588077900898414";
+const LASTFM_PLACEHOLDER_IMAGE_HASH = "2a96cbd8b46e442fc41c2b86b821562f";
 
 const logger = new Logger("LastFMRichPresence");
 
-const PresenceStore = findByPropsLazy("getLocalPresence");
-
 async function getApplicationAsset(key: string): Promise<string> {
-    return (await ApplicationAssetUtils.fetchAssetIds(applicationId, [key]))[0];
+    return (await ApplicationAssetUtils.fetchAssetIds(DISCORD_APP_ID, [key]))[0];
 }
 
 function setActivity(activity: Activity | null) {
@@ -54,25 +52,21 @@ function setActivity(activity: Activity | null) {
 
 const settings = definePluginSettings({
     username: {
-        description: "last.fm username",
-        type: OptionType.STRING,
-    },
-    apiKey: {
-        description: "last.fm api key",
+        description: "Last.fm username",
         type: OptionType.STRING,
     },
     shareUsername: {
-        description: "show link to last.fm profile",
+        description: "Show link to Last.fm profile",
         type: OptionType.BOOLEAN,
         default: false,
     },
-    shareSong: {
-        description: "show link to song on last.fm",
+    clickableLinks: {
+        description: "Make track, artist and album names clickable links",
         type: OptionType.BOOLEAN,
         default: true,
     },
     hideWithSpotify: {
-        description: "hide last.fm presence if spotify is running",
+        description: "Hide Last.fm presence if spotify is running",
         type: OptionType.BOOLEAN,
         default: true,
     },
@@ -82,7 +76,7 @@ const settings = definePluginSettings({
         default: false,
     },
     statusName: {
-        description: "custom status text",
+        description: "Custom status text",
         type: OptionType.STRING,
         default: "some music",
     },
@@ -92,12 +86,12 @@ const settings = definePluginSettings({
         options: [
             {
                 label: "Don't show (shows generic listening message)",
-                value: "off",
-                default: true
+                value: "off"
             },
             {
                 label: "Show artist name",
-                value: "artist"
+                value: "artist",
+                default: true
             },
             {
                 label: "Show track name",
@@ -137,7 +131,7 @@ const settings = definePluginSettings({
         ],
     },
     useListeningStatus: {
-        description: 'show "Listening to" status instead of "Playing"',
+        description: 'Show "Listening to" status instead of "Playing"',
         type: OptionType.BOOLEAN,
         default: false,
     },
@@ -157,32 +151,20 @@ const settings = definePluginSettings({
         ],
     },
     showLastFmLogo: {
-        description: "show the Last.fm logo by the album cover",
+        description: "Show the Last.fm logo by the album cover",
         type: OptionType.BOOLEAN,
         default: true,
-    }
+    },
+    apiKey: {
+        description: "Custom Last.fm API key. You shouldn't need to set this",
+        type: OptionType.STRING,
+    },
 });
 
 export default definePlugin({
     name: "LastFMRichPresence",
     description: "Little plugin for Last.fm rich presence",
     authors: [Devs.dzshn, Devs.RuiNtD, Devs.blahajZip, Devs.archeruwu],
-
-    settingsAboutComponent: () => (
-        <>
-            <Forms.FormTitle tag="h3">How to get an API key</Forms.FormTitle>
-            <Forms.FormText>
-                An API key is required to fetch your current track. To get one, you can
-                visit <Link href="https://www.last.fm/api/account/create">this page</Link> and
-                fill in the following information: <br /> <br />
-
-                Application name: Discord Rich Presence <br />
-                Application description: (personal use) <br /> <br />
-
-                And copy the API key (not the shared secret!)
-            </Forms.FormText>
-        </>
-    ),
 
     settings,
 
@@ -196,13 +178,13 @@ export default definePlugin({
     },
 
     async fetchTrackData(): Promise<TrackData | null> {
-        if (!settings.store.username || !settings.store.apiKey)
+        if (!settings.store.username)
             return null;
 
         try {
             const params = new URLSearchParams({
                 method: "user.getrecenttracks",
-                api_key: settings.store.apiKey,
+                api_key: settings.store.apiKey || API_KEY,
                 user: settings.store.username,
                 limit: "1",
                 format: "json"
@@ -242,7 +224,7 @@ export default definePlugin({
     },
 
     getLargeImage(track: TrackData): string | undefined {
-        if (track.imageUrl && !track.imageUrl.includes(placeholderId))
+        if (track.imageUrl && !track.imageUrl.includes(LASTFM_PLACEHOLDER_IMAGE_HASH))
             return track.imageUrl;
 
         if (settings.store.missingArt === "placeholder")
@@ -251,13 +233,13 @@ export default definePlugin({
 
     async getActivity(): Promise<Activity | null> {
         if (settings.store.hideWithActivity) {
-            if (PresenceStore.getActivities().some(a => a.application_id !== applicationId)) {
+            if (PresenceStore.getActivities().some(a => a.application_id !== DISCORD_APP_ID)) {
                 return null;
             }
         }
 
         if (settings.store.hideWithSpotify) {
-            if (PresenceStore.getActivities().some(a => a.type === ActivityType.LISTENING && a.application_id !== applicationId)) {
+            if (PresenceStore.getActivities().some(a => a.type === ActivityType.LISTENING && a.application_id !== DISCORD_APP_ID)) {
                 // there is already music status because of Spotify or richerCider (probably more)
                 return null;
             }
@@ -288,12 +270,6 @@ export default definePlugin({
                 url: `https://www.last.fm/user/${settings.store.username}`,
             });
 
-        if (settings.store.shareSong)
-            buttons.push({
-                label: "View Song",
-                url: trackData.url,
-            });
-
         const statusName = (() => {
             switch (settings.store.nameFormat) {
                 case NameFormat.ArtistFirst:
@@ -311,8 +287,8 @@ export default definePlugin({
             }
         })();
 
-        return {
-            application_id: applicationId,
+        const activity: Activity = {
+            application_id: DISCORD_APP_ID,
             name: statusName,
 
             details: trackData.name,
@@ -322,6 +298,7 @@ export default definePlugin({
                 "artist": ActivityStatusDisplayType.STATE,
                 "track": ActivityStatusDisplayType.DETAILS
             }[settings.store.statusDisplayType],
+
             assets,
 
             buttons: buttons.length ? buttons.map(v => v.label) : undefined,
@@ -332,5 +309,16 @@ export default definePlugin({
             type: settings.store.useListeningStatus ? ActivityType.LISTENING : ActivityType.PLAYING,
             flags: ActivityFlags.INSTANCE,
         };
+
+        if (settings.store.clickableLinks) {
+            activity.details_url = trackData.url;
+            activity.state_url = `https://www.last.fm/music/${encodeURIComponent(trackData.artist)}`;
+
+            if (trackData.album) {
+                activity.assets!.large_url = `https://www.last.fm/music/${encodeURIComponent(trackData.artist)}/${encodeURIComponent(trackData.album)}`;
+            }
+        }
+
+        return activity;
     }
 });
