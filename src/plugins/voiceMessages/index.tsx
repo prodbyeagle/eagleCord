@@ -11,6 +11,7 @@ import "./styles.css";
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { Microphone } from "@components/Icons";
 import { Link } from "@components/Link";
+import { Paragraph } from "@components/Paragraph";
 import { Devs } from "@utils/constants";
 import { Margins } from "@utils/margins";
 import { ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, openModal } from "@utils/modal";
@@ -20,25 +21,7 @@ import { chooseFile } from "@utils/web";
 import { CloudUpload as TCloudUpload } from "@vencord/discord-types";
 import { CloudUploadPlatform } from "@vencord/discord-types/enums";
 import { findByPropsLazy, findLazy, findStoreLazy } from "@webpack";
-import {
-    Button,
-    Card,
-    Constants,
-    FluxDispatcher,
-    Forms,
-    lodash,
-    Menu,
-    MessageActions,
-    PermissionsBits,
-    PermissionStore,
-    RestAPI,
-    SelectedChannelStore,
-    showToast,
-    SnowflakeUtils,
-    Toasts,
-    useEffect,
-    useState
-} from "@webpack/common";
+import { Button, Card, Constants, FluxDispatcher, Forms, lodash, Menu, MessageActions, PermissionsBits, PermissionStore, RestAPI, SelectedChannelStore, showToast, SnowflakeUtils, Toasts, useEffect, useState } from "@webpack/common";
 import { ComponentType } from "react";
 
 import { VoiceRecorderDesktop } from "./DesktopRecorder";
@@ -66,11 +49,11 @@ const ctxMenuPatch: NavContextMenuPatchCallback = (children, props) => {
             id="vc-send-vmsg"
             label={
                 <div className={OptionClasses.optionLabel}>
-                    <Microphone className={OptionClasses.optionIcon} height={24} width={24}/>
+                    <Microphone className={OptionClasses.optionIcon} height={24} width={24} />
                     <div className={OptionClasses.optionName}>Send voice message</div>
                 </div>
             }
-            action={() => openModal(modalProps => <Modal modalProps={modalProps}/>)}
+            action={() => openModal(modalProps => <Modal modalProps={modalProps} />)}
         />
     );
 };
@@ -152,7 +135,7 @@ function Modal({ modalProps }: { modalProps: ModalProps; }) {
             URL.revokeObjectURL(blobUrl);
     }, [blobUrl]);
 
-    const [meta] = useAwaiter(async () => {
+    const [meta, metaError] = useAwaiter(async () => {
         if (!blob) return EMPTY_META;
 
         const audioContext = new AudioContext();
@@ -222,20 +205,22 @@ function Modal({ modalProps }: { modalProps: ModalProps; }) {
                 </div>
 
                 <Forms.FormTitle>Preview</Forms.FormTitle>
-                <VoicePreview
-                    src={blobUrl}
-                    waveform={meta.waveform}
-                    recording={isRecording}
-                />
+                {metaError
+                    ? <Paragraph className={cl("error")}>Failed to parse selected audio file: {metaError.message}</Paragraph>
+                    : (
+                        <VoicePreview
+                            src={blobUrl}
+                            waveform={meta.waveform}
+                            recording={isRecording}
+                        />
+                    )}
 
                 {isUnsupportedFormat && (
                     <Card className={`vc-warning-card ${Margins.top16}`}>
-                        <Forms.FormText>Voice Messages have to be OggOpus to be playable on iOS. This file
-                            is <code>{blob.type}</code> so it will not be playable on iOS.</Forms.FormText>
+                        <Forms.FormText>Voice Messages have to be OggOpus to be playable on iOS. This file is <code>{blob.type}</code> so it will not be playable on iOS.</Forms.FormText>
 
                         <Forms.FormText className={Margins.top8}>
-                            To fix it, first convert it to OggOpus, for example using the <Link
-                            href="https://convertio.co/mp3-opus/">convertio web converter</Link>
+                            To fix it, first convert it to OggOpus, for example using the <Link href="https://convertio.co/mp3-opus/">convertio web converter</Link>
                         </Forms.FormText>
                     </Card>
                 )}
@@ -246,7 +231,7 @@ function Modal({ modalProps }: { modalProps: ModalProps; }) {
                 <Button
                     disabled={!blob}
                     onClick={() => {
-                        sendAudio(blob!, meta);
+                        sendAudio(blob!, meta ?? EMPTY_META);
                         modalProps.onClose();
                         showToast("Now sending voice message... Please be patient", Toasts.Type.MESSAGE);
                     }}
