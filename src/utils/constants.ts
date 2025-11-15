@@ -24,6 +24,16 @@ export const IS_WINDOWS = platform.startsWith("win");
 export const IS_MAC = platform.startsWith("mac");
 export const IS_LINUX = platform.startsWith("linux");
 
+export const DEFAULT_DONATE_IMAGE = "https://cdn.discordapp.com/emojis/1026533090627174460.png";
+export const SHIGGY_DONATE_IMAGE = "https://media.discordapp.net/stickers/1039992459209490513.png";
+export const VENNIE_DONATOR_IMAGE = "https://cdn.discordapp.com/emojis/1238120638020063377.png";
+export const COZY_CONTRIB_IMAGE = "https://cdn.discordapp.com/emojis/1026533070955872337.png";
+export const DONOR_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070116305436712.png?size=2048";
+export const CONTRIB_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070166481895484.png?size=2048";
+export const EAGLECORD_ICON_IMAGE = "https://cdn.discordapp.com/emojis/1385016033831555233.gif";
+export const CONTRIBUTOR_BADGE = "https://cdn.discordapp.com/emojis/1092089799109775453.png?size=64";
+export const OWNER_BADGE = "https://cdn.discordapp.com/badge-icons/5e74e9b61934fc1f67c65515d1f7e60d.png";
+
 export interface Dev {
     name: string;
     id: bigint;
