@@ -39,3 +39,5 @@ export interface Activity {
         size?: [number, number];
     };
 }
+
+export type OnlineStatus = "online" | "idle" | "dnd" | "invisible" | "offline" | "unknown" | "streaming";
