@@ -1,30 +1,34 @@
 /*
- * EagleCord, a Vencord mod
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2023 Vendicated and contributors
  *
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 import ErrorBoundary from "@components/ErrorBoundary";
+import { Auth } from "@plugins/reviewDB/auth";
+import { ReviewType } from "@plugins/reviewDB/entities";
+import { Response, REVIEWS_PER_PAGE } from "@plugins/reviewDB/reviewDbApi";
+import { cl } from "@plugins/reviewDB/utils";
 import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import { useForceUpdater } from "@utils/react";
 import { Paginator, Text, useRef, useState } from "@webpack/common";
 
-import { Auth } from "../auth";
-import { ReviewType } from "../entities";
-import { Response, REVIEWS_PER_PAGE } from "../reviewDbApi";
-import { cl } from "../utils";
 import ReviewComponent from "./ReviewComponent";
 import ReviewsView, { ReviewsInputComponent } from "./ReviewsView";
 
-function Modal({ modalProps, modalKey, discordId, name, type }: {
-    modalProps: any;
-    modalKey: string,
-    discordId: string;
-    name: string;
-    type: ReviewType;
-}) {
+function Modal({ modalProps, modalKey, discordId, name, type }: { modalProps: any; modalKey: string, discordId: string; name: string; type: ReviewType; }) {
     const [data, setData] = useState<Response>();
     const [signal, refetch] = useForceUpdater(true);
     const [page, setPage] = useState(1);
@@ -42,7 +46,7 @@ function Modal({ modalProps, modalKey, discordId, name, type }: {
                         {name}'s Reviews
                         {!!reviewCount && <span> ({reviewCount} Reviews)</span>}
                     </Text>
-                    <ModalCloseButton onClick={modalProps.onClose}/>
+                    <ModalCloseButton onClick={modalProps.onClose} />
                 </ModalHeader>
 
                 <ModalContent scrollerRef={ref}>

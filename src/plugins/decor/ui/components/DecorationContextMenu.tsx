@@ -1,18 +1,15 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
+ * Copyright (c) 2023 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import { CopyIcon, DeleteIcon } from "@components/Icons";
+import { Decoration } from "@plugins/decor/lib/api";
+import { useCurrentUserDecorationsStore } from "@plugins/decor/lib/stores/CurrentUserDecorationsStore";
+import { cl } from "@plugins/decor/ui";
 import { copyToClipboard } from "@utils/clipboard";
 import { Alerts, ContextMenuApi, Menu, UserStore } from "@webpack/common";
-
-import { Decoration } from "../../lib/api";
-import { useCurrentUserDecorationsStore } from "../../lib/stores/CurrentUserDecorationsStore";
-import { cl } from "../";
 
 export default function DecorationContextMenu({ decoration }: { decoration: Decoration; }) {
     const { delete: deleteDecoration } = useCurrentUserDecorationsStore();

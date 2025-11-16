@@ -1,17 +1,27 @@
 /*
- * EagleCord, a Vencord mod
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2022 Vendicated and contributors
  *
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
+import { dispatchTheme } from "@plugins/shikiCodeblocks.desktop/hooks/useTheme";
+import type { ShikiSpec } from "@plugins/shikiCodeblocks.desktop/types";
 import { shikiOnigasmSrc, shikiWorkerSrc } from "@utils/dependencies";
 import { WorkerClient } from "@vap/core/ipc";
 import type { IShikiTheme, IThemedToken } from "@vap/shiki";
 
-import { dispatchTheme } from "../hooks/useTheme";
-import type { ShikiSpec } from "../types";
 import { getGrammar, languages, loadLanguages, resolveLang } from "./languages";
 import { themes } from "./themes";
 
@@ -28,22 +38,18 @@ export const shiki = {
     themes,
     loadedThemes: new Set<string>(),
     loadedLangs: new Set<string>(),
-    clientPromise: new Promise<WorkerClient<ShikiSpec>>(
-        resolve => (resolveClient = resolve),
-    ),
+    clientPromise: new Promise<WorkerClient<ShikiSpec>>(resolve => resolveClient = resolve),
 
     init: async (initThemeUrl: string | undefined) => {
         /** https://stackoverflow.com/q/58098143 */
-        const workerBlob = await fetch(shikiWorkerSrc).then(res =>
-            res.blob(),
-        );
+        const workerBlob = await fetch(shikiWorkerSrc).then(res => res.blob());
 
-        const client = (shiki.client = new WorkerClient<ShikiSpec>(
+        const client = shiki.client = new WorkerClient<ShikiSpec>(
             "shiki-client",
             "shiki-host",
             workerBlob,
             { name: "ShikiWorker" },
-        ));
+        );
         await client.init();
 
         const themeUrl = initThemeUrl || themeUrls[0];
@@ -57,9 +63,7 @@ export const shiki = {
     },
     _setTheme: async (themeUrl: string) => {
         shiki.currentThemeUrl = themeUrl;
-        const { themeData } = await shiki.client!.run("getTheme", {
-            theme: themeUrl,
-        });
+        const { themeData } = await shiki.client!.run("getTheme", { theme: themeUrl });
         shiki.currentTheme = JSON.parse(themeData);
         dispatchTheme({ id: themeUrl, theme: shiki.currentTheme });
     },
@@ -87,15 +91,12 @@ export const shiki = {
         await client.run("loadLanguage", {
             lang: {
                 ...lang,
-                grammar: lang.grammar ?? (await getGrammar(lang)),
-            },
+                grammar: lang.grammar ?? await getGrammar(lang),
+            }
         });
         shiki.loadedLangs.add(lang.id);
     },
-    tokenizeCode: async (
-        code: string,
-        langId: string,
-    ): Promise<IThemedToken[][]> => {
+    tokenizeCode: async (code: string, langId: string): Promise<IThemedToken[][]> => {
         const client = await shiki.clientPromise;
         const lang = resolveLang(langId);
         if (!lang) return [];
@@ -113,5 +114,5 @@ export const shiki = {
         shiki.currentThemeUrl = null;
         dispatchTheme({ id: null, theme: null });
         shiki.client?.destroy();
-    },
+    }
 };

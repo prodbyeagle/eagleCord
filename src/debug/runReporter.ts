@@ -6,11 +6,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { addPatch } from "@api/PluginManager";
 import { Logger } from "@utils/Logger";
 import * as Webpack from "@webpack";
-import { getBuildNumber, patchTimings } from "@webpack/patcher";
+import { getBuildNumber, patches, patchTimings } from "@webpack/patcher";
 
-import { addPatch, patches } from "../plugins";
 import { loadLazyChunks } from "./loadLazyChunks";
 
 async function runReporter() {
@@ -19,20 +19,16 @@ async function runReporter() {
     try {
         ReporterLogger.log("Starting test...");
 
-        const { promise: loadLazyChunksDone, resolve: loadLazyChunksResolve } =
-            Promise.withResolvers<void>();
+        const { promise: loadLazyChunksDone, resolve: loadLazyChunksResolve } = Promise.withResolvers<void>();
 
         // The main patch for starting the reporter chunk loading
-        addPatch(
-            {
-                find: '"Could not find app-mount"',
-                replacement: {
-                    match: /(?<="use strict";)/,
-                    replace: "Vencord.Webpack._initReporter();",
-                },
-            },
-            "Vencord Reporter",
-        );
+        addPatch({
+            find: '"Could not find app-mount"',
+            replacement: {
+                match: /(?<="use strict";)/,
+                replace: "Vencord.Webpack._initReporter();"
+            }
+        }, "Vencord Reporter");
 
         // @ts-expect-error
         Vencord.Webpack._initReporter = function () {
@@ -46,23 +42,19 @@ async function runReporter() {
         if (IS_REPORTER && IS_WEB && !IS_VESKTOP) {
             console.log("[REPORTER_META]", {
                 buildNumber: getBuildNumber(),
-                buildHash: window.GLOBAL_ENV.SENTRY_TAGS.buildId,
+                buildHash: window.GLOBAL_ENV.SENTRY_TAGS.buildId
             });
         }
 
         for (const patch of patches) {
             if (!patch.all) {
-                new Logger("WebpackPatcher").warn(
-                    `Patch by ${patch.plugin} found no module (Module id is -): ${patch.find}`,
-                );
+                new Logger("WebpackPatcher").warn(`Patch by ${patch.plugin} found no module (Module id is -): ${patch.find}`);
             }
         }
 
         for (const [plugin, moduleId, match, totalTime] of patchTimings) {
             if (totalTime > 5) {
-                new Logger("WebpackPatcher").warn(
-                    `Patch by ${plugin} took ${Math.round(totalTime * 100) / 100}ms (Module id is ${String(moduleId)}): ${match}`,
-                );
+                new Logger("WebpackPatcher").warn(`Patch by ${plugin} took ${Math.round(totalTime * 100) / 100}ms (Module id is ${String(moduleId)}): ${match}`);
             }
         }
 
@@ -79,10 +71,7 @@ async function runReporter() {
 
             let result: any;
             try {
-                if (
-                    method === "proxyLazyWebpack" ||
-                    method === "LazyComponentWebpack"
-                ) {
+                if (method === "proxyLazyWebpack" || method === "LazyComponentWebpack") {
                     const [factory] = args;
                     result = factory();
                 } else if (method === "extractAndLoadChunks") {
@@ -93,33 +82,16 @@ async function runReporter() {
                 } else if (method === "mapMangledModule") {
                     const [code, mapper, includeBlacklistedExports] = args;
 
-                    result = Webpack.mapMangledModule(
-                        code,
-                        mapper,
-                        includeBlacklistedExports,
-                    );
-                    if (
-                        Object.keys(result).length !==
-                        Object.keys(mapper).length
-                    )
-                        throw new Error("Webpack Find Fail");
+                    result = Webpack.mapMangledModule(code, mapper, includeBlacklistedExports);
+                    if (Object.keys(result).length !== Object.keys(mapper).length) throw new Error("Webpack Find Fail");
                 } else {
                     result = Webpack[method](...args);
                 }
 
-                if (
-                    result == null ||
-                    (result.$$vencordGetWrappedComponent != null &&
-                        result.$$vencordGetWrappedComponent() == null)
-                )
-                    throw new Error("Webpack Find Fail");
+                if (result == null || (result.$$vencordGetWrappedComponent != null && result.$$vencordGetWrappedComponent() == null)) throw new Error("Webpack Find Fail");
             } catch (e) {
                 let logMessage = searchType;
-                if (
-                    method === "find" ||
-                    method === "proxyLazyWebpack" ||
-                    method === "LazyComponentWebpack"
-                ) {
+                if (method === "find" || method === "proxyLazyWebpack" || method === "LazyComponentWebpack") {
                     if (args[0].$$vencordProps != null) {
                         logMessage += `(${args[0].$$vencordProps.map(arg => `"${arg}"`).join(", ")})`;
                     } else {
@@ -128,9 +100,7 @@ async function runReporter() {
                 } else if (method === "extractAndLoadChunks") {
                     logMessage += `([${args[0].map(arg => `"${arg}"`).join(", ")}], ${args[1].toString()})`;
                 } else if (method === "mapMangledModule") {
-                    const failedMappings = Object.keys(args[1]).filter(
-                        key => result?.[key] == null,
-                    );
+                    const failedMappings = Object.keys(args[1]).filter(key => result?.[key] == null);
 
                     logMessage += `("${args[0]}", {\n${failedMappings.map(mapping => `\t${mapping}: ${args[1][mapping].toString().slice(0, 147)}...`).join(",\n")}\n})`;
                 } else {

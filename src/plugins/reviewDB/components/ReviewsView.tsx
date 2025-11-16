@@ -1,20 +1,30 @@
 /*
- * EagleCord, a Vencord mod
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2022 Vendicated and contributors
  *
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
+import { Auth, authorize } from "@plugins/reviewDB/auth";
+import { Review, ReviewType } from "@plugins/reviewDB/entities";
+import { addReview, getReviews, Response, REVIEWS_PER_PAGE } from "@plugins/reviewDB/reviewDbApi";
+import { settings } from "@plugins/reviewDB/settings";
+import { cl, showToast } from "@plugins/reviewDB/utils";
 import { useAwaiter, useForceUpdater } from "@utils/react";
 import { findByCodeLazy, findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import { Forms, React, RelationshipStore, useRef, UserStore } from "@webpack/common";
 
-import { Auth, authorize } from "../auth";
-import { Review, ReviewType } from "../entities";
-import { addReview, getReviews, Response, REVIEWS_PER_PAGE } from "../reviewDbApi";
-import { settings } from "../settings";
-import { cl, showToast } from "../utils";
 import ReviewComponent from "./ReviewComponent";
 
 const Transforms = findByPropsLazy("insertNodes", "textToText");
@@ -30,13 +40,10 @@ interface UserProps {
 
 interface Props extends UserProps {
     onFetchReviews(data: Response): void;
-
     refetchSignal?: unknown;
     showInput?: boolean;
     page?: number;
-
     scrollToTop?(): void;
-
     hideOwnReview?: boolean;
     type: ReviewType;
 }
@@ -90,13 +97,7 @@ export default function ReviewsView({
     );
 }
 
-function ReviewList({ refetch, reviews, hideOwnReview, profileId, type }: {
-    refetch(): void;
-    reviews: Review[];
-    hideOwnReview: boolean;
-    profileId: string;
-    type: ReviewType;
-}) {
+function ReviewList({ refetch, reviews, hideOwnReview, profileId, type }: { refetch(): void; reviews: Review[]; hideOwnReview: boolean; profileId: string; type: ReviewType; }) {
     const myId = UserStore.getCurrentUser().id;
 
     return (
@@ -113,8 +114,7 @@ function ReviewList({ refetch, reviews, hideOwnReview, profileId, type }: {
 
             {reviews?.length === 0 && (
                 <Forms.FormText className={cl("placeholder")}>
-                    Looks like nobody reviewed this {type === ReviewType.User ? "user" : "server"} yet. You could be the
-                    first!
+                    Looks like nobody reviewed this {type === ReviewType.User ? "user" : "server"} yet. You could be the first!
                 </Forms.FormText>
             )}
         </div>
@@ -123,13 +123,7 @@ function ReviewList({ refetch, reviews, hideOwnReview, profileId, type }: {
 
 
 export function ReviewsInputComponent(
-    { discordId, isAuthor, refetch, name, modalKey }: {
-        discordId: string,
-        name: string;
-        isAuthor: boolean;
-        refetch(): void;
-        modalKey?: string;
-    }
+    { discordId, isAuthor, refetch, name, modalKey }: { discordId: string, name: string; isAuthor: boolean; refetch(): void; modalKey?: string; }
 ) {
     const { token } = Auth;
     const editorRef = useRef<any>(null);

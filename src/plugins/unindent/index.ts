@@ -20,22 +20,16 @@ export default definePlugin({
             find: "inQuote:",
             replacement: {
                 match: /,content:([^,]+),inQuote/,
-                replace: (_, content) =>
-                    `,content:Vencord.Plugins.plugins.Unindent.unindent(${content}),inQuote`,
-            },
-        },
+                replace: (_, content) => `,content:$self.unindent(${content}),inQuote`
+            }
+        }
     ],
 
     unindent(str: string) {
         // Users cannot send tabs, they get converted to spaces. However, a bot may send tabs, so convert them to 4 spaces first
         str = str.replace(/\t/g, "    ");
-        const minIndent =
-            str
-                .match(/^ *(?=\S)/gm)
-                ?.reduce(
-                    (prev, curr) => Math.min(prev, curr.length),
-                    Infinity,
-                ) ?? 0;
+        const minIndent = str.match(/^ *(?=\S)/gm)
+            ?.reduce((prev, curr) => Math.min(prev, curr.length), Infinity) ?? 0;
 
         if (!minIndent) return str;
         return str.replace(new RegExp(`^ {${minIndent}}`, "gm"), "");
@@ -57,5 +51,5 @@ export default definePlugin({
 
     onBeforeMessageEdit(_cid, _mid, msg) {
         return this.unindentMsg(msg);
-    },
+    }
 });

@@ -8,17 +8,18 @@
 
 import "./styles.css";
 
+import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
 import { CopyIcon, LinkIcon } from "@components/Icons";
+import OpenInAppPlugin from "@plugins/openInApp";
 import { Devs } from "@utils/constants";
-import { copyWithToast } from "@utils/misc";
+import { copyWithToast } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
 import { ConnectedAccount, User } from "@vencord/discord-types";
 import { findByCodeLazy, findByPropsLazy } from "@webpack";
 import { Tooltip, UserProfileStore } from "@webpack/common";
-import OpenInAppPlugin from "plugins/openInApp";
 
 import { VerifiedIcon } from "./VerifiedIcon";
 
@@ -31,7 +32,6 @@ const enum Spacing {
     COZY,
     ROOMY
 }
-
 const getSpacingPx = (spacing: Spacing | undefined) => (spacing ?? Spacing.COMPACT) * 2 + 4;
 
 const settings = definePluginSettings({
@@ -54,7 +54,6 @@ const settings = definePluginSettings({
 
 interface ConnectionPlatform {
     getPlatformUserUrl(connection: ConnectedAccount): string;
-
     icon: { lightSVG: string, darkSVG: string; };
 }
 
@@ -83,8 +82,7 @@ function ConnectionsComponent({ id, theme }: { id: string, theme: string; }) {
             gap: getSpacingPx(settings.store.iconSpacing),
             flexWrap: "wrap"
         }}>
-            {connections.map(connection => <CompactConnectionComponent connection={connection} theme={theme}
-                                                                       key={connection.id}/>)}
+            {connections.map(connection => <CompactConnectionComponent connection={connection} theme={theme} key={connection.id} />)}
         </Flex>
     );
 }
@@ -111,8 +109,8 @@ function CompactConnectionComponent({ connection, theme }: { connection: Connect
             text={
                 <span className="vc-sc-tooltip">
                     <span className="vc-sc-connection-name">{connection.name}</span>
-                    {connection.verified && <VerifiedIcon/>}
-                    <TooltipIcon height={16} width={16} className="vc-sc-tooltip-icon"/>
+                    {connection.verified && <VerifiedIcon />}
+                    <TooltipIcon height={16} width={16} className="vc-sc-tooltip-icon" />
                 </span>
             }
             key={connection.id}
@@ -126,7 +124,7 @@ function CompactConnectionComponent({ connection, theme }: { connection: Connect
                         target="_blank"
                         rel="noreferrer"
                         onClick={e => {
-                            if (Vencord.Plugins.isPluginEnabled("OpenInApp")) {
+                            if (isPluginEnabled(OpenInAppPlugin.name)) {
                                 // handleLink will .preventDefault() if applicable
                                 OpenInAppPlugin.handleLink(e.currentTarget, e);
                             }

@@ -17,15 +17,14 @@ export type GenericStore = t.FluxStore & Record<string, any>;
 
 export const DraftType = findByPropsLazy("ChannelMessage", "SlashCommand");
 
-export let MessageStore: Omit<t.MessageStore, "getMessages"> &
-    GenericStore & {
-        getMessages(chanId: string): any;
-    };
+export let MessageStore: Omit<t.MessageStore, "getMessages"> & GenericStore & {
+    getMessages(chanId: string): any;
+};
 
 export let PermissionStore: GenericStore;
 export let GuildChannelStore: GenericStore;
 export let ReadStateStore: GenericStore;
-export let PresenceStore: GenericStore;
+export let PresenceStore: t.PresenceStore;
 
 export let GuildStore: t.GuildStore;
 export let GuildRoleStore: t.GuildRoleStore;
@@ -50,32 +49,33 @@ export let StreamerModeStore: t.StreamerModeStore;
 /**
  * @see jsdoc of {@link t.useStateFromStores}
  */
-export const useStateFromStores: t.useStateFromStores =
-    findByCodeLazy("useStateFromStores");
+export const useStateFromStores: t.useStateFromStores = findByCodeLazy("useStateFromStores");
 
-waitForStore("AuthenticationStore", s => (AuthenticationStore = s));
-waitForStore("DraftStore", s => (DraftStore = s));
-waitForStore("UserStore", s => (UserStore = s));
-waitForStore("UserProfileStore", m => (UserProfileStore = m));
-waitForStore("ChannelStore", m => (ChannelStore = m));
-waitForStore("SelectedChannelStore", m => (SelectedChannelStore = m));
-waitForStore("SelectedGuildStore", m => (SelectedGuildStore = m));
-waitForStore("GuildStore", m => (GuildStore = m));
-waitForStore("GuildMemberStore", m => (GuildMemberStore = m));
-waitForStore("RelationshipStore", m => (RelationshipStore = m));
-waitForStore("PermissionStore", m => (PermissionStore = m));
-waitForStore("PresenceStore", m => (PresenceStore = m));
-waitForStore("ReadStateStore", m => (ReadStateStore = m));
-waitForStore("GuildChannelStore", m => (GuildChannelStore = m));
-waitForStore("GuildRoleStore", m => (GuildRoleStore = m));
-waitForStore("MessageStore", m => (MessageStore = m));
-waitForStore("WindowStore", m => (WindowStore = m));
-waitForStore("EmojiStore", m => (EmojiStore = m));
-waitForStore("StickersStore", m => (StickersStore = m));
-waitForStore("TypingStore", m => (TypingStore = m));
-waitForStore("VoiceStateStore", m => (VoiceStateStore = m));
+waitForStore("AuthenticationStore", s => AuthenticationStore = s);
+waitForStore("DraftStore", s => DraftStore = s);
+waitForStore("UserStore", s => UserStore = s);
+waitForStore("UserProfileStore", m => UserProfileStore = m);
+waitForStore("ChannelStore", m => ChannelStore = m);
+waitForStore("SelectedChannelStore", m => SelectedChannelStore = m);
+waitForStore("SelectedGuildStore", m => SelectedGuildStore = m);
+waitForStore("GuildStore", m => GuildStore = m);
+waitForStore("GuildMemberStore", m => GuildMemberStore = m);
+waitForStore("RelationshipStore", m => RelationshipStore = m);
+waitForStore("PermissionStore", m => PermissionStore = m);
+waitForStore("PresenceStore", m => PresenceStore = m);
+waitForStore("ReadStateStore", m => ReadStateStore = m);
+waitForStore("GuildChannelStore", m => GuildChannelStore = m);
+waitForStore("GuildRoleStore", m => GuildRoleStore = m);
+waitForStore("MessageStore", m => MessageStore = m);
+waitForStore("WindowStore", m => WindowStore = m);
+waitForStore("EmojiStore", m => EmojiStore = m);
+waitForStore("StickersStore", m => StickersStore = m);
+waitForStore("TypingStore", m => TypingStore = m);
+waitForStore("VoiceStateStore", m => VoiceStateStore = m);
+waitForStore("StreamerModeStore", m => StreamerModeStore = m);
 waitForStore("ThemeStore", m => {
     ThemeStore = m;
-    // Importing this directly can easily cause circular imports. For this reason, use a non import access here.
-    Vencord.QuickCss.initQuickCssThemeStore();
+    // Importing this directly causes all webpack commons to be imported, which can easily cause circular dependencies.
+    // For this reason, use a non import access here.
+    Vencord.Api.Themes.initQuickCssThemeStore(m);
 });

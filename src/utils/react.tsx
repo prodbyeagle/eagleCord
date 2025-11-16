@@ -7,7 +7,7 @@
  */
 
 import { React, useEffect, useMemo, useReducer, useState } from "@webpack/common";
-import { ActionDispatch, ReactNode } from "react";
+import type { ActionDispatch, ReactNode } from "react";
 
 import { checkIntersecting } from "./misc";
 
@@ -65,16 +65,12 @@ export const useIntersection = (intersectOnly = false): [
 };
 
 type AwaiterRes<T> = [T, any, boolean];
-
 interface AwaiterOpts<T> {
     fallbackValue: T;
     deps?: unknown[];
-
     onError?(e: any): void;
-
     onSuccess?(value: T): void;
 }
-
 /**
  * Await a promise
  * @param factory Factory

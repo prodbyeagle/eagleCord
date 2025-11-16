@@ -1,21 +1,31 @@
 /*
- * EagleCord, a Vencord mod
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2022 Vendicated and contributors
  *
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 import ErrorBoundary from "@components/ErrorBoundary";
+import { resolveLang } from "@plugins/shikiCodeblocks.desktop/api/languages";
+import { shiki } from "@plugins/shikiCodeblocks.desktop/api/shiki";
+import { useShikiSettings } from "@plugins/shikiCodeblocks.desktop/hooks/useShikiSettings";
+import { useTheme } from "@plugins/shikiCodeblocks.desktop/hooks/useTheme";
+import { hex2Rgb } from "@plugins/shikiCodeblocks.desktop/utils/color";
+import { cl, shouldUseHljs } from "@plugins/shikiCodeblocks.desktop/utils/misc";
 import { useAwaiter, useIntersection } from "@utils/react";
 import { hljs, React } from "@webpack/common";
 
-import { resolveLang } from "../api/languages";
-import { shiki } from "../api/shiki";
-import { useShikiSettings } from "../hooks/useShikiSettings";
-import { useTheme } from "../hooks/useTheme";
-import { hex2Rgb } from "../utils/color";
-import { cl, shouldUseHljs } from "../utils/misc";
 import { ButtonRow } from "./ButtonRow";
 import { Code } from "./Code";
 import { Header } from "./Header";
@@ -111,4 +121,3 @@ export const Highlighter = ({
         </div>
     );
 };
-

@@ -1,23 +1,14 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
+ * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { PinOrder, settings } from "@plugins/pinDms";
+import { addChannelToCategory, canMoveChannelInDirection, currentUserCategories, isPinned, moveChannel, removeChannelFromCategory } from "@plugins/pinDms/data";
 import { Menu } from "@webpack/common";
 
-import {
-    addChannelToCategory,
-    canMoveChannelInDirection,
-    currentUserCategories,
-    isPinned,
-    moveChannel,
-    removeChannelFromCategory
-} from "../data";
-import { PinOrder, settings } from "../index";
 import { openCategoryModal } from "./CreateCategoryModal";
 
 function createPinMenuItem(channelId: string) {
@@ -37,7 +28,7 @@ function createPinMenuItem(channelId: string) {
                         color="brand"
                         action={() => openCategoryModal(null, channelId)}
                     />
-                    <Menu.MenuSeparator/>
+                    <Menu.MenuSeparator />
 
                     {
                         currentUserCategories.map(category => (

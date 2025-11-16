@@ -1,11 +1,10 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
+ * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { isPluginEnabled } from "@api/PluginManager";
 import { openPluginModal } from "@components/settings/tabs";
 import { getIntlMessage } from "@utils/discord";
 import { isObjectEmpty } from "@utils/misc";
@@ -30,7 +29,7 @@ export default function PluginsSubmenu() {
 
     const search = query.toLowerCase();
     const include = (p: typeof Plugins[keyof typeof Plugins]) => (
-        Vencord.Plugins.isPluginEnabled(p.name)
+        isPluginEnabled(p.name)
         && p.options && !isObjectEmpty(p.options)
         && (
             p.name.toLowerCase().includes(search)
@@ -56,7 +55,7 @@ export default function PluginsSubmenu() {
                 )}
             />
 
-            {!!plugins.length && <Menu.MenuSeparator/>}
+            {!!plugins.length && <Menu.MenuSeparator />}
 
             {plugins.map(p => (
                 <Menu.MenuItem

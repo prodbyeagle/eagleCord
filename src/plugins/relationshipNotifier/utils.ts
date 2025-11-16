@@ -1,32 +1,34 @@
 /*
- * EagleCord, a Vencord mod
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2023 Vendicated and contributors
  *
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
-import { DataStore, Notices } from "@api/index";
+import * as DataStore from "@api/DataStore";
+import { popNotice, showNotice } from "@api/Notices";
 import { showNotification } from "@api/Notifications";
 import { getUniqueUsername, openUserProfile } from "@utils/discord";
 import { FluxStore } from "@vencord/discord-types";
 import { ChannelType } from "@vencord/discord-types/enums";
 import { findStoreLazy } from "@webpack";
-import {
-    ChannelStore,
-    GuildMemberStore,
-    GuildStore,
-    RelationshipStore,
-    UserStore,
-    UserUtils,
-} from "@webpack/common";
+import { ChannelStore, GuildMemberStore, GuildStore, RelationshipStore, UserStore, UserUtils } from "@webpack/common";
 
 import settings from "./settings";
 import { RelationshipType, SimpleGroupChannel, SimpleGuild } from "./types";
 
-export const GuildAvailabilityStore = findStoreLazy(
-    "GuildAvailabilityStore",
-) as FluxStore & {
+export const GuildAvailabilityStore = findStoreLazy("GuildAvailabilityStore") as FluxStore & {
     totalGuilds: number;
     totalUnavailableGuilds: number;
     unavailableGuilds: string[];
@@ -37,37 +39,26 @@ const guilds = new Map<string, SimpleGuild>();
 const groups = new Map<string, SimpleGroupChannel>();
 const friends = {
     friends: [] as string[],
-    requests: [] as string[],
+    requests: [] as string[]
 };
 
-const guildsKey = () =>
-    `relationship-notifier-guilds-${UserStore.getCurrentUser().id}`;
-const groupsKey = () =>
-    `relationship-notifier-groups-${UserStore.getCurrentUser().id}`;
-const friendsKey = () =>
-    `relationship-notifier-friends-${UserStore.getCurrentUser().id}`;
+const guildsKey = () => `relationship-notifier-guilds-${UserStore.getCurrentUser().id}`;
+const groupsKey = () => `relationship-notifier-groups-${UserStore.getCurrentUser().id}`;
+const friendsKey = () => `relationship-notifier-friends-${UserStore.getCurrentUser().id}`;
 
 async function runMigrations() {
-    DataStore.delMany([
-        "relationship-notifier-guilds",
-        "relationship-notifier-groups",
-        "relationship-notifier-friends",
-    ]);
+    DataStore.delMany(["relationship-notifier-guilds", "relationship-notifier-groups", "relationship-notifier-friends"]);
 }
 
 export async function syncAndRunChecks() {
     await runMigrations();
     if (UserStore.getCurrentUser() == null) return;
 
-    const [oldGuilds, oldGroups, oldFriends] = (await DataStore.getMany([
+    const [oldGuilds, oldGroups, oldFriends] = await DataStore.getMany([
         guildsKey(),
         groupsKey(),
-        friendsKey(),
-    ])) as [
-        Map<string, SimpleGuild> | undefined,
-        Map<string, SimpleGroupChannel> | undefined,
-        Record<"friends" | "requests", string[]> | undefined,
-    ];
+        friendsKey()
+    ]) as [Map<string, SimpleGuild> | undefined, Map<string, SimpleGroupChannel> | undefined, Record<"friends" | "requests", string[]> | undefined];
 
     await Promise.all([syncGuilds(), syncGroups(), syncFriends()]);
 
@@ -75,23 +66,14 @@ export async function syncAndRunChecks() {
         if (settings.store.groups && oldGroups?.size) {
             for (const [id, group] of oldGroups) {
                 if (!groups.has(id))
-                    notify(
-                        `You are no longer in the group ${group.name}.`,
-                        group.iconURL,
-                    );
+                    notify(`You are no longer in the group ${group.name}.`, group.iconURL);
             }
         }
 
         if (settings.store.servers && oldGuilds?.size) {
             for (const [id, guild] of oldGuilds) {
-                if (
-                    !guilds.has(id) &&
-                    !GuildAvailabilityStore.isUnavailable(id)
-                )
-                    notify(
-                        `You are no longer in the server ${guild.name}.`,
-                        guild.iconURL,
-                    );
+                if (!guilds.has(id) && !GuildAvailabilityStore.isUnavailable(id))
+                    notify(`You are no longer in the server ${guild.name}.`, guild.iconURL);
             }
         }
 
@@ -104,32 +86,24 @@ export async function syncAndRunChecks() {
                     notify(
                         `You are no longer friends with ${getUniqueUsername(user)}.`,
                         user.getAvatarURL(undefined, undefined, false),
-                        () => openUserProfile(user.id),
+                        () => openUserProfile(user.id)
                     );
             }
         }
 
-        if (
-            settings.store.friendRequestCancels &&
-            oldFriends?.requests?.length
-        ) {
+        if (settings.store.friendRequestCancels && oldFriends?.requests?.length) {
             for (const id of oldFriends.requests) {
                 if (
                     friends.requests.includes(id) ||
-                    [
-                        RelationshipType.FRIEND,
-                        RelationshipType.BLOCKED,
-                        RelationshipType.OUTGOING_REQUEST,
-                    ].includes(RelationshipStore.getRelationshipType(id))
-                )
-                    continue;
+                    [RelationshipType.FRIEND, RelationshipType.BLOCKED, RelationshipType.OUTGOING_REQUEST].includes(RelationshipStore.getRelationshipType(id))
+                ) continue;
 
                 const user = await UserUtils.getUser(id).catch(() => void 0);
                 if (user)
                     notify(
                         `Friend request from ${getUniqueUsername(user)} has been revoked.`,
                         user.getAvatarURL(undefined, undefined, false),
-                        () => openUserProfile(user.id),
+                        () => openUserProfile(user.id)
                     );
             }
         }
@@ -138,13 +112,13 @@ export async function syncAndRunChecks() {
 
 export function notify(text: string, icon?: string, onClick?: () => void) {
     if (settings.store.notices)
-        Notices.showNotice(text, "OK", () => Notices.popNotice());
+        showNotice(text, "OK", () => popNotice());
 
     showNotification({
         title: "Relationship Notifier",
         body: text,
         icon,
-        onClick,
+        onClick
     });
 }
 
@@ -166,9 +140,7 @@ export async function syncGuilds() {
             guilds.set(id, {
                 id,
                 name,
-                iconURL:
-                    icon &&
-                    `https://cdn.discordapp.com/icons/${id}/${icon}.png`,
+                iconURL: icon && `https://cdn.discordapp.com/icons/${id}/${icon}.png`
             });
     }
     await DataStore.set(guildsKey(), guilds);
@@ -186,20 +158,12 @@ export function deleteGroup(id: string) {
 export async function syncGroups() {
     groups.clear();
 
-    for (const {
-        type,
-        id,
-        name,
-        rawRecipients,
-        icon,
-    } of ChannelStore.getSortedPrivateChannels()) {
+    for (const { type, id, name, rawRecipients, icon } of ChannelStore.getSortedPrivateChannels()) {
         if (type === ChannelType.GROUP_DM)
             groups.set(id, {
                 id,
                 name: name || rawRecipients.map(r => r.username).join(", "),
-                iconURL:
-                    icon &&
-                    `https://cdn.discordapp.com/channel-icons/${id}/${icon}.png`,
+                iconURL: icon && `https://cdn.discordapp.com/channel-icons/${id}/${icon}.png`
             });
     }
 

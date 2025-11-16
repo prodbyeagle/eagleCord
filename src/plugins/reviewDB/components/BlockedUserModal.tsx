@@ -1,20 +1,17 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
+ * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { Auth } from "@plugins/reviewDB/auth";
+import { ReviewDBUser } from "@plugins/reviewDB/entities";
+import { fetchBlocks, unblockUser } from "@plugins/reviewDB/reviewDbApi";
+import { cl } from "@plugins/reviewDB/utils";
 import { Logger } from "@utils/Logger";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import { useAwaiter } from "@utils/react";
 import { Forms, Tooltip, useState } from "@webpack/common";
-
-import { Auth } from "../auth";
-import { ReviewDBUser } from "../entities";
-import { fetchBlocks, unblockUser } from "../reviewDbApi";
-import { cl } from "../utils";
 
 function UnblockButton(props: { onClick?(): void; }) {
     return (
@@ -27,8 +24,7 @@ function UnblockButton(props: { onClick?(): void; }) {
                     className={cl("block-modal-unblock")}
                 >
                     <svg height="20" viewBox="0 -960 960 960" width="20" fill="var(--status-danger)">
-                        <path
-                            d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q54 0 104-17.5t92-50.5L228-676q-33 42-50.5 92T160-480q0 134 93 227t227 93Zm252-124q33-42 50.5-92T800-480q0-134-93-227t-227-93q-54 0-104 17.5T284-732l448 448Z"/>
+                        <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q54 0 104-17.5t92-50.5L228-676q-33 42-50.5 92T160-480q0 134 93 227t227 93Zm252-124q33-42 50.5-92T800-480q0-134-93-227t-227-93q-54 0-104 17.5T284-732l448 448Z" />
                     </svg>
                 </div>
             )}
@@ -42,7 +38,7 @@ function BlockedUser({ user, isBusy, setIsBusy }: { user: ReviewDBUser; isBusy: 
 
     return (
         <div className={cl("block-modal-row")}>
-            <img className={cl("block-modal-avatar")} src={user.profilePhoto} alt=""/>
+            <img className={cl("block-modal-avatar")} src={user.profilePhoto} alt="" />
             <Forms.FormText className={cl("block-modal-username")}>{user.username}</Forms.FormText>
             <UnblockButton
                 onClick={isBusy ? undefined : async () => {
@@ -92,10 +88,10 @@ export function openBlockModal() {
         <ModalRoot {...modalProps}>
             <ModalHeader className={cl("block-modal-header")}>
                 <Forms.FormTitle style={{ margin: 0 }}>Blocked Users</Forms.FormTitle>
-                <ModalCloseButton onClick={modalProps.onClose}/>
+                <ModalCloseButton onClick={modalProps.onClose} />
             </ModalHeader>
             <ModalContent className={cl("block-modal")}>
-                {Auth.token ? <Modal/> : <Forms.FormText>You are not logged into ReviewDB!</Forms.FormText>}
+                {Auth.token ? <Modal /> : <Forms.FormText>You are not logged into ReviewDB!</Forms.FormText>}
             </ModalContent>
         </ModalRoot>
     ));

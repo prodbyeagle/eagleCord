@@ -1,31 +1,31 @@
 /*
- * EagleCord, a Vencord mod
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2022 Vendicated and contributors
  *
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 import "./style.css";
 
 import { definePluginSettings, Settings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { buildSeveralUsers } from "@plugins/typingTweaks";
 import { Devs } from "@utils/constants";
 import { getIntlMessage } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
 import { findComponentByCodeLazy, findStoreLazy } from "@webpack";
-import {
-    GuildMemberStore,
-    RelationshipStore,
-    SelectedChannelStore,
-    Tooltip,
-    TypingStore,
-    UserStore,
-    UserSummaryItem,
-    useStateFromStores
-} from "@webpack/common";
-
-import { buildSeveralUsers } from "../typingTweaks";
+import { GuildMemberStore, RelationshipStore, SelectedChannelStore, Tooltip, TypingStore, UserStore, UserSummaryItem, useStateFromStores } from "@webpack/common";
 
 const ThreeDots = findComponentByCodeLazy(".dots,", "dotRadius:");
 
@@ -73,25 +73,17 @@ function TypingIndicator({ channelId, guildId }: { channelId: string; guildId: s
     let tooltipText: string;
 
     switch (typingUsersArray.length) {
-        case 0:
-            break;
+        case 0: break;
         case 1: {
             tooltipText = getIntlMessage("ONE_USER_TYPING", { a: getDisplayName(guildId, a) });
             break;
         }
         case 2: {
-            tooltipText = getIntlMessage("TWO_USERS_TYPING", {
-                a: getDisplayName(guildId, a),
-                b: getDisplayName(guildId, b)
-            });
+            tooltipText = getIntlMessage("TWO_USERS_TYPING", { a: getDisplayName(guildId, a), b: getDisplayName(guildId, b) });
             break;
         }
         case 3: {
-            tooltipText = getIntlMessage("THREE_USERS_TYPING", {
-                a: getDisplayName(guildId, a),
-                b: getDisplayName(guildId, b),
-                c: getDisplayName(guildId, c)
-            });
+            tooltipText = getIntlMessage("THREE_USERS_TYPING", { a: getDisplayName(guildId, a), b: getDisplayName(guildId, b), c: getDisplayName(guildId, c) });
             break;
         }
         default: {
@@ -129,7 +121,7 @@ function TypingIndicator({ channelId, guildId }: { channelId: string; guildId: s
                         )}
                         {((settings.store.indicatorMode & IndicatorMode.Dots) === IndicatorMode.Dots) && (
                             <div className="vc-typing-indicator-dots">
-                                <ThreeDots dotRadius={3} themed={true}/>
+                                <ThreeDots dotRadius={3} themed={true} />
                             </div>
                         )}
                     </div>
@@ -196,7 +188,7 @@ export default definePlugin({
 
     TypingIndicator: (channelId: string, guildId: string) => (
         <ErrorBoundary noop>
-            <TypingIndicator channelId={channelId} guildId={guildId}/>
+            <TypingIndicator channelId={channelId} guildId={guildId} />
         </ErrorBoundary>
     ),
 });

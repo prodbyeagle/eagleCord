@@ -1,18 +1,15 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
+ * Copyright (c) 2023 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { DataStore } from "@api/index";
+import * as DataStore from "@api/DataStore";
+import { AUTHORIZE_URL, CLIENT_ID } from "@plugins/decor/lib/constants";
 import { proxyLazy } from "@utils/lazy";
 import { Logger } from "@utils/Logger";
 import { openModal } from "@utils/modal";
 import { OAuth2AuthorizeModal, showToast, Toasts, UserStore, zustandCreate, zustandPersist } from "@webpack/common";
-
-import { AUTHORIZE_URL, CLIENT_ID } from "../constants";
 
 interface AuthorizationState {
     token: string | null;
@@ -42,13 +39,8 @@ export const useAuthorizationStore = proxyLazy(() => zustandCreate(
         (set: any, get: any) => ({
             token: null,
             tokens: {},
-            init: () => {
-                set({ token: get().tokens[UserStore.getCurrentUser().id] ?? null });
-            },
-            setToken: (token: string) => set({
-                token,
-                tokens: { ...get().tokens, [UserStore.getCurrentUser().id]: token }
-            }),
+            init: () => { set({ token: get().tokens[UserStore.getCurrentUser().id] ?? null }); },
+            setToken: (token: string) => set({ token, tokens: { ...get().tokens, [UserStore.getCurrentUser().id]: token } }),
             remove: (id: string) => {
                 const { tokens, init } = get();
                 const newTokens = { ...tokens };

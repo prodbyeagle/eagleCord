@@ -9,13 +9,12 @@
 import * as DataStore from "@api/DataStore";
 import { showNotification } from "@api/Notifications";
 import { Settings } from "@api/Settings";
+import { Logger } from "@utils/Logger";
+import { openModal } from "@utils/modal";
+import { relaunch } from "@utils/native";
 import { Alerts, OAuth2AuthorizeModal, UserStore } from "@webpack/common";
 
-import { Logger } from "./Logger";
-import { openModal } from "./modal";
-import { relaunch } from "./native";
-
-export const cloudLogger = new Logger("Cloud", "#39b7e0");
+export const logger = new Logger("SettingsSync:CloudSetup", "#39b7e0");
 
 export const getCloudUrl = () => new URL(Settings.cloud.url);
 const getCloudUrlOrigin = () => getCloudUrl().origin;
@@ -127,7 +126,7 @@ export async function authorizeCloud() {
                 });
                 const { secret } = await res.json();
                 if (secret) {
-                    cloudLogger.info("Authorized with secret");
+                    logger.info("Authorized with secret");
                     await setAuthorization(secret);
                     showNotification({
                         title: "Cloud Integration",
@@ -142,7 +141,7 @@ export async function authorizeCloud() {
                     Settings.cloud.authenticated = false;
                 }
             } catch (e: any) {
-                cloudLogger.error("Failed to authorize", e);
+                logger.error("Failed to authorize", e);
                 showNotification({
                     title: "Cloud Integration",
                     body: `Setup failed (${e.toString()}).`

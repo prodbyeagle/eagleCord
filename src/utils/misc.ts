@@ -6,9 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { copyToClipboard } from "@utils/clipboard";
-import { DevsById } from "@utils/constants";
-import { Toasts } from "@webpack/common";
+import { DevsById } from "./constants";
 
 /**
  * Calls .join(" ") on the arguments
@@ -25,18 +23,6 @@ export function sleep(ms: number): Promise<void> {
     return new Promise(r => setTimeout(r, ms));
 }
 
-export async function copyWithToast(
-    text: string,
-    toastMessage = "Copied to clipboard!",
-) {
-    await copyToClipboard(text);
-    Toasts.show({
-        message: toastMessage,
-        id: Toasts.genId(),
-        type: Toasts.Type.SUCCESS,
-    });
-}
-
 /**
  * Check if obj is a true object: of type "object" and not null or array
  */
@@ -48,7 +34,8 @@ export function isObject(obj: unknown): obj is object {
  * Check if an object is empty or in other words has no own properties
  */
 export function isObjectEmpty(obj: object) {
-    for (const k in obj) if (Object.hasOwn(obj, k)) return false;
+    for (const k in obj)
+        if (Object.hasOwn(obj, k)) return false;
 
     return true;
 }
@@ -70,10 +57,7 @@ export function parseUrl(urlString: string): URL | null {
  */
 export const checkIntersecting = (el: Element) => {
     const elementBox = el.getBoundingClientRect();
-    const documentHeight = Math.max(
-        document.documentElement.clientHeight,
-        window.innerHeight,
-    );
+    const documentHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
     return !(elementBox.bottom < 0 || elementBox.top - documentHeight >= 0);
 };
 
@@ -81,26 +65,14 @@ export function identity<T>(value: T): T {
     return value;
 }
 
-// https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent#mobile_tablet_or_desktop
-// "In summary, we recommend looking for the string Mobi anywhere in the User Agent to detect a mobile device."
-export const isMobile = navigator.userAgent.includes("Mobi");
-
 export const isPluginDev = (id: string) => Object.hasOwn(DevsById, id);
-export const shouldShowContributorBadge = (id: string) =>
-    isPluginDev(id) && DevsById[id].badge !== false;
+export const shouldShowContributorBadge = (id: string) => isPluginDev(id) && DevsById[id].badge !== false;
 
-export function pluralise(
-    amount: number,
-    singular: string,
-    plural = singular + "s",
-) {
+export function pluralise(amount: number, singular: string, plural = singular + "s") {
     return amount === 1 ? `${amount} ${singular}` : `${amount} ${plural}`;
 }
 
-export function interpolateIfDefined(
-    strings: TemplateStringsArray,
-    ...args: any[]
-) {
+export function interpolateIfDefined(strings: TemplateStringsArray, ...args: any[]) {
     if (args.some(arg => arg == null)) return "";
     return String.raw({ raw: strings }, ...args);
 }
@@ -108,7 +80,9 @@ export function interpolateIfDefined(
 export function tryOrElse<T>(func: () => T, fallback: T): T {
     try {
         const res = func();
-        return res instanceof Promise ? (res.catch(() => fallback) as T) : res;
+        return res instanceof Promise
+            ? res.catch(() => fallback) as T
+            : res;
     } catch {
         return fallback;
     }

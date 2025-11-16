@@ -1,8 +1,6 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
+ * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -11,14 +9,13 @@ import "./style.css";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { CopyIcon, NoEntrySignIcon } from "@components/Icons";
 import { Devs } from "@utils/constants";
-import { copyWithToast } from "@utils/misc";
+import { copyWithToast } from "@utils/discord";
 import definePlugin from "@utils/types";
 import { Tooltip, useState } from "@webpack/common";
 
 const CheckMarkIcon = () => {
     return <svg width="24" height="24" viewBox="0 0 24 24">
-        <path fill="currentColor"
-              d="M21.7 5.3a1 1 0 0 1 0 1.4l-12 12a1 1 0 0 1-1.4 0l-6-6a1 1 0 1 1 1.4-1.4L9 16.58l11.3-11.3a1 1 0 0 1 1.4 0Z"></path>
+        <path fill="currentColor" d="M21.7 5.3a1 1 0 0 1 0 1.4l-12 12a1 1 0 0 1-1.4 0l-6-6a1 1 0 1 1 1.4-1.4L9 16.58l11.3-11.3a1 1 0 0 1 1.4 0Z"></path>
     </svg>;
 };
 
@@ -40,8 +37,7 @@ export default definePlugin({
         const [recentlyCopied, setRecentlyCopied] = useState(false);
 
         return (
-            <Tooltip
-                text={recentlyCopied ? "Copied!" : bytesLeft > 0 ? "File too large to copy" : "Copy File Contents"}>
+            <Tooltip text={recentlyCopied ? "Copied!" : bytesLeft > 0 ? "File too large to copy" : "Copy File Contents"}>
                 {tooltipProps => (
                     <div
                         {...tooltipProps}
@@ -55,8 +51,7 @@ export default definePlugin({
                             }
                         }}
                     >
-                        {recentlyCopied ? <CheckMarkIcon/> : bytesLeft > 0 ?
-                            <NoEntrySignIcon color="var(--channel-icon)"/> : <CopyIcon/>}
+                        {recentlyCopied ? <CheckMarkIcon /> : bytesLeft > 0 ? <NoEntrySignIcon color="var(--channel-icon)" /> : <CopyIcon />}
                     </div>
                 )}
             </Tooltip>

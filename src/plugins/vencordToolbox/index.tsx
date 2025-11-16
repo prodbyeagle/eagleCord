@@ -1,14 +1,25 @@
 /*
- * EagleCord, a Vencord mod
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2023 Vendicated and contributors
  *
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
-import "./index.css";
+import "./styles.css";
 
 import { openNotificationLogModal } from "@api/Notifications/notificationLog";
+import { isPluginEnabled, plugins } from "@api/PluginManager";
 import { Settings, useSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Devs } from "@utils/constants";
@@ -24,8 +35,8 @@ function VencordPopout(onClose: () => void) {
 
     const pluginEntries = [] as ReactNode[];
 
-    for (const plugin of Object.values(Vencord.Plugins.plugins)) {
-        if (plugin.toolboxActions && Vencord.Plugins.isPluginEnabled(plugin.name)) {
+    for (const plugin of Object.values(plugins)) {
+        if (plugin.toolboxActions && isPluginEnabled(plugin.name)) {
             pluginEntries.push(
                 <Menu.MenuGroup
                     label={plugin.name}

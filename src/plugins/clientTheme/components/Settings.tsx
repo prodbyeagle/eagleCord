@@ -1,6 +1,4 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -8,13 +6,13 @@
 
 import { classNameFactory } from "@api/Styles";
 import { ErrorCard } from "@components/ErrorCard";
+import { relativeLuminance } from "@plugins/clientTheme/utils/colorUtils";
+import { createOrUpdateThemeColorVars } from "@plugins/clientTheme/utils/styleUtils";
 import { Margins } from "@utils/margins";
 import { findByCodeLazy, findStoreLazy } from "@webpack";
 import { Button, ColorPicker, Forms, ThemeStore, useStateFromStores } from "@webpack/common";
 
 import { settings } from "..";
-import { relativeLuminance } from "../utils/colorUtils";
-import { createOrUpdateThemeColorVars } from "../utils/styleUtils";
 
 const saveClientTheme = findByCodeLazy('type:"UNSYNCED_USER_SETTINGS_UPDATE', '"system"===');
 const NitroThemeStore = findStoreLazy("ClientThemesBackgroundStore");
@@ -83,17 +81,12 @@ export function ThemeSettingsComponent() {
                 <ErrorCard className={Margins.top8}>
                     <Forms.FormTitle tag="h2">Your theme won't look good!</Forms.FormTitle>
 
-                    {contrastWarning &&
-                        <Forms.FormText>{">"} Selected color won't contrast well with text</Forms.FormText>}
+                    {contrastWarning && <Forms.FormText>{">"} Selected color won't contrast well with text</Forms.FormText>}
                     {nitroThemeEnabled && <Forms.FormText>{">"} Nitro themes aren't supported</Forms.FormText>}
 
                     <div className={cl("buttons-container")}>
-                        {(contrastWarning && fixableContrast) &&
-                            <Button onClick={() => setDiscordTheme(oppositeTheme)} color={Button.Colors.RED}>Switch
-                                to {oppositeTheme} mode</Button>}
-                        {(nitroThemeEnabled) &&
-                            <Button onClick={() => setDiscordTheme(currentTheme)} color={Button.Colors.RED}>Disable
-                                Nitro Theme</Button>}
+                        {(contrastWarning && fixableContrast) && <Button onClick={() => setDiscordTheme(oppositeTheme)} color={Button.Colors.RED}>Switch to {oppositeTheme} mode</Button>}
+                        {(nitroThemeEnabled) && <Button onClick={() => setDiscordTheme(currentTheme)} color={Button.Colors.RED}>Disable Nitro Theme</Button>}
                     </div>
                 </ErrorCard>
             </>)}

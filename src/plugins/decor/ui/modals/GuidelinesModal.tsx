@@ -1,18 +1,16 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
+ * Copyright (c) 2023 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import { Flex } from "@components/Flex";
 import { Link } from "@components/Link";
+import { settings } from "@plugins/decor/settings";
+import { cl, DecorationModalStyles, requireAvatarDecorationModal } from "@plugins/decor/ui";
 import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import { Button, Forms, Text } from "@webpack/common";
 
-import { settings } from "../../settings";
-import { cl, DecorationModalStyles, requireAvatarDecorationModal } from "../";
 import { openCreateDecorationModal } from "./CreateDecorationModal";
 
 function GuidelinesModal(props: ModalProps) {
@@ -37,10 +35,10 @@ function GuidelinesModal(props: ModalProps) {
         >
             <Forms.FormText>
                 By submitting a decoration, you agree to <Link
-                    href="https://github.com/decor-discord/.github/blob/main/GUIDELINES.md"
-                >
-                    the guidelines
-                </Link>. Not reading these guidelines may get your account suspended from creating more decorations in the future.
+                href="https://github.com/decor-discord/.github/blob/main/GUIDELINES.md"
+            >
+                the guidelines
+            </Link>. Not reading these guidelines may get your account suspended from creating more decorations in the future.
             </Forms.FormText>
         </ModalContent>
         <ModalFooter className={cl("modal-footer")}>

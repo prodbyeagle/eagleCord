@@ -6,25 +6,20 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ProfileBadge } from "@api/Badges";
-import { ChatBarButtonFactory } from "@api/ChatButtons";
-import { NavContextMenuPatchCallback } from "@api/ContextMenu";
-import { MemberListDecoratorFactory } from "@api/MemberListDecorators";
-import { MessageAccessoryFactory } from "@api/MessageAccessories";
-import { MessageDecorationFactory } from "@api/MessageDecorations";
-import {
-    MessageClickListener,
-    MessageEditListener,
-    MessageSendListener,
-} from "@api/MessageEvents";
-import { MessagePopoverButtonFactory } from "@api/MessagePopover";
-import { Command, FluxEvents } from "@vencord/discord-types";
-import { ReactNode } from "react";
+import type { ProfileBadge } from "@api/Badges";
+import type { ChatBarButtonFactory } from "@api/ChatButtons";
+import type { NavContextMenuPatchCallback } from "@api/ContextMenu";
+import type { MemberListDecoratorFactory } from "@api/MemberListDecorators";
+import type { MessageAccessoryFactory } from "@api/MessageAccessories";
+import type { MessageDecorationFactory } from "@api/MessageDecorations";
+import type { MessageClickListener, MessageEditListener, MessageSendListener } from "@api/MessageEvents";
+import type { MessagePopoverButtonFactory } from "@api/MessagePopover";
+import type { Command, FluxEvents } from "@vencord/discord-types";
+import type { ReactNode } from "react";
+import type { LiteralUnion } from "type-fest";
 
 // exists to export default definePlugin({...})
-export default function definePlugin<P extends PluginDef>(
-    p: P & Record<PropertyKey, any>,
-) {
+export default function definePlugin<P extends PluginDef>(p: P & Record<PropertyKey, any>) {
     return p as typeof p & Plugin;
 }
 
@@ -45,13 +40,11 @@ export interface PatchReplacement {
     replace: string | ReplaceFn;
     /** Do not warn if this replacement did no changes */
     noWarn?: boolean;
-
     /**
      * A function which returns whether this patch replacement should be applied.
      * This is ran before patches are registered, so if this returns false, the patch will never be registered.
      */
     predicate?(): boolean;
-
     /** The minimum build number for this patch to be applied */
     fromBuild?: number;
     /** The maximum build number for this patch to be applied */
@@ -70,13 +63,11 @@ export interface Patch {
     noWarn?: boolean;
     /** Only apply this set of replacements if all of them succeed. Use this if your replacements depend on each other */
     group?: boolean;
-
     /**
      * A function which returns whether this patch replacement should be applied.
      * This is ran before patches are registered, so if this returns false, the patch will never be registered.
      */
     predicate?(): boolean;
-
     /** The minimum build number for this patch to be applied */
     fromBuild?: number;
     /** The maximum build number for this patch to be applied */
@@ -98,11 +89,8 @@ export interface PluginDef {
     name: string;
     description: string;
     authors: PluginAuthor[];
-
     start?(): void;
-
     stop?(): void;
-
     patches?: Omit<Patch, "plugin">[];
     /**
      * List of commands that your plugin wants to register
@@ -113,15 +101,11 @@ export interface PluginDef {
      * These will automatically be enabled and loaded before your plugin
      * Generally these will be API plugins
      */
-    dependencies?: string[];
+    dependencies?: string[],
     /**
      * Whether this plugin is required and forcefully enabled
      */
     required?: boolean;
-    /**
-     * Whether this plugin is an EagleCord plugin
-     */
-    isEagleCord?: boolean;
     /**
      * Whether this plugin should be hidden from the user
      */
@@ -134,7 +118,7 @@ export interface PluginDef {
      * When to call the start() method
      * @default StartAt.WebpackReady
      */
-    startAt?: StartAt;
+    startAt?: StartAt,
     /**
      * Which parts of the plugin can be tested by the reporter. Defaults to all parts
      */
@@ -157,9 +141,9 @@ export interface PluginDef {
     /**
      * Allows you to subscribe to Flux events
      */
-    flux?: {
-        [E in FluxEvents]?: (event: any) => void | Promise<void>;
-    };
+    flux?: Partial<{
+        [E in LiteralUnion<FluxEvents, string>]: (event: any) => void | Promise<void>;
+    }>;
     /**
      * Allows you to manipulate context menus
      */
@@ -178,9 +162,6 @@ export interface PluginDef {
     managedStyle?: string;
 
     userProfileBadge?: ProfileBadge;
-
-    /** Custom Badge for VIP Users. Do not change*/
-    EagleBadge?: ProfileBadge;
 
     onMessageClick?: MessageClickListener;
     onBeforeMessageSend?: MessageSendListener;
@@ -201,14 +182,14 @@ export const enum StartAt {
     /** On the DOMContentLoaded event, so once the document is ready */
     DOMContentLoaded = "DOMContentLoaded",
     /** Once Discord's core webpack modules have finished loading, so as soon as things like react and flux are available */
-    WebpackReady = "WebpackReady",
+    WebpackReady = "WebpackReady"
 }
 
 export const enum ReporterTestable {
     None = 1 << 1,
     Start = 1 << 2,
     Patches = 1 << 3,
-    FluxEvents = 1 << 4,
+    FluxEvents = 1 << 4
 }
 
 export function defineDefault<T = any>(value: T) {
@@ -223,37 +204,30 @@ export const enum OptionType {
     SELECT,
     SLIDER,
     COMPONENT,
-    CUSTOM,
+    CUSTOM
 }
 
 export type SettingsDefinition = Record<string, PluginSettingDef>;
 export type SettingsChecks<D extends SettingsDefinition> = {
-    [K in keyof D]?: D[K] extends PluginSettingComponentDef
-        ? IsDisabled<DefinedSettings<D>>
-        : IsDisabled<DefinedSettings<D>> &
-              IsValid<PluginSettingType<D[K]>, DefinedSettings<D>>;
+    [K in keyof D]?: D[K] extends PluginSettingComponentDef ? IsDisabled<DefinedSettings<D>> :
+        (IsDisabled<DefinedSettings<D>> & IsValid<PluginSettingType<D[K]>, DefinedSettings<D>>);
 };
 
 export type PluginSettingDef =
-    | (PluginSettingCustomDef & Pick<PluginSettingCommon, "onChange">)
-    | (PluginSettingComponentDef &
-          Omit<PluginSettingCommon, "description" | "placeholder">)
-    | ((
-          | PluginSettingStringDef
-          | PluginSettingNumberDef
-          | PluginSettingBooleanDef
-          | PluginSettingSelectDef
-          | PluginSettingSliderDef
-          | PluginSettingBigIntDef
-      ) &
-          PluginSettingCommon);
+    (PluginSettingCustomDef & Pick<PluginSettingCommon, "onChange">) |
+    (PluginSettingComponentDef & Omit<PluginSettingCommon, "description" | "placeholder">) | ((
+    | PluginSettingStringDef
+    | PluginSettingNumberDef
+    | PluginSettingBooleanDef
+    | PluginSettingSelectDef
+    | PluginSettingSliderDef
+    | PluginSettingBigIntDef
+    ) & PluginSettingCommon);
 
 export interface PluginSettingCommon {
     description: string;
     placeholder?: string;
-
     onChange?(newValue: any): void;
-
     /**
      * Whether changing this setting requires a restart
      */
@@ -287,17 +261,14 @@ export interface PluginSettingStringDef {
     type: OptionType.STRING;
     default?: string;
 }
-
 export interface PluginSettingNumberDef {
     type: OptionType.NUMBER;
     default?: number;
 }
-
 export interface PluginSettingBigIntDef {
     type: OptionType.BIGINT;
     default?: BigInt;
 }
-
 export interface PluginSettingBooleanDef {
     type: OptionType.BOOLEAN;
     default?: boolean;
@@ -342,7 +313,6 @@ export interface IPluginOptionComponentProps {
      * NOTE: The user will still need to click save to apply these changes.
      */
     setValue(newValue: any): void;
-
     /**
      * The options object
      */
@@ -351,44 +321,24 @@ export interface IPluginOptionComponentProps {
 
 export interface PluginSettingComponentDef {
     type: OptionType.COMPONENT;
-    component: (
-        props: IPluginOptionComponentProps,
-    ) => ReactNode | Promise<ReactNode>;
+    component: (props: IPluginOptionComponentProps) => ReactNode | Promise<ReactNode>;
     default?: any;
 }
 
 /** Maps a `PluginSettingDef` to its value type */
-type PluginSettingType<O extends PluginSettingDef> =
-    O extends PluginSettingStringDef
-        ? string
-        : O extends PluginSettingNumberDef
-          ? number
-          : O extends PluginSettingBigIntDef
-            ? BigInt
-            : O extends PluginSettingBooleanDef
-              ? boolean
-              : O extends PluginSettingSelectDef
-                ? O["options"][number]["value"]
-                : O extends PluginSettingSliderDef
-                  ? number
-                  : O extends PluginSettingComponentDef
-                    ? O extends { default: infer Default }
-                        ? Default
-                        : any
-                    : O extends PluginSettingCustomDef
-                      ? O extends { default: infer Default }
-                          ? Default
-                          : any
-                      : never;
+type PluginSettingType<O extends PluginSettingDef> = O extends PluginSettingStringDef ? string :
+    O extends PluginSettingNumberDef ? number :
+        O extends PluginSettingBigIntDef ? BigInt :
+            O extends PluginSettingBooleanDef ? boolean :
+                O extends PluginSettingSelectDef ? O["options"][number]["value"] :
+                    O extends PluginSettingSliderDef ? number :
+                        O extends PluginSettingComponentDef ? O extends { default: infer Default; } ? Default : any :
+                            O extends PluginSettingCustomDef ? O extends { default: infer Default; } ? Default : any :
+                                never;
 
-type PluginSettingDefaultType<O extends PluginSettingDef> =
-    O extends PluginSettingSelectDef
-        ? O["options"] extends { default?: boolean }[]
-            ? O["options"][number]["value"]
-            : undefined
-        : O extends { default: infer T }
-          ? T
-          : undefined;
+type PluginSettingDefaultType<O extends PluginSettingDef> = O extends PluginSettingSelectDef ? (
+    O["options"] extends { default?: boolean; }[] ? O["options"][number]["value"] : undefined
+    ) : O extends { default: infer T; } ? T : undefined;
 
 type SettingsStore<D extends SettingsDefinition> = {
     [K in keyof D]: PluginSettingType<D[K]> | PluginSettingDefaultType<D[K]>;
@@ -398,21 +348,17 @@ type SettingsStore<D extends SettingsDefinition> = {
 export interface DefinedSettings<
     Def extends SettingsDefinition = SettingsDefinition,
     Checks extends SettingsChecks<Def> = {},
-    PrivateSettings extends object = {},
+    PrivateSettings extends object = {}
 > {
     /** Shorthand for `Vencord.Settings.plugins.PluginName`, but with typings */
     store: SettingsStore<Def> & PrivateSettings;
     /** Shorthand for `Vencord.PlainSettings.plugins.PluginName`, but with typings */
     plain: SettingsStore<Def> & PrivateSettings;
-
     /**
      * React hook for getting the settings for this plugin
      * @param filter optional filter to avoid rerenders for irrelevent settings
      */
-    use<F extends Extract<keyof Def | keyof PrivateSettings, string>>(
-        filter?: F[],
-    ): Pick<SettingsStore<Def> & PrivateSettings, F>;
-
+    use<F extends Extract<keyof Def | keyof PrivateSettings, string>>(filter?: F[]): Pick<SettingsStore<Def> & PrivateSettings, F>;
     /** Definitions of each setting */
     def: Def;
     /** Setting methods with return values that could rely on other settings */
@@ -426,12 +372,9 @@ export interface DefinedSettings<
     withPrivateSettings<T extends object>(): DefinedSettings<Def, Checks, T>;
 }
 
-export type PartialExcept<T, R extends keyof T> = Partial<T> &
-    Required<Pick<T, R>>;
+export type PartialExcept<T, R extends keyof T> = Partial<T> & Required<Pick<T, R>>;
 
-export type IpcRes<V = any> =
-    | { ok: true; value: V }
-    | { ok: false; error: any };
+export type IpcRes<V = any> = { ok: true; value: V; } | { ok: false, error: any; };
 
 /* -------------------------------------------- */
 /*             Legacy Options Types             */
@@ -446,46 +389,17 @@ export type PluginOptionsItem =
     | PluginOptionSlider
     | PluginOptionComponent
     | PluginOptionCustom;
-export type PluginOptionString = PluginSettingStringDef &
-    PluginSettingCommon &
-    IsDisabled &
-    IsValid<string>;
-export type PluginOptionNumber = (
-    | PluginSettingNumberDef
-    | PluginSettingBigIntDef
-) &
-    PluginSettingCommon &
-    IsDisabled &
-    IsValid<number | BigInt>;
-export type PluginOptionBoolean = PluginSettingBooleanDef &
-    PluginSettingCommon &
-    IsDisabled &
-    IsValid<boolean>;
-export type PluginOptionSelect = PluginSettingSelectDef &
-    PluginSettingCommon &
-    IsDisabled &
-    IsValid<PluginSettingSelectOption>;
-export type PluginOptionSlider = PluginSettingSliderDef &
-    PluginSettingCommon &
-    IsDisabled &
-    IsValid<number>;
-export type PluginOptionComponent = PluginSettingComponentDef &
-    Omit<PluginSettingCommon, "description" | "placeholder">;
-export type PluginOptionCustom = PluginSettingCustomDef &
-    Pick<PluginSettingCommon, "onChange">;
+export type PluginOptionString = PluginSettingStringDef & PluginSettingCommon & IsDisabled & IsValid<string>;
+export type PluginOptionNumber = (PluginSettingNumberDef | PluginSettingBigIntDef) & PluginSettingCommon & IsDisabled & IsValid<number | BigInt>;
+export type PluginOptionBoolean = PluginSettingBooleanDef & PluginSettingCommon & IsDisabled & IsValid<boolean>;
+export type PluginOptionSelect = PluginSettingSelectDef & PluginSettingCommon & IsDisabled & IsValid<PluginSettingSelectOption>;
+export type PluginOptionSlider = PluginSettingSliderDef & PluginSettingCommon & IsDisabled & IsValid<number>;
+export type PluginOptionComponent = PluginSettingComponentDef & Omit<PluginSettingCommon, "description" | "placeholder">;
+export type PluginOptionCustom = PluginSettingCustomDef & Pick<PluginSettingCommon, "onChange">;
 
-export type PluginNative<
-    PluginExports extends Record<
-        string,
-        (event: Electron.IpcMainInvokeEvent, ...args: any[]) => any
-    >,
-> = {
-    [key in keyof PluginExports]: PluginExports[key] extends (
-        event: Electron.IpcMainInvokeEvent,
-        ...args: infer Args
-    ) => infer Return
-        ? (
-              ...args: Args
-          ) => Return extends Promise<any> ? Return : Promise<Return>
+export type PluginNative<PluginExports extends Record<string, (event: Electron.IpcMainInvokeEvent, ...args: any[]) => any>> = {
+    [key in keyof PluginExports]:
+    PluginExports[key] extends (event: Electron.IpcMainInvokeEvent, ...args: infer Args) => infer Return
+        ? (...args: Args) => Return extends Promise<any> ? Return : Promise<Return>
         : never;
 };

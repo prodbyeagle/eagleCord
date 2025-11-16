@@ -1,22 +1,32 @@
 /*
- * EagleCord, a Vencord mod
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2022 Vendicated and contributors
  *
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
+import { Auth, getToken } from "@plugins/reviewDB/auth";
+import { Review, ReviewType } from "@plugins/reviewDB/entities";
+import { blockUser, deleteReview, reportReview, unblockUser } from "@plugins/reviewDB/reviewDbApi";
+import { settings } from "@plugins/reviewDB/settings";
+import { canBlockReviewAuthor, canDeleteReview, canReportReview, cl, showToast } from "@plugins/reviewDB/utils";
 import { openUserProfile } from "@utils/discord";
 import { classes } from "@utils/misc";
 import { LazyComponent } from "@utils/react";
 import { filters, findBulk } from "@webpack";
 import { Alerts, Parser, Timestamp, useState } from "@webpack/common";
 
-import { Auth, getToken } from "../auth";
-import { Review, ReviewType } from "../entities";
-import { blockUser, deleteReview, reportReview, unblockUser } from "../reviewDbApi";
-import { settings } from "../settings";
-import { canBlockReviewAuthor, canDeleteReview, canReportReview, cl, showToast } from "../utils";
 import { openBlockModal } from "./BlockedUserModal";
 import { BlockButton, DeleteButton, ReportButton } from "./MessageButton";
 import ReviewBadge from "./ReviewBadge";
@@ -40,11 +50,7 @@ export default LazyComponent(() => {
 
     const dateFormat = new Intl.DateTimeFormat();
 
-    return function ReviewComponent({ review, refetch, profileId }: {
-        review: Review;
-        refetch(): void;
-        profileId: string;
-    }) {
+    return function ReviewComponent({ review, refetch, profileId }: { review: Review; refetch(): void; profileId: string; }) {
         const [showAll, setShowAll] = useState(false);
 
         function openModal() {
@@ -157,7 +163,7 @@ export default LazyComponent(() => {
 
                 {
                     !settings.store.hideTimestamps && review.type !== ReviewType.System && (
-                        <Timestamp timestamp={new Date(review.timestamp * 1000)}>
+                        <Timestamp timestamp={new Date(review.timestamp * 1000)} >
                             {dateFormat.format(review.timestamp * 1000)}
                         </Timestamp>)
                 }
@@ -167,7 +173,7 @@ export default LazyComponent(() => {
                         ? (
                             <>
                                 {Parser.parseGuildEventDescription(review.comment.substring(0, 200))}...
-                                <br/>
+                                <br />
                                 <a onClick={() => setShowAll(true)}>Read more</a>]
                             </>
                         )
@@ -178,11 +184,10 @@ export default LazyComponent(() => {
                     <div className={classes(container, isHeader, buttons)} style={{
                         padding: "0px",
                     }}>
-                        <div className={classes(buttonClasses.wrapper, buttonsInner)}>
-                            {canReportReview(review) && <ReportButton onClick={reportRev}/>}
-                            {canBlockReviewAuthor(profileId, review) &&
-                                <BlockButton isBlocked={isAuthorBlocked} onClick={blockReviewSender}/>}
-                            {canDeleteReview(profileId, review) && <DeleteButton onClick={delReview}/>}
+                        <div className={classes(buttonClasses.wrapper, buttonsInner)} >
+                            {canReportReview(review) && <ReportButton onClick={reportRev} />}
+                            {canBlockReviewAuthor(profileId, review) && <BlockButton isBlocked={isAuthorBlocked} onClick={blockReviewSender} />}
+                            {canDeleteReview(profileId, review) && <DeleteButton onClick={delReview} />}
                         </div>
                     </div>
                 )}

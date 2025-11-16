@@ -1,8 +1,6 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
+ * Copyright (c) 2023 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -14,28 +12,26 @@ import { closeAllModals } from "@utils/modal";
 import { OptionType } from "@utils/types";
 import { FluxDispatcher, Forms } from "@webpack/common";
 
+import DecorPlugin from ".";
 import DecorSection from "./ui/components/DecorSection";
 
 export const settings = definePluginSettings({
     changeDecoration: {
         type: OptionType.COMPONENT,
         component() {
-            if (!Vencord.Plugins.plugins.Decor.started) return <Forms.FormText>
+            if (!DecorPlugin.started) return <Forms.FormText>
                 Enable Decor and restart your client to change your avatar decoration.
             </Forms.FormText>;
 
             return <div>
-                <DecorSection hideTitle hideDivider noMargin/>
+                <DecorSection hideTitle hideDivider noMargin />
                 <Forms.FormText className={classes(Margins.top8, Margins.bottom8)}>
                     You can also access Decor decorations from the <Link
                     href="/settings/profile-customization"
                     onClick={e => {
                         e.preventDefault();
                         closeAllModals();
-                        FluxDispatcher.dispatch({
-                            type: "USER_SETTINGS_MODAL_SET_SECTION",
-                            section: "Profile Customization"
-                        });
+                        FluxDispatcher.dispatch({ type: "USER_SETTINGS_MODAL_SET_SECTION", section: "Profile Customization" });
                     }}
                 >Profiles</Link> page.
                 </Forms.FormText>

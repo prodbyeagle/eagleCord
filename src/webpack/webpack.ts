@@ -10,12 +10,11 @@ import { makeLazy, proxyLazy } from "@utils/lazy";
 import { LazyComponent } from "@utils/lazyReact";
 import { Logger } from "@utils/Logger";
 import { canonicalizeMatch } from "@utils/patches";
-import { FluxStore } from "@vencord/discord-types";
-import { ModuleExports, WebpackRequire } from "@vencord/discord-types/webpack";
+import type { FluxStore } from "@vencord/discord-types";
+import type { ModuleExports, WebpackRequire } from "@vencord/discord-types/webpack";
 
 import { traceFunction } from "../debug/Tracer";
-import { Flux } from "./common";
-import { AnyModuleFactory, AnyWebpackRequire } from "./types";
+import type { AnyModuleFactory, AnyWebpackRequire } from "./types";
 
 const logger = new Logger("Webpack");
 
@@ -29,7 +28,7 @@ export const onceReady = new Promise<void>(r => _resolveReady = r);
 export let wreq: WebpackRequire;
 export let cache: WebpackRequire["c"];
 
-export const fluxStores: Record<string, FluxStore> = {};
+export const fluxStores = new Map<string, FluxStore>();
 
 export type FilterFn = (mod: any) => boolean;
 
@@ -65,7 +64,7 @@ export const filters = {
 
     componentByCode: (...code: CodeFilter): FilterFn => {
         const byCodeFilter = filters.byCode(...code);
-        const filter = m => {
+        const filter = (m: any) => {
             let inner = m;
 
             while (inner != null) {
@@ -285,36 +284,36 @@ export const findBulk = traceFunction("findBulk", function findBulk(...filterFns
     const results = Array(length);
 
     outer:
-    for (const key in cache) {
-        const mod = cache[key];
-        if (!mod?.loaded || mod.exports == null) continue;
+        for (const key in cache) {
+            const mod = cache[key];
+            if (!mod?.loaded || mod.exports == null) continue;
 
-        for (let j = 0; j < length; j++) {
-            const filter = filters[j];
-            // Already done
-            if (filter === undefined) continue;
+            for (let j = 0; j < length; j++) {
+                const filter = filters[j];
+                // Already done
+                if (filter === undefined) continue;
 
-            if (filter(mod.exports)) {
-                results[j] = mod.exports;
-                filters[j] = undefined;
-                if (++found === length) break outer;
-                break;
-            }
-
-            if (typeof mod.exports !== "object")
-                continue;
-
-            for (const nestedMod in mod.exports) {
-                const nested = mod.exports[nestedMod];
-                if (nested && filter(nested)) {
-                    results[j] = nested;
+                if (filter(mod.exports)) {
+                    results[j] = mod.exports;
                     filters[j] = undefined;
                     if (++found === length) break outer;
-                    continue outer;
+                    break;
+                }
+
+                if (typeof mod.exports !== "object")
+                    continue;
+
+                for (const nestedMod in mod.exports) {
+                    const nested = mod.exports[nestedMod];
+                    if (nested && filter(nested)) {
+                        results[j] = nested;
+                        filters[j] = undefined;
+                        if (++found === length) break outer;
+                        continue outer;
+                    }
                 }
             }
         }
-    }
 
     if (found !== length) {
         const err = new Error(`Got ${length} filters, but only found ${found} modules!`);
@@ -445,55 +444,50 @@ export function findByCodeLazy(...code: CodeFilter) {
     return proxyLazy(() => findByCode(...code));
 }
 
+function populateFluxStoreMap() {
+    const { Flux } = require("./common") as typeof import("./common");
+
+    Flux.Store.getAll?.().forEach(store =>
+        fluxStores.set(store.getName(), store)
+    );
+
+    try {
+        const getLibdiscore = findByCode("libdiscoreWasm is not initialized");
+        const libdiscoreExports = getLibdiscore();
+
+        for (const libdiscoreExportName in libdiscoreExports) {
+            if (!libdiscoreExportName.endsWith("Store")) {
+                continue;
+            }
+
+            const storeName = libdiscoreExportName;
+            const store = libdiscoreExports[storeName];
+
+            fluxStores.set(storeName, store);
+        }
+    } catch { }
+}
+
 /**
  * Find a store by its displayName
  */
 export function findStore(name: StoreNameFilter) {
-    let res = fluxStores[name] as any;
-    if (res == null) {
-        for (const store of Flux.Store.getAll?.() ?? []) {
-            const storeName = store.getName();
-
-            if (storeName === name) {
-                res = store;
-            }
-
-            if (fluxStores[storeName] == null) {
-                fluxStores[storeName] = store;
-            }
-        }
-
-        try {
-            const getLibdiscore = findByCode("libdiscoreWasm is not initialized");
-            const libdiscoreExports = getLibdiscore();
-
-            for (const libdiscoreExportName in libdiscoreExports) {
-                if (!libdiscoreExportName.endsWith("Store")) {
-                    continue;
-                }
-
-                const storeName = libdiscoreExportName;
-                const store = libdiscoreExports[storeName];
-
-                if (storeName === name) {
-                    res = store;
-                }
-
-                if (fluxStores[storeName] == null) {
-                    fluxStores[storeName] = store;
-                }
-            }
-
-        } catch { }
-
-        if (res == null) {
-            res = find(filters.byStoreName(name), { isIndirect: true });
-        }
+    if (!fluxStores.has(name)) {
+        populateFluxStoreMap();
     }
 
-    if (!res)
-        handleModuleNotFound("findStore", name);
-    return res;
+    if (fluxStores.has(name)) {
+        return fluxStores.get(name);
+    }
+
+    const res = find(filters.byStoreName(name), { isIndirect: true });
+    if (res) {
+        fluxStores.set(name, res);
+        return res;
+    }
+
+    handleModuleNotFound("findStore", name);
+    return null;
 }
 
 /**
@@ -599,22 +593,22 @@ export const mapMangledModule = traceFunction("mapMangledModule", function mapMa
     const mod = wreq(id as any);
     const keys = getAllPropertyNames(mod, includeBlacklistedExports);
     outer:
-    for (const key of keys) {
-        const member = mod[key];
-        for (const newName in mappers) {
-            // if the current mapper matches this module
-            if (mappers[newName](member)) {
-                exports[newName] = member;
-                continue outer;
+        for (const key of keys) {
+            const member = mod[key];
+            for (const newName in mappers) {
+                // if the current mapper matches this module
+                if (mappers[newName](member)) {
+                    exports[newName] = member;
+                    continue outer;
+                }
             }
         }
-    }
     return exports;
 });
 
 /**
  * lazy mapMangledModule
-  * @see {@link mapMangledModule}
+ * @see {@link mapMangledModule}
  */
 export function mapMangledModuleLazy<S extends string>(code: string | RegExp | CodeFilter, mappers: Record<S, FilterFn>, includeBlacklistedExports = false): Record<S, any> {
     if (IS_REPORTER) lazyWebpackSearchHistory.push(["mapMangledModule", [code, mappers, includeBlacklistedExports]]);

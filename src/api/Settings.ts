@@ -1,32 +1,33 @@
 /*
- * EagleCord, a Vencord mod
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2022 Vendicated and contributors
  *
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
-import { debounce } from "@shared/debounce";
 import { SettingsStore as SettingsStoreClass } from "@shared/SettingsStore";
-import { localStorage } from "@utils/localStorage";
 import { Logger } from "@utils/Logger";
 import { mergeDefaults } from "@utils/mergeDefaults";
-import { putCloudSettings } from "@utils/settingsSync";
-import {
-    DefinedSettings,
-    OptionType,
-    SettingsChecks,
-    SettingsDefinition,
-} from "@utils/types";
+import { DefinedSettings, OptionType, SettingsChecks, SettingsDefinition } from "@utils/types";
 import { React, useEffect } from "@webpack/common";
 
 import plugins from "~plugins";
 
 const logger = new Logger("Settings");
-
 export interface Settings {
     autoUpdate: boolean;
-    autoUpdateNotification: boolean;
+    autoUpdateNotification: boolean,
     useQuickCss: boolean;
     eagerPatches: boolean;
     enabledThemes: string[];
@@ -71,11 +72,6 @@ export interface Settings {
         settingsSync: boolean;
         settingsSyncVersion: number;
     };
-
-    eaglecord: {
-        showBadge: boolean;
-        showBanner: boolean;
-    };
 }
 
 const DefaultSettings: Settings = {
@@ -98,46 +94,34 @@ const DefaultSettings: Settings = {
         timeout: 5000,
         position: "bottom-right",
         useNative: "not-focused",
-        logLimit: 50,
+        logLimit: 50
     },
 
     cloud: {
         authenticated: false,
         url: "https://api.vencord.dev/",
         settingsSync: false,
-        settingsSyncVersion: 0,
-    },
-
-    eaglecord: {
-        showBadge: true,
-        showBanner: true,
-    },
+        settingsSyncVersion: 0
+    }
 };
 
-const settings = !IS_REPORTER ? VencordNative.settings.get() : ({} as Settings);
+const settings = !IS_REPORTER ? VencordNative.settings.get() : {} as Settings;
 mergeDefaults(settings, DefaultSettings);
-
-const saveSettingsOnFrequentAction = debounce(async () => {
-    if (Settings.cloud.settingsSync && Settings.cloud.authenticated) {
-        await putCloudSettings();
-        delete localStorage.Vencord_settingsDirty;
-    }
-}, 60_000);
 
 export const SettingsStore = new SettingsStoreClass(settings, {
     readOnly: true,
-    getDefaultValue({ target, key, path }) {
+    getDefaultValue({
+                        target,
+                        key,
+                        path
+                    }) {
         const v = target[key];
         if (!plugins) return v; // plugins not initialised yet. this means this path was reached by being called on the top level
 
         if (path === "plugins" && key in plugins)
-            return (target[key] = {
-                enabled:
-                    IS_REPORTER ||
-                    plugins[key].required ||
-                    plugins[key].enabledByDefault ||
-                    false,
-            });
+            return target[key] = {
+                enabled: IS_REPORTER || plugins[key].required || plugins[key].enabledByDefault || false
+            };
 
         // Since the property is not set, check if this is a plugin's setting and if so, try to resolve
         // the default value.
@@ -153,20 +137,19 @@ export const SettingsStore = new SettingsStoreClass(settings, {
 
                 if (setting.type === OptionType.SELECT) {
                     const def = setting.options.find(o => o.default);
-                    if (def) target[key] = def.value;
+                    if (def)
+                        target[key] = def.value;
                     return def?.value;
                 }
             }
         }
         return v;
-    },
+    }
 });
 
 if (!IS_REPORTER) {
     SettingsStore.addGlobalChangeListener((_, path) => {
         SettingsStore.plain.cloud.settingsSyncVersion = Date.now();
-        localStorage.Vencord_settingsDirty = true;
-        saveSettingsOnFrequentAction();
         VencordNative.settings.set(SettingsStore.plain, path);
     });
 }
@@ -200,13 +183,8 @@ export function useSettings(paths?: UseSettings<Settings>[]) {
 
     useEffect(() => {
         if (paths) {
-            paths.forEach(p =>
-                SettingsStore.addChangeListener(p, forceUpdate),
-            );
-            return () =>
-                paths.forEach(p =>
-                    SettingsStore.removeChangeListener(p, forceUpdate),
-                );
+            paths.forEach(p => SettingsStore.addChangeListener(p, forceUpdate));
+            return () => paths.forEach(p => SettingsStore.removeChangeListener(p, forceUpdate));
         } else {
             SettingsStore.addGlobalChangeListener(forceUpdate);
             return () => SettingsStore.removeGlobalChangeListener(forceUpdate);
@@ -222,9 +200,7 @@ export function migratePluginSettings(name: string, ...oldNames: string[]) {
 
     for (const oldName of oldNames) {
         if (oldName in plugins) {
-            logger.info(
-                `Migrating settings from old name ${oldName} to ${name}`,
-            );
+            logger.info(`Migrating settings from old name ${oldName} to ${name}`);
             plugins[name] = plugins[oldName];
             delete plugins[oldName];
             SettingsStore.markAsChanged();
@@ -233,19 +209,11 @@ export function migratePluginSettings(name: string, ...oldNames: string[]) {
     }
 }
 
-export function migratePluginSetting(
-    pluginName: string,
-    oldSetting: string,
-    newSetting: string,
-) {
+export function migratePluginSetting(pluginName: string, oldSetting: string, newSetting: string) {
     const settings = SettingsStore.plain.plugins[pluginName];
     if (!settings) return;
 
-    if (
-        !Object.hasOwn(settings, oldSetting) ||
-        Object.hasOwn(settings, newSetting)
-    )
-        return;
+    if (!Object.hasOwn(settings, oldSetting) || Object.hasOwn(settings, newSetting)) return;
 
     settings[newSetting] = settings[oldSetting];
     delete settings[oldSetting];
@@ -255,36 +223,27 @@ export function migratePluginSetting(
 export function definePluginSettings<
     Def extends SettingsDefinition,
     Checks extends SettingsChecks<Def>,
-    PrivateSettings extends object = {},
+    PrivateSettings extends object = {}
 >(def: Def, checks?: Checks) {
     const definedSettings: DefinedSettings<Def, Checks, PrivateSettings> = {
         get store() {
-            if (!definedSettings.pluginName)
-                throw new Error(
-                    "Cannot access settings before plugin is initialized",
-                );
+            if (!definedSettings.pluginName) throw new Error("Cannot access settings before plugin is initialized");
             return Settings.plugins[definedSettings.pluginName] as any;
         },
         get plain() {
-            if (!definedSettings.pluginName)
-                throw new Error(
-                    "Cannot access settings before plugin is initialized",
-                );
+            if (!definedSettings.pluginName) throw new Error("Cannot access settings before plugin is initialized");
             return PlainSettings.plugins[definedSettings.pluginName] as any;
         },
-        use: settings =>
-            useSettings(
-                settings?.map(
-                    name => `plugins.${definedSettings.pluginName}.${name}`,
-                ) as UseSettings<Settings>[],
-            ).plugins[definedSettings.pluginName] as any,
+        use: settings => useSettings(
+            settings?.map(name => `plugins.${definedSettings.pluginName}.${name}`) as UseSettings<Settings>[]
+        ).plugins[definedSettings.pluginName] as any,
         def,
-        checks: checks ?? ({} as any),
+        checks: checks ?? {} as any,
         pluginName: "",
 
         withPrivateSettings<T extends object>() {
             return this as DefinedSettings<Def, Checks, T>;
-        },
+        }
     };
 
     return definedSettings;
@@ -293,13 +252,11 @@ export function definePluginSettings<
 type UseSettings<T extends object> = ResolveUseSettings<T>[keyof T];
 
 type ResolveUseSettings<T extends object> = {
-    [Key in keyof T]: Key extends string
+    [Key in keyof T]:
+    Key extends string
         ? T[Key] extends Record<string, unknown>
-            ?
-              UseSettings<T[Key]> extends string
-                  // @ts-expect-error "Type instantiation is excessively deep and possibly infinite"
-                ? `${Key}.${UseSettings<T[Key]>}`
-                : never
+            // @ts-expect-error "Type instantiation is excessively deep and possibly infinite"
+            ? UseSettings<T[Key]> extends string ? `${Key}.${UseSettings<T[Key]>}` : never
             : Key
         : never;
 };
