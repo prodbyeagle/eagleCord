@@ -1,18 +1,27 @@
 /*
- * EagleCord, a Vencord mod
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2022 Vendicated and contributors
  *
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 import { useSettings } from "@api/Settings";
 import { Divider } from "@components/Divider";
 import { FormSwitch } from "@components/FormSwitch";
 import { Link } from "@components/Link";
-import { handleSettingsTabError, SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
+import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { Margins } from "@utils/margins";
-import { ModalCloseButton, ModalContent, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import { useAwaiter } from "@utils/react";
 import { getRepo, isNewer, UpdateLogger } from "@utils/updater";
 import { Forms, React } from "@webpack/common";
@@ -36,7 +45,7 @@ function Updater() {
 
     return (
         <SettingsTab title="Vencord Updater">
-            <Forms.FormTitle tag="h5">Updater Settings</Forms.FormTitle>
+            <Forms.FormTitle tag="h5" className={Margins.bottom16}>Updater Settings</Forms.FormTitle>
 
             <FormSwitch
                 title="Automatically update"
@@ -84,22 +93,3 @@ function Updater() {
 export default IS_UPDATER_DISABLED
     ? null
     : wrapTab(Updater, "Updater");
-
-export const openUpdaterModal = IS_UPDATER_DISABLED
-    ? null
-    : function () {
-        const UpdaterTab = wrapTab(Updater, "Updater");
-
-        try {
-            openModal(wrapTab((modalProps: ModalProps) => (
-                <ModalRoot {...modalProps} size={ModalSize.MEDIUM}>
-                    <ModalContent className="vc-updater-modal">
-                        <ModalCloseButton onClick={modalProps.onClose} className="vc-updater-modal-close-button" />
-                        <UpdaterTab />
-                    </ModalContent>
-                </ModalRoot>
-            ), "UpdaterModal"));
-        } catch {
-            handleSettingsTabError();
-        }
-    };

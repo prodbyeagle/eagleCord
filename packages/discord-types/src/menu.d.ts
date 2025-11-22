@@ -1,11 +1,4 @@
-import type {
-    ComponentType,
-    CSSProperties,
-    MouseEvent,
-    PropsWithChildren,
-    ReactNode,
-    UIEvent,
-} from "react";
+import type { ComponentType, CSSProperties, ForwardRefRenderFunction, MouseEvent, PropsWithChildren, ReactNode, UIEvent } from "react";
 
 type RC<C> = ComponentType<PropsWithChildren<C & Record<string, any>>>;
 
@@ -53,13 +46,15 @@ export interface Menu {
     MenuControlItem: RC<{
         id: string;
         interactive?: boolean;
+        label?: string;
+        control: ForwardRefRenderFunction<any, any>;
     }>;
     MenuSliderControl: RC<{
-        minValue: number;
-        maxValue: number;
-        value: number;
-        onChange(value: number): void;
-        renderValue?(value: number): string;
+        minValue: number,
+        maxValue: number,
+        value: number,
+        onChange(value: number): void,
+        renderValue?(value: number): string,
     }>;
     MenuSearchControl: RC<{
         query: string;
@@ -73,12 +68,12 @@ export interface ContextMenuApi {
     openContextMenu(
         event: UIEvent,
         render?: Menu["Menu"],
-        options?: { enableSpellCheck?: boolean },
-        renderLazy?: () => Promise<Menu["Menu"]>,
+        options?: { enableSpellCheck?: boolean; },
+        renderLazy?: () => Promise<Menu["Menu"]>
     ): void;
     openContextMenuLazy(
         event: UIEvent,
         renderLazy?: () => Promise<Menu["Menu"]>,
-        options?: { enableSpellCheck?: boolean },
+        options?: { enableSpellCheck?: boolean; }
     ): void;
 }
