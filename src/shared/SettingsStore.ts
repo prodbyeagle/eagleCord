@@ -1,8 +1,6 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
+ * Copyright (c) 2024 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -12,13 +10,18 @@ export const SYM_IS_PROXY = Symbol("SettingsStore.isProxy");
 export const SYM_GET_RAW_TARGET = Symbol("SettingsStore.getRawTarget");
 
 // Resolves a possibly nested prop in the form of "some.nested.prop" to type of T.some.nested.prop
-type ResolvePropDeep<T, P> = P extends `${infer Pre}.${infer Suf}`
+type ResolvePropDeep<T, P> =
+    P extends `${infer Pre}.*` ?
+    Pre extends keyof T
+    ? T[Pre][keyof T[Pre]]
+    : any
+    : P extends `${infer Pre}.${infer Suf}`
     ? Pre extends keyof T
-        ? ResolvePropDeep<T[Pre], Suf>
-        : any
+    ? ResolvePropDeep<T[Pre], Suf>
+    : any
     : P extends keyof T
-      ? T[P]
-      : any;
+    ? T[P]
+    : any;
 
 interface SettingsStoreOptions {
     readOnly?: boolean;
@@ -31,7 +34,7 @@ interface SettingsStoreOptions {
 }
 
 // merges the SettingsStoreOptions type into the class
-export interface SettingsStore<T extends object> extends SettingsStoreOptions {}
+export interface SettingsStore<T extends object> extends SettingsStoreOptions { }
 
 interface ProxyContext<T extends object = any> {
     root: T;
@@ -44,6 +47,7 @@ interface ProxyContext<T extends object = any> {
  */
 export class SettingsStore<T extends object> {
     private pathListeners = new Map<string, Set<(newData: any) => void>>();
+    private prefixListeners = new Map<string, Set<(newData: any, path: string) => void>>();
     private globalListeners = new Set<(newData: T, path: string) => void>();
     private readonly proxyContexts = new WeakMap<any, ProxyContext<T>>();
 
@@ -74,7 +78,7 @@ export class SettingsStore<T extends object> {
                         target,
                         key,
                         root,
-                        path,
+                        path
                     });
                 }
 
@@ -126,18 +130,18 @@ export class SettingsStore<T extends object> {
                 self.notifyListeners(deletePath, undefined, root);
 
                 return true;
-            },
+            }
         };
     })();
 
     /**
      * The store object. Making changes to this object will trigger the applicable change listeners
      */
-    declare public store: T;
+    public declare store: T;
     /**
      * The plain data. Changes to this object will not trigger any change listeners
      */
-    declare public plain: T;
+    public declare plain: T;
 
     public constructor(plain: T, options: SettingsStoreOptions = {}) {
         this.plain = plain;
@@ -148,10 +152,17 @@ export class SettingsStore<T extends object> {
     private makeProxy(object: any, root: T = object, path = "") {
         this.proxyContexts.set(object, {
             root,
-            path,
+            path
         });
 
         return new Proxy(object, this.proxyHandler);
+    }
+
+    private notifyPrefixListeners(pathString: string, pathElements: string[], value: any) {
+        for (let i = 1; i <= pathElements.length; i++) {
+            const prefix = pathElements.slice(0, i).join(".");
+            this.prefixListeners.get(prefix)?.forEach(cb => cb(value, pathString));
+        }
     }
 
     private notifyListeners(pathStr: string, value: any, root: T) {
@@ -165,20 +176,16 @@ export class SettingsStore<T extends object> {
         if (paths.length > 3 && paths[0] === "plugins") {
             const settingPath = paths.slice(0, 3);
             const settingPathStr = settingPath.join(".");
-            const settingValue = settingPath.reduce(
-                (acc, curr) => acc[curr],
-                root,
-            );
+            const settingValue = settingPath.reduce((acc, curr) => acc[curr], root);
 
             this.globalListeners.forEach(cb => cb(root, settingPathStr));
-            this.pathListeners
-                .get(settingPathStr)
-                ?.forEach(cb => cb(settingValue));
+            this.pathListeners.get(settingPathStr)?.forEach(cb => cb(settingValue));
         } else {
             this.globalListeners.forEach(cb => cb(root, pathStr));
         }
 
         this.pathListeners.get(pathStr)?.forEach(cb => cb(value));
+        this.notifyPrefixListeners(pathStr, paths, value);
     }
 
     /**
@@ -202,7 +209,7 @@ export class SettingsStore<T extends object> {
             for (const p of path) {
                 if (!v) {
                     console.warn(
-                        `Settings#setData: Path ${pathToNotify} does not exist in new data. Not dispatching update`,
+                        `Settings#setData: Path ${pathToNotify} does not exist in new data. Not dispatching update`
                     );
                     return;
                 }
@@ -210,6 +217,7 @@ export class SettingsStore<T extends object> {
             }
 
             this.pathListeners.get(pathToNotify)?.forEach(cb => cb(v));
+            this.notifyPrefixListeners(pathToNotify, path, v);
         }
 
         this.markAsChanged();
@@ -236,16 +244,28 @@ export class SettingsStore<T extends object> {
      * ```js
      * Setting.store.foo.baz = "hi"
      * ```
-     * @param path
-     * @param cb
      */
     public addChangeListener<P extends LiteralUnion<keyof T, string>>(
         path: P,
-        cb: (data: ResolvePropDeep<T, P>) => void,
+        cb: (data: ResolvePropDeep<T, P>) => void
     ) {
         const listeners = this.pathListeners.get(path as string) ?? new Set();
         listeners.add(cb);
         this.pathListeners.set(path as string, listeners);
+    }
+
+    /**
+     * Add a prefix change listener that will fire whenever a setting matching the specified prefix is changed.
+     * For example if prefix is `"foo"`, the listener will fire on
+     * ```js
+     * Setting.store.foo.bar = "hi"
+     * Setting.store.foo.baz = "hi"
+     * ```
+     */
+    public addPrefixChangeListener<P extends string>(prefix: P, cb: (data: ResolvePropDeep<T, P>, path: string) => void) {
+        const listeners = this.prefixListeners.get(prefix) ?? new Set();
+        listeners.add(cb);
+        this.prefixListeners.set(prefix, listeners);
     }
 
     /**
@@ -260,15 +280,24 @@ export class SettingsStore<T extends object> {
      * Remove a scoped listener
      * @see {@link addChangeListener}
      */
-    public removeChangeListener(
-        path: LiteralUnion<keyof T, string>,
-        cb: (data: any) => void,
-    ) {
+    public removeChangeListener(path: LiteralUnion<keyof T, string>, cb: (data: any) => void) {
         const listeners = this.pathListeners.get(path as string);
         if (!listeners) return;
 
         listeners.delete(cb);
         if (!listeners.size) this.pathListeners.delete(path as string);
+    }
+
+    /**
+     * Remove a prefix listener
+     * @see {@link addPrefixChangeListener}
+     */
+    public removePrefixChangeListener(prefix: string, cb: (data: any, path: string) => void) {
+        const listeners = this.prefixListeners.get(prefix);
+        if (!listeners) return;
+
+        listeners.delete(cb);
+        if (!listeners.size) this.prefixListeners.delete(prefix);
     }
 
     /**

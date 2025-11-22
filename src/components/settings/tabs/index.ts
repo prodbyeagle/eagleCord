@@ -18,3 +18,4 @@ export { default as CloudTab } from "./sync/CloudTab";
 export { default as ThemesTab } from "./themes";
 export { default as UpdaterTab } from "./updater";
 export { default as VencordTab } from "./vencord";
+export { default as EagleCordTab } from "./eaglecord/EagleCordTab";
