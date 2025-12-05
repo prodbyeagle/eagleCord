@@ -9,17 +9,18 @@
 import { Logger } from "@utils/Logger";
 import { findByPropsLazy } from "@webpack";
 
-// Lazy-loaded stores
+/** Store for stream metadata. */
 export const ApplicationStreamingStore = findByPropsLazy(
     "getStreamerActiveStreamMetadata",
 );
+/** Store for running game processes. */
 export const RunningGameStore = findByPropsLazy(
     "getRunningGames",
     "getGameForPID",
 );
+/** Store for quest metadata. */
 export const QuestsStore = findByPropsLazy("getQuest");
 
-// Task types
 export const QuestTasks = [
     "WATCH_VIDEO",
     "PLAY_ON_DESKTOP",
@@ -28,6 +29,6 @@ export const QuestTasks = [
     "WATCH_VIDEO_ON_MOBILE",
 ] as const;
 
-// Helpers
+/** Generates a pseudo-random pid within a sensible range. */
 export const randomPid = () => Math.floor(Math.random() * 30000) + 1000;
 export const QuestSpooferLogger = new Logger("QuestSpoofer", "#473763");

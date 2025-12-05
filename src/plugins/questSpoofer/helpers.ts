@@ -10,6 +10,9 @@ import { RestAPI } from "@webpack/common";
 
 import { QuestSpooferLogger } from "./constants";
 
+/**
+ * Posts video progress for a quest at a given timestamp.
+ */
 export async function postVideoProgress(questId: string, timestamp: number) {
     return RestAPI.post({
         url: `/quests/${questId}/video-progress`,
@@ -17,6 +20,9 @@ export async function postVideoProgress(questId: string, timestamp: number) {
     });
 }
 
+/**
+ * Sends quest heartbeat events for activity/stream quests.
+ */
 export async function postActivityHeartbeat(
     questId: string,
     streamKey: string,
@@ -28,6 +34,9 @@ export async function postActivityHeartbeat(
     });
 }
 
+/**
+ * Fetches the current user's quests and filters out completed or expired ones.
+ */
 export async function fetchQuests() {
     try {
         const res = await RestAPI.get({ url: "/quests/@me" });

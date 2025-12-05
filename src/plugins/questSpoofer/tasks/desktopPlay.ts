@@ -10,6 +10,10 @@ import { FluxDispatcher, RestAPI, showToast, Toasts } from "@webpack/common";
 
 import { QuestSpooferLogger, RunningGameStore } from "../constants";
 
+/**
+ * Spoofs a desktop play quest by injecting a fake running game into the game store
+ * and waiting for quest heartbeat progress to reach the required duration.
+ */
 export async function spoofDesktopPlayQuest(
     quest: any,
     appId: string,
@@ -31,7 +35,7 @@ export async function spoofDesktopPlayQuest(
         });
         const app = res.body[0];
         const exeName = app.executables
-            .find(x => x.os === "win32")
+            .find((x: { os: string; }) => x.os === "win32")
             ?.name.replace(">", "");
 
         const fakeGame = {
@@ -59,7 +63,7 @@ export async function spoofDesktopPlayQuest(
         RunningGameStore.getRunningGames = () => [fakeGame];
         RunningGameStore.getGameForPID = () => fakeGame;
 
-        FluxDispatcher.dispatch({
+        await FluxDispatcher.dispatch({
             type: "RUNNING_GAMES_CHANGE",
             removed: realGames,
             added: [fakeGame],

@@ -10,6 +10,10 @@ import { FluxDispatcher, showToast, Toasts } from "@webpack/common";
 
 import { ApplicationStreamingStore, QuestSpooferLogger } from "../constants";
 
+/**
+ * Spoofs the STREAM_ON_DESKTOP quest by faking an active stream and
+ * listening for quest heartbeat progress.
+ */
 export function spoofStreamDesktopQuest(
     quest: any,
     appId: string,

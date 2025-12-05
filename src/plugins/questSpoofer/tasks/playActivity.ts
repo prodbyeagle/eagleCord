@@ -16,6 +16,10 @@ import {
 
 import { QuestSpooferLogger } from "../constants";
 
+/**
+ * Spoofs the PLAY_ACTIVITY quest by sending periodic heartbeats
+ * against the user's current private call or a guild voice channel.
+ */
 export async function spoofPlayActivityQuest(
     quest: any,
     secondsNeeded: number,
@@ -41,7 +45,7 @@ export async function spoofPlayActivityQuest(
     const streamKey = `call:${vcId}:1`;
     QuestSpooferLogger.debug(`Using stream key: ${streamKey}`);
 
-    (async function spoofHeartbeat() {
+    await (async function spoofHeartbeat() {
         QuestSpooferLogger.info("Started activity spoofing...");
         while (true) {
             const res = await RestAPI.post({

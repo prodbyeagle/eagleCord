@@ -11,20 +11,39 @@ import { showToast, Toasts } from "@webpack/common";
 import { QuestSpooferLogger } from "../constants";
 import { postVideoProgress } from "../helpers";
 
+/**
+ * Spoofs video watch quests by incrementally posting progress timestamps until completion.
+ */
 export async function spoofVideoQuest(
     quest: any,
     secondsNeeded: number,
     secondsDone: number,
 ) {
-    const enrolledAt = new Date(quest.userStatus.enrolledAt).getTime();
+    const enrolledAt =
+        quest.user_status?.enrolled_at ??
+        quest.user_status?.enrolledAt ??
+        quest.userStatus?.enrolledAt;
+
+    if (!enrolledAt) {
+        QuestSpooferLogger.warn(
+            "Missing enrollment timestamp for video quest; cannot spoof.",
+        );
+        showToast(
+            "Could not spoof video quest: missing enrollment info.",
+            Toasts.Type.FAILURE,
+        );
+        return;
+    }
+
+    const enrolledAtMs = new Date(enrolledAt).getTime();
     const speed = 7;
     const interval = 1;
 
-    (async function spoof() {
+    await (async function spoof() {
         QuestSpooferLogger.info("Started video spoofing...");
         while (true) {
             const maxAllowed =
-                Math.floor((Date.now() - enrolledAt) / 1000) + 10;
+                Math.floor((Date.now() - enrolledAtMs) / 1000) + 10;
             const diff = maxAllowed - secondsDone;
             const timestamp = secondsDone + speed;
 
