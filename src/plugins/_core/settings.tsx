@@ -8,6 +8,10 @@
 
 import { Settings } from "@api/Settings";
 import {
+    BackupRestoreIcon, CloudIcon,
+    MainSettingsIcon, PaintbrushIcon, PatchHelperIcon, PluginsIcon, TriangleIcon, UpdaterIcon
+} from "@components/Icons";
+import {
     BackupAndRestoreTab,
     CloudTab,
     EagleCordTab,
@@ -27,16 +31,47 @@ import gitHash from "~git-hash";
 type SectionType = "HEADER" | "DIVIDER" | "CUSTOM";
 type SectionTypes = Record<SectionType, SectionType>;
 
+const LayoutType = { SECTION: 1, ENTRY: 2, PANEL: 3, PANE: 4 } as const;
+
+interface SettingsLayoutNode {
+    key?: string;
+    type: number;
+    legacySearchKey?: string;
+    useLabel?: () => string;
+    useTitle?: () => string;
+    buildLayout?: () => SettingsLayoutNode[];
+    icon?: () => React.ReactNode;
+    render?: () => React.ReactNode;
+}
+
+interface SettingsLayoutBuilder {
+    key?: string;
+    buildLayout(): SettingsLayoutNode[];
+}
+
+function getSettingsCfg(): any { try { return Settings.plugins.Settings; } catch { return null; } }
+
+const isNewUIForcedOff = () => !!getSettingsCfg()?.disableNewUI;
+const getSettingsLocationSafe = (): string => getSettingsCfg()?.settingsLocation ?? "aboveNitro";
+
+const findIndexByKey = (layout: SettingsLayoutNode[], key: string) => layout.findIndex(s => typeof s?.key === "string" && s.key === key);
+
 export default definePlugin({
     name: "Settings",
     description: "Adds Settings UI and debug info",
-    authors: [Devs.Ven, Devs.Megu, Devs.prodbyeagle],
+    authors: [Devs.Ven, Devs.Megu],
     required: true,
 
     patches: [
         {
             find: ".versionHash",
             replacement: [
+                {
+                    match: /\.compactInfo.+?\[\(0,\i\.jsxs?\)\((.{1,10}),(\{[^{}}]+\{.{0,20}.versionHash,.+?\})\),/,
+                    replace: (m, component, props) => {
+                        return `${m}$self.makeInfoElements(${component}, ${props}),`;
+                    }
+                },
                 {
                     match: /\.info.+?\[\(0,\i\.jsxs?\)\((.{1,10}),(\{[^{}}]+\{.{0,20}.versionHash,.+?\})\)," "/,
                     replace: (m, component, props) => {
@@ -45,7 +80,7 @@ export default definePlugin({
                     }
                 },
                 {
-                    match: /copyValue:\i\.join\(" "\)/,
+                    match: /copyValue:\i\.join\(" "\)(?=,text:)/g,
                     replace: "$& + $self.getInfoString()"
                 }
             ]
@@ -66,18 +101,122 @@ export default definePlugin({
         {
             find: "#{intl::USER_SETTINGS_ACTIONS_MENU_LABEL}",
             replacement: {
-                match: /(?<=function\((\i),\i\)\{)(?=let \i=Object.values\(\i.\i\).*?(\i\.\i)\.open\()/,
-                replace: "$2.open($1);return;"
+                // Skip the check Discord performs to make sure the section being selected in the user settings context menu is valid
+                match: /(?<=function\((\i),(\i),\i\)\{)(?=let \i=Object.values\(\i\.\i\).+?(\(0,\i\.openUserSettings\))\()/,
+                replace: (_, settingsPanel, section, openUserSettings) => `${openUserSettings}(${settingsPanel},{section:${section}});return;`
             }
         },
         {
-            find: "2025-09-user-settings-redesign-1",
+            find: ".buildLayout().map",
             replacement: {
-                match: /enabled:![01],showLegacyOpen:/g,
-                replace: "enabled:false,showLegacyOpen:"
+                match: /(\i)\.buildLayout\(\)(?=\.map)/,
+                replace: "$self.buildLayout($1)"
             }
         }
     ],
+
+    buildLayout(originalLayoutBuilder: SettingsLayoutBuilder) {
+        const layout = originalLayoutBuilder.buildLayout();
+        if (originalLayoutBuilder.key !== "$Root") return layout;
+        if (!Array.isArray(layout)) return layout;
+        if (isNewUIForcedOff()) return layout;
+
+        if (layout.some(s => s?.key === "vencord_section")) return layout;
+
+        const makeEntry = (
+            key: string,
+            title: string,
+            Component: React.ComponentType<any>,
+            Icon: React.ComponentType<any>
+        ): SettingsLayoutNode => ({
+            key,
+            type: LayoutType.ENTRY,
+            legacySearchKey: title.toUpperCase(),
+            useTitle: () => title,
+            icon: () => <Icon width={20} height={20} />,
+            buildLayout: () => [
+                {
+                    key: key + "_panel",
+                    type: LayoutType.PANEL,
+                    useTitle: () => title,
+                    buildLayout: () => [
+                        {
+                            key: key + "_pane",
+                            type: LayoutType.PANE,
+                            buildLayout: () => [],
+                            render: () => <Component />,
+                            useTitle: () => title
+                        }
+                    ]
+                }
+            ]
+        });
+
+        const vencordEntries: SettingsLayoutNode[] = [
+            makeEntry("eaglecord_main", "EagleCord", EagleCordTab, TriangleIcon),
+            makeEntry("vencord_main", "Vencord", VencordTab, MainSettingsIcon),
+            makeEntry("vencord_plugins", "Plugins", PluginsTab, PluginsIcon),
+            makeEntry("vencord_themes", "Themes", ThemesTab, PaintbrushIcon),
+            makeEntry("vencord_cloud", "Cloud", CloudTab, CloudIcon),
+            makeEntry("vencord_backup_restore", "Backup & Restore", BackupAndRestoreTab, BackupRestoreIcon)
+        ];
+
+        if (!IS_UPDATER_DISABLED && UpdaterTab) {
+            vencordEntries.push(makeEntry("vencord_updater", "Updater", UpdaterTab, UpdaterIcon));
+        }
+
+        if (IS_DEV && PatchHelperTab) {
+            vencordEntries.push(makeEntry("vencord_patch_helper", "Patch Helper", PatchHelperTab, PatchHelperIcon));
+        }
+
+        const vencordSection: SettingsLayoutNode = {
+            key: "vencord_section",
+            type: LayoutType.SECTION,
+            useLabel: () => "Vencord",
+            buildLayout: () => vencordEntries
+        };
+
+        const settingsLocation = getSettingsLocationSafe();
+        let insertIndex = layout.length;
+
+        switch (settingsLocation) {
+            case "top": {
+                const idx = findIndexByKey(layout, "user_section");
+                insertIndex = idx === -1 ? Math.min(1, layout.length) : idx;
+                break;
+            }
+            case "aboveNitro": {
+                const idx = findIndexByKey(layout, "billing_section");
+                insertIndex = idx === -1 ? layout.length : idx;
+                break;
+            }
+            case "belowNitro": {
+                const idx = findIndexByKey(layout, "billing_section");
+                insertIndex = idx === -1 ? layout.length : idx + 1;
+                break;
+            }
+            case "aboveActivity": {
+                const idx = findIndexByKey(layout, "activity_section");
+                insertIndex = idx === -1 ? layout.length : idx;
+                break;
+            }
+            case "belowActivity": {
+                const idx = findIndexByKey(layout, "activity_section");
+                insertIndex = idx === -1 ? layout.length : idx + 1;
+                break;
+            }
+            case "bottom":
+            default: {
+                const idx = findIndexByKey(layout, "logout_section");
+                insertIndex = idx === -1 ? layout.length : idx;
+                break;
+            }
+        }
+
+        layout.splice(insertIndex, 0, vencordSection);
+
+        return layout;
+    },
 
     customSections: [] as ((SectionTypes: SectionTypes) => any)[],
 
@@ -90,30 +229,30 @@ export default definePlugin({
             },
             {
                 section: "settings/tabs",
-                label: "EagleCord",
+                label: "Vencord",
                 element: VencordTab,
                 className: "vc-settings"
             },
             {
-                section: "EagleCordPlugins",
+                section: "VencordPlugins",
                 label: "Plugins",
                 element: PluginsTab,
                 className: "vc-plugins"
             },
             {
-                section: "EagleCordThemes",
+                section: "VencordThemes",
                 label: "Themes",
                 element: ThemesTab,
                 className: "vc-themes"
             },
             !IS_UPDATER_DISABLED && {
-                section: "EagleCordUpdater",
+                section: "VencordUpdater",
                 label: "Updater",
                 element: UpdaterTab,
                 className: "vc-updater"
             },
             {
-                section: "EagleCordCloud",
+                section: "VencordCloud",
                 label: "Cloud",
                 element: CloudTab,
                 className: "vc-cloud"
@@ -124,13 +263,8 @@ export default definePlugin({
                 element: BackupAndRestoreTab,
                 className: "vc-backup-restore"
             },
-            {
-                section: "EagleCord",
-                label: "EagleCord Funktionen",
-                element: EagleCordTab
-            },
             IS_DEV && {
-                section: "EagleCordPatchHelper",
+                section: "VencordPatchHelper",
                 label: "Patch Helper",
                 element: PatchHelperTab,
                 className: "vc-patch-helper"
@@ -147,7 +281,7 @@ export default definePlugin({
         // lowest two elements... sanity backup
         if (firstChild === "LOGOUT" || firstChild === "SOCIAL_LINKS") return true;
 
-        const { settingsLocation } = Settings.plugins.Settings;
+        const settingsLocation = getSettingsLocationSafe();
 
         if (settingsLocation === "bottom") return firstChild === "LOGOUT";
         if (settingsLocation === "belowActivity") return firstChild === "CHANGELOG";
@@ -198,7 +332,7 @@ export default definePlugin({
     options: {
         settingsLocation: {
             type: OptionType.SELECT,
-            description: "Where to put the EagleCord settings section",
+            description: "Where to put the Vencord settings section",
             options: [
                 { label: "At the very top", value: "top" },
                 { label: "Above the Nitro section", value: "aboveNitro", default: true },
@@ -208,6 +342,12 @@ export default definePlugin({
                 { label: "At the very bottom", value: "bottom" },
             ]
         },
+        disableNewUI: {
+            type: OptionType.BOOLEAN,
+            description: "Force Discord to use the old settings UI",
+            default: false,
+            restartNeeded: true
+        }
     },
 
     get electronVersion() {
