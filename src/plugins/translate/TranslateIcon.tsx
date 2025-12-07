@@ -1,20 +1,10 @@
 /*
- * Vencord, a modification for Discord's desktop app
- * Copyright (c) 2023 Vendicated and contributors
+ * EagleCord, a Vencord mod
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Vencord, a Discord client mod
+ * Copyright (c) 2025 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
 import { classes } from "@utils/misc";
@@ -42,7 +32,7 @@ export const TranslateIcon: IconComponent = ({ height = 20, width = 20, classNam
 export let setShouldShowTranslateEnabledTooltip: undefined | ((show: boolean) => void);
 
 export const TranslateChatBarIcon: ChatBarButtonFactory = ({ isMainChat }) => {
-    const { autoTranslate, showChatBarButton } = settings.use(["autoTranslate", "showChatBarButton"]);
+    const { autoTranslate } = settings.use(["autoTranslate"]);
 
     const [shouldShowTranslateEnabledTooltip, setter] = useState(false);
     useEffect(() => {
@@ -50,7 +40,7 @@ export const TranslateChatBarIcon: ChatBarButtonFactory = ({ isMainChat }) => {
         return () => setShouldShowTranslateEnabledTooltip = undefined;
     }, []);
 
-    if (!isMainChat || !showChatBarButton) return null;
+    if (!isMainChat) return null;
 
     const toggle = () => {
         const newState = !autoTranslate;
