@@ -133,7 +133,7 @@ function TextReplace({ title, rulesArray }: TextReplaceProps) {
                 {
                     rulesArray.map((rule, index) =>
                         <React.Fragment key={`${rule.find}-${index}`}>
-                            <Flex flexDirection="row" style={{ flexGrow: 1, gap: "0.5em" }}>
+                            <Flex gap="0.5em" flexDirection="row" style={{ flexGrow: 1 }}>
                                 <Input
                                     placeholder="Find"
                                     initialValue={rule.find}
@@ -156,11 +156,11 @@ function TextReplace({ title, rulesArray }: TextReplaceProps) {
                                         background: "none",
                                         color: "var(--status-danger)",
                                         ...(index === rulesArray.length - 1
-                                            ? {
-                                                visibility: "hidden",
-                                                pointerEvents: "none"
-                                            }
-                                            : {}
+                                                ? {
+                                                    visibility: "hidden",
+                                                    pointerEvents: "none"
+                                                }
+                                                : {}
                                         )
                                     }}
                                 >

@@ -32,12 +32,12 @@ export function ThemeCard({ theme, enabled, onChange, onDelete }: ThemeCardProps
             infoButton={
                 IS_WEB && (
                     <div style={{ cursor: "pointer", color: "var(--status-danger" }} onClick={onDelete}>
-                        <DeleteIcon/>
+                        <DeleteIcon />
                     </div>
                 )
             }
             footer={
-                <Flex flexDirection="row" style={{ gap: "0.2em" }}>
+                <Flex flexDirection="row" gap="0.2em">
                     {!!theme.website && <Link href={theme.website}>Website</Link>}
                     {!!(theme.website && theme.invite) && " • "}
                     {!!theme.invite && (
