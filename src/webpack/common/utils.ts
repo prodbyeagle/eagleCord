@@ -8,6 +8,8 @@
 
 import type * as t from "@vencord/discord-types";
 import { _resolveReady, filters, findByCodeLazy, findByPropsLazy, findLazy, mapMangledModuleLazy, waitFor } from "@webpack";
+import { ReactNode } from "react";
+import type * as TSPattern from "ts-pattern";
 
 export let FluxDispatcher: t.FluxDispatcher;
 waitFor(["dispatch", "subscribe"], m => {
@@ -37,7 +39,7 @@ export const moment: typeof import("moment") = findByPropsLazy("parseTwoDigitYea
 
 export const hljs: typeof import("highlight.js").default = findByPropsLazy("highlight", "registerLanguage");
 
-export const { match, P }: Pick<typeof import("ts-pattern"), "match" | "P"> = mapMangledModuleLazy("@ts-pattern/matcher", {
+export const { match, P }: { match: typeof TSPattern["match"], P: typeof TSPattern["P"]; } = mapMangledModuleLazy("@ts-pattern/matcher", {
     match: filters.byCode("return new"),
     P: filters.byProps("when")
 });
@@ -88,7 +90,7 @@ export interface ToastOptions {
      * Toasts.Position
      */
     position?: number;
-    component?: React.ReactNode,
+    component?: ReactNode,
     duration?: number;
 }
 
