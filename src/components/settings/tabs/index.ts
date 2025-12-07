@@ -9,6 +9,7 @@
 import "./styles.css";
 
 export * from "./BaseTab";
+export { default as EagleCordTab } from "./eaglecord/EagleCordTab";
 export { default as PatchHelperTab } from "./patchHelper";
 export { default as PluginsTab } from "./plugins";
 export {
@@ -21,4 +22,3 @@ export { default as CloudTab } from "./sync/CloudTab";
 export { default as ThemesTab } from "./themes";
 export { default as UpdaterTab } from "./updater";
 export { default as VencordTab } from "./vencord";
-export { default as EagleCordTab } from "./eaglecord/EagleCordTab";

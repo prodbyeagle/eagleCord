@@ -20,6 +20,7 @@ import { Card, Forms, useEffect, useRef, useState } from "@webpack/common";
 import type { ComponentType, Ref, SyntheticEvent } from "react";
 
 import { ThemeCard } from "./ThemeCard";
+import {Margins} from "@utils/margins";
 
 const cl = classNameFactory("vc-settings-theme-");
 
@@ -85,7 +86,7 @@ export function LocalThemesTab() {
 
     return (
         <>
-            <Card className="vc-settings-card">
+            <Card className="vc-settings-theme-card">
                 <Forms.FormTitle tag="h5">Find Themes:</Forms.FormTitle>
                 <div style={{ marginBottom: ".5em", display: "flex", flexDirection: "column" }}>
                     <Link style={{ marginRight: ".5em" }} href="https://betterdiscord.app/themes">

@@ -1,10 +1,20 @@
 /*
- * EagleCord, a Vencord mod
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2022 Vendicated and contributors
  *
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 import { openNotificationLogModal } from "@api/Notifications/notificationLog";
 import { useSettings } from "@api/Settings";
@@ -17,13 +27,13 @@ import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { openContributorModal } from "@components/settings/tabs/plugins/ContributorModal";
 import { openPluginModal } from "@components/settings/tabs/plugins/PluginModal";
 import { gitRemote } from "@shared/vencordUserAgent";
-import { EAGLECORD_ICON_IMAGE, IS_MAC, IS_WINDOWS } from "@utils/constants";
+import {EAGLECORD_ICON_IMAGE, IS_MAC, IS_WINDOWS} from "@utils/constants";
 import { Margins } from "@utils/margins";
 import { isPluginDev } from "@utils/misc";
 import { relaunch } from "@utils/native";
 import { Alerts, Forms, React, useMemo, UserStore } from "@webpack/common";
 
-import { isEagleUser } from "./DonateButton";
+import {DonateButtonComponent, isDonor, isEagleUser} from "./DonateButton";
 import { VibrancySettings } from "./MacVibrancySettings";
 import { NotificationSection } from "./NotificationSettings";
 
@@ -125,7 +135,7 @@ function VencordSettings() {
     const user = UserStore?.getCurrentUser();
 
     return (
-        <SettingsTab title="EagleCord Settings">
+        <SettingsTab>
             {isEagleUser(user?.id) && (
                 <SpecialCard
                     title="EagleCord"
@@ -137,31 +147,31 @@ function VencordSettings() {
                 />
             )}
 
-            {/* {isDonor(user?.id)
-                ? (
-                    <SpecialCard
-                        title="Donations"
-                        subtitle="Thank you for donating!"
-                        description="You can manage your perks at any time by messaging @vending.machine."
-                        cardImage={VENNIE_DONATOR_IMAGE}
-                        backgroundImage={DONOR_BACKGROUND_IMAGE}
-                        backgroundColor="#ED87A9"
-                    >
-                        <DonateButtonComponent />
-                    </SpecialCard>
-                )
-                : (
-                    <SpecialCard
-                        title="Support the Project"
-                        description="Please consider supporting the development of Vencord by donating!"
-                        cardImage={donateImage}
-                        backgroundImage={DONOR_BACKGROUND_IMAGE}
-                        backgroundColor="#c3a3ce"
-                    >
-                        <DonateButtonComponent />
-                    </SpecialCard>
-                )
-            } */}
+            {/* {isDonor(user?.id)*/}
+            {/*    ? (*/}
+            {/*        <SpecialCard*/}
+            {/*            title="Donations"*/}
+            {/*            subtitle="Thank you for donating!"*/}
+            {/*            description="You can manage your perks at any time by messaging @vending.machine."*/}
+            {/*            cardImage={VENNIE_DONATOR_IMAGE}*/}
+            {/*            backgroundImage={DONOR_BACKGROUND_IMAGE}*/}
+            {/*            backgroundColor="#ED87A9"*/}
+            {/*        >*/}
+            {/*            <DonateButtonComponent />*/}
+            {/*        </SpecialCard>*/}
+            {/*    )*/}
+            {/*    : (*/}
+            {/*        <SpecialCard*/}
+            {/*            title="Support the Project"*/}
+            {/*            description="Please consider supporting the development of Vencord by donating!"*/}
+            {/*            cardImage={donateImage}*/}
+            {/*            backgroundImage={DONOR_BACKGROUND_IMAGE}*/}
+            {/*            backgroundColor="#c3a3ce"*/}
+            {/*        >*/}
+            {/*            <DonateButtonComponent />*/}
+            {/*        </SpecialCard>*/}
+            {/*    )*/}
+            {/*}*/}
 
             {isPluginDev(user?.id) && (
                 <SpecialCard

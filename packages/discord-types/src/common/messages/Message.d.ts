@@ -4,6 +4,9 @@ import { Embed, EmbedJSON } from './Embed';
 import { DiscordRecord } from "../Record";
 import { ApplicationIntegrationType, MessageFlags, MessageType, StickerFormatType } from "../../../enums";
 
+// just that the linter can shut up.
+import moment from "moment";
+
 /*
  * TODO: looks like discord has moved over to Date instead of Moment;
  */
