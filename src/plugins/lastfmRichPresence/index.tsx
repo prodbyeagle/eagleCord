@@ -7,6 +7,11 @@
  */
 
 import { definePluginSettings } from "@api/Settings";
+import { LinkButton } from "@components/Button";
+import { Card } from "@components/Card";
+import { Heading } from "@components/Heading";
+import { Margins } from "@components/margins";
+import { Paragraph } from "@components/Paragraph";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
@@ -51,6 +56,10 @@ function setActivity(activity: Activity | null) {
 }
 
 const settings = definePluginSettings({
+    apiKey: {
+        description: "Custom Last.fm API key. Not required but highly recommended to avoid rate limiting with our shared key",
+        type: OptionType.STRING,
+    },
     username: {
         description: "Last.fm username",
         type: OptionType.STRING,
@@ -155,10 +164,6 @@ const settings = definePluginSettings({
         type: OptionType.BOOLEAN,
         default: true,
     },
-    apiKey: {
-        description: "Custom Last.fm API key. You shouldn't need to set this",
-        type: OptionType.STRING,
-    },
 });
 
 export default definePlugin({
@@ -167,6 +172,16 @@ export default definePlugin({
     authors: [Devs.dzshn, Devs.RuiNtD, Devs.blahajZip, Devs.archeruwu],
 
     settings,
+
+    settingsAboutComponent() {
+        return (
+            <Card>
+                <Heading tag="h5">How to create an API key</Heading>
+                <Paragraph>Set <strong>Application name</strong> and <strong>Application description</strong> to anything and leave the rest blank.</Paragraph>
+                <LinkButton size="small" href="https://www.last.fm/api/account/create" className={Margins.top8}>Create API Key</LinkButton>
+            </Card>
+        );
+    },
 
     start() {
         this.updatePresence();
