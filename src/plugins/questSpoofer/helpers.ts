@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { Quest } from "@vencord/discord-types";
 import { QuestSpooferLogger } from "@plugins/questSpoofer/constants";
+import type { Quest } from "@vencord/discord-types";
 import { RestAPI } from "@webpack/common";
 
 /**

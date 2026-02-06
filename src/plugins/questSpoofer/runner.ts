@@ -6,13 +6,13 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { Quest } from "@vencord/discord-types";
 import { QuestSpooferLogger, QuestTasks, randomPid } from "@plugins/questSpoofer/constants";
 import { fetchQuests } from "@plugins/questSpoofer/helpers";
 import { spoofDesktopPlayQuest } from "@plugins/questSpoofer/tasks/desktopPlay";
 import { spoofPlayActivityQuest } from "@plugins/questSpoofer/tasks/playActivity";
 import { spoofStreamDesktopQuest } from "@plugins/questSpoofer/tasks/streamDesktop";
 import { spoofVideoQuest } from "@plugins/questSpoofer/tasks/video";
+import type { Quest } from "@vencord/discord-types";
 import { showToast, Toasts } from "@webpack/common";
 
 export type QuestTask = typeof QuestTasks[number];

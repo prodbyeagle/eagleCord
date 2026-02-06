@@ -6,8 +6,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { QuestStore } from "@vencord/discord-types";
 import { Logger } from "@utils/Logger";
+import type { QuestStore } from "@vencord/discord-types";
 import { findByPropsLazy } from "@webpack";
 
 /** Store for stream metadata. */
