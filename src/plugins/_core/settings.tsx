@@ -10,7 +10,6 @@ import { definePluginSettings } from "@api/Settings";
 import { BackupRestoreIcon, CloudIcon, MainSettingsIcon, PaintbrushIcon, PatchHelperIcon, PlaceholderIcon, PluginsIcon, UpdaterIcon, VesktopSettingsIcon } from "@components/Icons";
 import { BackupAndRestoreTab, CloudTab, EagleCordTab,PatchHelperTab, PluginsTab, ThemesTab, UpdaterTab } from "@components/settings/tabs";
 import { Devs } from "@utils/constants";
-import { getIntlMessage } from "@utils/discord";
 import { isTruthy } from "@utils/guards";
 import definePlugin, { IconProps, OptionType } from "@utils/types";
 import { waitFor } from "@webpack";
@@ -82,6 +81,16 @@ const settings = definePluginSettings({
     }
 });
 
+const settingsSectionMap: [string, string][] = [
+    ["EagleCordSettings", "EagleCord_main_panel"],
+    ["EagleCordPlugins", "EagleCord_plugins_panel"],
+    ["EagleCordThemes", "EagleCord_themes_panel"],
+    ["EagleCordUpdater", "EagleCord_updater_panel"],
+    ["EagleCordCloud", "EagleCord_cloud_panel"],
+    ["EagleCordBackupAndRestore", "EagleCord_backup_restore_panel"],
+    ["EagleCordPatchHelper", "EagleCord_patch_helper_panel"]
+];
+
 export default definePlugin({
     name: "Settings",
     description: "Adds Settings UI and debug info",
@@ -89,6 +98,7 @@ export default definePlugin({
     required: true,
 
     settings,
+    settingsSectionMap,
 
     patches: [
         {
@@ -111,19 +121,6 @@ export default definePlugin({
                 {
                     match: /copyValue:\i\.join\(" "\)/g,
                     replace: "$& + $self.getInfoString()"
-                }
-            ]
-        },
-        {
-            find: ".SEARCH_NO_RESULTS&&0===",
-            replacement: [
-                {
-                    match: /(?<=section:(.{0,50})\.DIVIDER\}\))([,;])(?=.{0,200}(\i)\.push.{0,100}label:(\i)\.header)/,
-                    replace: (_, sectionTypes, commaOrSemi, elements, element) => `${commaOrSemi} $self.addSettings(${elements}, ${element}, ${sectionTypes}) ${commaOrSemi}`
-                },
-                {
-                    match: /({(?=.+?function (\i).{0,160}(\i)=\i\.useMemo.{0,140}return \i\.useMemo\(\(\)=>\i\(\3).+?\(\)=>)\2/,
-                    replace: (_, rest, settingsHook) => `${rest}$self.wrapSettingsHook(${settingsHook})`
                 }
             ]
         },
@@ -195,15 +192,7 @@ export default definePlugin({
     },
 
     getSettingsSectionMappings() {
-        return [
-            ["EagleCordSettings", "EagleCord_main_panel"],
-            ["EagleCordPlugins", "EagleCord_plugins_panel"],
-            ["EagleCordThemes", "EagleCord_themes_panel"],
-            ["EagleCordUpdater", "EagleCord_updater_panel"],
-            ["EagleCordCloud", "EagleCord_cloud_panel"],
-            ["EagleCordBackupAndRestore", "EagleCord_backup_restore_panel"],
-            ["EagleCordPatchHelper", "EagleCord_patch_helper_panel"]
-        ];
+        return settingsSectionMap;
     },
 
     buildLayout(originalLayoutBuilder: SettingsLayoutBuilder) {
@@ -311,112 +300,6 @@ export default definePlugin({
     /** @deprecated Use customEntries */
     customSections: [] as ((SectionTypes: SectionTypes) => any)[],
     customEntries: [] as EntryOptions[],
-
-    makeSettingsCategories(SectionTypes: SectionTypes) {
-        return [
-            {
-                section: SectionTypes.HEADER,
-                label: "EagleCord",
-                className: "vc-settings-header"
-            },
-            {
-                section: "EagleCordSettings",
-                label: "EagleCord",
-                element: EagleCordTab,
-                className: "vc-settings"
-            },
-            {
-                section: "EagleCordPlugins",
-                label: "Plugins",
-                element: PluginsTab,
-                className: "vc-plugins"
-            },
-            {
-                section: "EagleCordThemes",
-                label: "Themes",
-                element: ThemesTab,
-                className: "vc-themes"
-            },
-            !IS_UPDATER_DISABLED && {
-                section: "EagleCordUpdater",
-                label: "Updater",
-                element: UpdaterTab,
-                className: "vc-updater"
-            },
-            {
-                section: "EagleCordCloud",
-                label: "Cloud",
-                element: CloudTab,
-                className: "vc-cloud"
-            },
-            {
-                section: "EagleCordBackupAndRestore",
-                label: "Backup & Restore",
-                element: BackupAndRestoreTab,
-                className: "vc-backup-restore"
-            },
-            IS_DEV && {
-                section: "EagleCordPatchHelper",
-                label: "Patch Helper",
-                element: PatchHelperTab,
-                className: "vc-patch-helper"
-            },
-            ...this.customSections.map(func => func(SectionTypes)),
-            {
-                section: SectionTypes.DIVIDER
-            }
-        ].filter(Boolean);
-    },
-
-    isRightSpot({ header, settings: s }: { header?: string; settings?: string[]; }) {
-        const firstChild = s?.[0];
-        // lowest two elements... sanity backup
-        if (firstChild === "LOGOUT" || firstChild === "SOCIAL_LINKS") return true;
-
-        const { settingsLocation } = settings.store;
-
-        if (settingsLocation === "bottom") return firstChild === "LOGOUT";
-        if (settingsLocation === "belowActivity") return firstChild === "CHANGELOG";
-
-        if (!header) return;
-
-        try {
-            const names: Record<Exclude<SettingsLocation, "bottom" | "belowActivity">, string> = {
-                top: getIntlMessage("USER_SETTINGS"),
-                aboveNitro: getIntlMessage("BILLING_SETTINGS"),
-                belowNitro: getIntlMessage("APP_SETTINGS"),
-                aboveActivity: getIntlMessage("ACTIVITY_SETTINGS")
-            };
-
-            if (!names[settingsLocation] || names[settingsLocation].endsWith("_SETTINGS"))
-                return firstChild === "PREMIUM";
-
-            return header === names[settingsLocation];
-        } catch {
-            return firstChild === "PREMIUM";
-        }
-    },
-
-    patchedSettings: new WeakSet(),
-
-    addSettings(elements: any[], element: { header?: string; settings: string[]; }, sectionTypes: SectionTypes) {
-        if (this.patchedSettings.has(elements) || !this.isRightSpot(element)) return;
-
-        this.patchedSettings.add(elements);
-
-        elements.push(...this.makeSettingsCategories(sectionTypes));
-    },
-
-    wrapSettingsHook(originalHook: (...args: any[]) => Record<string, unknown>[]) {
-        return (...args: any[]) => {
-            const elements = originalHook(...args);
-            if (!this.patchedSettings.has(elements))
-                elements.unshift(...this.makeSettingsCategories(FallbackSectionTypes));
-
-            return elements;
-        };
-    },
-
     get electronVersion() {
         return VencordNative.native.getVersions().electron || window.legcord?.electron || null;
     },
