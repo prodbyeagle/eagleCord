@@ -8,7 +8,7 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { BackupRestoreIcon, CloudIcon, MainSettingsIcon, PaintbrushIcon, PatchHelperIcon, PlaceholderIcon, PluginsIcon, UpdaterIcon, VesktopSettingsIcon } from "@components/Icons";
-import { BackupAndRestoreTab, CloudTab, EagleCordTab,PatchHelperTab, PluginsTab, ThemesTab, UpdaterTab } from "@components/settings/tabs";
+import { BackupAndRestoreTab, CloudTab, VencordTab, PatchHelperTab, PluginsTab, ThemesTab, UpdaterTab } from "@components/settings/tabs";
 import { Devs } from "@utils/constants";
 import { isTruthy } from "@utils/guards";
 import definePlugin, { IconProps, OptionType } from "@utils/types";
@@ -209,7 +209,7 @@ export default definePlugin({
                 key: "EagleCord_main",
                 title: "EagleCord",
                 panelTitle: "EagleCord Settings",
-                Component: EagleCordTab,
+                Component: VencordTab,
                 Icon: MainSettingsIcon
             }),
             buildEntry({
