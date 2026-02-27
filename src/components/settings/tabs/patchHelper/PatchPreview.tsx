@@ -1,19 +1,14 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Button } from "@components/Button";
-import { Heading } from "@components/Heading";
-import { Paragraph } from "@components/Paragraph";
 import { Margins } from "@utils/margins";
 import { canonicalizeMatch, canonicalizeReplace } from "@utils/patches";
 import { makeCodeblock } from "@utils/text";
 import { ReplaceFn } from "@utils/types";
-import { Parser, useMemo, useState } from "@webpack/common";
+import { Button, Forms, Parser, useMemo, useState } from "@webpack/common";
 import type { Change } from "diff";
 
 // Do not include diff in non dev builds (side effects import)
@@ -58,7 +53,7 @@ function Match({ matchResult }: { matchResult: RegExpMatchArray | null; }) {
 
     return (
         <>
-            <Heading>Match</Heading>
+            <Forms.FormTitle>Match</Forms.FormTitle>
             <div style={{ userSelect: "text" }}>{Parser.parse(fullMatch)}</div>
             <div style={{ userSelect: "text" }}>{Parser.parse(groups)}</div>
         </>
@@ -88,7 +83,7 @@ function Diff({ diff }: { diff: Change[] | null; }) {
 
     return (
         <>
-            <Heading>Diff</Heading>
+            <Forms.FormTitle>Diff</Forms.FormTitle>
             {diffLines}
         </>
     );
@@ -122,8 +117,8 @@ export function PatchPreview({ module, match, replacement, setReplacementError }
     }, [id, match, replacement]);
 
     return (
-        <Paragraph>
-            <Heading>Module {id}</Heading>
+        <>
+            <Forms.FormTitle>Module {id}</Forms.FormTitle>
 
             <Match matchResult={matchResult} />
             <Diff diff={diff} />
@@ -145,10 +140,10 @@ export function PatchPreview({ module, match, replacement, setReplacementError }
             )}
 
             {compileResult && (
-                <Paragraph style={{ color: compileResult[0] ? "var(--status-positive)" : "var(--text-feedback-critical)" }}>
+                <Forms.FormText style={{ color: compileResult[0] ? "var(--status-positive)" : "var(--text-feedback-critical)" }}>
                     {compileResult[1]}
-                </Paragraph>
+                </Forms.FormText>
             )}
-        </Paragraph>
+        </>
     );
 }

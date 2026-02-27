@@ -1,16 +1,12 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import { FormSwitch } from "@components/FormSwitch";
-import { Heading } from "@components/Heading";
-import { Paragraph } from "@components/Paragraph";
 import { Margins } from "@utils/margins";
-import { Parser, TextInput, useEffect, useState } from "@webpack/common";
+import { Forms, Parser, TextInput, useEffect, useState } from "@webpack/common";
 
 const RegexGuide = {
     "\\i": "Special regex escape sequence that matches identifiers (varnames, classnames, etc.)",
@@ -56,7 +52,7 @@ export function ReplacementInput({ replacement, setReplacement, replacementError
     return (
         <>
             {/* FormTitle adds a class if className is not set, so we set it to an empty string to prevent that */}
-            <Heading className="">Replacement</Heading>
+            <Forms.FormTitle className="">Replacement</Forms.FormTitle>
             <TextInput
                 value={replacement?.toString()}
                 onChange={onChange}
@@ -64,12 +60,12 @@ export function ReplacementInput({ replacement, setReplacement, replacementError
             />
             {!isFunc && (
                 <div>
-                    <Heading className={Margins.top8}>Cheat Sheet</Heading>
+                    <Forms.FormTitle className={Margins.top8}>Cheat Sheet</Forms.FormTitle>
 
                     {Object.entries(RegexGuide).map(([placeholder, desc]) => (
-                        <Paragraph key={placeholder}>
+                        <Forms.FormText key={placeholder}>
                             {Parser.parse("`" + placeholder + "`")}: {desc}
-                        </Paragraph>
+                        </Forms.FormText>
                     ))}
                 </div>
             )}

@@ -1,18 +1,26 @@
 /*
- * EagleCord, a Vencord mod
+ * Vencord, a modification for Discord's desktop app
+ * Copyright (c) 2022 Vendicated and contributors
  *
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 import { openNotificationLogModal } from "@api/Notifications/notificationLog";
 import { useSettings } from "@api/Settings";
 import { Divider } from "@components/Divider";
 import { FormSwitch } from "@components/FormSwitch";
-import { Heading } from "@components/Heading";
 import { FolderIcon, GithubIcon, LogIcon, PaintbrushIcon, RestartIcon } from "@components/Icons";
-import { Paragraph } from "@components/Paragraph";
 import { QuickAction, QuickActionCard } from "@components/settings/QuickAction";
 import { SpecialCard } from "@components/settings/SpecialCard";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
@@ -23,7 +31,7 @@ import { IS_MAC, IS_WINDOWS } from "@utils/constants";
 import { Margins } from "@utils/margins";
 import { isPluginDev } from "@utils/misc";
 import { relaunch } from "@utils/native";
-import { Alerts, React, useMemo, UserStore } from "@webpack/common";
+import { Alerts, Forms, React, useMemo, UserStore } from "@webpack/common";
 
 import { DonateButtonComponent, isDonor } from "./DonateButton";
 import { VibrancySettings } from "./MacVibrancySettings";
@@ -168,7 +176,7 @@ function VencordSettings() {
             )}
 
             <section>
-                <Heading tag="h5">Quick Actions</Heading>
+                <Forms.FormTitle tag="h5">Quick Actions</Forms.FormTitle>
 
                 <QuickActionCard>
                     <QuickAction
@@ -206,13 +214,13 @@ function VencordSettings() {
             <Divider />
 
             <section className={Margins.top16}>
-                <Heading tag="h5">Settings</Heading>
-                <Paragraph className={Margins.bottom20} style={{ color: "var(--text-muted)" }}>
+                <Forms.FormTitle tag="h5">Settings</Forms.FormTitle>
+                <Forms.FormText className={Margins.bottom20} style={{ color: "var(--text-muted)" }}>
                     Hint: You can change the position of this settings section in the{" "}
                     <a onClick={() => openPluginModal(Vencord.Plugins.plugins.Settings)}>
                         settings of the Settings plugin
                     </a>!
-                </Paragraph>
+                </Forms.FormText>
 
                 <Switches />
             </section>
@@ -225,4 +233,4 @@ function VencordSettings() {
     );
 }
 
-export default wrapTab(VencordSettings, "EagleCord Settings");
+export default wrapTab(VencordSettings, "Vencord Settings");

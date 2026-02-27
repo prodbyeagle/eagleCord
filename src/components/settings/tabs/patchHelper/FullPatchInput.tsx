@@ -1,15 +1,12 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Paragraph } from "@components/Paragraph";
 import { Margins } from "@utils/margins";
 import { Patch, ReplaceFn } from "@utils/types";
-import { TextArea, useEffect, useRef, useState } from "@webpack/common";
+import { Forms, TextArea, useEffect, useRef, useState } from "@webpack/common";
 
 export interface FullPatchInputProps {
     setFind(v: string): void;
@@ -71,16 +68,16 @@ export function FullPatchInput({ setFind, setParsedFind, setMatch, setReplacemen
 
     return (
         <>
-            <Paragraph className={Margins.bottom8}>
+            <Forms.FormText className={Margins.bottom8}>
                 Paste your full JSON patch here to fill out the fields
-            </Paragraph>
+            </Forms.FormText>
             <TextArea
                 inputRef={textAreaRef}
                 value={patch}
                 onChange={setPatch}
                 onBlur={update}
             />
-            {error !== "" && <Paragraph style={{ color: "var(--text-feedback-critical)" }}>{error}</Paragraph>}
+            {error !== "" && <Forms.FormText style={{ color: "var(--text-feedback-critical)" }}>{error}</Forms.FormText>}
         </>
     );
 }

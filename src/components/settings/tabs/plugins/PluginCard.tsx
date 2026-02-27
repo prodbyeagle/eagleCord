@@ -1,6 +1,4 @@
 /*
- * EagleCord, a Vencord mod
- *
  * Vencord, a Discord client mod
  * Copyright (c) 2025 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
@@ -23,10 +21,9 @@ interface PluginCardProps extends React.HTMLProps<HTMLDivElement> {
     disabled: boolean;
     onRestartNeeded(name: string, key: string): void;
     isNew?: boolean;
-    isEagle?: boolean;
 }
 
-export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, onMouseLeave, isNew, isEagle }: PluginCardProps) {
+export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, onMouseLeave, isNew }: PluginCardProps) {
     const settings = Settings.plugins[plugin.name];
 
     const isEnabled = () => isPluginEnabled(plugin.name);
@@ -86,7 +83,6 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
             name={plugin.name}
             description={plugin.description}
             isNew={isNew}
-            isEagle={isEagle}
             enabled={isEnabled()}
             setEnabled={toggleEnabled}
             disabled={disabled}
@@ -98,7 +94,7 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
                     onClick={() => openPluginModal(plugin, onRestartNeeded)}
                     className={cl("info-button")}
                 >
-                    {plugin.settings && !isObjectEmpty(plugin.settings)
+                    {plugin.options && !isObjectEmpty(plugin.options)
                         ? <CogWheel className={cl("info-icon")} />
                         : <InfoIcon className={cl("info-icon")} />
                     }
