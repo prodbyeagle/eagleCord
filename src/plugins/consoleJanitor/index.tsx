@@ -84,8 +84,9 @@ const settings = definePluginSettings({
     },
     whitelistedLoggers: {
         type: OptionType.STRING,
-        description: "Semi colon separated list of loggers to allow even if others are hidden",
+        description: "Semicolon (;) separated list of loggers to allow even if others are hidden",
         default: "GatewaySocket; Routing/Utils",
+        multiline: true,
         onChange(newVal: string) {
             logAllow.clear();
             newVal.split(";").map(x => x.trim()).forEach(logAllow.add.bind(logAllow));
@@ -148,10 +149,12 @@ export default definePlugin({
         },
         {
             find: "is not a valid locale.",
-            replacement: {
-                match: /\i\.error(?=\(""\.concat\(\i," is not a valid locale."\)\))/,
-                replace: "$self.Noop"
-            }
+            replacement: [
+                {
+                    match: /\i\.error(?=\(`\$\{\i\} is not a valid locale.`)/,
+                    replace: "$self.Noop"
+                }
+            ]
         },
         {
             find: '"AppCrashedFatalReport: getLastCrash not supported."',
@@ -163,7 +166,7 @@ export default definePlugin({
         {
             find: "RPCServer:WSS",
             replacement: {
-                match: /\i\.error\("Error: "\.concat\((\i)\.message/,
+                match: /\i\.error\(`Error: \$\{(\i)\.message\}/,
                 replace: '!$1.message.includes("EADDRINUSE")&&$&'
             }
         },
@@ -183,17 +186,21 @@ export default definePlugin({
         },
         {
             find: "failed to send analytics events",
-            replacement: {
-                match: /console\.error\("\[analytics\] failed to send analytics events query: "\.concat\(\i\)\)/,
-                replace: ""
-            }
+            replacement: [
+                {
+                    match: /console\.error\(`\[analytics\] failed to send analytics events query: \$\{\i\}`\)/,
+                    replace: ""
+                }
+            ]
         },
         {
             find: "Slow dispatch on",
-            replacement: {
-                match: /\i\.totalTime>\i&&\i\.verbose\("Slow dispatch on ".+?\)\);/,
-                replace: ""
-            }
+            replacement: [
+                {
+                    match: /\i\.totalTime>\i&&\i\.verbose\([`"]Slow dispatch on.{0,55}\);/,
+                    replace: ""
+                },
+            ]
         },
         // Patches Discord generic logger function
         {
