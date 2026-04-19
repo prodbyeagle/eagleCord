@@ -31,6 +31,32 @@ export function makeRange(start: number, end: number, step = 1) {
     return ranges;
 }
 
+export const PluginTags = [
+    "Accessibility",
+    "Activity",
+    "Appearance",
+    "Chat",
+    "Commands",
+    "Console",
+    "Customisation",
+    "Developers",
+    "Emotes",
+    "Friends",
+    "Fun",
+    "Media",
+    "Notifications",
+    "Organisation",
+    "Privacy",
+    "Reactions",
+    "Roles",
+    "Servers",
+    "Shortcuts",
+    "Utility",
+    "Voice"
+] as const;
+
+export type PluginTag = typeof PluginTags[number];
+
 export type ReplaceFn = (match: string, ...groups: string[]) => string;
 
 export interface PatchReplacement {
@@ -99,6 +125,9 @@ export interface PluginDef {
      * Displayed in the Plugins settings UI.
      */
     description: string;
+    /** Additional search terms that will bring up your plugin */
+    searchTerms?: string[];
+    tags?: PluginTag[];
 
     /**
      * List of authors who contributed to this plugin.
@@ -194,8 +223,6 @@ export interface PluginDef {
      * }
      */
     toolboxActions?: Record<string, () => void> | (() => ReactNode);
-
-    tags?: string[];
 
     /**
      * Managed style to automatically enable and disable when the plugin is enabled or disabled

@@ -29,6 +29,7 @@ export interface AvatarDecoration {
 export default definePlugin({
     name: "Decor",
     description: "Create and use your own custom avatar decorations, or pick your favorite from the presets.",
+    tags: ["Appearance", "Customisation"],
     authors: [Devs.FieryFlames],
     patches: [
         // Patch MediaResolver to return correct URL for Decor avatar decorations
@@ -52,7 +53,7 @@ export default definePlugin({
             find: "80,onlyAnimateOnHoverOrFocus:!",
             replacement: [
                 {
-                    match: /(?<==)\i=>{let{children.{20,200}isSelected:\i=!1.{0,5}\}=\i/,
+                    match: /(?<==)\i=>{let{children.{20,200}isSelected:\i.{0,5}\}=\i/,
                     replace: "$self.DecorationGridItem=$&",
                 },
                 {
@@ -89,7 +90,7 @@ export default definePlugin({
         },
         // Current user area, at bottom of channels/dm list
         {
-            find: ".WIDGETS_RTC_UPSELL_COACHMARK),",
+            find: ".DISPLAY_NAME_STYLES_COACHMARK)",
             replacement: [
                 // Use Decor avatar decoration hook
                 {
@@ -99,7 +100,7 @@ export default definePlugin({
             ]
         },
         ...[
-            '"Message Username"', // Messages
+            "#{intl::GUILD_COMMUNICATION_DISABLED_ICON_TOOLTIP_BODY}", // Messages
             "#{intl::COLLECTIBLES_NAMEPLATE_PREVIEW_A11Y}", // Nameplate preview
             "#{intl::COLLECTIBLES_PROFILE_PREVIEW_A11Y}", // Avatar preview
         ].map(find => ({

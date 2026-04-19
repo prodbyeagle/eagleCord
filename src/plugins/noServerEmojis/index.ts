@@ -28,6 +28,7 @@ export default definePlugin({
     name: "NoServerEmojis",
     authors: [Devs.UlyssesZhan],
     description: "Do not show server emojis in the autocomplete menu.",
+    tags: ["Emotes", "Servers"],
     settings,
 
     patches: [

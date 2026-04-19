@@ -22,8 +22,8 @@ import definePlugin from "@utils/types";
 import { chooseFile } from "@utils/web";
 import { CloudUpload as TCloudUpload } from "@vencord/discord-types";
 import { CloudUploadPlatform } from "@vencord/discord-types/enums";
-import { findLazy, findStoreLazy } from "@webpack";
-import { Button, Constants, FluxDispatcher, Forms, lodash, Menu, MessageActions, PermissionsBits, PermissionStore, RestAPI, SelectedChannelStore, showToast, SnowflakeUtils, Toasts, useEffect, useState } from "@webpack/common";
+import { findLazy } from "@webpack";
+import { Button, Constants, FluxDispatcher, Forms, lodash, Menu, MessageActions, PendingReplyStore, PermissionsBits, PermissionStore, RestAPI, SelectedChannelStore, showToast, SnowflakeUtils, Toasts, useEffect, useState } from "@webpack/common";
 import { ComponentType } from "react";
 
 import { VoiceRecorderDesktop } from "./DesktopRecorder";
@@ -32,7 +32,6 @@ import { VoicePreview } from "./VoicePreview";
 import { VoiceRecorderWeb } from "./WebRecorder";
 
 const CloudUpload: typeof TCloudUpload = findLazy(m => m.prototype?.trackUploadFinished);
-const PendingReplyStore = findStoreLazy("PendingReplyStore");
 
 export const cl = classNameFactory("vc-vmsg-");
 export type VoiceRecorder = ComponentType<{
@@ -62,6 +61,7 @@ const ctxMenuPatch: NavContextMenuPatchCallback = (children, props) => {
 export default definePlugin({
     name: "VoiceMessages",
     description: "Allows you to send voice messages like on mobile. To do so, right click the upload button and click Send Voice Message",
+    tags: ["Voice"],
     authors: [Devs.Ven, Devs.Vap, Devs.Nickyux],
     settings,
     contextMenus: {

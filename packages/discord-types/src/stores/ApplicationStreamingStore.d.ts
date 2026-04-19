@@ -1,29 +1,4 @@
-/*
- * EagleCord, a Vencord mod
- *
- * Vencord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
- * SPDX-License-Identifier: GPL-3.0-or-later
- */
-
-import { FluxStore } from "@vencord/discord-types";
-
-export interface ApplicationStreamPreviewStore extends FluxStore {
-    getIsPreviewLoading: (guildId: string | bigint | null, channelId: string | bigint, ownerId: string | bigint) => boolean;
-    getPreviewURL: (guildId: string | bigint | null, channelId: string | bigint, ownerId: string | bigint) => Promise<string | null>;
-    getPreviewURLForStreamKey: (streamKey: string) => ReturnType<ApplicationStreamPreviewStore["getPreviewURL"]>;
-}
-
-export interface ApplicationStream {
-    streamType: string;
-    guildId: string | null;
-    channelId: string;
-    ownerId: string;
-}
-
-export interface Stream extends ApplicationStream {
-    state: string;
-}
+import { ApplicationStream, FluxStore, Stream } from "..";
 
 export interface RTCStream {
     region: string,
@@ -44,9 +19,6 @@ export interface StreamingStoreState {
     streamsByUserAndGuild: { [key: string]: { [key: string]: ApplicationStream; }; };
 }
 
-/**
- * example how a stream key could look like: `call(type of connection):1116549917987192913(channelId):305238513941667851(ownerId)`
- */
 export interface ApplicationStreamingStore extends FluxStore {
     getActiveStreamForApplicationStream: (stream: ApplicationStream) => Stream | null;
     getActiveStreamForStreamKey: (streamKey: string) => Stream | null;

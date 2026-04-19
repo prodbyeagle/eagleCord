@@ -128,7 +128,7 @@ export default definePlugin({
     name: "BetterFolders",
     description: "Shows server folders on dedicated sidebar and adds folder related improvements",
     authors: [Devs.juby, Devs.AutumnVN, Devs.Nuckyz],
-
+    tags: ["Organisation", "Servers", "Appearance"],
     settings,
 
     patches: [
@@ -139,7 +139,7 @@ export default definePlugin({
                 // Create the isBetterFolders and betterFoldersExpandedIds variables in the GuildsBar component
                 // Needed because we access this from a non-arrow closure so we can't use arguments[0]
                 {
-                    match: /let{disableAppDownload:\i=\i\.isPlatformEmbedded,isOverlay:.+?(?=}=\i,)/,
+                    match: /let{disableAppDownload:\i=\i\.isPlatformEmbedded,isOverlay:.+?(?=}=\i)/,
                     replace: "$&,isBetterFolders,betterFoldersExpandedIds"
                 },
                 // Export the isBetterFolders and betterFoldersExpandedIds variable to the Guild List component

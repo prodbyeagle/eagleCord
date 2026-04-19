@@ -26,6 +26,7 @@ const settings = definePluginSettings({
 export default definePlugin({
     name: "FixImagesQuality",
     description: "Improves quality of images by loading them at their original resolution",
+    tags: ["Media", "Appearance"],
     authors: [Devs.Nuckyz, Devs.Ven],
     settings,
 

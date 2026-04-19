@@ -41,6 +41,7 @@ function formatDuration(ms: number) {
 export default definePlugin({
     name: "CallTimer",
     description: "Adds a timer to vcs",
+    tags: ["Voice", "Utility"],
     authors: [Devs.Ven],
     managedStyle: alignedChatInputFix,
 

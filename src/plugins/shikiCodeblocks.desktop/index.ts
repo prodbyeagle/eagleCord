@@ -23,6 +23,7 @@ import { clearStyles } from "./utils/createStyle";
 export default definePlugin({
     name: "ShikiCodeblocks",
     description: "Brings vscode-style codeblocks into Discord, powered by Shiki",
+    tags: ["Appearance", "Chat", "Customisation"],
     authors: [Devs.Vap],
     reporterTestable: ReporterTestable.Patches,
     settings,

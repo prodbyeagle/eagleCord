@@ -11,7 +11,8 @@ import { canonicalizeMatch } from "@utils/patches";
 import { ModuleFactory } from "@vencord/discord-types/webpack";
 import * as Webpack from "@webpack";
 import { wreq } from "@webpack";
-import { AnyModuleFactory } from "webpack";
+import { AnyModuleFactory } from "@webpack/types";
+import pLimit from "p-limit";
 
 function getWebpackChunkMap() {
     const sym = Symbol();
@@ -33,6 +34,7 @@ function getWebpackChunkMap() {
 
 export async function loadLazyChunks() {
     const LazyChunkLoaderLogger = new Logger("LazyChunkLoader");
+    const queue = pLimit(50);
 
     try {
         LazyChunkLoaderLogger.log("Loading all chunks...");
@@ -62,10 +64,14 @@ export async function loadLazyChunks() {
             const shouldForceDefer = false;
 
             await Promise.all(Array.from(lazyChunks).map(async ([, rawChunkIds, entryPoint]) => {
-                const chunkIds = rawChunkIds ? Array.from(rawChunkIds.matchAll(Webpack.ChunkIdsRegex)).map(m => {
-                    const numChunkId = Number(m[1]);
-                    return Number.isNaN(numChunkId) ? m[1] : numChunkId;
-                }) : [];
+                const chunkIds = rawChunkIds
+                    ?.matchAll(Webpack.ChunkIdsRegex)
+                    .map(m => {
+                        const numChunkId = Number(m[1]);
+                        return Number.isNaN(numChunkId) ? m[1] : numChunkId;
+                    })
+                    .toArray()
+                    ?? [];
 
                 if (chunkIds.length === 0) {
                     return;
@@ -86,9 +92,11 @@ export async function loadLazyChunks() {
 
                     if (wreq.u(id) == null || wreq.u(id) === "undefined.js") continue;
 
-                    const isWorkerAsset = await fetch(wreq.p + wreq.u(id))
-                        .then(r => r.text())
-                        .then(t => /importScripts\(|self\.postMessage/.test(t));
+                    const isWorkerAsset = await queue(() =>
+                        fetch(wreq.p + wreq.u(id))
+                            .then(r => r.text())
+                            .then(t => /importScripts\(|self\.postMessage/.test(t))
+                    );
 
                     if (isWorkerAsset) {
                         invalidChunks.add(id);
@@ -184,7 +192,7 @@ export async function loadLazyChunks() {
             return !(validChunks.has(id) || invalidChunks.has(id));
         });
 
-        await Promise.all(chunksLeft.map(async id => {
+        await Promise.all(chunksLeft.map(async id => queue(async () => {
             const isWorkerAsset = await fetch(wreq.p + wreq.u(id))
                 .then(r => r.text())
                 .then(t => /importScripts\(|self\.postMessage/.test(t));
@@ -193,7 +201,7 @@ export async function loadLazyChunks() {
             if (!isWorkerAsset) {
                 await wreq.e(id);
             }
-        }));
+        })));
 
         LazyChunkLoaderLogger.log("Finished loading all chunks!");
     } catch (e) {

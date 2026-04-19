@@ -83,7 +83,7 @@ const patchMessageContextMenu: NavContextMenuPatchCallback = (children, props) =
                         mlDeleted: true
                     });
                 } else {
-                    message.editHistory = [];
+                    updateMessage(channel_id, id, { editHistory: [] });
                 }
             }}
         />
@@ -134,6 +134,7 @@ export function parseEditContent(content: string, message: Message) {
 export default definePlugin({
     name: "MessageLogger",
     description: "Temporarily logs deleted and edited messages.",
+    tags: ["Chat", "Utility"],
     authors: [Devs.rushii, Devs.Ven, Devs.AutumnVN, Devs.Nickyux, Devs.Kyuuhachi],
     dependencies: ["MessageUpdaterAPI"],
 
@@ -522,8 +523,8 @@ export default definePlugin({
                     replace: '$&$1.type==="MESSAGE_GROUP_DELETED"||',
                 },
                 {
-                    match: /(\i).type===\i\.\i\.MESSAGE_GROUP_BLOCKED\?.*?:/,
-                    replace: '$&$1.type==="MESSAGE_GROUP_DELETED"?$self.DELETED_MESSAGE_COUNT:',
+                    match: /(\i).type===\i\.\i\.MESSAGE_GROUP_BLOCKED\?(\i)=.*?:/,
+                    replace: '$&$1.type==="MESSAGE_GROUP_DELETED"?$2=$self.DELETED_MESSAGE_COUNT:',
                 },
             ],
             predicate: () => Settings.plugins.MessageLogger.collapseDeleted

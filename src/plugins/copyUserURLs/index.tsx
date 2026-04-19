@@ -37,6 +37,7 @@ export default definePlugin({
     name: "CopyUserURLs",
     authors: [Devs.castdrian],
     description: "Adds a 'Copy User URL' option to the user context menu.",
+    tags: ["Utility", "Friends"],
     contextMenus: {
         "user-context": UserContextMenuPatch
     }
