@@ -6,6 +6,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { DataStore } from "@api/index";
 import { showNotification } from "@api/Notifications";
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
@@ -66,6 +67,8 @@ export default definePlugin({
     ],
 
     handleCrash(_this: any, errorState: any) {
+        DataStore.del("KeepCurrentChannel_previousData");
+
         if (IS_DEV) {
             try {
                 if (errorState?.info && "componentStack" in errorState.info) {

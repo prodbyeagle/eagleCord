@@ -115,6 +115,7 @@ function getBadges({ userId }: BadgeUserArgs): ProfileBadge[] {
 
     return Object.entries(status).map(([platform, status]) => ({
         key: `vc-platform-indicator-${platform}`,
+        id: `vc-platform-indicator-${platform}`,
         component: () => (
             <span className="vc-platform-indicator">
                 <PlatformIcon
@@ -156,6 +157,7 @@ const PlatformIndicator = ({ user, small = false }: { user: User; small?: boolea
 };
 
 const badge: ProfileBadge = {
+    id: "vc_platform_indicator_wrapper",
     getBadges,
     position: BadgePosition.START,
 };

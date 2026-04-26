@@ -25,8 +25,8 @@ async function runReporter() {
         addPatch({
             find: '"Could not find app-mount"',
             replacement: {
-                match: /(?<="use strict";)/,
-                replace: "Vencord.Webpack._initReporter();"
+                match: /"Could not find app-mount"/,
+                replace: "(Vencord.Webpack._initReporter(),$&)"
             }
         }, "Vencord Reporter");
 
@@ -38,6 +38,13 @@ async function runReporter() {
         };
 
         await loadLazyChunksDone;
+
+        // Manually require all modules to make sure all lazily required modules are patched
+        for (const moduleId of Object.keys(Webpack.wreq.m)) {
+            try {
+                Webpack.wreq(moduleId);
+            } catch { }
+        }
 
         if (IS_REPORTER && IS_WEB && !IS_VESKTOP) {
             console.log("[REPORTER_META]", {
@@ -53,7 +60,7 @@ async function runReporter() {
         }
 
         for (const [plugin, moduleId, match, totalTime] of patchTimings) {
-            if (totalTime > 5) {
+            if (totalTime > 10) {
                 new Logger("WebpackPatcher").warn(`Patch by ${plugin} took ${Math.round(totalTime * 100) / 100}ms (Module id is ${String(moduleId)}): ${match}`);
             }
         }
